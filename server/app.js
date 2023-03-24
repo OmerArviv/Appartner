@@ -3,11 +3,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../model/user");
+const User = require("./model/user");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const auth = require("../middleware/auth");
+const auth = require("./middleware/auth");
 require("./config/database").connect();
 
 // Express Server
