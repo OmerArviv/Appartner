@@ -3,13 +3,12 @@ import './App.css';
 import { useState } from 'react';
 import React from 'react';
 import { useEffect } from 'react';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { BrowserRouter,Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import { validateUserLoggedIn } from './APP/Utils';
 import { userState } from './APP/Utils';
-
 import { authContext } from './APP/Utils';
-
+import CreateProfile from './pages/CreateProfile';
 
 function App() {
   
@@ -52,9 +51,10 @@ function App() {
                             //     }
                             // ></SideBar>
                         ) : (
-                          <Login>
+                          <h1>a</h1>
+                          // <Login>
 
-                          </Login>
+                          // </Login>
                             // <Routes>
                             //     <Route
                             //         path="/oauth2/redirect"
@@ -67,6 +67,9 @@ function App() {
                             // </Routes>
                         )}
                    </authContext.Provider>
+                   <Routes>
+                        <Route path='/create-profile' element={<CreateProfile/>}/>
+                   </Routes>
                 </BrowserRouter>
             </div>
         {/* </ThemeProvider> */}
