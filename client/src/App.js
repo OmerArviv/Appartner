@@ -9,6 +9,7 @@ import { validateUserLoggedIn } from './APP/Utils';
 import { userState } from './APP/Utils';
 import { authContext } from './APP/Utils';
 import CreateProfile from './pages/CreateProfile';
+import WhoAreYouProfile from './pages/WhoAreYouProfile';
 
 function App() {
   
@@ -69,6 +70,7 @@ function App() {
                    </authContext.Provider>
                    <Routes>
                         <Route path='/create-profile' element={<CreateProfile/>}/>
+                        <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
                    </Routes>
                 </BrowserRouter>
             </div>
