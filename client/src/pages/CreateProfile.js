@@ -4,6 +4,7 @@ import { CardActionArea, CardMedia } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const options=['Yes', 'No', "Sometimes"];
@@ -11,6 +12,8 @@ const yesNoOptions=['Yes', 'No'];
 const genderOptions=['Male', 'Female', 'Other'];
 
 const CreateProfile= () =>{
+    const navigate = useNavigate();
+
     const [userBirthday, setUserBirthday]=useState('');
     const [userEmployment, setUserEmployment]=useState('');
     const [userSmoking, setUserSmoking]=useState(null);
@@ -245,7 +248,7 @@ const CreateProfile= () =>{
                     component="img"
                     height="200"
                     width="200"
-                    // image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
                     alt="upload image 1">
                     </CardMedia>
                 </CardActionArea>
@@ -256,7 +259,7 @@ const CreateProfile= () =>{
                     component="img"
                     height="200"
                     width="200"
-                    // image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
                     alt="upload image 3">
                     </CardMedia>
                 </CardActionArea>
@@ -270,7 +273,7 @@ const CreateProfile= () =>{
                     component="img"
                     height="200"
                     width="200"
-                    // image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
                     alt="upload image 2">
                     </CardMedia>
                 </CardActionArea>
@@ -281,7 +284,7 @@ const CreateProfile= () =>{
                     component="img"
                     height="200"
                     width="200"
-                    // image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
                     alt="upload image 4">
                     </CardMedia>
                 </CardActionArea>
@@ -337,7 +340,11 @@ const CreateProfile= () =>{
                     </Box>
         </Box>
 
-        <Button variant='contained'>Lets set your prefernces</Button>
+        <Button 
+        variant='contained'
+        onClick={()=>navigate("/create-profile/set-prefernces")}
+        >
+            Lets set your prefernces</Button>
        
     </>
     );

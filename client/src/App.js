@@ -10,6 +10,7 @@ import { userState } from './APP/Utils';
 import { authContext } from './APP/Utils';
 import CreateProfile from './pages/CreateProfile';
 import WhoAreYouProfile from './pages/WhoAreYouProfile';
+import SetPrefernces from './pages/SetPreferncesProfile';
 
 function App() {
   
@@ -71,6 +72,7 @@ function App() {
                    <Routes>
                         <Route path='/create-profile' element={<CreateProfile/>}/>
                         <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
+                        <Route path='/create-profile/set-prefernces' element={<SetPrefernces/>}/>
                    </Routes>
                 </BrowserRouter>
             </div>
