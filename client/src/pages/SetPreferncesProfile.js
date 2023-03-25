@@ -1,5 +1,5 @@
-import { Card, CardContent, Slider, Box, Typography } from "@material-ui/core";
-import { FormControl, InputLabel, TextField, MenuItem, Select, FormLabel } from "@mui/material";
+import { Card, CardContent, Slider, Box, Typography } from "@mui/material";
+import { FormControl, InputLabel, TextField, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 
 const options=['Yes', 'No', "It doesn't matter"];
@@ -7,8 +7,8 @@ const options=['Yes', 'No', "It doesn't matter"];
 
 const SetPreferncesProfile=()=>{
     const [ageRange, setAgeRange] = useState([18,75]);
-    const [loaction, setLocation] = useState();
-    const [priceRange, setPriceRange] = useState([1000,10000]);
+    const [loaction, setLocation] = useState(null);
+    const [priceRange, setPriceRange] = useState([2500,5500]);
     const [gender, setGender]=useState('');
 
     const [elevator, setElevator]=useState(null);
@@ -75,10 +75,11 @@ const SetPreferncesProfile=()=>{
     return(
 <>
 <p>prefernces</p>
-    <Box container spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}} spacing={50} >
-        <Box item  xs={6} sx={{marginLeft:"auto", marginRight:'auto'}}>
+    <Box container spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}} >
+   
+        <Box item component="form" xs={4} sx={{marginLeft:"auto", marginRight:'auto'}}>
                 <Card>
-                    <FormControl>
+                    <FormControl  sx={{mt:3}}>
                     <CardContent>
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='ages-range-label'>Enter age range</InputLabel>
                     <Slider
@@ -90,6 +91,7 @@ const SetPreferncesProfile=()=>{
                         min={18}
                         max={75}
                         size='small'
+                        fullWidth
                     />
                     <Typography>The range of ages: {`${ageRange[0]}`}-{`${ageRange[1]}`}</Typography>
                     </CardContent>
@@ -102,6 +104,7 @@ const SetPreferncesProfile=()=>{
                          id='location'
                          onChange={locationHandler}
                          value={loaction}
+                         fullWidth
                          />
                     </CardContent>
                     <FormControl>
@@ -115,11 +118,12 @@ const SetPreferncesProfile=()=>{
                         getAriaValueText={valuePricetext}
                         min={1000}
                         max={10000}
-                        size="large"
+                        size='small'
                     />
                     <Typography>The range of price: {`${priceRange[0]}`}-{`${priceRange[1]}`}</Typography>
                     </CardContent>
                     </FormControl>
+                    <CardContent>
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-gender-label'>Gender</InputLabel>
                         <Select 
                         label='Gender'
@@ -131,18 +135,18 @@ const SetPreferncesProfile=()=>{
                         >
                             {options.map((o)=><MenuItem key={o} value={o}>{o}</MenuItem>)}
                         </Select>
-                    
+                        </CardContent>
                 </Card>
 
                 </Box>
 
 
 
-        <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+        <Box item component="form" xs={4} sx={{width:300,marginLeft:"auto", marginRight:'auto'}} >
             <Card>
-                <FormControl  sx={{marginTop:3}}>
-                <CardContent >
-                <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='elevator-label'>Elevator</InputLabel>
+                <FormControl fullWidth sx={{marginTop:3}}>
+                <CardContent  >
+                <InputLabel  sx={{fontSize:20, textDecoration:'bolt'}} shrink id='elevator-label'>Elevator</InputLabel>
                         <Select 
                         label='Elevator'
                         // labelId='smoking-label'
@@ -156,9 +160,9 @@ const SetPreferncesProfile=()=>{
                         </Select>
                     </CardContent>
                     </FormControl>
-                    <FormControl  sx={{marginTop:3}}>
-                <CardContent >
-                <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='parking-label'>Parking</InputLabel>
+                    {/* <FormControl  sx={{marginTop:3}}> */}
+                <CardContent fullWidth>
+                <InputLabel fullWidth sx={{fontSize:20, textDecoration:'bolt'}} shrink id='parking-label'>Parking</InputLabel>
                         <Select 
                         label='Parking'
                         // labelId='smoking-label'
@@ -171,7 +175,7 @@ const SetPreferncesProfile=()=>{
                             {options.map((o)=><MenuItem key={o} value={o}>{o}</MenuItem>)}
                         </Select>
                     </CardContent>
-                    </FormControl>
+                    {/* </FormControl> */}
                     <FormControl  >
                     <CardContent  >
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='smoking-label'>Smoking</InputLabel>
