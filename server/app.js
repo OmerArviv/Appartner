@@ -23,7 +23,7 @@ const corsConfig = {
 };
 app.use(cors(corsConfig));
 
-app.post("/authentication/login_test", auth, (req, res) => {
+app.post("/authentication/login_test", auth, (req, res) => {//as is
   // .......
   console.log("asds");
   res.status(200).send("Welcome 🙌 ");

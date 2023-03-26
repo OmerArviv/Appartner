@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import "./App.css";
+import "../App.css";
 import {
   Grid,
   Paper,
@@ -13,10 +13,10 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { loginTest, signIn } from "./controller/authenticationController";
+import { loginTest, signIn } from "../controller/authenticationController";
 import { useContext ,useEffect} from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { authContext, pageTitleContext } from "./APP/Utils";
+import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
 
 

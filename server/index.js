@@ -9,6 +9,9 @@ app.listen(process.env.PORT, () => {
 
 //Routes API
 const userAPI = require("./Controller/UserController.js");
+const userProfileAPI=require("./Controller/UserProfileController");//do with set
 
 //Route use
 app.use("/authentication", userAPI);
+app.use("/userProfile", userProfileAPI);
+
