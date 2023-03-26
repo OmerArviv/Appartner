@@ -5,7 +5,7 @@ import { getUserToken } from "./APP_AUTH";
 
 const AUTHENTICATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}authentication`;
 
-export const APP_ROUTES = {
+export const  APP_ROUTES = {
   Authentication: {
     register: `${AUTHENTICATION_ENPOINT}/register`,
     login: `${AUTHENTICATION_ENPOINT}/login`,
