@@ -49,9 +49,12 @@ function App() {
                 </Routes>
               ) : (
                 <Routes>
+                  {console.log("need login")}
                   <Route path="/" element={<Home />}></Route>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  {console.log(authenticated)}
+
                 </Routes>
               )}
             </BrowserRouter>

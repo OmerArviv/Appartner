@@ -28,6 +28,7 @@ const Login = (props) => {
   const [userPassword, setUserPassword] = useState();
   
   const handleLogin = () => {
+    {console.log("login")}
     setAuthenticated(true);
     navigate("/");
   }
