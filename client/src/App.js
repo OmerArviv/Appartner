@@ -1,83 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState } from 'react';
-import React from 'react';
-import { useEffect } from 'react';
-import { BrowserRouter,Route, Routes, useNavigate } from 'react-router-dom';
-import Login from './Login';
-import { validateUserLoggedIn } from './APP/Utils';
-import { userState } from './APP/Utils';
-import { authContext } from './APP/Utils';
+import "./App.css";
+import { useContext, useState } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import Login from "./Login";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { authContext, AuthProvider, PageTitleProvider } from "./APP/Utils";
+
+import NavBar from "./components/NavBar";
+import Register from "./Register";
+import Home from "./Home";
 import CreateProfile from './pages/CreateProfile';
 import WhoAreYouProfile from './pages/WhoAreYouProfile';
 import SetPrefernces from './pages/SetPreferncesProfile';
 
-function App() {
-  
-  const [authenticated, setAuthenticated] = useState(false);
-  
+const customTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fff",
+      contrastText: "black",
+    },
+  },
+});
 
-  useEffect( () => {
-    async function checkLoggedIn(){
-      let res = await validateUserLoggedIn();
-      setAuthenticated(res);
-    }
-    checkLoggedIn();
-  }, []);
+const MyThemeComponent = styled("div")(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.main,
+  padding: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+}));
+
+function App() {
+  const { authenticated } = useContext(authContext);
 
   return (
-    <div className="App">
-      {/* <header className="App-header"></header> */}
-        {/* <ThemeProvider theme={uiTheme}> */}
-            <div>
-                <BrowserRouter>
-                <authContext.Provider value={{ authenticated, setAuthenticated }}>
-                <div> user is {`${authenticated ? "" : "not"} authenticated`} </div>
-
-                        { authenticated ? (
-                          <h1>Logged In Validated successfully (; </h1>
-                            // <SideBar
-                            //     refresh={reloadSideBar}
-                            //     user={currentUser}
-                            //     notifyOnLogOutHandler={notifyOnLogOutHandler}
-                            //     changeUiTheme={changeUiTheme}
-                            //     logout={logOut}
-                            //     isAdmin={() => {
-                            //         return isAdmin;
-                            //     }}
-                            //     routes={
-                            //         <CenopsRoutes
-                            //             isAdmin={isAdmin}
-                            //             reload={reload}
-                            //         ></CenopsRoutes>
-                            //     }
-                            // ></SideBar>
-                        ) : (
-                          <h1>a</h1>
-                          // <Login>
-
-                          // </Login>
-                            // <Routes>
-                            //     <Route
-                            //         path="/oauth2/redirect"
-                            //         element={<OAuth2RedirectHandler />}
-                            //     ></Route>
-                            //     <Route
-                            //         path="/*"
-                            //         element={<Login></Login>}
-                            //     ></Route>
-                            // </Routes>
-                        )}
-                   </authContext.Provider>
-                   <Routes>
-                        <Route path='/create-profile' element={<CreateProfile/>}/>
-                        <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
-                        <Route path='/create-profile/set-prefernces' element={<SetPrefernces/>}/>
-                   </Routes>
-                </BrowserRouter>
-            </div>
-        {/* </ThemeProvider> */}
-    </div>
+    <PageTitleProvider>
+      <AuthProvider>
+        <ThemeProvider theme={customTheme}>
+          <MyThemeComponent>
+            <BrowserRouter>
+              <NavBar></NavBar>
+              {authenticated ? (
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path='/create-profile' element={<CreateProfile/>}/>
+                  <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
+                  <Route path='/create-profile/set-prefernces' element={<SetPrefernces/>}/>
+                </Routes>
+              ) : (
+                <Routes>
+                  <Route path="/" element={<Home />}></Route>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Routes>
+              )}
+            </BrowserRouter>
+          </MyThemeComponent>
+        </ThemeProvider>
+      </AuthProvider>
+    </PageTitleProvider>
   );
 }
 
