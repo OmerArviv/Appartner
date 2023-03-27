@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import "./App.css";
+import "../App.css";
 import {
   Grid,
   Paper,
@@ -13,29 +13,30 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { loginTest, signIn } from "./controller/authenticationController";
-import { useContext ,useEffect} from "react";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { authContext, pageTitleContext } from "./APP/Utils";
+import { loginTest, signIn } from "../controller/authenticationController";
+import { useContext, useEffect } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = (props) => {
-  const {setPageTitle} = useContext(pageTitleContext);
+  const { setPageTitle } = useContext(pageTitleContext);
   const navigate = useNavigate();
   const { setAuthenticated } = useContext(authContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
-  
+
   const handleLogin = () => {
-    {console.log("login")}
+    {
+      console.log("login");
+    }
     setAuthenticated(true);
     navigate("/");
-  }
-  
-  useEffect(()=>{
+  };
+
+  useEffect(() => {
     setPageTitle("Login");
-  },[]);
+  }, []);
 
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
@@ -45,17 +46,16 @@ const Login = (props) => {
   };
 
   const onSumbitHandler = async (event) => {
-
     event.preventDefault();
     if (userEmail && userPassword) {
       const result = await signIn(userEmail, userPassword);
-      if(result == true){
+      if (result == true) {
         handleLogin();
-      }else{
+      } else {
         console.log(result);
-      // handle failed login
-    } 
-  }else {
+        // handle failed login
+      }
+    } else {
       alert("Please enter email and password!");
     }
   };
@@ -67,16 +67,16 @@ const Login = (props) => {
   };
   const btnstyle = {
     margin: "8px 0",
-    background:"#4F4E51",
-    height:"50px",
-    color:"#D0D2D8"
-    };
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+  };
 
   return (
     <Grid>
-      <Container  maxWidth="sm" style={ContainerStyle}>
+      <Container maxWidth="sm" style={ContainerStyle}>
         <Grid align="center">
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <AccountCircleIcon />
           </Avatar>
           <h2>Sign In</h2>
@@ -115,7 +115,8 @@ const Login = (props) => {
         </Typography>
         <Typography>
           {" "}
-          Do you have an account ?<Link onClick={()=> navigate('/register')}>Sign Up</Link>
+          Do you have an account ?
+          <Link onClick={() => navigate("/register")}>Sign Up</Link>
         </Typography>
       </Container>
     </Grid>
