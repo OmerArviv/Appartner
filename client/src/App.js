@@ -1,48 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState } from 'react';
-import React from 'react';
-import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom'; // import BrowserRouter, Route, and Switch
-import Login from './Login';
-import { validateUserLoggedIn } from './APP/Utils';
-import { userState } from './APP/Utils';
-import { authContext } from './APP/Utils';
-import Speechtotext from './components/Speechtotextapi/Speechtotext';
+import "./App.css";
+import { useContext, useState } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { authContext, AuthProvider, PageTitleProvider } from "./APP/Utils";
+
+import NavBar from "./components/NavBar";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import CreateProfile from "./pages/CreateProfile";
+import WhoAreYouProfile from "./pages/WhoAreYouProfile";
+import SetPrefernces from "./pages/SetPreferncesProfile";
+import Speechtotext from "./components/speechtotextapi/speechtotext";
+
+const customTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fff",
+      contrastText: "black",
+    },
+  },
+});
+
+const MyThemeComponent = styled("div")(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.main,
+  padding: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+}));
 
 function App() {
-  
-  const [authenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    async function checkLoggedIn(){
-      let res = await validateUserLoggedIn();
-      setAuthenticated(res);
-    }
-    checkLoggedIn();
-  }, []);
+  const { authenticated } = useContext(authContext);
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <authContext.Provider value={{ authenticated, setAuthenticated }}>
-          <div> user is {`${authenticated ? "" : "not"} authenticated`} </div>
-          <Routes>
-                 <Route path="/">
+    <PageTitleProvider>
+      <AuthProvider>
+        <ThemeProvider theme={customTheme}>
+          <MyThemeComponent>
+            <BrowserRouter>
+              <NavBar></NavBar>
               {authenticated ? (
-                <h1>Logged In Validated successfully </h1>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/create-profile" element={<CreateProfile />} />
+                  <Route
+                    path="/create-profile/who-are-you"
+                    element={<WhoAreYouProfile />}
+                  />
+                  <Route
+                    path="/create-profile/set-prefernces"
+                    element={<SetPrefernces />}
+                  />
+                </Routes>
               ) : (
-                <Route path="/" element={<Login />} />
+                <Routes>
+                  <Route path="/" element={<Home />}></Route>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path='/create-profile' element={<CreateProfile/>}/>
+                  <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
+                  <Route path='/create-profile/set-prefernces' element={<SetPrefernces/>}/>
+                  <Route path="/speechtotext" element={<Speechtotext />}/>
+                  {console.log(authenticated)}
+
+                </Routes>
               )}
-            </Route>
-            <Route path="/speechtotext" element={<Speechtotext></Speechtotext>}>
-              
-            </Route>
-       
-          </Routes>
-        </authContext.Provider>
-      </BrowserRouter>
-    </div>
+            </BrowserRouter>
+          </MyThemeComponent>
+        </ThemeProvider>
+      </AuthProvider>
+    </PageTitleProvider>
   );
 }
 

@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import "./App.css";
+import "../App.css";
 import {
   Grid,
   Paper,
@@ -8,21 +8,35 @@ import {
   Button,
   Typography,
   Link,
+  Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { loginTest, signIn } from "./data/authenticationData";
-import { useContext } from "react";
-import { authContext } from "./APP/Utils";
+import { loginTest, signIn } from "../controller/authenticationController";
+import { useContext ,useEffect} from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { authContext, pageTitleContext } from "../APP/Utils";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+  const { setPageTitle } = useContext(pageTitleContext);
+  const navigate = useNavigate();
   const { setAuthenticated } = useContext(authContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
 
-  const handleLogin = () => setAuthenticated(true);
-  const handleLogout = () => setAuthenticated(false);
+  const handleLogin = () => {
+    {
+      console.log("login");
+    }
+    setAuthenticated(true);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    setPageTitle("Login");
+  }, []);
 
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
@@ -30,42 +44,49 @@ const Login = () => {
   const onChangeUserPasswordHandler = (event) => {
     setUserPassword(event.target.value);
   };
-  const onSumbitHandler = async (event) => {
 
+  const onSumbitHandler = async (event) => {
     event.preventDefault();
     if (userEmail && userPassword) {
       const result = await signIn(userEmail, userPassword);
-      if(result == true){
+      if (result == true) {
         handleLogin();
-      }else{
-      // handle failed login
-    } 
-  }else {
+      } else {
+        console.log(result);
+        // handle failed login
+      }
+    } else {
       alert("Please enter email and password!");
     }
   };
-  const paperStyle = {
+
+  const ContainerStyle = {
     padding: 20,
     height: "70vh",
-    width: 280,
     margin: "20px auto",
   };
-  const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const btnstyle = { margin: "8px 0" };
+  const btnstyle = {
+    margin: "8px 0",
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+  };
+
   return (
     <Grid>
-      <Paper elevation={10} style={paperStyle}>
+      <Container maxWidth="sm" style={ContainerStyle}>
         <Grid align="center">
-          <Avatar style={avatarStyle}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <AccountCircleIcon />
           </Avatar>
           <h2>Sign In</h2>
         </Grid>
         <TextField
+          id="outlined-basic"
           onChange={onChangeUserEmailHandler}
           className="simple-input"
           label="Email"
-          placeholder="Enter Email"
+          placeholder="Email"
           variant="outlined"
           fullWidth
           required
@@ -80,14 +101,9 @@ const Login = () => {
           fullWidth
           required
         />
-        <FormControlLabel
-          control={<Checkbox name="checkedB" color="primary" />}
-          label="Remember me"
-        />
         <Button
           onClick={onSumbitHandler}
           type="submit"
-          color="primary"
           variant="contained"
           style={btnstyle}
           fullWidth
@@ -99,9 +115,10 @@ const Login = () => {
         </Typography>
         <Typography>
           {" "}
-          Do you have an account ?<Link href="#">Sign Up</Link>
+          Do you have an account ?
+          <Link onClick={() => navigate("/register")}>Sign Up</Link>
         </Typography>
-      </Paper>
+      </Container>
     </Grid>
   );
 };
