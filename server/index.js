@@ -13,5 +13,5 @@ const userProfileAPI=require("./Controller/UserProfileController");//do with set
 
 //Route use
 app.use("/authentication", userAPI);
-app.use("/userProfile", userProfileAPI);
+// app.use("/userProfile", userProfileAPI);
 
