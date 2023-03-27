@@ -144,6 +144,8 @@ const CreateProfile= (props) =>{
                userAdditonal,
                userFacebookLink,
                userInstagramLink);
+               console.log("send reg");
+               console.log(result);
                if(result==true){
                     navigate("/create-profile/set-prefernces");
                }
