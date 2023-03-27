@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const userProfilePreferncesSchema = new mongoose.Schema({
+    email: { type: String, unique: true },
     ageRange: { type: Array },
     location: { type: String, default: null },
     priceRange: { type: Array, default: null },

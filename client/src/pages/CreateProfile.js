@@ -4,6 +4,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {createUserProfile} from "../controller/userProfileController";ssssssssssss
 
 
 const options=['Yes', 'No', "Sometimes"];
@@ -131,7 +132,7 @@ const CreateProfile= (props) =>{
         event.preventDefault();
         if(userBirthday!=null && userEmployment!=null && userSmoking!=null
             &&userPets!= null && userGender!=null&& userAlcohol!=null &&userKosher!=null && userOther!=null){
-               const result= await (email,
+               const result= await createUserProfile(email,
                userType,
                userBirthday,
                userEmployment,

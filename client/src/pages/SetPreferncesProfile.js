@@ -2,6 +2,7 @@ import { Card, CardContent, Slider, Box, Typography, Button } from "@mui/materia
 import { FormControl, InputLabel, TextField, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import {userProfileSetPrefernces} from "../controller/userProfileController";
 
 const options=['Yes', 'No', "It doesn't matter"];
 const roomatesOptions=[1, 2, 3, 4, 5];
@@ -9,7 +10,7 @@ const roomatesOptions=[1, 2, 3, 4, 5];
 
 const SetPreferncesProfile=()=>{
     const navigate= useNavigate();
-
+    const email = "email";
     const [ageRange, setAgeRange] = useState([18,75]);
     const [loaction, setLocation] = useState(null);
     const [priceRange, setPriceRange] = useState([2500,5500]);
@@ -76,7 +77,37 @@ const SetPreferncesProfile=()=>{
      
       };
 
-      const onSubmitHandler=()=>{
+      const onSubmitHandler= async (event)=>{
+        event.preventDefault();
+        if(ageRange!=null && loaction!=null &&  priceRange!=null
+            &&gender!= null && elevator!=null&& parking!=null &&smoking!=null && roomates!=null){
+               const result= await userProfileSetPrefernces
+               (email,
+               ageRange,
+               loaction,
+               priceRange,
+               gender,
+               elevator,
+               parking,
+               smoking,
+               roomates);
+
+               console.log("send reg");
+               console.log(result);
+               if(result==true){
+                    navigate("/create-profile/set-prefernces");
+               }
+               else{
+                    if (result.response.status == 409) {
+                        alert("You already have an account");
+                    } else if (result.response.status == 403) {
+                        alert("Error occured!");
+                    }
+               }
+            }
+            else {
+                alert("Please enter all fields!");
+              }
         navigate("/");
       }
     function valuetext(value) {

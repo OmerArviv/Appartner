@@ -15,7 +15,8 @@ export const  APP_ROUTES = {
   },
 
   userProfile: {
-    createProfile:`${USER_PROFILE_ENPOINT}/createProfile`
+    createProfile:`${USER_PROFILE_ENPOINT}/createProfile`, 
+    userProfilePrefernces:`${USER_PROFILE_ENPOINT}/createProfile/setUserPrefernces`
   }
 };
 
