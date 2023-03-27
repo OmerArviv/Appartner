@@ -58,15 +58,11 @@ function App() {
                   <Route path="/" element={<Home />}></Route>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                  <Route path="/create-profile" element={<CreateProfile />} />
-                  <Route
-                    path="/create-profile/who-are-you"
-                    element={<WhoAreYouProfile />}
-                  />
-                  <Route
-                    path="/create-profile/set-prefernces"
-                    element={<SetPrefernces />}
-                  />
+                  <Route path='/create-profile' element={<CreateProfile/>}/>
+                  <Route path='/create-profile/who-are-you' element={<WhoAreYouProfile/>}/>
+                  <Route path='/create-profile/set-prefernces' element={<SetPrefernces/>}/>
+                  {console.log(authenticated)}
+
                 </Routes>
               )}
             </BrowserRouter>

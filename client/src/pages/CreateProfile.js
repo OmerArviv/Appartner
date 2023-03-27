@@ -4,14 +4,18 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {createUserProfile} from "../controller/userProfileController";
 
 
 const options=['Yes', 'No', "Sometimes"];
 const yesNoOptions=['Yes', 'No'];
 const genderOptions=['Male', 'Female', 'Other'];
 
-const CreateProfile= () =>{
+const CreateProfile= (props) =>{
     const navigate = useNavigate();
+    // const [userInstagramLink, setUserInstagramLink]=useState(null);
+    const email="email";
+    const userType="type";
 
     const [userBirthday, setUserBirthday]=useState('');
     const [userEmployment, setUserEmployment]=useState('');
@@ -20,10 +24,11 @@ const CreateProfile= () =>{
     const [userGender, setUserGender]=useState('');
     const [userAlcohol, setUserAlcohol]=useState('')
     const [userKosher, setUserKosher]=useState(null);
-    // const [userSmoking, setUserSmoking]=useState(null);
+    const [userOther, setUserOther]=useState(null);
     const [userAdditonal, setUserAdditonalInformation]=useState(null);
     const [userFacebookLink, setUserFacebookLink]=useState(null);
     const [userInstagramLink, setUserInstagramLink]=useState(null);
+
 
     function userBirthdayHandler(event) {
         console.log('birthday');
@@ -76,6 +81,13 @@ const CreateProfile= () =>{
         
       };
 
+      function userOtherHandler(event) {
+        console.log('other');
+        setUserOther(event.target.value);
+        console.log(userOther);
+        
+      };
+
       function userAdditonalInformationHandler(event) {
         console.log('additional');
         setUserAdditonalInformation(event.target.value);
@@ -96,6 +108,61 @@ const CreateProfile= () =>{
         console.log(userInstagramLink);
         
       };
+
+    //   function createData(){
+    //     let data = {
+    //         email:"email",
+    //         user_type:"",
+    //         Birthday_date: birthday,
+    //         user_employment:employment,
+    //         smoking: smoking,
+    //         pets: pets,
+    //         gender: gender,
+    //         alcohol: alcohol,
+    //         kosher: kosher,
+    //         other: other,
+    //         user_additonal_information:additonalInformation,
+    //         user_facebook_link:facebook,
+    //         user_instagram_link:instagram,
+    //     };
+    //     return data;
+    //   }
+
+      const onSubmitHandler= async (event)=>{
+        event.preventDefault();
+        if(userBirthday!=null && userEmployment!=null && userSmoking!=null
+            &&userPets!= null && userGender!=null&& userAlcohol!=null &&userKosher!=null && userOther!=null){
+               const result= await createUserProfile(email,
+               userType,
+               userBirthday,
+               userEmployment,
+               userSmoking,
+               userPets,
+               userGender,
+               userAlcohol,
+               userKosher,
+               userOther,
+               userAdditonal,
+               userFacebookLink,
+               userInstagramLink);
+               console.log("send reg");
+               console.log(result);
+               if(result==true){
+                    navigate("/create-profile/set-prefernces");
+               }
+               else{
+                    if (result.response.status == 409) {
+                        alert("You already have an account");
+                    } else if (result.response.status == 403) {
+                        alert("Error occured!");
+                    }
+               }
+            }
+            else {
+                alert("Please enter all fields!");
+              }
+        
+      }
 
     return(
         <>
@@ -224,9 +291,9 @@ const CreateProfile= () =>{
                         <Select 
                         // label='Smoking'
                         // labelId='smoking-label'
-                        id='pets'
-                        value={userPets}
-                        onChange={userPetsHandler}
+                        id='other'
+                        value={userOther}
+                        onChange={userOtherHandler}
                         // input={<OutlinedInput label="Smoking" />}
                         fullWidth
                         >
@@ -341,7 +408,7 @@ const CreateProfile= () =>{
 
         <Button 
         variant='contained'
-        onClick={()=>navigate("/create-profile/set-prefernces")}
+        onClick={onSubmitHandler}
         >
             Lets set your prefernces</Button>
        
