@@ -1,9 +1,13 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export const getUserToken = () => {
-    return Cookies.get('app_us_tk');
-}
+  return Cookies.get("app_us_tk");
+};
 
-export const setTokenAfterSignIn = (token) =>{
-    Cookies.set('app_us_tk',token);
-}
+export const setTokenAfterSignIn = (token) => {
+  Cookies.set("app_us_tk", token);
+};
+
+export const RemoveTokenAfterSignOut = () => {
+  Cookies.remove("app_us_tk");
+};

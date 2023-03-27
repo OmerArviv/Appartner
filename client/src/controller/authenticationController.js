@@ -1,9 +1,6 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { setTokenAfterSignIn } from "../APP/APP_AUTH";
 import { APP_ROUTES, POST_HEADERS } from "../APP/APP_ROUTES";
-
-import { userState } from "../APP/Utils";
 
 /**
  * This module hold all the request of Actions.
