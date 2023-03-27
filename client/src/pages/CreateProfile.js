@@ -4,7 +4,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {createUserProfile} from "../controller/userProfileController";ssssssssssss
+import {createUserProfile} from "../controller/userProfileController";
 
 
 const options=['Yes', 'No', "Sometimes"];
