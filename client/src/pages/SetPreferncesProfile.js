@@ -1,12 +1,15 @@
-import { Card, CardContent, Slider, Box, Typography } from "@mui/material";
+import { Card, CardContent, Slider, Box, Typography, Button } from "@mui/material";
 import { FormControl, InputLabel, TextField, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const options=['Yes', 'No', "It doesn't matter"];
 const roomatesOptions=[1, 2, 3, 4, 5];
 
 
 const SetPreferncesProfile=()=>{
+    const navigate= useNavigate();
+
     const [ageRange, setAgeRange] = useState([18,75]);
     const [loaction, setLocation] = useState(null);
     const [priceRange, setPriceRange] = useState([2500,5500]);
@@ -73,6 +76,9 @@ const SetPreferncesProfile=()=>{
      
       };
 
+      const onSubmitHandler=()=>{
+        navigate("/");
+      }
     function valuetext(value) {
         return `${value}`;
       }
@@ -226,14 +232,14 @@ const SetPreferncesProfile=()=>{
                     </FormControl>
                     </Card>
         </Box>
-          
-
-
-
-
-          
+ 
         </Box>
         
+        <Button 
+        variant="contained"
+        onClick={onSubmitHandler}>
+            Let's find your new home
+        </Button>
 
 
  
