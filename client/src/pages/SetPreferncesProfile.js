@@ -2,7 +2,7 @@ import { Card, CardContent, Slider, Box, Typography, Button } from "@mui/materia
 import { FormControl, InputLabel, TextField, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import {userProfileSetPrefernces} from "../controller/userProfileController";
+// import {userProfileSetPrefernces} from "../controller/userProfileController";
 
 const options=['Yes', 'No', "It doesn't matter"];
 const roomatesOptions=[1, 2, 3, 4, 5];
@@ -81,7 +81,7 @@ const SetPreferncesProfile=()=>{
         event.preventDefault();
         if(ageRange!=null && loaction!=null &&  priceRange!=null
             &&gender!= null && elevator!=null&& parking!=null &&smoking!=null && roomates!=null){
-               const result= await userProfileSetPrefernces
+               const result= await 
                (email,
                ageRange,
                loaction,

@@ -1,11 +1,18 @@
-import {Grid, Paper, Box, Container,FormControl, TextField, Autocomplete,OutlinedInput, InputLabel, Select, Typography, CardContent, Card, MenuItem, Button } from '@mui/material';
+import {Grid, Paper, Box, Container,FormControl, TextField, Autocomplete,OutlinedInput, InputLabel, Select, Typography, CardContent, Card, MenuItem, Button, Stack } from '@mui/material';
 import { CardActionArea, CardMedia } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {createUserProfile} from "../controller/userProfileController";
+import UploadImages from '../UploadImages';
 
+const btnstyle = {
+    // margin: "8px 0",
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+  };
 
 const options=['Yes', 'No', "Sometimes"];
 const yesNoOptions=['Yes', 'No'];
@@ -19,15 +26,15 @@ const CreateProfile= (props) =>{
 
     const [userBirthday, setUserBirthday]=useState('');
     const [userEmployment, setUserEmployment]=useState('');
-    const [userSmoking, setUserSmoking]=useState(null);
-    const [userPets, setUserPets]=useState(null);
+    const [userSmoking, setUserSmoking]=useState("");
+    const [userPets, setUserPets]=useState("");
     const [userGender, setUserGender]=useState('');
     const [userAlcohol, setUserAlcohol]=useState('')
-    const [userKosher, setUserKosher]=useState(null);
-    const [userOther, setUserOther]=useState(null);
-    const [userAdditonal, setUserAdditonalInformation]=useState(null);
-    const [userFacebookLink, setUserFacebookLink]=useState(null);
-    const [userInstagramLink, setUserInstagramLink]=useState(null);
+    const [userKosher, setUserKosher]=useState("");
+    const [userOther, setUserOther]=useState("");
+    const [userAdditonal, setUserAdditonalInformation]=useState("");
+    const [userFacebookLink, setUserFacebookLink]=useState("");
+    const [userInstagramLink, setUserInstagramLink]=useState("");
 
 
     function userBirthdayHandler(event) {
@@ -109,25 +116,6 @@ const CreateProfile= (props) =>{
         
       };
 
-    //   function createData(){
-    //     let data = {
-    //         email:"email",
-    //         user_type:"",
-    //         Birthday_date: birthday,
-    //         user_employment:employment,
-    //         smoking: smoking,
-    //         pets: pets,
-    //         gender: gender,
-    //         alcohol: alcohol,
-    //         kosher: kosher,
-    //         other: other,
-    //         user_additonal_information:additonalInformation,
-    //         user_facebook_link:facebook,
-    //         user_instagram_link:instagram,
-    //     };
-    //     return data;
-    //   }
-
       const onSubmitHandler= async (event)=>{
         event.preventDefault();
         if(userBirthday!=null && userEmployment!=null && userSmoking!=null
@@ -168,14 +156,14 @@ const CreateProfile= (props) =>{
         <>
         <h1>create profile</h1>
         
-        <Box container spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}>
-            <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+        <Box container="true" spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}>
+            <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
                 <Card>
                     <FormControl fullWidth sx={{marginTop:3}} >
                     <CardContent>
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Birth Day date</InputLabel>
                         <TextField
-                        labelId="user-birthday-label"
+                        labelid="user-birthday-label"
                          id='birthday' 
                          type='date' 
                          onChange={userBirthdayHandler}
@@ -192,7 +180,7 @@ const CreateProfile= (props) =>{
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-employment-label'>Employment</InputLabel>
                         <TextField
                         //  label='Employment'
-                         labelId='user-employment-label'
+                         labelid='user-employment-label'
                          id='employment'
                          onChange={userEmploymentHandler}
                          value={userEmployment}
@@ -237,7 +225,7 @@ const CreateProfile= (props) =>{
             </Box>
 
             {/*Second Box Form */}
-            <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+            <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
                 <Card>
                     <FormControl fullWidth sx={{marginTop:3}} >
                     <CardContent>
@@ -260,7 +248,7 @@ const CreateProfile= (props) =>{
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-alcohol-label'>Alcohol</InputLabel>
                         <Select
                         //  label='Employment'
-                         labelId='user-alcohol-label'
+                         labelid='user-alcohol-label'
                          id='alcohol'
                          onChange={userAlcoholHandler}
                          value={userAlcohol}
@@ -306,69 +294,18 @@ const CreateProfile= (props) =>{
 
 
         {/*Third Box photos */}
-        <Box item xs={4} sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto'}} >
-        <Box item xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
-            <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
-                <CardActionArea>
-                    <CardMedia
-                    component="img"
-                    height="200"
-                    width="200"
-                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
-                    alt="upload image 1">
-                    </CardMedia>
-                </CardActionArea>
-            </Card>
-            <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
-                <CardActionArea>
-                    <CardMedia
-                    component="img"
-                    height="200"
-                    width="200"
-                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
-                    alt="upload image 3">
-                    </CardMedia>
-                </CardActionArea>
-            </Card>
-           </Box>
+        <UploadImages/>
 
-            <Box item xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
-            <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto',}}>
-                <CardActionArea>
-                    <CardMedia
-                    component="img"
-                    height="200"
-                    width="200"
-                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
-                    alt="upload image 2">
-                    </CardMedia>
-                </CardActionArea>
-            </Card>
-            <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
-                <CardActionArea>
-                    <CardMedia
-                    component="img"
-                    height="200"
-                    width="200"
-                    image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
-                    alt="upload image 4">
-                    </CardMedia>
-                </CardActionArea>
-            </Card>
-    
-        </Box>
-
-        </Box>
         </Box>
 
         {/*4 Box down */}
-        <Box container sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:7, marginBottom:10}} >
-            <Box item component="form" xs={8} sx={{width: "auto", marginLeft:"auto", marginRight:'auto'}} >
+        <Box container="true" sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:7, marginBottom:10}} >
+            <Box item="true" component="form" xs={8} sx={{width: "auto", marginLeft:"auto", marginRight:'auto'}} >
                 <FormControl sx={{marginTop:3}} fullWidth >
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-additonal-label'>Additonal Information</InputLabel>
                         <br/>
                         <TextField
-                        labelId="user-additonal-label"
+                        labelid="user-additonal-label"
                          id='additonal' 
                          onChange={userAdditonalInformationHandler}
                          value={userAdditonal}
@@ -379,13 +316,13 @@ const CreateProfile= (props) =>{
                     </FormControl>
                     </Box>
 
-           <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+           <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
             
                 <FormControl fullWidth sx={{marginTop:3}} >
                 <FacebookIcon></FacebookIcon>
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-facebook-link-label'>Facebook Link</InputLabel>
                         <TextField
-                        labelId="user-facebook-link-label"
+                        labelid="user-facebook-link-label"
                          id='fecebookLink' 
                          onChange={userFacebookLinkHandler}
                          value={userFacebookLink}
@@ -396,7 +333,7 @@ const CreateProfile= (props) =>{
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-instagram-link-label'>Instagram Link</InputLabel>
                         <InstagramIcon></InstagramIcon>
                         <TextField
-                        labelId="user-instagram-link-label"
+                        labelid="user-instagram-link-label"
                          id='instagram' 
                          onChange={userInstagramLinkHandler}
                          value={userInstagramLink}
@@ -404,14 +341,23 @@ const CreateProfile= (props) =>{
                         /> 
                     </FormControl>
                     </Box>
+                    
         </Box>
+
+        <Box container="true" sx={{display:'flex',flexWrap:"warp",  width: "auto", marginLeft:"auto", marginRight:'auto',}} >
+        <Box item="true" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
 
         <Button 
         variant='contained'
         onClick={onSubmitHandler}
+        style={btnstyle}
+        sx={{width: "auto", marginLeft:1/2, marginRight:1/2}}
+        xs={4}
         >
             Lets set your prefernces</Button>
-       
+        </Box>
+        </Box>
+        
     </>
     );
 };
