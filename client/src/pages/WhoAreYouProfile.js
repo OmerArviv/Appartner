@@ -22,8 +22,8 @@ const WhoAreYouProfile= () =>{
     {userType? <Typography sx={{fontSize:40}}>Hello, <b>{`${userType}`}</b></Typography> :
     <Typography sx={{fontSize:30, color:"darksalmon"}}>Please choose who are you?</Typography>}
     
-    <Box container spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}>
-        <Box item  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
+    <Box container="true" spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}>
+        <Box item="true"  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
             <Button 
             sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}
             onClick={()=>setUserType("Welcomer")}
@@ -54,7 +54,7 @@ const WhoAreYouProfile= () =>{
             </Button>
 
         </Box>
-       <Box item  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
+       <Box item="true"  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
        <Button sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}
             onClick={()=>setUserType("Looker")}
             >
