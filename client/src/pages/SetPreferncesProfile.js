@@ -4,6 +4,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 // import {userProfileSetPrefernces} from "../controller/userProfileController";
 
+const btnstyle = {
+    // margin: "8px 0",
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+  };
+
 const options=['Yes', 'No', "It doesn't matter"];
 const roomatesOptions=[1, 2, 3, 4, 5];
 
@@ -12,14 +19,14 @@ const SetPreferncesProfile=()=>{
     const navigate= useNavigate();
     const email = "email";
     const [ageRange, setAgeRange] = useState([18,75]);
-    const [loaction, setLocation] = useState(null);
+    const [loaction, setLocation] = useState("");
     const [priceRange, setPriceRange] = useState([2500,5500]);
     const [gender, setGender]=useState('');
 
-    const [elevator, setElevator]=useState(null);
-    const [parking, setParking]=useState(null);
-    const [smoking, setSmoking]=useState(null);
-    const [roomates, setRoomates]=useState(null);
+    const [elevator, setElevator]=useState("");
+    const [parking, setParking]=useState("");
+    const [smoking, setSmoking]=useState("");
+    const [roomates, setRoomates]=useState("");
 
 
 
@@ -121,9 +128,9 @@ const SetPreferncesProfile=()=>{
     return(
 <>
 <p>prefernces</p>
-    <Box container spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}} >
+    <Box container="true" spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}} >
    
-        <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}}>
+        <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}}>
                 <Card>
                     <FormControl fullWidth sx={{mt:3}}>
                     <CardContent>
@@ -147,7 +154,7 @@ const SetPreferncesProfile=()=>{
                         <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='location-label'>Location</InputLabel>
                         <TextField
                         //  label='Location'
-                         labelId='location-label'
+                         labelid='location-label'
                          id='location'
                          onChange={locationHandler}
                          value={loaction}
@@ -195,7 +202,7 @@ const SetPreferncesProfile=()=>{
 
 
         
-        <Box item component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}}>
+        <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}}>
             <Card>
             <FormControl fullWidth sx={{mt:3}}>
                     <CardContent>
@@ -266,11 +273,20 @@ const SetPreferncesProfile=()=>{
  
         </Box>
         
+        
+        <Box container="true" sx={{display:'flex',flexWrap:"warp",  width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:3}} >
+        <Box item="true" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+
         <Button 
         variant="contained"
-        onClick={onSubmitHandler}>
+        onClick={onSubmitHandler}
+        style={btnstyle}
+        >
             Let's find your new home
         </Button>
+        </Box>
+        </Box>
+        
 
 
  
