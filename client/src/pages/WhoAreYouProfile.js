@@ -5,6 +5,12 @@ import { useNavigate, Navigate } from "react-router-dom";
 import looker_img from '../images/looker_img.png';
 import welcomer_img from '../images/welcomer_img.png';
 
+const btnstyle = {
+    // margin: "8px 0",
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+  };
 
 const WhoAreYouProfile= () =>{
     const navigate = useNavigate();
@@ -82,13 +88,19 @@ const WhoAreYouProfile= () =>{
         </Button>
         </Box>
     </Box>
+
+
+    <Box container="true" sx={{display:'flex',flexWrap:"warp",  width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:3}} >
+    <Box item="true" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
     <Button 
     variant="contained"
     onClick={()=>{navigate("/create-profile")}}
+    style={btnstyle}
     > 
         Continue
     </Button>
-    
+    </Box>
+    </Box>
     </>
     
     );
