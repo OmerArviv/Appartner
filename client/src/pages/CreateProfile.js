@@ -1,4 +1,4 @@
-import {Grid, Paper, Box, Container,FormControl, TextField, Autocomplete,OutlinedInput, InputLabel, Select, Typography, CardContent, Card, MenuItem, Button, Stack } from '@mui/material';
+import {Grid, Paper, Box, Container,FormControl, TextField, Autocomplete,OutlinedInput, InputLabel, Select, Typography, CardContent, Card, MenuItem, Button, Stack, InputAdornment } from '@mui/material';
 import { CardActionArea, CardMedia } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -38,6 +38,22 @@ const CreateProfile= (props) =>{
 
 
     function userBirthdayHandler(event) {
+        // console.log('birthday');
+        // console.log(event.target.value);
+        // let age=event.target.value;
+
+        // if(age>=18 && age<=75){
+        //     console.log(userBirthday);
+        //     setUserBirthday(event.target.value);
+        //     console.log(userBirthday);
+        // }
+        // else{
+        //     // alert("change age");
+        //     age="";
+        // }
+        // setUserBirthday(event.target.value);
+        // console.log(userBirthday);
+
         console.log('birthday');
         console.log(event.target.value);
         setUserBirthday(event.target.value);
@@ -161,7 +177,7 @@ const CreateProfile= (props) =>{
                 <Card>
                     <FormControl fullWidth sx={{marginTop:3}} >
                     <CardContent>
-                        <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Birth Day date</InputLabel>
+                        {/* <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Birth Day date</InputLabel>
                         <TextField
                         labelid="user-birthday-label"
                          id='birthday' 
@@ -171,6 +187,19 @@ const CreateProfile= (props) =>{
                          fullWidth 
                          required
                          min="2017-04-01" max="2017-04-30"
+                        // max="2023-03-25" min="2023-03-20"
+                        /> */}
+                        <TextField
+                        labelid="user-birthday-label"
+                         id='birthday' 
+                         type='number' 
+                         onChange={userBirthdayHandler}
+                         value={userBirthday}
+                         fullWidth 
+                         required
+                         min="18" max="75"
+                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                         helperText="Your age have to be 18-75"
                         // max="2023-03-25" min="2023-03-20"
                         />
                     </CardContent>
@@ -300,8 +329,8 @@ const CreateProfile= (props) =>{
 
         {/*4 Box down */}
         <Box container="true" sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:7, marginBottom:10}} >
-            <Box item="true" component="form" xs={8} sx={{width: "auto", marginLeft:"auto", marginRight:'auto'}} >
-                <FormControl sx={{marginTop:3}} fullWidth >
+            <Box item="true" component="form" xs={8} sx={{width: "fit-contant", marginLeft:"auto", marginRight:'auto'}} >
+                <FormControl sx={{marginTop:3}}  >
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-additonal-label'>Additonal Information</InputLabel>
                         <br/>
                         <TextField
@@ -317,27 +346,39 @@ const CreateProfile= (props) =>{
                     </Box>
 
            <Box item="true" component="form" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
-            
-                <FormControl fullWidth sx={{marginTop:3}} >
-                <FacebookIcon></FacebookIcon>
+                <FormControl fullWidth spacing={10} >
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-facebook-link-label'>Facebook Link</InputLabel>
+                       <br/>
                         <TextField
                         labelid="user-facebook-link-label"
-                         id='fecebookLink' 
+                         id='fecebookLink'  
                          onChange={userFacebookLinkHandler}
                          value={userFacebookLink}
                          fullWidth 
+                         InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                    <FacebookIcon/>
+                                  </InputAdornment>
+                            ),
+                          }}
                         /> 
                     </FormControl>
                     <FormControl fullWidth sx={{marginTop:3}} >
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-instagram-link-label'>Instagram Link</InputLabel>
-                        <InstagramIcon></InstagramIcon>
+                       <br/>
                         <TextField
                         labelid="user-instagram-link-label"
                          id='instagram' 
                          onChange={userInstagramLinkHandler}
                          value={userInstagramLink}
                          fullWidth 
+                         InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <InstagramIcon/>
+                                </InputAdornment>
+                            ),}}
                         /> 
                     </FormControl>
                     </Box>
