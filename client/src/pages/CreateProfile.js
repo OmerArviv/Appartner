@@ -177,8 +177,8 @@ const CreateProfile= (props) =>{
                 <Card>
                     <FormControl fullWidth sx={{marginTop:3}} >
                     <CardContent>
-                        {/* <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Birth Day date</InputLabel>
-                        <TextField
+                        {/* <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Birth Day date</InputLabel> */}
+                        {/* <TextField
                         labelid="user-birthday-label"
                          id='birthday' 
                          type='date' 
@@ -189,6 +189,7 @@ const CreateProfile= (props) =>{
                          min="2017-04-01" max="2017-04-30"
                         // max="2023-03-25" min="2023-03-20"
                         /> */}
+                    <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-birthday-label'>Age</InputLabel>
                         <TextField
                         labelid="user-birthday-label"
                          id='birthday' 
@@ -329,8 +330,8 @@ const CreateProfile= (props) =>{
 
         {/*4 Box down */}
         <Box container="true" sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:7, marginBottom:10}} >
-            <Box item="true" component="form" xs={8} sx={{width: "fit-contant", marginLeft:"auto", marginRight:'auto'}} >
-                <FormControl sx={{marginTop:3}}  >
+            <Box item="true" component="form" xs={4} sx={{width:800, marginLeft:"auto", marginRight:'auto'}} >
+                <FormControl fullWidth  >
                     <InputLabel sx={{fontSize:20, textDecoration:'bolt'}} shrink id='user-additonal-label'>Additonal Information</InputLabel>
                         <br/>
                         <TextField
@@ -338,9 +339,8 @@ const CreateProfile= (props) =>{
                          id='additonal' 
                          onChange={userAdditonalInformationHandler}
                          value={userAdditonal}
-                         fullWidth 
-                         multiline
-                         maxRows={3}
+                        //  multiline
+                        //  maxRows={3}
                         /> 
                     </FormControl>
                     </Box>

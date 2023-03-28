@@ -176,7 +176,7 @@ const SetPreferncesProfile=()=>{
                         size='small'
                         sx={{color: "black"}}
                     />
-                    <Typography>The range of price: {`${priceRange[0]}`}-{`${priceRange[1]}`}</Typography>
+                    <Typography>The range of price: {`${priceRange[0]}`}-{`${priceRange[1]}`} $ ₪</Typography>
                     </CardContent>
                     </FormControl>
                     <FormControl fullWidth>
