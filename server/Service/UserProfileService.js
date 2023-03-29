@@ -1,26 +1,17 @@
-const users = require("../Model/UserProfile");
+const usersProfile = require("../Model/userProfile");
 
 module.exports = class UserProfileService {
-
-    static async insertUserProfile(userProfile){
-        return usersProfiles.
-        create(userProfile).then((value)=>{
-            return value;
-        })
-        .catch((error)=> {
-            return null;
-        });
-    }
-
-    static async insertUserProfilePrefernces(UserProfilePrefernce){
-        return UserProfilePrefernces.
-        create(UserProfilePrefernce).then((value)=>{
-            return value;
-        })
-        .catch((error)=> {
-            return null;
-        });
-
-    }
- 
+  static async insertUserProfile(userProfile) {
+    console.log(userProfile);
+    return usersProfile
+      .create(userProfile)
+      .then((value) => {
+        console.log(value);
+        return value;
+      })
+      .catch((error) => {
+        // console.log(error);
+        return null;
+      });
+  }
 };

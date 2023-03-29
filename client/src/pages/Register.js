@@ -37,7 +37,7 @@ const Register = (props) => {
 
   const handleLogin = () => {
     setAuthenticated(true);
-    navigate("/");
+    navigate("/create-profile");
   };
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
