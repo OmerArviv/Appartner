@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const userProfileSchema = new mongoose.Schema({
     email: { type: String, unique: true },
+    user_type:{ type: String, require},
     Birthday_date: { type: String, default: null },
     user_employment: { type: String, default: null },
-    smoking: { type: S, default: null },
+    smoking: { type: String, default: null },
     pets: { type: String, default: null },
     gender: { type: String, default: null },
     alcohol: { type: String, default: null },

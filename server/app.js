@@ -24,8 +24,6 @@ const corsConfig = {
 app.use(cors(corsConfig));
 
 app.post("/authentication/login_test", auth, (req, res) => {
-  // .......
-  console.log("asds");
   res.status(200).send("Welcome 🙌 ");
 });
 

@@ -1,5 +1,5 @@
 import { useContext ,useEffect} from "react";
-import { pageTitleContext } from "./APP/Utils";
+import { pageTitleContext } from "../APP/Utils";
 
 const Home = ()=>{
 const {setPageTitle} = useContext(pageTitleContext);

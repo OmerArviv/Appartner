@@ -4,6 +4,8 @@ import { getUserToken } from "./APP_AUTH";
  */
 
 const AUTHENTICATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}authentication`;
+const USER_PROFILE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfile`;
+
 
 export const  APP_ROUTES = {
   Authentication: {
@@ -11,6 +13,11 @@ export const  APP_ROUTES = {
     login: `${AUTHENTICATION_ENPOINT}/login`,
     validateUserLoggedIn: `${AUTHENTICATION_ENPOINT}/login_test`,
   },
+
+  userProfile: {
+    createProfile:`${USER_PROFILE_ENPOINT}/createProfile`, 
+    // userProfilePrefernces:`${USER_PROFILE_ENPOINT}/createProfile/setUserPrefernces`
+  }
 };
 
 // HEADERS()
