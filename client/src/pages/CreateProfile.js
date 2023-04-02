@@ -23,7 +23,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
-import UploadImages from "../UploadImages";
+import UploadImages from "../components/UploadImages";
 
 const btnstyle = {
   // margin: "8px 0",
