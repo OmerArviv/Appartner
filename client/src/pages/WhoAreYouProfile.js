@@ -24,11 +24,14 @@ const WhoAreYouProfile= () =>{
 
     return(
     <>
-    <p>Who Are you?</p>
+      <Box item="true"  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginTop:3, marginBottom:3}}>
     {userType? <Typography sx={{fontSize:40}}>Hello, <b>{`${userType}`}</b></Typography> :
-    <Typography sx={{fontSize:30, color:"darksalmon"}}>Please choose who are you?</Typography>}
-    
+    <Typography sx={{fontSize:40, color:"darksalmon"}}>Please choose who are you?</Typography>}
+            </Box>
+
+
     <Box container="true" spacing={50} sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}>
+      
         <Box item="true"  xs={6} sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
             <Button 
             sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}
@@ -37,24 +40,25 @@ const WhoAreYouProfile= () =>{
             <Card>
                 <CardActionArea>
                 <CardContent>
-                    <Typography>
+                <Typography>
                         Welcomer
                     </Typography>
-                </CardContent>
-                <CardContent>
                     <CardMedia
                     component="img"
-                    height="300"
-                    width="300"
+                    height="400"
+                    width="400"
                     image={welcomer_img}
                     alt="upload image 2"
                     />
-                </CardContent>
-                <CardContent>
-                    <Typography>
+                         <Typography>
                     People who own an apartment and looking for roommates
                     </Typography>
                 </CardContent>
+                {/* <CardContent>
+                    <Typography>
+                    People who own an apartment and looking for roommates
+                    </Typography>
+                </CardContent> */}
                 </CardActionArea>
             </Card>
             </Button>
@@ -68,21 +72,23 @@ const WhoAreYouProfile= () =>{
             <CardActionArea>
             <CardContent>
             <Typography>Looker</Typography>
-            </CardContent>
-            <CardContent>
                 <CardMedia
                 component="img"
-                height="300"
-                width="300"
+                height="400"
+                width="400"
                 image={looker_img}
                 alt="upload image 2"
                 />
+                  <Typography>
+                    People who are looking for an apartment to enter
+                </Typography>
             </CardContent>
+{/* 
             <CardContent>
                 <Typography>
                     People who are looking for an apartment to enter
                 </Typography>
-            </CardContent>
+            </CardContent> */}
             </CardActionArea>
         </Card>
         </Button>
@@ -91,16 +97,20 @@ const WhoAreYouProfile= () =>{
 
 
     <Box container="true" sx={{display:'flex',flexWrap:"warp",  width: "auto", marginLeft:"auto", marginRight:'auto', marginTop:3}} >
-    <Box item="true" xs={4} sx={{width: 400, marginLeft:"auto", marginRight:'auto'}} >
+    <Box item="true" xs={4} sx={{width: "fit-content", marginLeft:"50%", marginRight:"auto"}} >
     <Button 
     variant="contained"
     onClick={()=>{navigate("/create-profile")}}
     style={btnstyle}
+    // sx={{ width: "auto", marginLeft: 1 / 2, marginRight: 1 / 2 }}
+    xs={4}
+
     > 
         Continue
     </Button>
     </Box>
     </Box>
+
     </>
     
     );
