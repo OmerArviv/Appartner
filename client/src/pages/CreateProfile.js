@@ -1,23 +1,15 @@
 import {
-  Grid,
-  Paper,
   Box,
-  Container,
   FormControl,
   TextField,
-  Autocomplete,
-  OutlinedInput,
   InputLabel,
   Select,
-  Typography,
   CardContent,
   Card,
   MenuItem,
   Button,
-  Stack,
   InputAdornment,
 } from "@mui/material";
-import { CardActionArea, CardMedia } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState } from "react";

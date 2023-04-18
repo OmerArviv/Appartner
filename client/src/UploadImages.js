@@ -1,7 +1,20 @@
 
 import {Box, Card, CardActionArea, CardMedia} from "@mui/material";
+import { useState } from "react";
 
 const UploadImages= ()=>{
+    const [image1, setImage1] = useState("");
+    const [image2, setImage2] = useState("");
+    const [image3, setImage3] = useState("");
+    const [image4, setImage4] = useState("");
+
+    function image1Handler(event) {
+        console.log(event.target.value);
+        setImage1(event.target.value);
+    }
+
+
+
     return(
         <Box item="true" xs={4} sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto'}} >
         <Box item="true" xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
@@ -12,7 +25,8 @@ const UploadImages= ()=>{
                     height="200"
                     width="200"
                     image="https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
-                    alt="upload image 1">
+                    alt="upload image 1"
+                    onClick={image1Handler}>
                     </CardMedia>
                 </CardActionArea>
             </Card>
