@@ -1,9 +1,11 @@
 import { Button, CardActionArea } from "@material-ui/core";
 import { Box, Card, CardContent, CardMedia, Checkbox, ToggleButton, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import looker_img from '../images/looker_img.png';
 import welcomer_img from '../images/welcomer_img.png';
+import { pageTitleContext } from "../APP/Utils";
+
 
 const btnstyle = {
     // margin: "8px 0",
@@ -14,13 +16,15 @@ const btnstyle = {
 
 const WhoAreYouProfile= () =>{
     const navigate = useNavigate();
-
+    const {setPageTitle} = useContext(pageTitleContext);
     const [userType, setUserType]=useState(""); 
 
-    function userTypeHandler(event){
-        // setUserType(type);
-        console.log(event.target.value);
-    }
+
+    useEffect(()=>{
+      setPageTitle("Who Are You?");
+    },[]);
+  
+
 
     return(
     <>

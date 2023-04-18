@@ -13,9 +13,10 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-// import {userProfileSetPrefernces} from "../controller/userProfileController";
+import { pageTitleContext } from "../APP/Utils";
+
 
 const btnstyle = {
   // margin: "8px 0",
@@ -29,6 +30,12 @@ const roomatesOptions = [1, 2, 3, 4, 5];
 
 const SetPreferncesProfile = () => {
   const navigate = useNavigate();
+  const {setPageTitle} = useContext(pageTitleContext);
+      
+  useEffect(()=>{
+    setPageTitle("Set Prefernces");
+  },[]);
+
   const email = "email";
   const [ageRange, setAgeRange] = useState([18, 75]);
   const [loaction, setLocation] = useState("");
@@ -135,11 +142,10 @@ const SetPreferncesProfile = () => {
 
   return (
     <>
-      <p>prefernces</p>
       <Box
         container="true"
         spacing={50}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10" }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop:5 }}
       >
         <Box
           item="true"

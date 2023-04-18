@@ -6,7 +6,6 @@ const UploadImages= ()=>{
 
     return(
         <>
-        {/* <DialogImage></DialogImage> */}
         <Box item="true" xs={4} sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto'}} >
         <Box item="true" xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
         
