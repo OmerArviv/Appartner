@@ -13,6 +13,7 @@ import CreateProfile from "./pages/CreateProfile";
 import WhoAreYouProfile from "./pages/WhoAreYouProfile";
 import SetPrefernces from "./pages/SetPreferncesProfile";
 import SpeechToText from "./components/Speechtotextapi/Speechtotext";
+import CreateApartment from "./pages/CreateApartment";
 
 function GeneralBrawser() {
   const { authenticated } = useContext(authContext);
@@ -40,6 +41,7 @@ function GeneralBrawser() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/create-apartment" element={<CreateApartment />} />
         </Routes>
       )}
     </BrowserRouter>
