@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import CreateProfile from "./pages/CreateProfile";
 import WhoAreYouProfile from "./pages/WhoAreYouProfile";
 import SetPrefernces from "./pages/SetPreferncesProfile";
+import SpeechToText from "./components/Speechtotextapi/Speechtotext";
 
 function GeneralBrawser() {
   const { authenticated } = useContext(authContext);
@@ -32,6 +33,7 @@ function GeneralBrawser() {
             element={<SetPrefernces />}
           />
           <Route path="/create-profile" element={<CreateProfile />} />
+          <Route path="/speach-to-text" element={<SpeechToText />} />
         </Routes>
       ) : (
         <Routes>
