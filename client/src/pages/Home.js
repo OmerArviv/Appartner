@@ -36,7 +36,7 @@ const Home = () => {
         sx={{
           bgcolor: "#CEC9B6",
           marginTop: "50px",
-          height: 150,
+          height: 90,
           marginBottom: "40px",
           paddingLeft: "20px",
         }}
