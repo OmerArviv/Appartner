@@ -1,30 +1,23 @@
 import {
-  Grid,
-  Paper,
   Box,
-  Container,
   FormControl,
   TextField,
-  Autocomplete,
-  OutlinedInput,
   InputLabel,
   Select,
-  Typography,
   CardContent,
   Card,
   MenuItem,
   Button,
-  Stack,
   InputAdornment,
 } from "@mui/material";
-import { CardActionArea, CardMedia } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
+import { pageTitleContext } from "../APP/Utils";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -37,8 +30,13 @@ const options = ["Yes", "No", "Sometimes"];
 const yesNoOptions = ["Yes", "No"];
 const genderOptions = ["Male", "Female", "Other"];
 
-const CreateProfile = (props) => {
+const CreateProfile = () => {
   const navigate = useNavigate();
+  const { setPageTitle } = useContext(pageTitleContext);
+
+  useEffect(() => {
+    setPageTitle("Create Profile");
+  }, []);
   // const [userInstagramLink, setUserInstagramLink]=useState(null);
   const email = "email";
   const userType = "type";
@@ -54,6 +52,7 @@ const CreateProfile = (props) => {
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
+  const [userImagesArray, setUserImagesArray] = useState("");
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -115,6 +114,12 @@ const CreateProfile = (props) => {
     setUserFacebookLink(event.target.value);
   }
 
+  function userImagesArrayHandler(arr) {
+    console.log("set images array");
+    setUserImagesArray(arr);
+    console.log(arr);
+  }
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = await getUserEmail();
@@ -157,12 +162,10 @@ const CreateProfile = (props) => {
 
   return (
     <>
-      <h1>create profile</h1>
-
       <Box
         container="true"
         spacing={50}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10" }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop: 5 }}
       >
         <Box
           item="true"
