@@ -15,7 +15,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
-import UploadImages from "../UploadImages";
+import UploadImages from "../components/UploadImages";
 import { pageTitleContext } from "../APP/Utils";
 
 
@@ -52,6 +52,7 @@ const CreateProfile = () => {
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
+  const [userImagesArray, setUserImagesArray] = useState("");
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -136,6 +137,12 @@ const CreateProfile = () => {
     console.log("instagram");
     setUserInstagramLink(event.target.value);
     console.log(userInstagramLink);
+  }
+
+  function userImagesArrayHandler(arr) {
+    console.log("set images array");
+    setUserImagesArray(arr);
+    console.log(arr);
   }
 
   const onSubmitHandler = async (event) => {
@@ -422,7 +429,8 @@ const CreateProfile = () => {
         </Box>
 
         {/*Third Box photos */}
-        <UploadImages />
+        <UploadImages  />
+        
       </Box>
 
       {/*4 Box down */}

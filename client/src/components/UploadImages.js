@@ -1,8 +1,34 @@
-
 import {Box, Card,} from "@mui/material";
-import DialogImage from "./components/DialogImage";
+import { useEffect, useState } from "react";
+import DialogImage from "./DialogImage";
 
-const UploadImages= ()=>{
+const UploadImages= (props)=>{
+    const [arrayImages, setArrayImages]= useState("");
+    const [image1, setImage1]= useState("");
+
+    function arrayImagesHandler(index){
+        console.log("arrayImages update"); 
+
+        arrayImages[index]="image"+ index;
+        alert.log(arrayImages); 
+
+
+    }
+
+    // useEffect(()=>{
+    //     if(image1){
+    //         setImage1(image1); 
+    //         arrayImagesHandler(1);
+    //         console.log(arrayImages); 
+    //         image1Handler("change image1");
+    //     }
+    // })
+
+    function image1Handler(img){
+        console.log("in image1"); 
+        setImage1(img);
+        console.log(arrayImages); 
+    }
 
     return(
         <>
@@ -10,7 +36,7 @@ const UploadImages= ()=>{
         <Box item="true" xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
         
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
-            <DialogImage/>
+            <DialogImage setImage={image1Handler}/>
             </Card>
 
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>

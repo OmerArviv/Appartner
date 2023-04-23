@@ -11,7 +11,7 @@ const btnstyle = {
   };
 
 
-function DialogImage(){
+function DialogImage(props){
     const [open, setOpen] = useState(false);
     const [image, setImage]=useState("https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg");
     const [urlImage, setNewUrlImage]=useState("");
@@ -35,6 +35,7 @@ function DialogImage(){
      useEffect( () => {
         if(urlImage){
             console.log("newImage");
+            props.setImage(image);
             setImage(urlImage);
             console.log(urlImage);
             console.log(image);
