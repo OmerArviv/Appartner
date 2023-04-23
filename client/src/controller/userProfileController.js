@@ -11,7 +11,6 @@ export const createUserProfile = (userProfile) => {
   return axios
     .post(url, userProfile, POST_HEADERS())
     .then((result) => {
-      console.log(result);
       return result;
     })
     .catch((err) => {

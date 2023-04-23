@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setTokenAfterSignIn } from "../APP/APP_AUTH";
-import { APP_ROUTES, POST_HEADERS } from "../APP/APP_ROUTES";
+import { APP_ROUTES, POST_HEADERS, GET_HEADERS } from "../APP/APP_ROUTES";
 
 /**
  * This module hold all the request of Actions.
@@ -11,7 +11,7 @@ export const signIn = (email, password) => {
   return axios
     .post(url, data, POST_HEADERS())
     .then((result) => {
-      setTokenAfterSignIn(result.data.token);
+      setTokenAfterSignIn(result.data.token, email);
       return true;
     })
     .catch((err) => {
@@ -19,18 +19,19 @@ export const signIn = (email, password) => {
     });
 };
 
-export const register = (name, email, password, phone) => {
+export const register = (name, email, password, salt, phone) => {
   var data = {
     full_name: name,
     email: email,
     password: password,
+    salt: salt,
     phone_number: phone,
   };
   let url = APP_ROUTES.Authentication.register;
   return axios
     .post(url, data, POST_HEADERS())
     .then((result) => {
-      setTokenAfterSignIn(result.data.token);
+      setTokenAfterSignIn(result.data.token, email);
       return true;
     })
     .catch((err) => {
@@ -45,6 +46,22 @@ export const loginTest = () => {
   let data = {};
   return axios
     .post(url, data, POST_HEADERS())
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const getSalt = (email) => {
+  let url = APP_ROUTES.Authentication.getUserSalt;
+  let data = { email: email };
+  return axios
+    .get(url, {
+      params: data,
+      headers: GET_HEADERS(),
+    })
     .then((result) => {
       return result;
     })
