@@ -34,6 +34,7 @@ function GeneralBrawser() {
             element={<SetPrefernces />}
           />
           <Route path="/create-profile" element={<CreateProfile />} />
+          <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
         </Routes>
       ) : (
@@ -41,7 +42,6 @@ function GeneralBrawser() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/create-apartment" element={<CreateApartment />} />
         </Routes>
       )}
     </BrowserRouter>

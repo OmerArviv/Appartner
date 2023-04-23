@@ -41,7 +41,12 @@ const Home = () => {
           paddingLeft: "20px",
         }}
       >
-        <Typography sx={{ textAlign: "center" }}>djfvnhkfdjh</Typography>
+        <Typography sx={{ textAlign: "center" }}>
+          Our website solves the issue of finding roommates to apartments for
+          all the involves: The people who are searching to get into an
+          apartment.<br></br> searching for your new home / people you are going
+          to live with and we wish to find the perfect match for you.
+        </Typography>
       </Grid>
     </Grid>
   );
