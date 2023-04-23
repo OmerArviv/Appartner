@@ -13,6 +13,9 @@ import CreateProfile from "./pages/CreateProfile";
 import WhoAreYouProfile from "./pages/WhoAreYouProfile";
 import SetPrefernces from "./pages/SetPreferncesProfile";
 import SpeechToText from "./components/Speechtotextapi/Speechtotext";
+import Apartment from "./pages/Apartment";
+import UserProfile from "./pages/UserProfile";
+import CreateApartment from "./pages/CreateApartment";
 
 function GeneralBrawser() {
   const { authenticated } = useContext(authContext);
@@ -33,6 +36,7 @@ function GeneralBrawser() {
             element={<SetPrefernces />}
           />
           <Route path="/create-profile" element={<CreateProfile />} />
+          <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
         </Routes>
       ) : (
@@ -40,6 +44,8 @@ function GeneralBrawser() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/apartment" element={<Apartment />} />
+          <Route path="/userProfile" element={<UserProfile />} />
         </Routes>
       )}
     </BrowserRouter>
