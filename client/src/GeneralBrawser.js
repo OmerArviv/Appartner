@@ -13,14 +13,9 @@ import CreateProfile from "./pages/CreateProfile";
 import WhoAreYouProfile from "./pages/WhoAreYouProfile";
 import SetPrefernces from "./pages/SetPreferncesProfile";
 import SpeechToText from "./components/Speechtotextapi/Speechtotext";
-<<<<<<< HEAD
 import Apartment from "./pages/Apartment";
 import UserProfile from "./pages/UserProfile";
-
-
-=======
 import CreateApartment from "./pages/CreateApartment";
->>>>>>> b6a55bee15d7b54846d405e77ec1d1bda52e1edc
 
 function GeneralBrawser() {
   const { authenticated } = useContext(authContext);
