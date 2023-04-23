@@ -41,7 +41,23 @@ const WhoAreYouProfile= () =>{
             sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}
             onClick={()=>setUserType("Welcomer")}
             >
-            <Card>
+                <CardActionArea sx={{width: 'fit-content', marginLeft:"auto", marginRight:'auto'}}>
+                <Typography sx={{fontSize:30}}>
+                        Welcomer
+                    </Typography>
+                <CardMedia
+                    component="img"
+                    height="400"
+                    width="400"
+                    image={welcomer_img}
+                    alt="welcomer image"
+                    sx={{width: 'fit-content'}}
+                    />
+                            <Typography sx={{fontSize:22}}>
+                    People who own an apartment and <br/> looking for roommates
+                    </Typography>
+                </CardActionArea>
+            {/* <Card>
                 <CardActionArea>
                 <CardContent>
                 <Typography>
@@ -58,13 +74,8 @@ const WhoAreYouProfile= () =>{
                     People who own an apartment and looking for roommates
                     </Typography>
                 </CardContent>
-                {/* <CardContent>
-                    <Typography>
-                    People who own an apartment and looking for roommates
-                    </Typography>
-                </CardContent> */}
                 </CardActionArea>
-            </Card>
+            </Card> */}
             </Button>
 
         </Box>
@@ -72,7 +83,26 @@ const WhoAreYouProfile= () =>{
        <Button sx={{display:'flex', flexWrap: 'wrap', margin: '10'}}
             onClick={()=>setUserType("Looker")}
             >
-        <Card>
+                 <CardActionArea>
+            <Typography sx={{fontSize:30}}>Looker</Typography>
+                <CardMedia
+                component="img"
+                height="400"
+                width="400"
+                image={looker_img}
+                alt="upload image 2"
+                />
+                  <Typography sx={{fontSize:22}}>
+                    People who are looking for <br/> an apartment to enter
+                </Typography>
+{/* 
+            <CardContent>
+                <Typography>
+                    People who are looking for an apartment to enter
+                </Typography>
+            </CardContent> */}
+            </CardActionArea>
+        {/* <Card>
             <CardActionArea>
             <CardContent>
             <Typography>Looker</Typography>
@@ -87,14 +117,8 @@ const WhoAreYouProfile= () =>{
                     People who are looking for an apartment to enter
                 </Typography>
             </CardContent>
-{/* 
-            <CardContent>
-                <Typography>
-                    People who are looking for an apartment to enter
-                </Typography>
-            </CardContent> */}
             </CardActionArea>
-        </Card>
+        </Card> */}
         </Button>
         </Box>
     </Box>
