@@ -69,3 +69,16 @@ export const getSalt = (email) => {
       return err;
     });
 };
+
+export const updateUserDetails = (user) => {
+  let url = APP_ROUTES.Authentication.updateUserDetails;
+  let data = { user: user };
+  return axios
+    .post(url, data, POST_HEADERS())
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+};

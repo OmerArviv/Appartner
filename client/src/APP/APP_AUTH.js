@@ -21,3 +21,11 @@ export const setUserEmail = (email) => {
 export const getUserEmail = () => {
   return Cookies.get("user_email");
 };
+
+export const setUserRole = (role) => {
+  Cookies.set("user_role", role);
+};
+
+export const getUserRole = () => {
+  return Cookies.get("user_role");
+};

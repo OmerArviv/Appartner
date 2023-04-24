@@ -13,6 +13,7 @@ export const APP_ROUTES = {
     login: `${AUTHENTICATION_ENPOINT}/login`,
     validateUserLoggedIn: `${AUTHENTICATION_ENPOINT}/login_test`,
     getUserSalt: `${AUTHENTICATION_ENPOINT}/getUserSalt`,
+    updateUserDetails: `${AUTHENTICATION_ENPOINT}/updateUserDetails`,
   },
 
   userProfile: {

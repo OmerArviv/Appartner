@@ -27,7 +27,7 @@ const Login = (props) => {
   const handleLogin = () => {
     setAuthenticated(true);
     // if (true || checkUserProfileExist(userEmail)) {
-    navigate("/");
+    navigate("/create-profile/who-are-you");
     // } else {
     //   navigate("/create-profile");
     // }
