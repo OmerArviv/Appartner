@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, TextField } from "@mui/material";
-import { Card, CardActionArea, CardMedia } from "@mui/material";
+import { CardActionArea, CardMedia } from "@mui/material";
 import { useEffect } from "react";
 
 import { useState } from "react";
