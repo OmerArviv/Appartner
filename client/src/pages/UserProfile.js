@@ -21,6 +21,12 @@ const Topic = ({ label, value }) => (
     </Box>
 );
 
+const btnstyle = {
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+};
+
 const UserProfile = () => {
     const { setPageTitle } = useContext(pageTitleContext);
 
@@ -57,17 +63,10 @@ const UserProfile = () => {
                                 />
                                 <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
                                     <Button
-                                        variant="outlined"
-                                        sx={{
-                                            borderColor: "black",
-                                            bgcolor: "grey.800",
-                                            color: "white",
-                                            fontSize: "1.2rem",
-                                            borderWidth: "0.2rem",
-                                            "&:hover": { bgcolor: "grey.800", color: "white" },
-                                            "&:active": { bgcolor: "grey.800", color: "white" },
-                                            "&:focus": { bgcolor: "grey.800", color: "white" },
-                                        }}
+                                        variant="contained"
+                                        // onClick={onSubmitHandler}
+                                        style={btnstyle}
+                                        sx={{ width: "300px", marginBottom: "20px" }}
                                     >
                                         CHANGE PROFILE IMAGE
                                     </Button>
@@ -86,17 +85,10 @@ const UserProfile = () => {
                                     <Topic label="Additional Information" value="I like to sing and play the guitar" />
                                     <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
                                         <Button
-                                            variant="outlined"
-                                            sx={{
-                                                borderColor: "black",
-                                                bgcolor: "grey.800",
-                                                color: "white",
-                                                fontSize: "1.2rem",
-                                                borderWidth: "0.2rem",
-                                                "&:hover": { bgcolor: "grey.800", color: "white" },
-                                                "&:active": { bgcolor: "grey.800", color: "white" },
-                                                "&:focus": { bgcolor: "grey.800", color: "white" },
-                                            }}
+                                            variant="contained"
+                                            // onClick={onSubmitHandler}
+                                            style={btnstyle}
+                                            sx={{ width: "300px", marginBottom: "20px" }}
                                         >
                                             EDIT PROFILE
                                         </Button>

@@ -31,8 +31,11 @@ const RoundedPicture = ({ src, alt, text }) => (
     </Box>
 );
 
-
-
+const btnstyle = {
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+};
 
 const Topic = ({ label, value }) => (
     <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
@@ -131,17 +134,10 @@ const Apartment = () => {
                 </Grid>
                 <Box sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
                     <Button
-                        variant="outlined"
-                        sx={{
-                            borderColor: "black",
-                            bgcolor: "grey.800",
-                            color: "white",
-                            fontSize: "1.2rem",
-                            borderWidth: "0.2rem",
-                            "&:hover": { bgcolor: "grey.800", color: "white" },
-                            "&:active": { bgcolor: "grey.800", color: "white" },
-                            "&:focus": { bgcolor: "grey.800", color: "white" },
-                        }}
+                        variant="contained"
+                        // onClick={onSubmitHandler}
+                        style={btnstyle}
+                        sx={{ width: "300px", marginBottom: "20px" }}
                     >
                         I LOVE THIS APARTMENT, SEND REQUEST
                     </Button>
