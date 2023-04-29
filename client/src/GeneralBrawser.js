@@ -16,6 +16,7 @@ import SpeechToText from "./components/Speechtotextapi/Speechtotext";
 import Apartment from "./pages/Apartment";
 import UserProfile from "./pages/UserProfile";
 import CreateApartment from "./pages/CreateApartment";
+import LookerHomePage from "./pages/LookerHomePage";
 
 function GeneralBrawser() {
   const { authenticated } = useContext(authContext);
@@ -38,6 +39,7 @@ function GeneralBrawser() {
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
+          <Route path="/looker-home-page" element={<LookerHomePage />} />
         </Routes>
       ) : (
         <Routes>
