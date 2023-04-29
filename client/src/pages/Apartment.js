@@ -137,7 +137,7 @@ const Apartment = () => {
                         variant="contained"
                         // onClick={onSubmitHandler}
                         style={btnstyle}
-                        sx={{ width: "300px", marginBottom: "20px" }}
+                        sx={{ width: "400px", marginBottom: "20px" }}
                     >
                         I LOVE THIS APARTMENT, SEND REQUEST
                     </Button>

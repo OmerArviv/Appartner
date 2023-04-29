@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const UserProfileService = require("../Service/UserProfileService");
 const router = express.Router();
 const auth = require("../middleware/auth");
@@ -16,5 +17,6 @@ router.route("/createProfile").post(auth, async (request, response) => {
   }
   return response.status(403).send({});
 });
+
 
 module.exports = router;

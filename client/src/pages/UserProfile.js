@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext } from "../APP/Utils";
+import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
     maxWidth: "100%",
@@ -29,10 +30,45 @@ const btnstyle = {
 
 const UserProfile = () => {
     const { setPageTitle } = useContext(pageTitleContext);
+    const [age, setAge] = useState();
+    const [gender, setGender] = useState();
+    const [employment, setEmployment] = useState();
+    const [alcohol, setAlcohol] = useState();
+    const [kosher, setKosher] = useState();
+    const [smoking, setSmoking] = useState();
+    const [pets, setPets] = useState();
+    const [additionInfo, setAdditionInfo] = useState();
 
     useEffect(() => {
         setPageTitle("Apartment");
     }, [setPageTitle]);
+
+    useEffect(() => {
+        const email = getUserEmail();
+        fetch("http://localhost:8000/email", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                let uProfile = data.message;
+                console.log(data.message); // logs "Email received"
+                setAge(uProfile.Birthday_date);
+                setGender(uProfile.gender);
+                setEmployment(uProfile.user_employment);
+                setAlcohol(uProfile.alcohol);
+                setKosher(uProfile.kosher);
+                setSmoking(uProfile.smoking);
+                setPets(uProfile.pets);
+                setAdditionInfo(uProfile.user_additonal_information);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     return (
         <Grid
@@ -76,13 +112,14 @@ const UserProfile = () => {
                             <Grid item xs={2} />
                             <Grid item xs={5}>
                                 <Box sx={{ height: "fit-content" }}>
-                                    <Topic label="Age" value="24-25" />
-                                    <Topic label="Gender" value="Female" />
-                                    <Topic label="Employment" value="Student" />
-                                    <Topic label="Alcohol" value="Sometimes" />
-                                    <Topic label="Smoking" value="Sometimes" />
-                                    <Topic label="Pets" value="No" />
-                                    <Topic label="Additional Information" value="I like to sing and play the guitar" />
+                                    <Topic label="Age" value={age} />
+                                    <Topic label="Gender" value={gender} />
+                                    <Topic label="Employment" value={employment} />
+                                    <Topic label="Alcohol" value={alcohol} />
+                                    <Topic label="Smoking" value={smoking} />
+                                    <Topic label="Kosher" value={kosher} />
+                                    <Topic label="Pets" value={pets} />
+                                    <Topic label="Additional Information" value={additionInfo} />
                                     <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
                                         <Button
                                             variant="contained"
