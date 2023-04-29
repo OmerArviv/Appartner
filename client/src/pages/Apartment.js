@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext } from "../APP/Utils";
+import Carousel from "react-material-ui-carousel";
+import UserCarousel from "../components/UserCarousel";
 
 const BigPicture = styled("img")(({ theme }) => ({
     maxWidth: "100%",
@@ -45,6 +47,13 @@ const Topic = ({ label, value }) => (
         <Typography variant="h6">{value}</Typography>
     </Box>
 );
+
+const apartmentImages = [
+    "https://picsum.photos/300/101",
+    "https://picsum.photos/300/102",
+    "https://picsum.photos/300/103",
+    "https://picsum.photos/300/104"
+]
 
 const Apartment = () => {
     const { setPageTitle } = useContext(pageTitleContext);
@@ -106,6 +115,7 @@ const Apartment = () => {
                                         />
                                     </Grid>
                                 </Grid>
+                                <UserCarousel apartmentImages={apartmentImages} />
                             </Grid>
                             <Grid item xs={2} />
                             <Grid item xs={5}>
