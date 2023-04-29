@@ -5,11 +5,10 @@ import { pageTitleContext } from "../APP/Utils";
 import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
     width: "100%",
-    height: "auto",
+    height: "400px",
     objectFit: "cover",
-    borderRadius: "50%",
+    borderRadius: "20%",
     marginBottom: theme.spacing(2),
 }));
 
@@ -40,7 +39,7 @@ const UserProfile = () => {
     const [additionInfo, setAdditionInfo] = useState();
 
     useEffect(() => {
-        setPageTitle("Apartment");
+        setPageTitle("User Profile");
     }, [setPageTitle]);
 
     useEffect(() => {
@@ -92,26 +91,26 @@ const UserProfile = () => {
                             justifyContent="center"
                             spacing={2}
                         >
-                            <Grid item xs={5}>
-                                <ProfilePicture
-                                    src="https://picsum.photos/300/201"
-                                    alt="Profile Picture"
-                                />
+                            <Grid item xs={12} sm={5}>
+                                <Box sx={{ height: 400, overflow: "hidden" }}>
+                                    <ProfilePicture
+                                        src="https://picsum.photos/300/201"
+                                        alt="Profile Picture"
+                                    />
+                                </Box>
                                 <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
                                     <Button
                                         variant="contained"
-                                        // onClick={onSubmitHandler}
                                         style={btnstyle}
                                         sx={{ width: "300px", marginBottom: "20px" }}
                                     >
                                         CHANGE PROFILE IMAGE
                                     </Button>
-
                                 </Box>
                             </Grid>
                             <Grid item xs={2} />
                             <Grid item xs={5}>
-                                <Box sx={{ height: "fit-content" }}>
+                                <Box sx={{ height: 400 }}>
                                     <Topic label="Age" value={age} />
                                     <Topic label="Gender" value={gender} />
                                     <Topic label="Employment" value={employment} />
@@ -120,17 +119,15 @@ const UserProfile = () => {
                                     <Topic label="Kosher" value={kosher} />
                                     <Topic label="Pets" value={pets} />
                                     <Topic label="Additional Information" value={additionInfo} />
-                                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
-                                        <Button
-                                            variant="contained"
-                                            // onClick={onSubmitHandler}
-                                            style={btnstyle}
-                                            sx={{ width: "300px", marginBottom: "20px" }}
-                                        >
-                                            EDIT PROFILE
-                                        </Button>
-
-                                    </Box>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
+                                    <Button
+                                        variant="contained"
+                                        style={btnstyle}
+                                        sx={{ width: "300px", marginBottom: "20px" }}
+                                    >
+                                        EDIT PROFILE
+                                    </Button>
                                 </Box>
                             </Grid>
                         </Grid>

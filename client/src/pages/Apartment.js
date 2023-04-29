@@ -67,13 +67,18 @@ const Apartment = () => {
                             spacing={2}
                         >
                             <Grid item xs={12} sm={5}>
-                                <Box sx={{ height: "fit-content" }}>
+                                <Box sx={{ height: 450 }}>
                                     <UserCarousel apartmentImages={apartmentImages} height={300} />
                                 </Box>
+                                <RoundedPicture
+                                    src="https://picsum.photos/101"
+                                    alt="Profile Picture 5"
+                                    text="Omer Bar, 27"
+                                />
                             </Grid>
                             <Grid item xs={12} sm={2} />
                             <Grid item xs={12} sm={5}>
-                                <Box sx={{ height: "fit-content" }}>
+                                <Box sx={{ height: 450 }}>
                                     <Topic label="Age:" value="24-25" />
                                     <Topic label="Location:" value="New York" />
                                     <Topic label="Price:" value="$2000/month" />
@@ -81,19 +86,12 @@ const Apartment = () => {
                                     <Topic label="Elevator:" value="Yes" />
                                     <Topic label="Parking:" value="No" />
                                     <Topic label="Pets:" value="Yes" />
-                                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                                        <RoundedPicture
-                                            src="https://picsum.photos/100"
-                                            alt="Profile Picture 5"
-                                            text="Noa Sharon, 25"
-                                        />
-                                        <RoundedPicture
-                                            src="https://picsum.photos/101"
-                                            alt="Profile Picture 5"
-                                            text="Omer Bar, 27"
-                                        />
-                                    </Box>
                                 </Box>
+                                <RoundedPicture
+                                    src="https://picsum.photos/100"
+                                    alt="Profile Picture 5"
+                                    text="Noa Sharon, 25"
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -107,7 +105,6 @@ const Apartment = () => {
                     >
                         I LOVE THIS APARTMENT, SEND REQUEST
                     </Button>
-
                 </Box>
             </Grid>
         </Grid>
