@@ -1,34 +1,125 @@
 import {Box, Card,} from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import DialogImage from "./DialogImage";
 
 const UploadImages= (props)=>{
-    const [arrayImages, setArrayImages]= useState("");
+    const arrayImages= ["","","",""];
     const [image1, setImage1]= useState("");
-
-    function arrayImagesHandler(index){
-        console.log("arrayImages update"); 
-
-        arrayImages[index]="image"+ index;
-        alert.log(arrayImages); 
+    const [image2, setImage2]= useState("");
+    const [image3, setImage3]= useState("");
+    const [image4, setImage4]= useState("");
 
 
-    }
+    useEffect( () => {
+        if(image1){
+            console.log("array - img 1");
+            arrayImages[0]=image1;
+            console.log(arrayImages)
+        }
+        else{
+            arrayImages[0]=""; 
+        }
+        if(image2){
+            console.log("array - img 2");
+            arrayImages[1]=image2; 
+            console.log(arrayImages)
+        }
+        else{
+            arrayImages[1]=""; 
+        }
+        if(image3){
+            console.log("array - img 3");
+            arrayImages[2]=image3; 
+            console.log(arrayImages)
+        }
+        else{
+            arrayImages[2]=""; 
+        }
+        if(image4){
+            console.log("array - img 4");
+            arrayImages[3]=image4; 
+            console.log(arrayImages)
+        }
+        else{
+            arrayImages[3]=""; 
+        }
+        props.setArrayImages(arrayImages);
+      },[image1, image2, image3, image4]);
 
-    // useEffect(()=>{
-    //     if(image1){
-    //         setImage1(image1); 
-    //         arrayImagesHandler(1);
-    //         console.log(arrayImages); 
-    //         image1Handler("change image1");
+    //   useEffect( () => {
+    //     if(image2){
+    //         console.log("array - img 1");
+    //         arrayImages[1]=image2; 
+    //         console.log(arrayImages)
     //     }
-    // })
+    //     else{
+    //         arrayImages[1]=""; 
+    //     }
+    //     if(image3){
+    //         console.log("array - img 1");
+    //         arrayImages[2]=image3; 
+    //         console.log(arrayImages)
+    //     }
+    //     else{
+    //         arrayImages[2]=""; 
+    //     }
+    //     if(image4){
+    //         console.log("array - img 1");
+    //         arrayImages[3]=image4; 
+    //         console.log(arrayImages)
+    //     }
+    //     else{
+    //         arrayImages[3]=""; 
+    //     }
+    //   },[image2]);
 
-    function image1Handler(img){
-        console.log("in image1"); 
-        setImage1(img);
-        console.log(arrayImages); 
-    }
+    //   useEffect( () => {
+    //     if(image3){
+    //         console.log("array - img 1");
+    //         arrayImages[2]=image3; 
+    //         console.log(arrayImages)
+    //     }
+    //     else{
+    //         arrayImages[2]=""; 
+    //     }
+    //   },[image3]);
+
+    //   useEffect( () => {
+    //     if(image4){
+    //         console.log("array - img 1");
+    //         arrayImages[3]=image4; 
+    //         console.log(arrayImages)
+    //     }
+    //     else{
+    //         arrayImages[3]=""; 
+    //     }
+    //   },[image4]);
+
+
+    // function image1Handler(img){
+    //     // console.log("in image1"); 
+    //     // setImage1(img);
+    //     arrayImages[0]=img; 
+    //     // arrayImages=image1; 
+    //     console.log("array Image"); 
+    //     console.log(arrayImages);
+    //     console.log("done image 1"); 
+    //     console.log(arrayImages);
+
+
+    // };
+
+    // function image2Handler(img){
+    //     // console.log("in image2"); 
+    //     // setImage2(img);
+    //     arrayImages[1]=img; 
+    //     console.log("array Image 2"); 
+    //     console.log(arrayImages);
+    //     console.log("done image 2"); 
+    //     console.log(arrayImages);
+
+
+    // };
 
     return(
         <>
@@ -36,11 +127,17 @@ const UploadImages= (props)=>{
         <Box item="true" xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
         
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
-            <DialogImage setImage={image1Handler}/>
+            <DialogImage setImage={setImage1}/>
             </Card>
+            {console.log("image1")}
+
+            {console.log(image1)}
 
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
-            <DialogImage/>
+            <DialogImage setImage={setImage3}/>
+            {console.log("image3")}
+
+            {console.log(image3)}
             </Card>
            
             {/* <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
@@ -73,7 +170,12 @@ const UploadImages= (props)=>{
 
             <Box item="true" xs={4} sx={{ width: "auto", marginLeft:"auto", marginRight:'auto'}} >
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto',}}>
-              <DialogImage/>
+              <DialogImage setImage={setImage2} />
+
+
+              {console.log("image2")}
+
+                {console.log(image2)}
                 {/* <CardActionArea>
                     <CardMedia
                     component="img"
@@ -85,7 +187,12 @@ const UploadImages= (props)=>{
                 </CardActionArea> */}
             </Card>
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
-              <DialogImage/>
+              <DialogImage setImage={setImage4}/>
+
+              {console.log("image4")}
+
+                {console.log(image4)}
+
                 {/* <CardActionArea>
                     <CardMedia
                     component="img"

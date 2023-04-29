@@ -34,14 +34,16 @@ function DialogImage(props){
 
      useEffect( () => {
         if(urlImage){
-            console.log("newImage");
-            props.setImage(image);
+            console.log("use effect");
             setImage(urlImage);
-            console.log(urlImage);
-            console.log(image);
+            console.log(props.setImage)
+            props.setImage(urlImage);
+
+            // console.log(image);
         }
         else{
             setImage("https://i0.wp.com/getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg");
+            // props.setImage("");
         }
         handleClose();
       },[urlImage]);
