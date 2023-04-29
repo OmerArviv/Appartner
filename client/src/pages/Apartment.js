@@ -2,25 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext } from "../APP/Utils";
-import Carousel from "react-material-ui-carousel";
 import UserCarousel from "../components/UserCarousel";
-
-const BigPicture = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
-    width: "100%",
-    height: "auto",
-    objectFit: "cover",
-    marginBottom: theme.spacing(2),
-}));
-
-const SmallPicture = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
-    width: "100%",
-    height: "auto",
-    objectFit: "cover",
-    marginBottom: theme.spacing(2),
-    marginRight: theme.spacing(1),
-}));
 
 const RoundedPicture = ({ src, alt, text }) => (
     <Box sx={{ position: "relative", display: "inline-block", textAlign: "center", marginRight: 2 }}>
@@ -84,41 +66,13 @@ const Apartment = () => {
                             justifyContent="center"
                             spacing={2}
                         >
-                            <Grid item xs={5}>
-                                <BigPicture
-                                    src="https://picsum.photos/300/201"
-                                    alt="Profile Picture"
-                                />
-                                <Grid container justifyContent="center" spacing={2}>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 1"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 2"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 3"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 4"
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <UserCarousel apartmentImages={apartmentImages} />
+                            <Grid item xs={12} sm={5}>
+                                <Box sx={{ height: "fit-content" }}>
+                                    <UserCarousel apartmentImages={apartmentImages} height={300} />
+                                </Box>
                             </Grid>
-                            <Grid item xs={2} />
-                            <Grid item xs={5}>
+                            <Grid item xs={12} sm={2} />
+                            <Grid item xs={12} sm={5}>
                                 <Box sx={{ height: "fit-content" }}>
                                     <Topic label="Age:" value="24-25" />
                                     <Topic label="Location:" value="New York" />
@@ -127,16 +81,18 @@ const Apartment = () => {
                                     <Topic label="Elevator:" value="Yes" />
                                     <Topic label="Parking:" value="No" />
                                     <Topic label="Pets:" value="Yes" />
-                                    <RoundedPicture
-                                        src="https://picsum.photos/100"
-                                        alt="Profile Picture 5"
-                                        text="Noa Sharon, 25"
-                                    />
-                                    <RoundedPicture
-                                        src="https://picsum.photos/101"
-                                        alt="Profile Picture 5"
-                                        text="Omer Bar, 27"
-                                    />
+                                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                        <RoundedPicture
+                                            src="https://picsum.photos/100"
+                                            alt="Profile Picture 5"
+                                            text="Noa Sharon, 25"
+                                        />
+                                        <RoundedPicture
+                                            src="https://picsum.photos/101"
+                                            alt="Profile Picture 5"
+                                            text="Omer Bar, 27"
+                                        />
+                                    </Box>
                                 </Box>
                             </Grid>
                         </Grid>

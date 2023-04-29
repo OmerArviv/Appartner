@@ -20,7 +20,7 @@ function CarouselItem(props) {
     const { item } = props;
     return (
         <Paper>
-            <img src={item} />
+            <img src={item} style={{ height: '400px', width: '100%' }} />
         </Paper>
     )
 }
