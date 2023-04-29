@@ -6,8 +6,8 @@ const data={
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_K499eYY1TlP-vJ9TPcBDqTf6Cj8RLG-CaA&usqp=CAU",
     address: "Rotchild , Tel Aviv",
     price: "1500$",
-    roommates_images: ["https://cdn.w600.comps.canstockphoto.co.il/%D7%90%D7%95%D7%A4%D7%99-%D7%A9%D7%9E%D7%97-%D7%90%D7%95-%D7%A6%D7%99%D7%95%D7%A8-%D7%94%D7%99%D7%AA%D7%95%D7%9C%D7%99-%D7%90%D7%99%D7%A9-%D7%A2%D7%A1%D7%A7%D7%99%D7%9D-%D7%95%D7%A7%D7%98%D7%95%D7%A8-%D7%90%D7%99%D7%A4%D7%A1%D7%90%D7%A1_csp75767149.jpg",
-     "https://static.wixstatic.com/media/df7dea_64c7fb48c5d54b3b832cc73724099420~mv2.jpg/v1/fill/w_625,h_938,al_c,q_85,usm_0.66_1.00_0.01/df7dea_64c7fb48c5d54b3b832cc73724099420~mv2.webp"]
+    roommates_images: ["https://images.squarespace-cdn.com/content/v1/522b327ee4b0673919bbe57a/1551246035214-6CO98SNBGLT6CXDAR2H1/%D7%92%D7%9C-%D7%A9%D7%9C%D7%95%D7%9D-%D7%9B%D7%94%D7%9F_01_1500.jpg",
+     "https://images.squarespace-cdn.com/content/v1/522b327ee4b0673919bbe57a/1551246048479-DN3TH6PYE3PKCPDGMVNH/%D7%A0%D7%95%D7%A2%D7%94-%D7%9C%D7%A4%D7%99%D7%93%D7%95%D7%AA_01_1500.jpg"]
 };
 
 function LookerHomePage(){
