@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 import { pageTitleContext } from "../APP/Utils";
-import ApartmentListItem from "../components/ApartmentListItem";
-
+import ApartmentList from "../components/ApartmentList";
 const data={
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_K499eYY1TlP-vJ9TPcBDqTf6Cj8RLG-CaA&usqp=CAU",
     address: "Rotchild , Tel Aviv",
@@ -18,8 +17,8 @@ function LookerHomePage(){
       },[]);
 
     return (<>
-    
-    <ApartmentListItem data={data}/>
+    <ApartmentList/>
+    {/* <ApartmentListItem data={data}/> */}
     
     </>)
 }
