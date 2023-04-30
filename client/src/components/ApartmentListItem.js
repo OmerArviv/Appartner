@@ -13,12 +13,12 @@ const roommates= props.data.roommates_images;
         
         {/* <Box item="true" sx={{ height: "fit-content", width: "fit-content"}}> */}
     
-        <CardActionArea >
+        <CardActionArea sx={{width:"fit-content"}}>
         <CardContent>
         <CardMedia
                 component="img"
-                height="300"
-                width="300"
+                height="250"
+                width="250"
                 src={props.data.image}
                 alt="home image"
                 sx={{borderRadius: 3, boxShadow: 5}}

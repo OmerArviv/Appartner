@@ -17,9 +17,7 @@ function LookerHomePage(){
       },[]);
 
     return (<>
-    <ApartmentList/>
-    {/* <ApartmentListItem data={data}/> */}
-    
+    <ApartmentList/>    
     </>)
 }
 
