@@ -6,10 +6,14 @@ import {
   Select,
   MenuItem,
   Button,
+  CardContent,
+  Slider,
+  Typography,
 } from "@mui/material";
 import { pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
 import { useContext, useEffect, useState } from "react";
+import DialogAddCollabrator from "../components/DialogAddCollabrator";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -25,9 +29,9 @@ const CreateApartment = () => {
   }, []);
 
   const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState([18, 75]);
   const [location, setLocation] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState([2500, 5500]);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
@@ -36,14 +40,14 @@ const CreateApartment = () => {
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
+  const handleAgeChange = (event, newValue) => {
+    setAge(newValue);
   };
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
   };
-  const handlePriceChange = (event) => {
-    setPrice(event.target.value);
+  const handlePriceChange = (event, newValue) => {
+    setPrice(newValue);
   };
   const handleElevatorChange = (event) => {
     setElevator(event.target.value);
@@ -58,31 +62,74 @@ const CreateApartment = () => {
     setRoomates(event.target.value);
   };
 
+  function valueAgetext(value) {
+    return `${value}`;
+  }
+  function valuePricetext(value) {
+    return `${value}`;
+  }
+
   return (
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        <TextField
-          id="Age"
-          label="Enter Age Range"
-          value={age}
-          onChange={handleAgeChange}
-          sx={{ width: "300px", marginBottom: "20px" }}
-        ></TextField>
+        <FormControl sx={{ mt: 3, width: "400px" }}>
+          <CardContent>
+            <InputLabel
+              sx={{ fontSize: 20, textDecoration: "bolt" }}
+              shrink
+              id="ages-range-label"
+            >
+              Enter age range
+            </InputLabel>
+            <Slider
+              getAriaLabel={() => "Age range"}
+              value={age}
+              onChange={handleAgeChange}
+              valueLabelDisplay="auto"
+              getAriaValueText={valueAgetext}
+              min={18}
+              max={75}
+              size="small"
+              sx={{ color: "black" }}
+            />
+            <Typography>
+              The range of ages: {`${age[0]}`}-{`${age[1]}`}
+            </Typography>
+          </CardContent>
+        </FormControl>
         <TextField
           id="location"
           label="Enter Location"
           value={location}
           onChange={handleLocationChange}
-          sx={{ width: "300px", marginBottom: "20px" }}
+          sx={{ width: "400px", marginBottom: "20px" }}
         ></TextField>
-        <TextField
-          id="price"
-          label="Enter Price"
-          value={price}
-          onChange={handlePriceChange}
-          sx={{ width: "300px", marginBottom: "20px" }}
-        ></TextField>
-        <FormControl sx={{ width: "300px", marginBottom: "20px" }}>
+        <FormControl sx={{ width: "400px", marginTop: "10px" }}>
+          <CardContent>
+            <InputLabel
+              sx={{ fontSize: 20, textDecoration: "bolt" }}
+              shrink
+              id="price-range-label"
+            >
+              Enter price range
+            </InputLabel>
+            <Slider
+              getAriaLabel={() => "Price range"}
+              value={price}
+              onChange={handlePriceChange}
+              valueLabelDisplay="auto"
+              getAriaValueText={valuePricetext}
+              min={1000}
+              max={10000}
+              size="small"
+              sx={{ color: "black" }}
+            />
+            <Typography>
+              The range of price: {`${price[0]}`}-{`${price[1]}`} $ ₪
+            </Typography>
+          </CardContent>
+        </FormControl>
+        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Gender-label">Gender</InputLabel>
           <Select
             labelId="Gender-label"
@@ -97,7 +144,7 @@ const CreateApartment = () => {
         </FormControl>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        <FormControl sx={{ width: "300px", marginBottom: "20px" }}>
+        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Elevator-label">Elevator</InputLabel>
           <Select
             labelId="Elevator-label"
@@ -110,7 +157,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ width: "300px", marginBottom: "20px" }}>
+        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Parking-label">Parking</InputLabel>
           <Select
             labelId="Parking-label"
@@ -123,7 +170,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ width: "300px", marginBottom: "20px" }}>
+        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Smoking-label">Smoking</InputLabel>
           <Select
             labelId="Smoking-label"
@@ -136,7 +183,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ width: "300px", marginBottom: "20px" }}>
+        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Roomates-label">Roomates</InputLabel>
           <Select
             labelId="Roomates-label"
@@ -152,13 +199,9 @@ const CreateApartment = () => {
             <MenuItem value="5">5</MenuItem>
           </Select>
         </FormControl>
-        <Button
-          variant="contained"
-          // onClick={onSubmitHandler}
-          style={btnstyle}
-          sx={{ width: "300px", marginBottom: "20px" }}
-        >
-          Add Collabrator
+        <DialogAddCollabrator></DialogAddCollabrator>
+        <Button style={btnstyle} sx={{ width: "400px", marginTop: "100px" }}>
+          Create My Apartment
         </Button>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
