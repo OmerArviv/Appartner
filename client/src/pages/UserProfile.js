@@ -44,7 +44,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         const email = getUserEmail();
-        fetch("http://localhost:8000/email", {
+        fetch("http://localhost:8000/email-userprofile", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

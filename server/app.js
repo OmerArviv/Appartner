@@ -28,7 +28,7 @@ app.post("/authentication/login_test", auth, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
 });
 
-app.post("/email", async (req, res) => {
+app.post("/email-userprofile", async (req, res) => {
   const email = req.body.email;
   try {
     const uProfile = await userProfile.findOne({ email: email });
