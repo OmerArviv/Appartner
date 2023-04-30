@@ -71,6 +71,7 @@ export const getSalt = (email) => {
 };
 
 export const updateUserDetails = (user) => {
+  console.log(user);
   let url = APP_ROUTES.Authentication.updateUserDetails;
   let data = { user: user };
   return axios
@@ -80,5 +81,25 @@ export const updateUserDetails = (user) => {
     })
     .catch((err) => {
       return err;
+    });
+};
+
+export const getUserByEmail = (email) => {
+  let url = APP_ROUTES.Authentication.getUserByEmail;
+  let data = { email: email };
+  return axios
+    .get(url, {
+      params: data,
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
     });
 };

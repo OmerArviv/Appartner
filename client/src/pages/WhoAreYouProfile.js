@@ -13,6 +13,9 @@ import { useNavigate, Navigate } from "react-router-dom";
 import looker_img from "../images/looker_img.png";
 import welcomer_img from "../images/welcomer_img.png";
 import { pageTitleContext } from "../APP/Utils";
+import { updateUserDetails } from "../controller/authenticationController";
+import { getUserEmail } from "../APP/APP_AUTH";
+import { setUserRole } from "../APP/APP_AUTH";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -29,6 +32,30 @@ const WhoAreYouProfile = () => {
   useEffect(() => {
     setPageTitle("Who Are You?");
   }, []);
+
+  const onUserRoleUpdate = async () => {
+    const email = getUserEmail();
+    if (email && userType) {
+      const res = await updateUserDetails({
+        email: email,
+        role: userType,
+      });
+      if ((res.status = 200)) {
+        setUserRole(userType);
+        navigate("/create-profile");
+      } else {
+        alert("Something went wrong!");
+      }
+    } else {
+      alert("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    if (userType) {
+      onUserRoleUpdate();
+    }
+  }, [userType]);
 
   return (
     <>

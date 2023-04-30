@@ -112,4 +112,17 @@ router.route("/updateUserDetails").post(async (request, response) => {
   return response.status(400).send("Invalid Credentials");
 });
 
+router.route("/getUserByEmail").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const user = await UserService.findUserByEmail(email);
+  if (user) {
+    return response.status(200).json(user);
+  }
+  return response.status(403).send({});
+});
+
 module.exports = router;

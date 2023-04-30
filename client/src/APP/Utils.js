@@ -23,7 +23,6 @@ export const authContext = createContext("");
 
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
-
   async function checkLoggedIn() {
     let res = await validateUserLoggedIn();
     setAuthenticated(res);
