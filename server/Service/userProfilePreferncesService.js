@@ -23,4 +23,9 @@ module.exports = class UserProfilePrefernceService {
         return null;
       });
   }
+
+  static async findUserProfilePreferncesByEmail(email) {
+    const res = await UserProfilePrefernces.findOne({ email });
+    return res;
+  }
 };

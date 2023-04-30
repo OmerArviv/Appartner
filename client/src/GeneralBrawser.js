@@ -35,7 +35,6 @@ function GeneralBrawser() {
             path="/create-profile/set-prefernces"
             element={<SetPrefernces />}
           />
-          <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
           <Route path="/apartment" element={<Apartment />} />

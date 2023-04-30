@@ -94,4 +94,35 @@ router.route("/getUserSalt").get(async (request, response) => {
   return response.status(403).send({});
 });
 
+router.route("/updateUserDetails").post(async (request, response) => {
+  // Get user input
+  const { user } = request.body;
+
+  // Validate user input
+  if (!(user && user.email)) {
+    return response.status(400).send("Something went wrong");
+  }
+
+  // Update user
+  const res = await UserService.updateUserByEmail(user);
+
+  if (res) {
+    return response.status(200).json(user);
+  }
+  return response.status(400).send("Invalid Credentials");
+});
+
+router.route("/getUserByEmail").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const user = await UserService.findUserByEmail(email);
+  if (user) {
+    return response.status(200).json(user);
+  }
+  return response.status(403).send({});
+});
+
 module.exports = router;

@@ -12,6 +12,7 @@ export const setTokenAfterSignIn = (token, email) => {
 export const RemoveTokenAfterSignOut = () => {
   Cookies.remove("app_us_tk");
   Cookies.remove("user_email");
+  Cookies.remove("user_role");
 };
 
 export const setUserEmail = (email) => {
@@ -20,4 +21,13 @@ export const setUserEmail = (email) => {
 
 export const getUserEmail = () => {
   return Cookies.get("user_email");
+};
+
+export const setUserRole = (role) => {
+  //Welcomer / Looker
+  Cookies.set("user_role", role);
+};
+
+export const getUserRole = () => {
+  return Cookies.get("user_role");
 };
