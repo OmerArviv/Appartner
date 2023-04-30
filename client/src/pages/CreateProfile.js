@@ -32,9 +32,10 @@ const genderOptions = ["Male", "Female", "Other"];
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-  const { setPageTitle } = useContext(pageTitleContext);
-
-  useEffect(() => {
+  const {setPageTitle} = useContext(pageTitleContext);
+  // const [arrayImages, setArrayImages]= useState(null);
+      
+  useEffect(()=>{
     setPageTitle("Create Profile");
   }, []);
   // const [userInstagramLink, setUserInstagramLink]=useState(null);
@@ -115,11 +116,24 @@ const CreateProfile = () => {
   }
 
   function userImagesArrayHandler(arr) {
-    console.log("set images array");
-    setUserImagesArray(arr);
-    console.log(arr);
+    console.log("set images array handler");
+    const newArray=[]; 
+    if(arr[0]!=""){
+      newArray.push(arr[0]); 
+    }if(arr[1]!=""){
+      newArray.push(arr[1]); 
+    }if(arr[2]!=""){
+      newArray.push(arr[2]); 
+    }if(arr[3]!=""){
+      newArray.push(arr[3]); 
+    }
+    if(newArray!= null){
+    setUserImagesArray(newArray);
+    }
+    console.log(userImagesArray);
   }
 
+  
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = await getUserEmail();
@@ -148,6 +162,7 @@ const CreateProfile = () => {
         user_additonal_information: userAdditonal,
         user_facebook_link: userFacebookLink,
         user_instagram_link: userInstagramLink,
+        user_images_array: userImagesArray,
       };
       const result = await createUserProfile(userProfile);
       if (result.status == 201) {
@@ -308,7 +323,6 @@ const CreateProfile = () => {
                   id="gender"
                   value={userGender}
                   onChange={userGenderHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {genderOptions.map((o) => (
@@ -400,7 +414,8 @@ const CreateProfile = () => {
         </Box>
 
         {/*Third Box photos */}
-        <UploadImages />
+        <UploadImages  setArrayImages={userImagesArrayHandler}/>
+        
       </Box>
 
       {/*4 Box down */}

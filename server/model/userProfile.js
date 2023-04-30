@@ -14,6 +14,7 @@ const userProfileSchema = new mongoose.Schema({
     user_additonal_information: {type:String, default: null},
     user_facebook_link:{type:String, default: null},
     user_instagram_link:{type:String, default: null},
+    user_images_array: {type: Array, default:null},
 });
 
 module.exports = mongoose.model("userProfile", userProfileSchema);

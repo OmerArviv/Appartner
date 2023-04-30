@@ -12,4 +12,9 @@ module.exports = class UserProfileService {
         return null;
       });
   }
+
+  static async findUserProfileByEmail(email) {
+    const res = await usersProfile.findOne({ email });
+    return res;
+  }
 };

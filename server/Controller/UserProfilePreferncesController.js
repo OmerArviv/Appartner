@@ -37,4 +37,18 @@ router
     return response.status(403).send({});
   });
 
+router.route("/getUserPreferncesByEmail").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const userPrefernces =
+    await UserProfilePreferncesService.findUserProfilePreferncesByEmail(email);
+  if (userPrefernces) {
+    return response.status(200).json(userPrefernces);
+  }
+  return response.status(200).send(null);
+});
+
 module.exports = router;
