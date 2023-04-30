@@ -13,11 +13,12 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { loginTest, register } from "../controller/authenticationController";
+import { register } from "../controller/authenticationController";
 import { useContext, useEffect } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
 
 const Register = (props) => {
   // const {setPageTitle} = useContext(pageTitleContext);
@@ -30,6 +31,7 @@ const Register = (props) => {
   const [userPassword, setUserPassword] = useState();
   const [userName, setUserName] = useState();
   const [userPhone, setUserPhone] = useState();
+  const [userSalt, setUserSalt] = useState();
 
   useEffect(() => {
     setPageTitle("Sign Up");
@@ -43,7 +45,11 @@ const Register = (props) => {
     setUserEmail(event.target.value);
   };
   const onChangeUserPasswordHandler = (event) => {
-    setUserPassword(event.target.value);
+    const salt = bcrypt.genSaltSync(10);
+    setUserPassword(bcrypt.hashSync(event.target.value, salt));
+    setUserSalt(salt);
+    console.log(userPassword);
+    console.log(salt);
   };
   const onChangeUserNameHandler = (event) => {
     setUserName(event.target.value);
@@ -59,6 +65,7 @@ const Register = (props) => {
         userName,
         userEmail,
         userPassword,
+        userSalt,
         userPhone
       );
       // console.log(result);

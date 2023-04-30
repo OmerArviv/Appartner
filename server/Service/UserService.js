@@ -17,4 +17,20 @@ module.exports = class UserService {
     const res = await users.findOne({ email });
     return res;
   }
+
+  static async getSaltByEmail(email) {
+    const res = await users.findOne({ email });
+    return res.salt;
+  }
+
+  static async updateUserByEmail(user) {
+    return users
+      .findOneAndUpdate({ email: user.email }, user)
+      .then((value) => {
+        return value;
+      })
+      .catch((error) => {
+        return null;
+      });
+  }
 };

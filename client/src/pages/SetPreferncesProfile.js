@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { createUserProfilePrefernces } from "../controller/userProfilePreferncesController";
+import { getUserEmail } from "../APP/APP_AUTH";
 import { pageTitleContext } from "../APP/Utils";
-
 
 const btnstyle = {
   // margin: "8px 0",
@@ -30,11 +31,11 @@ const roomatesOptions = [1, 2, 3, 4, 5];
 
 const SetPreferncesProfile = () => {
   const navigate = useNavigate();
-  const {setPageTitle} = useContext(pageTitleContext);
-      
-  useEffect(()=>{
+  const { setPageTitle } = useContext(pageTitleContext);
+
+  useEffect(() => {
     setPageTitle("Set Prefernces");
-  },[]);
+  }, []);
 
   const email = "email";
   const [ageRange, setAgeRange] = useState([18, 75]);
@@ -49,54 +50,41 @@ const SetPreferncesProfile = () => {
 
   function ageRangeHandler(event, newValue) {
     setAgeRange(newValue);
-    console.log(valuetext);
   }
 
   function locationHandler(event) {
-    console.log("location");
     setLocation(event.target.value);
-    console.log(loaction);
   }
 
   function priceRangeHandler(event, newValue) {
     setPriceRange(newValue);
-    console.log(valuePricetext);
   }
 
   function genderHandler(event) {
-    console.log("gender");
     setGender(event.target.value);
-    console.log(gender);
   }
 
   function elevatorHandler(event) {
-    console.log("elevator");
     setElevator(event.target.value);
-    console.log(elevator);
   }
 
   function parkingHandler(event) {
-    console.log("parking");
     setParking(event.target.value);
-    console.log(parking);
   }
 
   function smokingHandler(event) {
-    console.log("userSmoking");
     setSmoking(event.target.value);
-    console.log(event.target.value);
-    console.log(smoking);
   }
 
   function roomatesHandler(event) {
-    console.log("roomates");
     setRoomates(event.target.value);
-    console.log(roomates);
   }
 
   const onSubmitHandler = async (event) => {
+    const user_email = await getUserEmail();
     event.preventDefault();
     if (
+      user_email != null &&
       ageRange != null &&
       loaction != null &&
       priceRange != null &&
@@ -106,32 +94,29 @@ const SetPreferncesProfile = () => {
       smoking != null &&
       roomates != null
     ) {
-      const result = await (email,
-      ageRange,
-      loaction,
-      priceRange,
-      gender,
-      elevator,
-      parking,
-      smoking,
-      roomates);
+      const userProfilePrefernces = {
+        email: user_email,
+        ageRange: ageRange,
+        location: loaction,
+        priceRange: priceRange,
+        gender: gender,
+        elevator: elevator,
+        parking: parking,
+        smoking: smoking,
+        numberOfRoomates: roomates,
+      };
 
-      console.log("send reg");
-      console.log(result);
-      if (result == true) {
-        navigate("/create-profile/set-prefernces");
-      } else {
-        if (result.response.status == 409) {
-          alert("You already have an account");
-        } else if (result.response.status == 403) {
-          alert("Error occured!");
-        }
+      const result = await createUserProfilePrefernces(userProfilePrefernces);
+      if (result.status == 201) {
+        navigate("/");
+      } else if (result.status == 403) {
+        alert("Error occured!");
       }
     } else {
       alert("Please enter all fields!");
     }
-    navigate("/");
   };
+
   function valuetext(value) {
     return `${value}`;
   }
@@ -145,7 +130,7 @@ const SetPreferncesProfile = () => {
       <Box
         container="true"
         spacing={50}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop:5 }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop: 5 }}
       >
         <Box
           item="true"

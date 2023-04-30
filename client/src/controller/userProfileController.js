@@ -1,5 +1,5 @@
 import axios from "axios";
-import { APP_ROUTES, POST_HEADERS } from "../APP/APP_ROUTES";
+import { APP_ROUTES, POST_HEADERS, GET_HEADERS } from "../APP/APP_ROUTES";
 
 /**
  * This module hold all the request of Actions.
@@ -11,7 +11,6 @@ export const createUserProfile = (userProfile) => {
   return axios
     .post(url, userProfile, POST_HEADERS())
     .then((result) => {
-      console.log(result);
       return result;
     })
     .catch((err) => {
@@ -19,3 +18,22 @@ export const createUserProfile = (userProfile) => {
     });
 };
 
+export const getUserProfileByEmail = (email) => {
+  let url = APP_ROUTES.userProfile.getUserProfileByEmail;
+  let data = { email: email };
+  return axios
+    .get(url, {
+      params: data,
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

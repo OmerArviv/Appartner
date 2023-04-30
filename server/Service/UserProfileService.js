@@ -6,12 +6,15 @@ module.exports = class UserProfileService {
     return usersProfile
       .create(userProfile)
       .then((value) => {
-        console.log(value);
         return value;
       })
       .catch((error) => {
-        // console.log(error);
         return null;
       });
+  }
+
+  static async findUserProfileByEmail(email) {
+    const res = await usersProfile.findOne({ email });
+    return res;
   }
 };

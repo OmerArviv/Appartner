@@ -16,8 +16,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
+import { getUserEmail } from "../APP/APP_AUTH";
 import { pageTitleContext } from "../APP/Utils";
-
 
 const btnstyle = {
   // margin: "8px 0",
@@ -37,7 +37,7 @@ const CreateProfile = () => {
       
   useEffect(()=>{
     setPageTitle("Create Profile");
-  },[]);
+  }, []);
   // const [userInstagramLink, setUserInstagramLink]=useState(null);
   const email = "email";
   const userType = "type";
@@ -72,72 +72,47 @@ const CreateProfile = () => {
     // setUserBirthday(event.target.value);
     // console.log(userBirthday);
 
-    console.log("birthday");
-    console.log(event.target.value);
     setUserBirthday(event.target.value);
-    console.log(userBirthday);
   }
 
   function userEmploymentHandler(event) {
-    console.log("employment");
     setUserEmployment(event.target.value);
-    console.log(userEmployment);
   }
 
   function userSmokingHandler(event) {
-    console.log("userSmoking");
     setUserSmoking(event.target.value);
-    console.log(event.target.value);
-    console.log(userSmoking);
   }
 
   function userPetsHandler(event) {
-    console.log("pets");
     setUserPets(event.target.value);
-    console.log(event.target.value);
-    console.log(userPets);
   }
 
   function userGenderHandler(event) {
-    console.log("gender");
     setUserGender(event.target.value);
-    console.log(userGender);
   }
 
   function userAlcoholHandler(event) {
-    console.log("alcohol");
     setUserAlcohol(event.target.value);
-    console.log(userAlcohol);
   }
 
   function userKosherHandler(event) {
-    console.log("kosher");
     setUserKosher(event.target.value);
-    console.log(userKosher);
   }
 
   function userOtherHandler(event) {
-    console.log("other");
     setUserOther(event.target.value);
-    console.log(userOther);
   }
 
   function userAdditonalInformationHandler(event) {
-    console.log("additional");
     setUserAdditonalInformation(event.target.value);
-    console.log(userAdditonal);
   }
 
   function userFacebookLinkHandler(event) {
-    console.log("facebook");
     setUserFacebookLink(event.target.value);
-    console.log(userFacebookLink);
   }
 
   function userInstagramLinkHandler(event) {
-    console.log("instagram");
-    setUserInstagramLink(event.target.value);
-    console.log(userInstagramLink);
+    setUserFacebookLink(event.target.value);
   }
 
   function userImagesArrayHandler(arr) {
@@ -161,7 +136,9 @@ const CreateProfile = () => {
   
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    const user_email = await getUserEmail();
     if (
+      user_email != null &&
       userBirthday != null &&
       userEmployment != null &&
       userSmoking != null &&
@@ -172,7 +149,7 @@ const CreateProfile = () => {
       userOther != null
     ) {
       const userProfile = {
-        email: "tesst",
+        email: user_email,
         user_type: "test",
         Birthday_date: userBirthday,
         user_employment: userEmployment,
@@ -188,16 +165,10 @@ const CreateProfile = () => {
         user_images_array: userImagesArray,
       };
       const result = await createUserProfile(userProfile);
-      console.log("send reg");
-      console.log(result);
       if (result.status == 201) {
         navigate("/create-profile/set-prefernces");
-      } else {
-        if (result.status == 409) {
-          alert("You already have an account");
-        } else if (result.status == 403) {
-          alert("Error occured!");
-        }
+      } else if (result.status == 403) {
+        alert("Error occured!");
       }
     } else {
       alert("Please enter all fields!");
@@ -209,7 +180,7 @@ const CreateProfile = () => {
       <Box
         container="true"
         spacing={50}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop:5 }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop: 5 }}
       >
         <Box
           item="true"

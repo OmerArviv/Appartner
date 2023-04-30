@@ -17,4 +17,17 @@ router.route("/createProfile").post(auth, async (request, response) => {
   return response.status(403).send({});
 });
 
+router.route("/getUserProfileByEmail").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const userProfile = await UserProfileService.findUserProfileByEmail(email);
+  if (userProfile) {
+    return response.status(200).json(userProfile);
+  }
+  return response.status(200).send(null);
+});
+
 module.exports = router;

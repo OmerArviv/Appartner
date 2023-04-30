@@ -10,14 +10,19 @@ import {
   Link,
   Container,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import { loginTest, signIn } from "../controller/authenticationController";
+import {
+  getSalt,
+  getUserByEmail,
+  signIn,
+} from "../controller/authenticationController";
 import { useContext, useEffect } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
+import { getUserProfileByEmail } from "../controller/userProfileController";
+import { getUserRole, setUserRole } from "../APP/APP_AUTH";
+import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 
 const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
@@ -26,10 +31,35 @@ const Login = (props) => {
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setAuthenticated(true);
-    // if (true || checkUserProfileExist(userEmail)) {
+    const user = await getUserByEmail(userEmail);
+    if (user) {
+      if (user.role) {
+        setUserRole(user.role);
+      } else {
+        navigate("/create-profile/who-are-you");
+        return;
+      }
+    }
+    const userProfile = await getUserProfileByEmail(userEmail);
+    if (!userProfile) {
+      navigate("/create-profile");
+      return;
+    }
+    const userRole = getUserRole();
+    if (userRole == "Looker") {
+      const userPrefernces = await getUserPreferncesByEmail(userEmail);
+      if (!userPrefernces) {
+        navigate("/create-profile/set-prefernces");
+        return;
+      }
+    }
     navigate("/");
+
+    // console.log(userProfile);
+    // if (true || checkUserProfileExist(userEmail)) {
+    // navigate("/create-profile/who-are-you");
     // } else {
     //   navigate("/create-profile");
     // }
@@ -49,12 +79,18 @@ const Login = (props) => {
   const onSumbitHandler = async (event) => {
     event.preventDefault();
     if (userEmail && userPassword) {
-      const result = await signIn(userEmail, userPassword);
-      if (result == true) {
-        handleLogin();
+      const salt = await getSalt(userEmail);
+      if ((salt.status = 200)) {
+        const hashedPassword = bcrypt.hashSync(userPassword, salt.data);
+        const result = await signIn(userEmail, hashedPassword);
+        if (result == true) {
+          handleLogin();
+        } else {
+          console.log(result);
+          // handle failed login
+        }
       } else {
-        console.log(result);
-        // handle failed login
+        alert("Something went wrong!");
       }
     } else {
       alert("Please enter email and password!");

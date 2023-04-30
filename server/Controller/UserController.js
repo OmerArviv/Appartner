@@ -6,10 +6,14 @@ const jwt = require("jsonwebtoken");
 
 router.route("/register").post(async (request, response) => {
   // Get user input
-  const { full_name, email, password, phone_number } = request.body;
+  const { full_name, email, password, phone_number, salt } = request.body;
   // Validate user input
   if (!(email && password && full_name && phone_number)) {
     return response.status(400).send("All input is required");
+  }
+  //check if salt is defined
+  if (!salt) {
+    return response.status(403).send({});
   }
   // check if user already exist
   var oldUser = await UserService.findUserByEmail(email);
@@ -23,6 +27,7 @@ router.route("/register").post(async (request, response) => {
     full_name,
     email: email.toLowerCase(), // sanitize: convert email to lowercase
     password: encryptedPassword,
+    salt: salt,
     phone_number,
   };
   // Create user in database
@@ -74,6 +79,50 @@ router.route("/login").post(async (request, response) => {
     return response.status(200).json(user);
   }
   return response.status(400).send("Invalid Credentials");
+});
+
+router.route("/getUserSalt").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const salt = await UserService.getSaltByEmail(email);
+  if (salt) {
+    return response.status(200).json(salt);
+  }
+  return response.status(403).send({});
+});
+
+router.route("/updateUserDetails").post(async (request, response) => {
+  // Get user input
+  const { user } = request.body;
+
+  // Validate user input
+  if (!(user && user.email)) {
+    return response.status(400).send("Something went wrong");
+  }
+
+  // Update user
+  const res = await UserService.updateUserByEmail(user);
+
+  if (res) {
+    return response.status(200).json(user);
+  }
+  return response.status(400).send("Invalid Credentials");
+});
+
+router.route("/getUserByEmail").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const user = await UserService.findUserByEmail(email);
+  if (user) {
+    return response.status(200).json(user);
+  }
+  return response.status(403).send({});
 });
 
 module.exports = router;
