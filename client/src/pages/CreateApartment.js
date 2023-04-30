@@ -36,6 +36,7 @@ const CreateApartment = () => {
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
+  const [apartmentImages, setApartmentImages] = useState("");
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -67,6 +68,24 @@ const CreateApartment = () => {
   }
   function valuePricetext(value) {
     return `${value}`;
+  }
+
+  function apartmentImagesHandler(arr) {
+    console.log("set images array handler");
+    const newArray=[]; 
+    if(arr[0]!=""){
+      newArray.push(arr[0]); 
+    }if(arr[1]!=""){
+      newArray.push(arr[1]); 
+    }if(arr[2]!=""){
+      newArray.push(arr[2]); 
+    }if(arr[3]!=""){
+      newArray.push(arr[3]); 
+    }
+    if(newArray!= null){
+    setApartmentImages(newArray);
+    }
+    console.log(apartmentImages);
   }
 
   return (
@@ -205,7 +224,7 @@ const CreateApartment = () => {
         </Button>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        <UploadImages></UploadImages>
+        <UploadImages setArrayImages={apartmentImagesHandler}/>
       </Grid>
     </Grid>
   );
