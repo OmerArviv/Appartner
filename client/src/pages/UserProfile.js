@@ -37,6 +37,8 @@ const UserProfile = () => {
     const [smoking, setSmoking] = useState();
     const [pets, setPets] = useState();
     const [additionInfo, setAdditionInfo] = useState();
+    const [userPropfileImage, setUserProfileImage] = useState();
+
 
     useEffect(() => {
         setPageTitle("User Profile");
@@ -63,6 +65,7 @@ const UserProfile = () => {
                 setSmoking(uProfile.smoking);
                 setPets(uProfile.pets);
                 setAdditionInfo(uProfile.user_additonal_information);
+                setUserProfileImage(uProfile.user_profile_image);
             })
             .catch((error) => {
                 console.error(error);
@@ -94,7 +97,8 @@ const UserProfile = () => {
                             <Grid item xs={12} sm={5}>
                                 <Box sx={{ height: 400, overflow: "hidden" }}>
                                     <ProfilePicture
-                                        src="https://picsum.photos/300/201"
+                                        // src="https://picsum.photos/300/201"
+                                        src={userPropfileImage}
                                         alt="Profile Picture"
                                     />
                                 </Box>
