@@ -18,6 +18,7 @@ import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { pageTitleContext } from "../APP/Utils";
+import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -41,6 +42,8 @@ const CreateProfile = () => {
   const email = "email";
   const userType = "type";
 
+  const [userSTT , setUserSTT] = useState("");
+
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
   const [userSmoking, setUserSmoking] = useState("");
@@ -53,6 +56,20 @@ const CreateProfile = () => {
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
   const [userImagesArray, setUserImagesArray] = useState("");
+
+  useEffect(()=>{
+    if(userSTT != ""){
+      console.log(userSTT);
+      setUserBirthday(userSTT['age']); 
+      setUserEmployment(userSTT['user_employment']);
+      setUserSmoking(userSTT['smoking']);   
+      setUserPets(userSTT['pets']);   
+      setUserAlcohol(userSTT['alcohol']);
+      setUserKosher(userSTT['kosher']);   
+      setUserGender(userSTT['gender']);   
+
+    }
+  },[userSTT])
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -162,6 +179,7 @@ const CreateProfile = () => {
 
   return (
     <>
+    <Speechtotext setUser={setUserSTT}></Speechtotext>
       <Box
         container="true"
         spacing={50}
