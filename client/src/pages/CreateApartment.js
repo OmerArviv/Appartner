@@ -14,6 +14,9 @@ import { pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
 import { useContext, useEffect, useState } from "react";
 import DialogAddCollabrator from "../components/DialogAddCollabrator";
+import { createAppartment } from "../controller/appartmentController";
+import { getUserEmail } from "../APP/APP_AUTH";
+import { useNavigate } from "react-router-dom";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -23,6 +26,7 @@ const btnstyle = {
 
 const CreateApartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPageTitle("Create Apartment");
@@ -68,6 +72,43 @@ const CreateApartment = () => {
   function valuePricetext(value) {
     return `${value}`;
   }
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    const user_email = await getUserEmail();
+    if (
+      user_email != null &&
+      age != null &&
+      location != null &&
+      price != null &&
+      gender != null &&
+      elevator != null &&
+      parking != null &&
+      smoking != null &&
+      roomates != null
+    ) {
+      const appartment = {
+        email: user_email,
+        age_range: age,
+        location: location,
+        price_range: price,
+        gender: gender,
+        elevator: elevator,
+        parking: parking,
+        smoking: smoking,
+        roomates: roomates,
+        images: [],
+      };
+      const result = await createAppartment(appartment);
+      if (result.status == 201) {
+        navigate("/");
+      } else if (result.status == 403) {
+        alert("Error occured!");
+      }
+    } else {
+      alert("Please enter all fields!");
+    }
+  };
 
   return (
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
@@ -183,7 +224,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
+        {/* <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Roomates-label">Roomates</InputLabel>
           <Select
             labelId="Roomates-label"
@@ -198,14 +239,18 @@ const CreateApartment = () => {
             <MenuItem value="4">4</MenuItem>
             <MenuItem value="5">5</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
         <DialogAddCollabrator></DialogAddCollabrator>
-        <Button style={btnstyle} sx={{ width: "400px", marginTop: "100px" }}>
+        <Button
+          style={btnstyle}
+          sx={{ width: "400px", marginTop: "100px" }}
+          onClick={onSubmitHandler}
+        >
           Create My Apartment
         </Button>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        <UploadImages></UploadImages>
+        {/* <UploadImages></UploadImages> */}
       </Grid>
     </Grid>
   );

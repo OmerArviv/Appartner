@@ -80,7 +80,8 @@ const Login = (props) => {
     event.preventDefault();
     if (userEmail && userPassword) {
       const salt = await getSalt(userEmail);
-      if ((salt.status = 200)) {
+      console.log(salt);
+      if (salt && salt.status == 200) {
         const hashedPassword = bcrypt.hashSync(userPassword, salt.data);
         const result = await signIn(userEmail, hashedPassword);
         if (result == true) {
@@ -119,6 +120,7 @@ const Login = (props) => {
           <h2>Sign In</h2>
         </Grid>
         <TextField
+          type="email"
           id="outlined-basic"
           onChange={onChangeUserEmailHandler}
           className="simple-input"

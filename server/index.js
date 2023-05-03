@@ -11,8 +11,10 @@ app.listen(process.env.PORT, () => {
 const userAPI = require("./Controller/UserController.js");
 const userProfileAPI = require("./Controller/UserProfileController");
 const userProfilePreferncesAPI = require("./Controller/UserProfilePreferncesController");
+const AppartmentAPI = require("./Controller/AppartmentController");
 
 //Route use
 app.use("/authentication", userAPI);
 app.use("/userProfile", userProfileAPI);
 app.use("/userProfilePrefernces", userProfilePreferncesAPI);
+app.use("/appartment", AppartmentAPI);

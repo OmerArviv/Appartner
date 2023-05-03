@@ -84,14 +84,14 @@ router.route("/login").post(async (request, response) => {
 router.route("/getUserSalt").get(async (request, response) => {
   const { email } = request.query;
   if (!email) {
-    return response.status(403).send({});
+    return response.status(403).send(null);
   }
 
   const salt = await UserService.getSaltByEmail(email);
   if (salt) {
     return response.status(200).json(salt);
   }
-  return response.status(403).send({});
+  return response.status(204).send(null);
 });
 
 router.route("/updateUserDetails").post(async (request, response) => {

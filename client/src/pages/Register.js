@@ -21,9 +21,6 @@ import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 
 const Register = (props) => {
-  // const {setPageTitle} = useContext(pageTitleContext);
-  // setPageTitle("Login");
-
   const navigate = useNavigate();
   const { setAuthenticated } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
@@ -42,14 +39,18 @@ const Register = (props) => {
     navigate("/create-profile");
   };
   const onChangeUserEmailHandler = (event) => {
-    setUserEmail(event.target.value);
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(event.target.value)) {
+      setUserEmail(event.target.value);
+    } else {
+      alert("invalid email");
+    }
   };
   const onChangeUserPasswordHandler = (event) => {
     const salt = bcrypt.genSaltSync(10);
     setUserPassword(bcrypt.hashSync(event.target.value, salt));
     setUserSalt(salt);
-    console.log(userPassword);
-    console.log(salt);
   };
   const onChangeUserNameHandler = (event) => {
     setUserName(event.target.value);
@@ -116,6 +117,7 @@ const Register = (props) => {
           required
         />
         <TextField
+          type="email"
           id="outlined-basic"
           onChange={onChangeUserEmailHandler}
           className="simple-input"
@@ -125,6 +127,15 @@ const Register = (props) => {
           fullWidth
           required
         />
+        {/* <TextField
+          error={userEmail == "dd"}
+          helperText={userEmail == "" ? "Empty field!" : " "}
+          id="standard-error-helper-text"
+          label="Email"
+          placeholder="Email"
+          variant="outlined"
+          defaultValue="Hello World"
+        /> */}
         <TextField
           onChange={onChangeUserPhoneHandler}
           className="simple-input"

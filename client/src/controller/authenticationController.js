@@ -71,7 +71,6 @@ export const getSalt = (email) => {
 };
 
 export const updateUserDetails = (user) => {
-  console.log(user);
   let url = APP_ROUTES.Authentication.updateUserDetails;
   let data = { user: user };
   return axios

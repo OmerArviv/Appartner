@@ -32,10 +32,10 @@ const genderOptions = ["Male", "Female", "Other"];
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-  const {setPageTitle} = useContext(pageTitleContext);
+  const { setPageTitle } = useContext(pageTitleContext);
   // const [arrayImages, setArrayImages]= useState(null);
-      
-  useEffect(()=>{
+
+  useEffect(() => {
     setPageTitle("Create Profile");
   }, []);
   // const [userInstagramLink, setUserInstagramLink]=useState(null);
@@ -117,23 +117,25 @@ const CreateProfile = () => {
 
   function userImagesArrayHandler(arr) {
     console.log("set images array handler");
-    const newArray=[]; 
-    if(arr[0]!=""){
-      newArray.push(arr[0]); 
-    }if(arr[1]!=""){
-      newArray.push(arr[1]); 
-    }if(arr[2]!=""){
-      newArray.push(arr[2]); 
-    }if(arr[3]!=""){
-      newArray.push(arr[3]); 
+    const newArray = [];
+    if (arr[0] != "") {
+      newArray.push(arr[0]);
     }
-    if(newArray!= null){
-    setUserImagesArray(newArray);
+    if (arr[1] != "") {
+      newArray.push(arr[1]);
+    }
+    if (arr[2] != "") {
+      newArray.push(arr[2]);
+    }
+    if (arr[3] != "") {
+      newArray.push(arr[3]);
+    }
+    if (newArray != null) {
+      setUserImagesArray(newArray);
     }
     console.log(userImagesArray);
   }
 
-  
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = await getUserEmail();
@@ -150,7 +152,6 @@ const CreateProfile = () => {
     ) {
       const userProfile = {
         email: user_email,
-        user_type: "test",
         Birthday_date: userBirthday,
         user_employment: userEmployment,
         smoking: userSmoking,
@@ -414,8 +415,7 @@ const CreateProfile = () => {
         </Box>
 
         {/*Third Box photos */}
-        <UploadImages  setArrayImages={userImagesArrayHandler}/>
-        
+        <UploadImages setArrayImages={userImagesArrayHandler} />
       </Box>
 
       {/*4 Box down */}
