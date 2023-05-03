@@ -30,6 +30,7 @@ const Login = (props) => {
   const { setAuthenticated } = useContext(authContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
+  const { setUserRole, getUserRole } = useContext(authContext);
 
   const handleLogin = async () => {
     setAuthenticated(true);

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import { authContext, AuthProvider, PageTitleProvider } from "./APP/Utils";
-
 import NavBar from "./components/NavBar";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -17,16 +16,26 @@ import Apartment from "./pages/Apartment";
 import UserProfile from "./pages/UserProfile";
 import CreateApartment from "./pages/CreateApartment";
 import LookerHomePage from "./pages/LookerHomePage";
+import WelcomerHomePage from "./pages/WelcomerHomePage";
 
 function GeneralBrawser() {
-  const { authenticated } = useContext(authContext);
+  const { authenticated, userRole } = useContext(authContext);
 
   return (
     <BrowserRouter>
       <NavBar></NavBar>
       {authenticated ? (
         <Routes>
-          <Route path="/" element={<Home />} />
+          {userRole == "Welcomer" ? (
+            <Route path="/" element={<WelcomerHomePage />} />
+          ) : (
+            ""
+          )}
+          {userRole == "Looker" ? (
+            <Route path="/" element={<LookerHomePage />} />
+          ) : (
+            ""
+          )}
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route
             path="/create-profile/who-are-you"

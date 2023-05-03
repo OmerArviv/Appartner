@@ -1,4 +1,6 @@
 import Cookies from "js-cookie";
+import { authContext } from "../APP/Utils";
+import { useContext } from "react";
 
 export const getUserToken = () => {
   return Cookies.get("app_us_tk");
@@ -10,9 +12,10 @@ export const setTokenAfterSignIn = (token, email) => {
 };
 
 export const RemoveTokenAfterSignOut = () => {
+  const { setUserRole } = useContext(authContext);
   Cookies.remove("app_us_tk");
   Cookies.remove("user_email");
-  Cookies.remove("user_role");
+  setUserRole(null);
 };
 
 export const setUserEmail = (email) => {
@@ -21,13 +24,4 @@ export const setUserEmail = (email) => {
 
 export const getUserEmail = () => {
   return Cookies.get("user_email");
-};
-
-export const setUserRole = (role) => {
-  //Welcomer / Looker
-  Cookies.set("user_role", role);
-};
-
-export const getUserRole = () => {
-  return Cookies.get("user_role");
 };
