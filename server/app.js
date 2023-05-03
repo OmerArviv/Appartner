@@ -12,6 +12,7 @@ require("./config/database").connect();
 
 // Express Server
 const express = require("express");
+const userProfile = require("./Model/userProfile");
 const app = express();
 // pasrser
 app.use(bodyParser.json());
@@ -25,6 +26,23 @@ app.use(cors(corsConfig));
 
 app.post("/authentication/login_test", auth, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
+});
+
+app.post("/email-userprofile", async (req, res) => {
+  const email = req.body.email;
+  try {
+    const uProfile = await userProfile.findOne({ email: email });
+    if (uProfile) {
+      console.log(uProfile);
+      res.status(200).json({ message: uProfile });
+    } else {
+      console.log("No matching user found");
+      res.status(404).json({ message: "No matching user found" });
+    }
+  } catch (error) {
+    console.error("Error while querying database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 app.use(function (req, res, next) {

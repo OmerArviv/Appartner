@@ -2,23 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext } from "../APP/Utils";
-
-const BigPicture = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
-    width: "100%",
-    height: "auto",
-    objectFit: "cover",
-    marginBottom: theme.spacing(2),
-}));
-
-const SmallPicture = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
-    width: "100%",
-    height: "auto",
-    objectFit: "cover",
-    marginBottom: theme.spacing(2),
-    marginRight: theme.spacing(1),
-}));
+import UserCarousel from "../components/UserCarousel";
 
 const RoundedPicture = ({ src, alt, text }) => (
     <Box sx={{ position: "relative", display: "inline-block", textAlign: "center", marginRight: 2 }}>
@@ -31,8 +15,11 @@ const RoundedPicture = ({ src, alt, text }) => (
     </Box>
 );
 
-
-
+const btnstyle = {
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
+};
 
 const Topic = ({ label, value }) => (
     <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
@@ -42,6 +29,13 @@ const Topic = ({ label, value }) => (
         <Typography variant="h6">{value}</Typography>
     </Box>
 );
+
+const apartmentImages = [
+    "https://picsum.photos/300/101",
+    "https://picsum.photos/300/102",
+    "https://picsum.photos/300/103",
+    "https://picsum.photos/300/104"
+]
 
 const Apartment = () => {
     const { setPageTitle } = useContext(pageTitleContext);
@@ -72,41 +66,19 @@ const Apartment = () => {
                             justifyContent="center"
                             spacing={2}
                         >
-                            <Grid item xs={5}>
-                                <BigPicture
-                                    src="https://picsum.photos/300/201"
-                                    alt="Profile Picture"
+                            <Grid item xs={12} sm={5}>
+                                <Box sx={{ height: 450 }}>
+                                    <UserCarousel apartmentImages={apartmentImages} height={300} />
+                                </Box>
+                                <RoundedPicture
+                                    src="https://picsum.photos/101"
+                                    alt="Profile Picture 5"
+                                    text="Omer Bar, 27"
                                 />
-                                <Grid container justifyContent="center" spacing={2}>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 1"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 2"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 3"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <SmallPicture
-                                            src="https://picsum.photos/50"
-                                            alt="Profile Picture 4"
-                                        />
-                                    </Grid>
-                                </Grid>
                             </Grid>
-                            <Grid item xs={2} />
-                            <Grid item xs={5}>
-                                <Box sx={{ height: "fit-content" }}>
+                            <Grid item xs={12} sm={2} />
+                            <Grid item xs={12} sm={5}>
+                                <Box sx={{ height: 450 }}>
                                     <Topic label="Age:" value="24-25" />
                                     <Topic label="Location:" value="New York" />
                                     <Topic label="Price:" value="$2000/month" />
@@ -114,38 +86,25 @@ const Apartment = () => {
                                     <Topic label="Elevator:" value="Yes" />
                                     <Topic label="Parking:" value="No" />
                                     <Topic label="Pets:" value="Yes" />
-                                    <RoundedPicture
-                                        src="https://picsum.photos/100"
-                                        alt="Profile Picture 5"
-                                        text="Noa Sharon, 25"
-                                    />
-                                    <RoundedPicture
-                                        src="https://picsum.photos/101"
-                                        alt="Profile Picture 5"
-                                        text="Omer Bar, 27"
-                                    />
                                 </Box>
+                                <RoundedPicture
+                                    src="https://picsum.photos/100"
+                                    alt="Profile Picture 5"
+                                    text="Noa Sharon, 25"
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Box sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
                     <Button
-                        variant="outlined"
-                        sx={{
-                            borderColor: "black",
-                            bgcolor: "grey.800",
-                            color: "white",
-                            fontSize: "1.2rem",
-                            borderWidth: "0.2rem",
-                            "&:hover": { bgcolor: "grey.800", color: "white" },
-                            "&:active": { bgcolor: "grey.800", color: "white" },
-                            "&:focus": { bgcolor: "grey.800", color: "white" },
-                        }}
+                        variant="contained"
+                        // onClick={onSubmitHandler}
+                        style={btnstyle}
+                        sx={{ width: "400px", marginBottom: "20px" }}
                     >
                         I LOVE THIS APARTMENT, SEND REQUEST
                     </Button>
-
                 </Box>
             </Grid>
         </Grid>

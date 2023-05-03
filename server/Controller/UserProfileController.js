@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const UserProfileService = require("../Service/UserProfileService");
 const router = express.Router();
 const auth = require("../middleware/auth");
