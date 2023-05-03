@@ -72,4 +72,32 @@ app.use(function (req, res, next) {
   next();
 });
 
+const { spawn } = require('child_process');
+const path = require('path');
+
+app.post("/run-script", (req, res) => {
+  const scriptPath = "c:/Users/Omer/Desktop/omer/College/Final Project/Code/Appartner/server/model/python.py";
+  const py = spawn("python", [scriptPath, req.body.text]); // pass the text input as an argument
+
+  let result = "";
+
+  py.stdout.on("data", (data) => {
+    result += data;
+    console.log(data.toString());
+  });
+
+  py.stderr.on("data", (data) => {
+    console.error(`Error: ${data}`);
+  });
+
+  py.stdout.on('data', (data) => {
+    const output = data;
+    //console.log(`Output from Python script: ${output}`);
+    res.send(output);
+  });
+});
+
+
+
+
 module.exports = app;

@@ -19,8 +19,5 @@
     "force": "^0.0.3",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.21"
   }
 }
