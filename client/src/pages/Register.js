@@ -22,7 +22,7 @@ import bcrypt from "bcryptjs";
 
 const Register = (props) => {
   const navigate = useNavigate();
-  const { setAuthenticated } = useContext(authContext);
+  const { setAuthenticated, setUserId } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
@@ -34,8 +34,9 @@ const Register = (props) => {
     setPageTitle("Sign Up");
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = (id) => {
     setAuthenticated(true);
+    setUserId(id);
     navigate("/create-profile/who-are-you");
   };
   const onChangeUserEmailHandler = (event) => {
@@ -69,14 +70,13 @@ const Register = (props) => {
         userSalt,
         userPhone
       );
-      // console.log(result);
-      if (result == true) {
-        handleLogin();
+      if (result.status == 201) {
+        handleLogin(result.data._id);
       } else {
         // handle failed login
-        if (result.response.status == 409) {
+        if (result.status == 409) {
           alert("You already have an account");
-        } else if (result.response.status == 403) {
+        } else if (result.status == 403) {
           alert("Error occured!");
         }
       }

@@ -32,7 +32,7 @@ export const register = (name, email, password, salt, phone) => {
     .post(url, data, POST_HEADERS())
     .then((result) => {
       setTokenAfterSignIn(result.data.token, email);
-      return true;
+      return result;
     })
     .catch((err) => {
       return err;

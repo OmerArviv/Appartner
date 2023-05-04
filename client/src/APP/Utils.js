@@ -24,6 +24,17 @@ export const authContext = createContext("");
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setRole] = useState(Cookies.get("user_role"));
+  const [userId, setId] = useState(Cookies.get("user_id"));
+
+  const setUserId = (id) => {
+    //Welcomer / Looker
+    if (id) {
+      Cookies.set("user_id", id);
+    } else {
+      Cookies.remove("user_id");
+    }
+    setId(id);
+  };
 
   const setUserRole = (role) => {
     //Welcomer / Looker
@@ -59,6 +70,8 @@ export function AuthProvider({ children }) {
         getUserRole,
         setUserRole,
         userRole,
+        setUserId,
+        userId,
       }}
     >
       {children}

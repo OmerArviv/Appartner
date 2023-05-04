@@ -44,7 +44,7 @@ router.route("/register").post(async (request, response) => {
     );
     // save user token
     user.token = token;
-    return response.status(201).json(user);
+    return response.status(201).json(result);
   } else {
     return response.status(403).send({});
   }
