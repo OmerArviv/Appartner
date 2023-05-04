@@ -40,13 +40,7 @@ const Register = (props) => {
     navigate("/create-profile/who-are-you");
   };
   const onChangeUserEmailHandler = (event) => {
-    let re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(event.target.value)) {
-      setUserEmail(event.target.value);
-    } else {
-      // alert("invalid email");
-    }
+    setUserEmail(event.target.value);
   };
   const onChangeUserPasswordHandler = (event) => {
     const salt = bcrypt.genSaltSync(10);
@@ -62,6 +56,12 @@ const Register = (props) => {
 
   const onSumbitHandler = async (event) => {
     event.preventDefault();
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(userEmail)) {
+      alert("Please enter valid email");
+      return;
+    }
     if (userEmail && userPassword && userName && userPhone) {
       const result = await register(
         userName,

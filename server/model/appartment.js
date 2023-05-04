@@ -11,6 +11,7 @@ const appartmentSchema = new mongoose.Schema({
   smoking: { type: String, default: null },
   roomates: { type: Array, default: null },
   images: { type: Array, default: null },
+  users_requests: { type: Array, default: null },
 });
 
 module.exports = mongoose.model("appartment", appartmentSchema);
