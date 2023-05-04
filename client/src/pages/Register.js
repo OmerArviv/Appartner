@@ -36,7 +36,7 @@ const Register = (props) => {
 
   const handleLogin = () => {
     setAuthenticated(true);
-    navigate("/create-profile");
+    navigate("/create-profile/who-are-you");
   };
   const onChangeUserEmailHandler = (event) => {
     let re =
@@ -44,7 +44,7 @@ const Register = (props) => {
     if (re.test(event.target.value)) {
       setUserEmail(event.target.value);
     } else {
-      alert("invalid email");
+      // alert("invalid email");
     }
   };
   const onChangeUserPasswordHandler = (event) => {

@@ -43,7 +43,7 @@ const CreateProfile = () => {
   const email = "email";
   const userType = "type";
 
-  const [userSTT , setUserSTT] = useState("");
+  const [userSTT, setUserSTT] = useState("");
 
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
@@ -58,19 +58,18 @@ const CreateProfile = () => {
   const [userInstagramLink, setUserInstagramLink] = useState("");
   const [userImagesArray, setUserImagesArray] = useState("");
 
-  useEffect(()=>{
-    if(userSTT != ""){
+  useEffect(() => {
+    if (userSTT != "") {
       console.log(userSTT);
-      setUserBirthday(userSTT['age']); 
-      setUserEmployment(userSTT['user_employment']);
-      setUserSmoking(userSTT['smoking']);   
-      setUserPets(userSTT['pets']);   
-      setUserAlcohol(userSTT['alcohol']);
-      setUserKosher(userSTT['kosher']);   
-      setUserGender(userSTT['gender']);   
-
+      setUserBirthday(userSTT["age"]);
+      setUserEmployment(userSTT["user_employment"]);
+      setUserSmoking(userSTT["smoking"]);
+      setUserPets(userSTT["pets"]);
+      setUserAlcohol(userSTT["alcohol"]);
+      setUserKosher(userSTT["kosher"]);
+      setUserGender(userSTT["gender"]);
     }
-  },[userSTT])
+  }, [userSTT]);
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -195,7 +194,7 @@ const CreateProfile = () => {
 
   return (
     <>
-    <Speechtotext setUser={setUserSTT}></Speechtotext>
+      {/* <Speechtotext setUser={setUserSTT}></Speechtotext> */}
       <Box
         container="true"
         spacing={50}
