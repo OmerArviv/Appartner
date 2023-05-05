@@ -94,7 +94,10 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    checkLoggedIn();
+    // checkLoggedIn();
+    if (Cookies.get("user_id")) {
+      setAuthenticated(true);
+    }
   }, []);
 
   return (

@@ -33,4 +33,14 @@ module.exports = class AppartmentService {
     const res = await Appartment.findOne({ userId });
     return res;
   }
+
+  static async getAllAppartments() {
+    return Appartment.find({})
+      .then((value) => {
+        return value;
+      })
+      .catch((error) => {
+        return null;
+      });
+  }
 };

@@ -64,3 +64,21 @@ export const getAppartmentByUserEmail = (userEmail) => {
       return null;
     });
 };
+
+export const getAllAppartments = () => {
+  let url = APP_ROUTES.appartment.getAllAppartments;
+  return axios
+    .get(url, {
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

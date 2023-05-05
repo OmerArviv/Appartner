@@ -36,6 +36,7 @@ export const APP_ROUTES = {
     updateAppartment: `${APPARTMENT_ENPOINT}/updateAppartment`,
     getAppartmentByUserEmail: `${APPARTMENT_ENPOINT}/getAppartmentByUserEmail`,
     getAppartmentById: `${APPARTMENT_ENPOINT}/getAppartmentById`,
+    getAllAppartments: `${APPARTMENT_ENPOINT}/getAllAppartments`,
   },
 };
 

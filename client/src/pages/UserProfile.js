@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { authContext, pageTitleContext } from "../APP/Utils";
-import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",
@@ -27,7 +26,8 @@ const btnstyle = {
   color: "#D0D2D8",
 };
 
-const UserProfile = () => {
+const UserProfile = (props) => {
+  const { email } = props;
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
   const [age, setAge] = useState();
@@ -44,7 +44,7 @@ const UserProfile = () => {
   }, [setPageTitle]);
 
   useEffect(() => {
-    const email = userEmail;
+    // const email = userEmail;
     fetch("http://localhost:8000/email-userprofile", {
       method: "POST",
       headers: {
@@ -75,15 +75,15 @@ const UserProfile = () => {
       container
       justifyContent="center"
       alignItems="stretch"
-      style={{ margin: "0 auto" }}
+      style={{ margin: "10" }}
     >
-      <Grid item xs={10} sm={8} md={6}>
+      <Grid item xs={10} sm={10} md={10}>
         <Grid
           container
           alignItems="center"
           justifyContent="center"
           spacing={2}
-          marginTop={15}
+          marginTop={5}
         >
           <Grid item xs={12}>
             <Grid
@@ -93,27 +93,31 @@ const UserProfile = () => {
               spacing={2}
             >
               <Grid item xs={12} sm={5}>
-                <Box sx={{ height: 400, overflow: "hidden" }}>
+                <Box sx={{ height: 400, overflow: "hidden", mb: 5 }}>
                   <ProfilePicture
                     src="https://picsum.photos/300/201"
                     alt="Profile Picture"
                   />
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "3rem",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    style={btnstyle}
-                    sx={{ width: "300px", marginBottom: "20px" }}
+                {userEmail == email ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "3rem",
+                    }}
                   >
-                    CHANGE PROFILE IMAGE
-                  </Button>
-                </Box>
+                    <Button
+                      variant="contained"
+                      style={btnstyle}
+                      sx={{ width: "300px", marginBottom: "20px" }}
+                    >
+                      CHANGE PROFILE IMAGE
+                    </Button>
+                  </Box>
+                ) : (
+                  ""
+                )}
               </Grid>
               <Grid item xs={2} />
               <Grid item xs={5}>
@@ -127,21 +131,25 @@ const UserProfile = () => {
                   <Topic label="Pets" value={pets} />
                   <Topic label="Additional Information" value={additionInfo} />
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "3rem",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    style={btnstyle}
-                    sx={{ width: "300px", marginBottom: "20px" }}
+                {userEmail == email ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "3rem",
+                    }}
                   >
-                    EDIT PROFILE
-                  </Button>
-                </Box>
+                    <Button
+                      variant="contained"
+                      style={btnstyle}
+                      sx={{ width: "300px", marginBottom: "20px" }}
+                    >
+                      EDIT PROFILE
+                    </Button>
+                  </Box>
+                ) : (
+                  ""
+                )}
               </Grid>
             </Grid>
           </Grid>
