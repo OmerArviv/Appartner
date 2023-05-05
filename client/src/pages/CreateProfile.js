@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
-import { pageTitleContext } from "../APP/Utils";
+import { authContext, pageTitleContext } from "../APP/Utils";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 
 const btnstyle = {
@@ -34,6 +34,8 @@ const genderOptions = ["Male", "Female", "Other"];
 const CreateProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
+  const { userEmail } = useContext(authContext);
+
   // const [arrayImages, setArrayImages]= useState(null);
 
   useEffect(() => {
@@ -154,7 +156,7 @@ const CreateProfile = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const user_email = await getUserEmail();
+    const user_email = userEmail;
     if (
       user_email != null &&
       userBirthday != null &&

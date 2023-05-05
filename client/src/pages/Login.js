@@ -27,7 +27,7 @@ import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesCon
 const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const navigate = useNavigate();
-  const { setAuthenticated, setUserId } = useContext(authContext);
+  const { setUserDetailsAfterLogIn } = useContext(authContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
   const { setUserRole, getUserRole } = useContext(authContext);
@@ -35,8 +35,7 @@ const Login = (props) => {
   const handleLogin = async () => {
     const user = await getUserByEmail(userEmail);
     if (user) {
-      setAuthenticated(true);
-      setUserId(user._id);
+      setUserDetailsAfterLogIn(user._id, userEmail);
       if (user.role) {
         setUserRole(user.role);
       } else {

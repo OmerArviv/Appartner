@@ -17,7 +17,7 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { createUserProfilePrefernces } from "../controller/userProfilePreferncesController";
 import { getUserEmail } from "../APP/APP_AUTH";
-import { pageTitleContext } from "../APP/Utils";
+import { authContext, pageTitleContext } from "../APP/Utils";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -32,6 +32,7 @@ const roomatesOptions = [1, 2, 3, 4, 5];
 const SetPreferncesProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
+  const { userEmail } = useContext(authContext);
 
   useEffect(() => {
     setPageTitle("Set Prefernces");
@@ -81,7 +82,7 @@ const SetPreferncesProfile = () => {
   }
 
   const onSubmitHandler = async (event) => {
-    const user_email = await getUserEmail();
+    const user_email = userEmail;
     event.preventDefault();
     if (
       user_email != null &&
