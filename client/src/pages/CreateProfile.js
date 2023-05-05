@@ -52,7 +52,7 @@ const CreateProfile = () => {
   const [userGender, setUserGender] = useState("");
   const [userAlcohol, setUserAlcohol] = useState("");
   const [userKosher, setUserKosher] = useState("");
-  const [userOther, setUserOther] = useState("");
+  const [userHobby, setUserHobby] = useState("");
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
@@ -115,8 +115,8 @@ const CreateProfile = () => {
     setUserKosher(event.target.value);
   }
 
-  function userOtherHandler(event) {
-    setUserOther(event.target.value);
+  function userHobbyHandler(event) {
+    setUserHobby(event.target.value);
   }
 
   function userAdditonalInformationHandler(event) {
@@ -164,7 +164,7 @@ const CreateProfile = () => {
       userGender != null &&
       userAlcohol != null &&
       userKosher != null &&
-      userOther != null
+      userHobby != null
     ) {
       const userProfile = {
         email: user_email,
@@ -175,7 +175,7 @@ const CreateProfile = () => {
         gender: userGender,
         alcohol: userAlcohol,
         kosher: userKosher,
-        other: userOther,
+        hobby: userHobby,
         user_additonal_information: userAdditonal,
         user_facebook_link: userFacebookLink,
         user_instagram_link: userInstagramLink,
@@ -254,7 +254,6 @@ const CreateProfile = () => {
                   Employment
                 </InputLabel>
                 <TextField
-                  //  label='Employment'
                   labelid="user-employment-label"
                   id="employment"
                   onChange={userEmploymentHandler}
@@ -274,11 +273,9 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Smoking"
-                  // labelId='smoking-label'
                   id="smoking"
                   value={userSmoking}
                   onChange={userSmokingHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {options.map((o) => (
@@ -299,12 +296,9 @@ const CreateProfile = () => {
                   Pets
                 </InputLabel>
                 <Select
-                  // label='Smoking'
-                  // labelId='smoking-label'
                   id="pets"
                   value={userPets}
                   onChange={userPetsHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {yesNoOptions.map((o) => (
@@ -337,7 +331,6 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Gender"
-                  // labelId='smoking-label'
                   id="gender"
                   value={userGender}
                   onChange={userGenderHandler}
@@ -361,7 +354,6 @@ const CreateProfile = () => {
                   Alcohol
                 </InputLabel>
                 <Select
-                  //  label='Employment'
                   labelid="user-alcohol-label"
                   id="alcohol"
                   onChange={userAlcoholHandler}
@@ -387,11 +379,9 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Kosher"
-                  // labelId='smoking-label'
                   id="kosher"
                   value={userKosher}
                   onChange={userKosherHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {yesNoOptions.map((o) => (
@@ -407,25 +397,16 @@ const CreateProfile = () => {
                 <InputLabel
                   sx={{ fontSize: 20, textDecoration: "bolt" }}
                   shrink
-                  id="pets-label"
+                  id="hobby-label"
                 >
-                  Other
+                  Hobby
                 </InputLabel>
-                <Select
-                  // label='Smoking'
-                  // labelId='smoking-label'
-                  id="other"
-                  value={userOther}
-                  onChange={userOtherHandler}
-                  // input={<OutlinedInput label="Smoking" />}
+                <TextField
+                  id="hobby"
+                  value={userHobby}
+                  onChange={userHobbyHandler}
                   fullWidth
-                >
-                  {yesNoOptions.map((o) => (
-                    <MenuItem key={o} value={o}>
-                      {o}
-                    </MenuItem>
-                  ))}
-                </Select>
+                ></TextField>
               </CardContent>
             </FormControl>
           </Card>
