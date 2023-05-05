@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { authContext, pageTitleContext } from "../APP/Utils";
-import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",

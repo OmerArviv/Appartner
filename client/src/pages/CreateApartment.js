@@ -9,6 +9,7 @@ import {
   CardContent,
   Slider,
   Typography,
+  StyledEngineProvider,
 } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
@@ -42,6 +43,13 @@ const CreateApartment = () => {
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
+  const [selectedCollaborator, setSelectedCollaborator] = useState("");
+
+  const handleChooseCollaborator = (email) => {
+    setSelectedCollaborator(email);
+    console.log("test", email);
+    console.log(selectedCollaborator);
+  };
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -242,7 +250,7 @@ const CreateApartment = () => {
             <MenuItem value="5">5</MenuItem>
           </Select>
         </FormControl> */}
-        <DialogAddCollabrator></DialogAddCollabrator>
+        <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}
