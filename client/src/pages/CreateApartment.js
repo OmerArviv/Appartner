@@ -42,7 +42,7 @@ const CreateApartment = () => {
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
-  const [roomates, setRoomates] = useState("");
+  const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
 
   const handleChooseCollaborator = (email) => {
@@ -71,9 +71,6 @@ const CreateApartment = () => {
   };
   const handleSmokingChange = (event) => {
     setSmoking(event.target.value);
-  };
-  const handleRoomatesChange = (event) => {
-    setRoomates(event.target.value);
   };
 
   function valueAgetext(value) {
@@ -109,6 +106,10 @@ const CreateApartment = () => {
         roomates: roomates,
         images: [],
       };
+      if (selectedCollaborator != "" && selectedCollaborator) {
+        appartment.roomates = [...roomates, selectedCollaborator];
+      }
+
       const result = await createAppartment(appartment);
       if (result.status == 201) {
         navigate("/");
@@ -191,6 +192,7 @@ const CreateApartment = () => {
           >
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="all">All</MenuItem>
           </Select>
         </FormControl>
       </Grid>

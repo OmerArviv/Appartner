@@ -45,7 +45,7 @@ function DialogAddCollabrator(props) {
 
   const handleChooseCollaborator = () => {
     setEmail(tempEmail);
-    props.onChooseCollaborator(email);
+    props.onChooseCollaborator(tempEmail);
     handleClose();
   };
 
