@@ -40,7 +40,35 @@ router.route("/getAppartmentByEmail").get(async (request, response) => {
   if (Appartment) {
     return response.status(200).json(Appartment);
   }
-  return response.status(200).send(null);
+  return response.status(204).send(null);
+});
+
+router.route("/getAppartmentById").get(async (request, response) => {
+  const { id } = request.query;
+  if (!id) {
+    return response.status(403).send({});
+  }
+
+  const Appartment = await AppartmentService.findAppartmentByid(id);
+  if (Appartment) {
+    return response.status(200).json(Appartment);
+  }
+  return response.status(204).send(null);
+});
+
+router.route("/getAppartmentByUserEmail").get(async (request, response) => {
+  const { userEmail } = request.query;
+  if (!userEmail) {
+    return response.status(403).send({});
+  }
+
+  const Appartment = await AppartmentService.findAppartmentByUserEmail(
+    userEmail
+  );
+  if (Appartment) {
+    return response.status(200).json(Appartment);
+  }
+  return response.status(204).send(null);
 });
 
 module.exports = router;

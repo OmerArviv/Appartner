@@ -36,7 +36,7 @@ router.route("/register").post(async (request, response) => {
   // Create token
   if (result != null) {
     const token = jwt.sign(
-      { user_id: user._id, email },
+      { user_id: result._id, email },
       process.env.TOKEN_KEY,
       {
         expiresIn: "2h",
@@ -44,6 +44,7 @@ router.route("/register").post(async (request, response) => {
     );
     // save user token
     user.token = token;
+    user.id = result._id;
     return response.status(201).json(user);
   } else {
     return response.status(403).send({});

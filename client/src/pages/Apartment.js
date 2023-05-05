@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import { pageTitleContext } from "../APP/Utils";
+import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
 
 const RoundedPicture = ({ src, alt, text }) => (
@@ -48,10 +48,17 @@ const apartmentImages = [
 
 const Apartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
+  const { userRole, userId } = useContext(authContext);
+
+  const [appartment, setAppartment] = useState({ _id: 0 });
 
   useEffect(() => {
     setPageTitle("Apartment");
-  }, [setPageTitle]);
+    const ap = {
+      _id: userId,
+    };
+    setAppartment(ap);
+  }, []);
 
   return (
     <Grid
@@ -111,14 +118,30 @@ const Apartment = () => {
         <Box
           sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}
         >
-          <Button
-            variant="contained"
-            // onClick={onSubmitHandler}
-            style={btnstyle}
-            sx={{ width: "400px", marginBottom: "20px" }}
-          >
-            I LOVE THIS APARTMENT, SEND REQUEST
-          </Button>
+          {userRole === "Looker" ? (
+            <Button
+              variant="contained"
+              // onClick={onSubmitHandler}
+              style={btnstyle}
+              sx={{ width: "400px", marginBottom: "20px" }}
+            >
+              I LOVE THIS APARTMENT, SEND REQUEST
+            </Button>
+          ) : (
+            ""
+          )}
+          {userRole === "Welcomer" && userId == appartment._id ? (
+            <Button
+              variant="contained"
+              // onClick={onSubmitHandler}
+              style={btnstyle}
+              sx={{ width: "400px", marginBottom: "20px" }}
+            >
+              EDIT APPARTMENT
+            </Button>
+          ) : (
+            ""
+          )}
         </Box>
       </Grid>
     </Grid>

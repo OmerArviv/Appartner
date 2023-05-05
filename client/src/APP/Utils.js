@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { Children } from "react";
 import { APP_ROUTES, POST_HEADERS } from "./APP_ROUTES";
-import { APP_AUTH, getUserRole } from "./APP_AUTH";
+import {
+  APP_AUTH,
+  RemoveTokenAfterSignOut,
+  getUserRole,
+  setTokenAfterSignIn,
+} from "./APP_AUTH";
 import { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
@@ -24,6 +29,47 @@ export const authContext = createContext("");
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [userRole, setRole] = useState(Cookies.get("user_role"));
+  const [userId, setId] = useState(Cookies.get("user_id"));
+  const [userEmail, setEmail] = useState(Cookies.get("user_email"));
+
+  const setUserDetailsAfterLogIn = (user_id, user_email) => {
+    setAuthenticated(true);
+    setUserId(user_id);
+    setUserEmail(user_email);
+  };
+
+  const removeUserDetailsAfterSignout = () => {
+    setAuthenticated(false);
+    setUserId(null);
+    setUserEmail(null);
+    RemoveTokenAfterSignOut();
+    removeUserRole();
+  };
+
+  const removeUserRole = () => {
+    Cookies.remove("user_role");
+    setRole(null);
+  };
+
+  const setUserId = (id) => {
+    //Welcomer / Looker
+    if (id) {
+      Cookies.set("user_id", id);
+    } else {
+      Cookies.remove("user_id");
+    }
+    setId(id);
+  };
+
+  const setUserEmail = (email) => {
+    //Welcomer / Looker
+    if (email) {
+      Cookies.set("user_email", email);
+    } else {
+      Cookies.remove("user_email");
+    }
+    setEmail(email);
+  };
 
   const setUserRole = (role) => {
     //Welcomer / Looker
@@ -47,7 +93,7 @@ export function AuthProvider({ children }) {
     setAuthenticated(res);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     checkLoggedIn();
   }, []);
 
@@ -59,6 +105,11 @@ export function AuthProvider({ children }) {
         getUserRole,
         setUserRole,
         userRole,
+        setUserId,
+        userId,
+        setUserDetailsAfterLogIn,
+        userEmail,
+        removeUserDetailsAfterSignout,
       }}
     >
       {children}

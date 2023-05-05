@@ -10,7 +10,7 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
-import { pageTitleContext } from "../APP/Utils";
+import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
 import { useContext, useEffect, useState } from "react";
 import DialogAddCollabrator from "../components/DialogAddCollabrator";
@@ -26,6 +26,8 @@ const btnstyle = {
 
 const CreateApartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
+  const { userEmail } = useContext(authContext);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,7 +77,7 @@ const CreateApartment = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const user_email = await getUserEmail();
+    const user_email = userEmail;
     if (
       user_email != null &&
       age != null &&

@@ -25,9 +25,29 @@ export const updateAppartment = (appartment) => {
     });
 };
 
-export const getAppartmentByEmail = (email) => {
+export const getAppartmentById = (id) => {
   let url = APP_ROUTES.appartment.getAppartmentByEmail;
-  let data = { email: email };
+  let data = { _id: id };
+  return axios
+    .get(url, {
+      params: data,
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};
+
+export const getAppartmentByUserEmail = (userEmail) => {
+  let url = APP_ROUTES.appartment.getAppartmentByUserEmail;
+  let data = { email: userEmail };
   return axios
     .get(url, {
       params: data,

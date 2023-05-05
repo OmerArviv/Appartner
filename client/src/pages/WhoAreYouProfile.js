@@ -27,14 +27,14 @@ const WhoAreYouProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
   const [userType, setUserType] = useState("");
-  const { setUserRole } = useContext(authContext);
+  const { setUserRole, userEmail } = useContext(authContext);
 
   useEffect(() => {
     setPageTitle("Who Are You?");
   }, []);
 
   const onUserRoleUpdate = async () => {
-    const email = getUserEmail();
+    const email = userEmail;
     if (email && userType) {
       const res = await updateUserDetails({
         email: email,

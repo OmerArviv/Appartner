@@ -24,13 +24,13 @@ module.exports = class AppartmentService {
       });
   }
 
-  static async findAppartmentByEmail(email) {
-    const res = await Appartment.findOne({ email });
+  static async findAppartmentByid(id) {
+    const res = await Appartment.findOne({ id });
     return res;
   }
 
-  static async findAppartmentByid(id) {
-    const res = await Appartment.findOne({ id });
+  static async findAppartmentByUserEmail(userId) {
+    const res = await Appartment.findOne({ userId });
     return res;
   }
 };

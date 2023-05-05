@@ -22,7 +22,7 @@ import bcrypt from "bcryptjs";
 
 const Register = (props) => {
   const navigate = useNavigate();
-  const { setAuthenticated } = useContext(authContext);
+  const { setUserDetailsAfterLogIn } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
@@ -34,18 +34,12 @@ const Register = (props) => {
     setPageTitle("Sign Up");
   }, []);
 
-  const handleLogin = () => {
-    setAuthenticated(true);
+  const handleLogin = (id) => {
+    setUserDetailsAfterLogIn(id, userEmail);
     navigate("/create-profile/who-are-you");
   };
   const onChangeUserEmailHandler = (event) => {
-    let re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(event.target.value)) {
-      setUserEmail(event.target.value);
-    } else {
-      // alert("invalid email");
-    }
+    setUserEmail(event.target.value);
   };
   const onChangeUserPasswordHandler = (event) => {
     const salt = bcrypt.genSaltSync(10);
@@ -61,6 +55,12 @@ const Register = (props) => {
 
   const onSumbitHandler = async (event) => {
     event.preventDefault();
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(userEmail)) {
+      alert("Please enter valid email");
+      return;
+    }
     if (userEmail && userPassword && userName && userPhone) {
       const result = await register(
         userName,
@@ -69,14 +69,13 @@ const Register = (props) => {
         userSalt,
         userPhone
       );
-      // console.log(result);
-      if (result == true) {
-        handleLogin();
+      if (result.status == 201) {
+        handleLogin(result.data.id);
       } else {
         // handle failed login
-        if (result.response.status == 409) {
+        if (result.status == 409) {
           alert("You already have an account");
-        } else if (result.response.status == 403) {
+        } else if (result.status == 403) {
           alert("Error occured!");
         }
       }

@@ -27,15 +27,15 @@ import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesCon
 const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const navigate = useNavigate();
-  const { setAuthenticated } = useContext(authContext);
+  const { setUserDetailsAfterLogIn } = useContext(authContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
   const { setUserRole, getUserRole } = useContext(authContext);
 
   const handleLogin = async () => {
-    setAuthenticated(true);
     const user = await getUserByEmail(userEmail);
     if (user) {
+      setUserDetailsAfterLogIn(user._id, userEmail);
       if (user.role) {
         setUserRole(user.role);
       } else {
@@ -79,6 +79,12 @@ const Login = (props) => {
 
   const onSumbitHandler = async (event) => {
     event.preventDefault();
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(userEmail)) {
+      alert("Please enter valid email");
+      return;
+    }
     if (userEmail && userPassword) {
       const salt = await getSalt(userEmail);
       console.log(salt);
