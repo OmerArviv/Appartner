@@ -11,8 +11,10 @@ const WelcomerHomePage = () => {
   }, []);
 
   return (
-    // <Typography sx={{ textAlign: "center" }}>Welcomer Home Page</Typography>
-    <RequestItem></RequestItem>
+    <div>
+      {" "}
+      <RequestItem></RequestItem>
+    </div>
   );
 };
 
