@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -39,6 +39,22 @@ function DialogAddCollabrator(props) {
     setaddProfileOpen(false);
   };
 
+  useEffect(() => {
+    fetch("http://localhost:8000/email-all-userprofiles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   //    const handleSearch = async () => {
   //      // Make an API call or a database query to search for the user by email
   //      const userExists = await searchUserByEmail(email);
@@ -58,7 +74,7 @@ function DialogAddCollabrator(props) {
   //    };
 
   return (
-    <>
+    <div>
       <Button
         variant="outlined"
         onClick={handleClickOpen}
@@ -69,7 +85,7 @@ function DialogAddCollabrator(props) {
         }}
       >
         <AddIcon sx={{ marginRight: "7px", paddingBottom: "2px" }}></AddIcon>
-        Add Collabrator
+        Add Collaborator
       </Button>
       <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogTitle>Search Collabrator Profile by Email</DialogTitle>
@@ -115,10 +131,10 @@ function DialogAddCollabrator(props) {
         </DialogActions>
       </Dialog>
       <Dialog open={addProfileOpen} onClose={handleCloseAddProfile}>
-        <DialogTitle>Creat Profile For Collabrator</DialogTitle>
+        <DialogTitle>Creat Profile For collaborator</DialogTitle>
         <CreateProfile></CreateProfile>
       </Dialog>
-    </>
+    </div>
   );
 }
 
