@@ -45,7 +45,7 @@ const roommates= props.data.roommates_images;
             <Stack direction="row" spacing={2}>
             {roommates.map((item, index)=>{
                 return(
-                    <Button onClick={()=>{console.log("clickrd on rommate")}}>
+                    <Button onClick={()=>{console.log("clicked on rommate")}}>
                         <Avatar src={item}
                         sx={{ width: 75, height: 75 }}/>  
                         </Button>)})}
