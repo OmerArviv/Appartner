@@ -44,9 +44,13 @@ function DialogAddCollabrator(props) {
   };
 
   const handleChooseCollaborator = () => {
-    setEmail(tempEmail);
-    props.onChooseCollaborator(tempEmail);
-    handleClose();
+    if (usersData.some(user => user.email === tempEmail)) {
+      setEmail(tempEmail);
+      props.onChooseCollaborator(tempEmail);
+      handleClose();
+    } else {
+      alert('Invalid email address!');
+    }
   };
 
   useEffect(() => {
