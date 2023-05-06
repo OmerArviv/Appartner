@@ -33,4 +33,5 @@ module.exports = class AppartmentService {
     const res = await Appartment.findOne({ userId });
     return res;
   }
+  
 };

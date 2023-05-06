@@ -1,30 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import { authContext, pageTitleContext } from "../APP/Utils";
+import { pageTitleContext } from "../APP/Utils";
 import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
-  width: "100%",
-  height: "400px",
-  objectFit: "cover",
-  borderRadius: "20%",
-  marginBottom: theme.spacing(2),
+    width: "100%",
+    height: "400px",
+    objectFit: "cover",
+    borderRadius: "20%",
+    marginBottom: theme.spacing(2),
 }));
 
 const Topic = ({ label, value }) => (
-  <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
-    <Paper sx={{ padding: "2px 8px", marginRight: 1, bgcolor: "#fff7e9" }}>
-      <Typography variant="h6">{label}</Typography>
-    </Paper>
-    <Typography variant="h6">{value}</Typography>
-  </Box>
+    <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
+        <Paper sx={{ padding: "2px 8px", marginRight: 1, bgcolor: "#fff7e9" }}>
+            <Typography variant="h6">{label}</Typography>
+        </Paper>
+        <Typography variant="h6">{value}</Typography>
+    </Box>
 );
 
 const btnstyle = {
-  background: "#4F4E51",
-  height: "50px",
-  color: "#D0D2D8",
+    background: "#4F4E51",
+    height: "50px",
+    color: "#D0D2D8",
 };
 
 const UserProfile = () => {
@@ -40,73 +40,52 @@ const UserProfile = () => {
     const [userPropfileImage, setUserProfileImage] = useState();
 
 
-  useEffect(() => {
-    setPageTitle("User Profile");
-  }, [setPageTitle]);
-
     useEffect(() => {
-        const email = getUserEmail();
-        fetch("http://localhost:8000/email-userprofile", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                let uProfile = data.message;
-                console.log(data.message); // logs "Email received"
-                setAge(uProfile.Birthday_date);
-                setGender(uProfile.gender);
-                setEmployment(uProfile.user_employment);
-                setAlcohol(uProfile.alcohol);
-                setKosher(uProfile.kosher);
-                setSmoking(uProfile.smoking);
-                setPets(uProfile.pets);
-                setAdditionInfo(uProfile.user_additonal_information);
-                setUserProfileImage(uProfile.user_profile_image);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        setPageTitle("User Profile");
+    }, [setPageTitle]);
 
-  return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="stretch"
-      style={{ margin: "0 auto" }}
-    >
-      <Grid item xs={10} sm={8} md={6}>
+    // useEffect(() => {
+    //     const email = getUserEmail();
+    //     fetch("http://localhost:8000/email-userprofile", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({ email }),
+    //     })
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             let uProfile = data.message;
+    //             console.log(data.message); // logs "Email received"
+    //             setAge(uProfile.Birthday_date);
+    //             setGender(uProfile.gender);
+    //             setEmployment(uProfile.user_employment);
+    //             setAlcohol(uProfile.alcohol);
+    //             setKosher(uProfile.kosher);
+    //             setSmoking(uProfile.smoking);
+    //             setPets(uProfile.pets);
+    //             setAdditionInfo(uProfile.user_additonal_information);
+    //             setUserProfileImage(uProfile.user_profile_image);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }, []);
+
+    return (
         <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
-          spacing={2}
-          marginTop={15}
+            container
+            justifyContent="center"
+            alignItems="stretch"
+            style={{ margin: "0 auto" }}
         >
-          <Grid item xs={12}>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              spacing={2}
-            >
-              <Grid item xs={12} sm={5}>
-                <Box sx={{ height: 400, overflow: "hidden" }}>
-                  <ProfilePicture
-                    src="https://picsum.photos/300/201"
-                    alt="Profile Picture"
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "3rem",
-                  }}
+            <Grid item xs={10} sm={8} md={6}>
+                <Grid
+                    container
+                    alignItems="center"
+                    justifyContent="center"
+                    spacing={2}
+                    marginTop={15}
                 >
                     <Grid item xs={12}>
                         <Grid
@@ -118,8 +97,7 @@ const UserProfile = () => {
                             <Grid item xs={12} sm={5}>
                                 <Box sx={{ height: 400, overflow: "hidden" }}>
                                     <ProfilePicture
-                                        // src="https://picsum.photos/300/201"
-                                        src={userPropfileImage}
+                                        src="https://picsum.photos/300/201"
                                         alt="Profile Picture"
                                     />
                                 </Box>
@@ -159,11 +137,8 @@ const UserProfile = () => {
                     </Grid>
                 </Grid>
             </Grid>
-          </Grid>
         </Grid>
-      </Grid>
-    </Grid>
-  );
+    );
 };
 
 export default UserProfile;

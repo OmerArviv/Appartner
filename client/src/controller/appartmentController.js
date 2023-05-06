@@ -64,3 +64,4 @@ export const getAppartmentByUserEmail = (userEmail) => {
       return null;
     });
 };
+
