@@ -29,6 +29,7 @@ const btnstyle = {
 const UserProfile = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
+  const [userPicture, setUserPicture] = useState();
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
   const [employment, setEmployment] = useState();
@@ -55,6 +56,7 @@ const UserProfile = () => {
       .then((data) => {
         let uProfile = data.message;
         console.log(data.message); // logs "Email received"
+        setUserPicture(data.message.user_images_array[0]);
         setAge(uProfile.Birthday_date);
         setGender(uProfile.gender);
         setEmployment(uProfile.user_employment);
@@ -94,7 +96,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={5}>
                 <Box sx={{ height: 400, overflow: "hidden" }}>
                   <ProfilePicture
-                    src="https://picsum.photos/300/201"
+                    src={userPicture}
                     alt="Profile Picture"
                   />
                 </Box>
