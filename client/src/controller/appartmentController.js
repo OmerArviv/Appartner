@@ -65,3 +65,20 @@ export const getAppartmentByUserEmail = (userEmail) => {
     });
 };
 
+export const getAllAppartments = () => {
+  let url = APP_ROUTES.appartment.getAllAppartments;
+  return axios
+    .get(url, {
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

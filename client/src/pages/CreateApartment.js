@@ -9,6 +9,7 @@ import {
   CardContent,
   Slider,
   Typography,
+  StyledEngineProvider,
 } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
@@ -41,8 +42,15 @@ const CreateApartment = () => {
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
-  const [roomates, setRoomates] = useState("");
   const [apartmentImages, setApartmentImages] = useState("");
+  const [roomates, setRoomates] = useState([userEmail]);
+  const [selectedCollaborator, setSelectedCollaborator] = useState("");
+
+  const handleChooseCollaborator = (email) => {
+    setSelectedCollaborator(email);
+    console.log("test", email);
+    console.log(selectedCollaborator);
+  };
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -64,9 +72,6 @@ const CreateApartment = () => {
   };
   const handleSmokingChange = (event) => {
     setSmoking(event.target.value);
-  };
-  const handleRoomatesChange = (event) => {
-    setRoomates(event.target.value);
   };
 
   function valueAgetext(value) {
@@ -119,6 +124,10 @@ const CreateApartment = () => {
         roomates: roomates,
         images: apartmentImages,
       };
+      if (selectedCollaborator != "" && selectedCollaborator) {
+        appartment.roomates = [...roomates, selectedCollaborator];
+      }
+
       const result = await createAppartment(appartment);
       if (result.status == 201) {
         navigate("/");
@@ -201,6 +210,7 @@ const CreateApartment = () => {
           >
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="all">All</MenuItem>
           </Select>
         </FormControl>
       </Grid>
@@ -260,7 +270,7 @@ const CreateApartment = () => {
             <MenuItem value="5">5</MenuItem>
           </Select>
         </FormControl> */}
-        <DialogAddCollabrator></DialogAddCollabrator>
+        <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}

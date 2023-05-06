@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import { pageTitleContext } from "../APP/Utils";
-import { getUserEmail } from "../APP/APP_AUTH";
+import { authContext, pageTitleContext } from "../APP/Utils";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
     width: "100%",
@@ -27,50 +26,53 @@ const btnstyle = {
     color: "#D0D2D8",
 };
 
-const UserProfile = () => {
-    const { setPageTitle } = useContext(pageTitleContext);
-    const [age, setAge] = useState();
-    const [gender, setGender] = useState();
-    const [employment, setEmployment] = useState();
-    const [alcohol, setAlcohol] = useState();
-    const [kosher, setKosher] = useState();
-    const [smoking, setSmoking] = useState();
-    const [pets, setPets] = useState();
-    const [additionInfo, setAdditionInfo] = useState();
-    const [userPropfileImage, setUserProfileImage] = useState();
+const UserProfile = (props) => {
+  const { email } = props;
+  const { setPageTitle } = useContext(pageTitleContext);
+  const { userEmail } = useContext(authContext);
+  const [userProfileImage, setUserProfileImage] = useState("");
+  const [age, setAge] = useState();
+  const [gender, setGender] = useState();
+  const [employment, setEmployment] = useState();
+  const [alcohol, setAlcohol] = useState();
+  const [kosher, setKosher] = useState();
+  const [smoking, setSmoking] = useState();
+  const [pets, setPets] = useState();
+  const [additionInfo, setAdditionInfo] = useState();
+
 
 
     useEffect(() => {
         setPageTitle("User Profile");
     }, [setPageTitle]);
 
-    // useEffect(() => {
-    //     const email = getUserEmail();
-    //     fetch("http://localhost:8000/email-userprofile", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({ email }),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             let uProfile = data.message;
-    //             console.log(data.message); // logs "Email received"
-    //             setAge(uProfile.Birthday_date);
-    //             setGender(uProfile.gender);
-    //             setEmployment(uProfile.user_employment);
-    //             setAlcohol(uProfile.alcohol);
-    //             setKosher(uProfile.kosher);
-    //             setSmoking(uProfile.smoking);
-    //             setPets(uProfile.pets);
-    //             setAdditionInfo(uProfile.user_additonal_information);
-    //             setUserProfileImage(uProfile.user_profile_image);
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // }, []);
+    useEffect(() => {
+        const email = userEmail;
+        fetch("http://localhost:8000/email-userprofile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                let uProfile = data.message;
+                console.log(data.message); // logs "Email received"
+                setAge(uProfile.Birthday_date);
+                setGender(uProfile.gender);
+                setEmployment(uProfile.user_employment);
+                setAlcohol(uProfile.alcohol);
+                setKosher(uProfile.kosher);
+                setSmoking(uProfile.smoking);
+                setPets(uProfile.pets);
+                setAdditionInfo(uProfile.user_additonal_information);
+                setUserProfileImage(uProfile.user_profile_image);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     return (
         <Grid
@@ -97,7 +99,8 @@ const UserProfile = () => {
                             <Grid item xs={12} sm={5}>
                                 <Box sx={{ height: 400, overflow: "hidden" }}>
                                     <ProfilePicture
-                                        src="https://picsum.photos/300/201"
+                                        // src="https://picsum.photos/300/201"
+                                        src={userProfileImage}
                                         alt="Profile Picture"
                                     />
                                 </Box>
