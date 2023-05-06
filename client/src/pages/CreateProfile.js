@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
-import { pageTitleContext } from "../APP/Utils";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";

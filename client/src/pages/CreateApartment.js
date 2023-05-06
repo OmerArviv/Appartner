@@ -117,7 +117,7 @@ const CreateApartment = () => {
         parking: parking,
         smoking: smoking,
         roomates: roomates,
-        images: [],
+        images: apartmentImages,
       };
       const result = await createAppartment(appartment);
       if (result.status == 201) {
