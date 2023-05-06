@@ -7,6 +7,7 @@ import { getUserToken } from "./APP_AUTH";
 const AUTHENTICATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}authentication`;
 const USER_PROFILE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfile`;
 const USER_PROFILE_PREFERNCES_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfilePrefernces`;
+const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
 
 export const APP_ROUTES = {
   Authentication: {
@@ -28,6 +29,13 @@ export const APP_ROUTES = {
     createProfilePrefernces: `${USER_PROFILE_PREFERNCES_ENPOINT}/createProfilePrefernces`,
     updateProfilePrefernces: `${USER_PROFILE_PREFERNCES_ENPOINT}/updateProfilePrefernces`,
     getUserPreferncesByEmail: `${USER_PROFILE_PREFERNCES_ENPOINT}/getUserPreferncesByEmail`,
+  },
+
+  appartment: {
+    createAppartment: `${APPARTMENT_ENPOINT}/createAppartment`,
+    updateAppartment: `${APPARTMENT_ENPOINT}/updateAppartment`,
+    getAppartmentByUserEmail: `${APPARTMENT_ENPOINT}/getAppartmentByUserEmail`,
+    getAppartmentById: `${APPARTMENT_ENPOINT}/getAppartmentById`,
   },
 };
 

@@ -32,7 +32,7 @@ export const register = (name, email, password, salt, phone) => {
     .post(url, data, POST_HEADERS())
     .then((result) => {
       setTokenAfterSignIn(result.data.token, email);
-      return true;
+      return result;
     })
     .catch((err) => {
       return err;
@@ -71,7 +71,6 @@ export const getSalt = (email) => {
 };
 
 export const updateUserDetails = (user) => {
-  console.log(user);
   let url = APP_ROUTES.Authentication.updateUserDetails;
   let data = { user: user };
   return axios

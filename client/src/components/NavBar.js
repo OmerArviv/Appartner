@@ -14,12 +14,12 @@ import { RemoveTokenAfterSignOut } from "../APP/APP_AUTH";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
-  const { authenticated, setAuthenticated } = useContext(authContext);
+  const { authenticated, removeUserDetailsAfterSignout } =
+    useContext(authContext);
   const { pageTitle } = useContext(pageTitleContext);
 
   const handleSignOut = () => {
-    RemoveTokenAfterSignOut();
-    setAuthenticated(false);
+    removeUserDetailsAfterSignout();
     navigate("/login");
   };
   return (

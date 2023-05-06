@@ -20,7 +20,10 @@ module.exports = class UserService {
 
   static async getSaltByEmail(email) {
     const res = await users.findOne({ email });
-    return res.salt;
+    if (res) {
+      return res.salt;
+    }
+    return null;
   }
 
   static async updateUserByEmail(user) {

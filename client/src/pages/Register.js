@@ -21,11 +21,8 @@ import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 
 const Register = (props) => {
-  // const {setPageTitle} = useContext(pageTitleContext);
-  // setPageTitle("Login");
-
   const navigate = useNavigate();
-  const { setAuthenticated } = useContext(authContext);
+  const { setUserDetailsAfterLogIn } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
@@ -37,9 +34,9 @@ const Register = (props) => {
     setPageTitle("Sign Up");
   }, []);
 
-  const handleLogin = () => {
-    setAuthenticated(true);
-    navigate("/create-profile");
+  const handleLogin = (id) => {
+    setUserDetailsAfterLogIn(id, userEmail);
+    navigate("/create-profile/who-are-you");
   };
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
@@ -48,8 +45,6 @@ const Register = (props) => {
     const salt = bcrypt.genSaltSync(10);
     setUserPassword(bcrypt.hashSync(event.target.value, salt));
     setUserSalt(salt);
-    console.log(userPassword);
-    console.log(salt);
   };
   const onChangeUserNameHandler = (event) => {
     setUserName(event.target.value);
@@ -60,6 +55,12 @@ const Register = (props) => {
 
   const onSumbitHandler = async (event) => {
     event.preventDefault();
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(userEmail)) {
+      alert("Please enter valid email");
+      return;
+    }
     if (userEmail && userPassword && userName && userPhone) {
       const result = await register(
         userName,
@@ -68,14 +69,13 @@ const Register = (props) => {
         userSalt,
         userPhone
       );
-      // console.log(result);
-      if (result == true) {
-        handleLogin();
+      if (result.status == 201) {
+        handleLogin(result.data.id);
       } else {
         // handle failed login
-        if (result.response.status == 409) {
+        if (result.status == 409) {
           alert("You already have an account");
-        } else if (result.response.status == 403) {
+        } else if (result.status == 403) {
           alert("Error occured!");
         }
       }
@@ -116,6 +116,7 @@ const Register = (props) => {
           required
         />
         <TextField
+          type="email"
           id="outlined-basic"
           onChange={onChangeUserEmailHandler}
           className="simple-input"
@@ -125,6 +126,15 @@ const Register = (props) => {
           fullWidth
           required
         />
+        {/* <TextField
+          error={userEmail == "dd"}
+          helperText={userEmail == "" ? "Empty field!" : " "}
+          id="standard-error-helper-text"
+          label="Email"
+          placeholder="Email"
+          variant="outlined"
+          defaultValue="Hello World"
+        /> */}
         <TextField
           onChange={onChangeUserPhoneHandler}
           className="simple-input"

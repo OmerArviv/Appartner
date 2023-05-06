@@ -36,7 +36,7 @@ router.route("/register").post(async (request, response) => {
   // Create token
   if (result != null) {
     const token = jwt.sign(
-      { user_id: user._id, email },
+      { user_id: result._id, email },
       process.env.TOKEN_KEY,
       {
         expiresIn: "2h",
@@ -44,6 +44,7 @@ router.route("/register").post(async (request, response) => {
     );
     // save user token
     user.token = token;
+    user.id = result._id;
     return response.status(201).json(user);
   } else {
     return response.status(403).send({});
@@ -84,14 +85,14 @@ router.route("/login").post(async (request, response) => {
 router.route("/getUserSalt").get(async (request, response) => {
   const { email } = request.query;
   if (!email) {
-    return response.status(403).send({});
+    return response.status(403).send(null);
   }
 
   const salt = await UserService.getSaltByEmail(email);
   if (salt) {
     return response.status(200).json(salt);
   }
-  return response.status(403).send({});
+  return response.status(204).send(null);
 });
 
 router.route("/updateUserDetails").post(async (request, response) => {

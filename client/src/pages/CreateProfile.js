@@ -20,6 +20,8 @@ import { getUserEmail } from "../APP/APP_AUTH";
 import { pageTitleContext } from "../APP/Utils";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
+import { authContext, pageTitleContext } from "../APP/Utils";
+import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -34,12 +36,17 @@ const genderOptions = ["Male", "Female", "Other"];
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-  const {setPageTitle} = useContext(pageTitleContext);
-      
-  useEffect(()=>{
+  const { setPageTitle } = useContext(pageTitleContext);
+  const { userEmail } = useContext(authContext);
+
+  // const [arrayImages, setArrayImages]= useState(null);
+
+  useEffect(() => {
     setPageTitle("Create Profile");
   }, []);
   const userType = "type";
+
+  const [userSTT, setUserSTT] = useState("");
 
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
@@ -54,6 +61,19 @@ const CreateProfile = () => {
   const [userInstagramLink, setUserInstagramLink] = useState("");
   const [userProfileImage, setUserProfileImage]= useState("");
   // const [userImagesArray, setUserImagesArray] = useState("");
+
+  useEffect(() => {
+    if (userSTT != "") {
+      console.log(userSTT);
+      setUserBirthday(userSTT["age"]);
+      setUserEmployment(userSTT["user_employment"]);
+      setUserSmoking(userSTT["smoking"]);
+      setUserPets(userSTT["pets"]);
+      setUserAlcohol(userSTT["alcohol"]);
+      setUserKosher(userSTT["kosher"]);
+      setUserGender(userSTT["gender"]);
+    }
+  }, [userSTT]);
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -133,10 +153,9 @@ const CreateProfile = () => {
   //   console.log(userImagesArray);
   // }
 
-  
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const user_email = await getUserEmail();
+    const user_email = userEmail;
     if (
       user_email != null &&
       userBirthday != null &&
@@ -150,7 +169,6 @@ const CreateProfile = () => {
     ) {
       const userProfile = {
         email: user_email,
-        user_type: "test",
         Birthday_date: userBirthday,
         user_employment: userEmployment,
         smoking: userSmoking,
@@ -177,6 +195,7 @@ const CreateProfile = () => {
 
   return (
     <>
+      {/* <Speechtotext setUser={setUserSTT}></Speechtotext> */}
       <Box
         container="true"
         spacing={50}

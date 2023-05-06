@@ -12,10 +12,9 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import looker_img from "../images/looker_img.png";
 import welcomer_img from "../images/welcomer_img.png";
-import { pageTitleContext } from "../APP/Utils";
+import { pageTitleContext, authContext } from "../APP/Utils";
 import { updateUserDetails } from "../controller/authenticationController";
 import { getUserEmail } from "../APP/APP_AUTH";
-import { setUserRole } from "../APP/APP_AUTH";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -28,13 +27,14 @@ const WhoAreYouProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
   const [userType, setUserType] = useState("");
+  const { setUserRole, userEmail } = useContext(authContext);
 
   useEffect(() => {
     setPageTitle("Who Are You?");
   }, []);
 
   const onUserRoleUpdate = async () => {
-    const email = getUserEmail();
+    const email = userEmail;
     if (email && userType) {
       const res = await updateUserDetails({
         email: email,
