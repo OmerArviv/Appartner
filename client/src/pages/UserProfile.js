@@ -29,7 +29,6 @@ const btnstyle = {
 const UserProfile = (props) => {
   const { email } = props;
   const { setPageTitle } = useContext(pageTitleContext);
-  const { userEmail } = useContext(authContext);
   const [userProfileImage, setUserProfileImage] = useState("");
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
@@ -45,7 +44,6 @@ const UserProfile = (props) => {
   }, [setPageTitle]);
 
   useEffect(() => {
-    const email = userEmail;
     fetch("http://localhost:8000/email-userprofile", {
       method: "POST",
       headers: {
@@ -77,15 +75,15 @@ const UserProfile = (props) => {
       container
       justifyContent="center"
       alignItems="stretch"
-      style={{ margin: "0 auto" }}
+      style={{ margin: "5" }}
     >
-      <Grid item xs={10} sm={8} md={6}>
+      <Grid item xs={10} sm={10} md={10}>
         <Grid
           container
           alignItems="center"
           justifyContent="center"
           spacing={2}
-          marginTop={15}
+          marginTop={5}
         >
           <Grid item xs={12}>
             <Grid
@@ -97,7 +95,6 @@ const UserProfile = (props) => {
               <Grid item xs={12} sm={5}>
                 <Box sx={{ height: 400, overflow: "hidden" }}>
                   <ProfilePicture
-                    // src="https://picsum.photos/300/201"
                     src={userProfileImage}
                     alt="Profile Picture"
                   />
