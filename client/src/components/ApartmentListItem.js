@@ -1,4 +1,9 @@
-import {CardContent,  CardActionArea, Typography, CardMedia } from "@mui/material";
+import {
+  CardContent,
+  CardActionArea,
+  Typography,
+  CardMedia,
+} from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Stack } from "@mui/material";
@@ -10,16 +15,17 @@ function ApartmentListItem(props) {
   const navigate=useNavigate();
   const showApartmentHandler= ()=>{
     navigate(`/apartment/${data._id}`);
+  };
 
-  }
-
-  
   return (
     <>
       {/* <Box container="true" sx={{ height: 200, width: 300,display: 'inline-flex', flexDirection: 'column', flexWrap: "wrap", alignItems: 'center' }}> */}
 
       {/* <Box item="true" sx={{ height: "fit-content", width: "fit-content"}}> */}
-      <CardActionArea sx={{ width: "fit-content" }} onClick={showApartmentHandler}>
+      <CardActionArea
+        sx={{ width: "fit-content" }}
+        onClick={showApartmentHandler}
+      >
         <CardContent>
           <CardMedia
             component="img"

@@ -12,9 +12,11 @@ const userAPI = require("./Controller/UserController.js");
 const userProfileAPI = require("./Controller/UserProfileController");
 const userProfilePreferncesAPI = require("./Controller/UserProfilePreferncesController");
 const AppartmentAPI = require("./Controller/AppartmentController");
+const roomateRequestAPI = require("./Controller/RoomateRequestController");
 
 //Route use
 app.use("/authentication", userAPI);
 app.use("/userProfile", userProfileAPI);
 app.use("/userProfilePrefernces", userProfilePreferncesAPI);
 app.use("/appartment", AppartmentAPI);
+app.use("/roomateRequest", roomateRequestAPI);

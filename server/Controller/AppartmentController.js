@@ -30,21 +30,8 @@ router.route("/updateAppartment").post(auth, async (request, response) => {
   return response.status(403).send({});
 });
 
-router.route("/getAppartmentByEmail").get(async (request, response) => {
-  const { email } = request.query;
-  if (!email) {
-    return response.status(403).send({});
-  }
-
-  const Appartment = await AppartmentService.findAppartmentByEmail(email);
-  if (Appartment) {
-    return response.status(200).json(Appartment);
-  }
-  return response.status(204).send(null);
-});
-
 router.route("/getAppartmentById").get(async (request, response) => {
-  const { id } = request.query;
+  const id = request.query;
   if (!id) {
     return response.status(403).send({});
   }
@@ -57,11 +44,10 @@ router.route("/getAppartmentById").get(async (request, response) => {
 });
 
 router.route("/getAppartmentByUserEmail").get(async (request, response) => {
-  const { userEmail } = request.query;
+  const userEmail = request.query;
   if (!userEmail) {
     return response.status(403).send({});
   }
-
   const Appartment = await AppartmentService.findAppartmentByUserEmail(
     userEmail
   );

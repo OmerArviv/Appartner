@@ -25,12 +25,12 @@ module.exports = class AppartmentService {
   }
 
   static async findAppartmentByid(id) {
-    const res = await Appartment.findOne({ id });
+    const res = await Appartment.findOne(id);
     return res;
   }
 
   static async findAppartmentByUserEmail(userId) {
-    const res = await Appartment.findOne({ userId });
+    const res = await Appartment.find(userId);
     return res;
   }
 

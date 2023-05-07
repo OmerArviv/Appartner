@@ -36,7 +36,7 @@ function RoomateAvatar(props) {
     <div>
       {roomate ? (
         <div>
-          <Button 
+          <Button
             onClick={() => {
               setModal(true);
             }}

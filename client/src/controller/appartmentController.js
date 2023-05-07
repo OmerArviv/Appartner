@@ -26,7 +26,7 @@ export const updateAppartment = (appartment) => {
 };
 
 export const getAppartmentById = (id) => {
-  let url = APP_ROUTES.appartment.getAppartmentByEmail;
+  let url = APP_ROUTES.appartment.getAppartmentById;
   let data = { _id: id };
   return axios
     .get(url, {
@@ -34,8 +34,8 @@ export const getAppartmentById = (id) => {
       headers: GET_HEADERS(),
     })
     .then((result) => {
-      if (result.data) {
-        return result.data;
+      if (result) {
+        return result;
       } else {
         return null;
       }
@@ -48,14 +48,15 @@ export const getAppartmentById = (id) => {
 export const getAppartmentByUserEmail = (userEmail) => {
   let url = APP_ROUTES.appartment.getAppartmentByUserEmail;
   let data = { email: userEmail };
+
   return axios
     .get(url, {
       params: data,
       headers: GET_HEADERS(),
     })
     .then((result) => {
-      if (result.data) {
-        return result.data;
+      if (result) {
+        return result;
       } else {
         return null;
       }
