@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Typography, Box, Paper, Button } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Paper,
+  Button,
+  CardContent,
+  Stack,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -108,12 +116,20 @@ const Apartment = () => {
                       height={300}
                     />
                   </Box>
-
-                  {/* <RoundedPicture
-                    src="https://picsum.photos/101"
-                    alt="Profile Picture 5"
-                    text="Omer Bar, 27"
-                  /> */}
+                  <CardContent>
+                    <Stack direction="row" spacing={2}>
+                      {appartment.roomates.length != 0
+                        ? appartment.roomates.map((item, index) => {
+                            return (
+                              <RoomateAvatar
+                                email={item}
+                                key={index}
+                              ></RoomateAvatar>
+                            );
+                          })
+                        : ""}
+                    </Stack>
+                  </CardContent>
                 </Grid>
                 <Grid item xs={12} sm={2} />
                 <Grid item xs={12} sm={5}>
@@ -141,11 +157,6 @@ const Apartment = () => {
                     <Topic label="Parking:" value={appartment.parking} />
                     <Topic label="Smoking:" value={appartment.smoking} />
                   </Box>
-                  {/* <RoundedPicture
-                    src="https://picsum.photos/100"
-                    alt="Profile Picture 5"
-                    text="Noa Sharon, 25"
-                  /> */}
                 </Grid>
               </Grid>
             ) : (

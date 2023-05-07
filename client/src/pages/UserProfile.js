@@ -45,7 +45,6 @@ const UserProfile = (props) => {
   }, [setPageTitle]);
 
   useEffect(() => {
-    const email = userEmail;
     fetch("http://localhost:8000/email-userprofile", {
       method: "POST",
       headers: {
