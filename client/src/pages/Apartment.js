@@ -3,6 +3,7 @@ import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
+import { useParams } from "react-router";
 
 const RoundedPicture = ({ src, alt, text }) => (
   <Box
@@ -49,15 +50,16 @@ const apartmentImages = [
 const Apartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userRole, userId } = useContext(authContext);
+  const {apartmentId}= useParams();
 
   const [appartment, setAppartment] = useState({ _id: 0 });
-
   useEffect(() => {
     setPageTitle("Apartment");
     const ap = {
       _id: userId,
     };
     setAppartment(ap);
+    {console.log(apartmentId)}
   }, []);
 
   return (
