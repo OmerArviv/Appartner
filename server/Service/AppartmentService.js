@@ -25,7 +25,7 @@ module.exports = class AppartmentService {
   }
 
   static async findAppartmentByid(id) {
-    const res = await Appartment.findOne({ id });
+    const res = await Appartment.findOne(id);
     return res;
   }
 

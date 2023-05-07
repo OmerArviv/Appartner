@@ -44,7 +44,7 @@ router.route("/getAppartmentByEmail").get(async (request, response) => {
 });
 
 router.route("/getAppartmentById").get(async (request, response) => {
-  const { id } = request.query;
+  const id = request.query;
   if (!id) {
     return response.status(403).send({});
   }
