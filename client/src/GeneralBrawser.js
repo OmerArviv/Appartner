@@ -48,7 +48,7 @@ function GeneralBrawser() {
           <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
           <Route path="/looker-home-page" element={<LookerHomePage />} />
-          <Route path="/apartment" element={<Apartment />} />
+          <Route path="/apartment/:apartmentId" element={<Apartment />} />
           <Route path="/userProfile" element={<UserProfile />} />
         </Routes>
       ) : (

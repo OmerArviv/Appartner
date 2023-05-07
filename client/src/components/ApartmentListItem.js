@@ -11,7 +11,7 @@ function ApartmentListItem(props) {
   const showApartmentHandler= ()=>{
     console.log("show apartement");
     console.log(data._id);
-    navigate("/apartment", {apartmentId: data._id});
+    navigate(`/apartment/${data._id}`);
 
   }
 
