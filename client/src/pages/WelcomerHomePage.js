@@ -1,17 +1,20 @@
 import { useContext, useEffect } from "react";
 import { pageTitleContext } from "../APP/Utils";
-import { Typography } from "@mui/material";
+import RequestItem from "../components/RequestItem";
+import { Grid } from "@mui/material";
 
-const Home = () => {
+const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
 
   useEffect(() => {
-    setPageTitle("Home");
+    setPageTitle("Requests");
   }, []);
 
   return (
-    <Typography sx={{ textAlign: "center" }}>Welcomer Home Page</Typography>
+    <Grid>
+      <RequestItem></RequestItem>
+    </Grid>
   );
 };
 
-export default Home;
+export default WelcomerHomePage;
