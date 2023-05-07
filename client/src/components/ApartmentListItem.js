@@ -1,25 +1,27 @@
-import {
-  Avatar,
-  Button,
-  CardMedia,
-  Typography,
-  CardActionArea,
-} from "@mui/material";
-import { Box, CardContent, ListItem } from "@mui/material";
+import {CardContent,  CardActionArea, Typography, CardMedia } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Stack } from "@mui/material";
 import RoomateAvatar from "./RoomateAvatar";
+import { useNavigate } from "react-router";
 
 function ApartmentListItem(props) {
   const { data } = props;
+  const navigate=useNavigate();
+  const showApartmentHandler= ()=>{
+    console.log("show apartement");
+    console.log(data._id);
+    navigate("/apartment", {apartmentId: data._id});
 
+  }
+
+  
   return (
     <>
       {/* <Box container="true" sx={{ height: 200, width: 300,display: 'inline-flex', flexDirection: 'column', flexWrap: "wrap", alignItems: 'center' }}> */}
 
       {/* <Box item="true" sx={{ height: "fit-content", width: "fit-content"}}> */}
-      <CardActionArea sx={{ width: "fit-content" }}>
+      <CardActionArea sx={{ width: "fit-content" }} onClick={showApartmentHandler}>
         <CardContent>
           <CardMedia
             component="img"
