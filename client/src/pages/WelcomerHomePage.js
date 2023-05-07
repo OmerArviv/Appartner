@@ -1,20 +1,19 @@
 import { useContext, useEffect } from "react";
 import { pageTitleContext } from "../APP/Utils";
-import { Typography } from "@mui/material";
 import RequestItem from "../components/RequestItem";
+import { Grid } from "@mui/material";
 
 const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
 
   useEffect(() => {
-    setPageTitle("Home");
+    setPageTitle("Requests");
   }, []);
 
   return (
-    <div>
-      {" "}
+    <Grid>
       <RequestItem></RequestItem>
-    </div>
+    </Grid>
   );
 };
 
