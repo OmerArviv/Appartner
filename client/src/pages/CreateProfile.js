@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
+import DialogImage from "../components/DialogImage";
+import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 
@@ -41,8 +43,6 @@ const CreateProfile = () => {
   useEffect(() => {
     setPageTitle("Create Profile");
   }, []);
-  // const [userInstagramLink, setUserInstagramLink]=useState(null);
-  const email = "email";
   const userType = "type";
 
   const [userSTT, setUserSTT] = useState("");
@@ -58,7 +58,8 @@ const CreateProfile = () => {
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
-  const [userImagesArray, setUserImagesArray] = useState("");
+  const [userProfileImage, setUserProfileImage]= useState("");
+  // const [userImagesArray, setUserImagesArray] = useState("");
 
   useEffect(() => {
     if (userSTT != "") {
@@ -130,29 +131,26 @@ const CreateProfile = () => {
   }
 
   function userInstagramLinkHandler(event) {
-    setUserFacebookLink(event.target.value);
+    setUserInstagramLink(event.target.value);
   }
 
-  function userImagesArrayHandler(arr) {
-    console.log("set images array handler");
-    const newArray = [];
-    if (arr[0] != "") {
-      newArray.push(arr[0]);
-    }
-    if (arr[1] != "") {
-      newArray.push(arr[1]);
-    }
-    if (arr[2] != "") {
-      newArray.push(arr[2]);
-    }
-    if (arr[3] != "") {
-      newArray.push(arr[3]);
-    }
-    if (newArray != null) {
-      setUserImagesArray(newArray);
-    }
-    console.log(userImagesArray);
-  }
+  // function userImagesArrayHandler(arr) {
+  //   console.log("set images array handler");
+  //   const newArray=[]; 
+  //   if(arr[0]!=""){
+  //     newArray.push(arr[0]); 
+  //   }if(arr[1]!=""){
+  //     newArray.push(arr[1]); 
+  //   }if(arr[2]!=""){
+  //     newArray.push(arr[2]); 
+  //   }if(arr[3]!=""){
+  //     newArray.push(arr[3]); 
+  //   }
+  //   if(newArray!= null){
+  //   setUserImagesArray(newArray);
+  //   }
+  //   console.log(userImagesArray);
+  // }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -181,7 +179,7 @@ const CreateProfile = () => {
         user_additonal_information: userAdditonal,
         user_facebook_link: userFacebookLink,
         user_instagram_link: userInstagramLink,
-        user_images_array: userImagesArray,
+        user_profile_image: userProfileImage,
       };
       const result = await createUserProfile(userProfile);
       if (result.status == 201) {
@@ -415,7 +413,22 @@ const CreateProfile = () => {
         </Box>
 
         {/*Third Box photos */}
-        <UploadImages setArrayImages={userImagesArrayHandler} />
+        {/* <UploadImages  setArrayImages={userImagesArrayHandler}/> */}
+        <Box
+         item="true"
+         component="div"
+         xs={2}
+         sx={{ width: "fit-content", marginLeft: "auto", marginRight: "auto", alignContent:"center", justifyContent:"center" }}>
+            <CardContent sx={{height:"fit-content", width:"fit-content"}}>
+            <Typography align="center" gutterBottom="ture" variant="h5" >
+              Upload Profile Image
+            </Typography>
+                <DialogImage setImage={setUserProfileImage}/>
+            </CardContent>
+            
+
+          
+         </Box>
       </Box>
 
       {/*4 Box down */}

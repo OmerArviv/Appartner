@@ -3,6 +3,10 @@ import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
+import { useParams } from "react-router";
+import { getAppartmentById } from "../controller/appartmentController";
+import { useNavigate } from "react-router";
+import RoomateAvatar from "../components/RoomateAvatar";
 
 const RoundedPicture = ({ src, alt, text }) => (
   <Box
@@ -49,15 +53,29 @@ const apartmentImages = [
 const Apartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userRole, userId } = useContext(authContext);
+  const { apartmentId } = useParams();
+  const navigate = useNavigate();
 
-  const [appartment, setAppartment] = useState({ _id: 0 });
+  const [appartment, setAppartment] = useState("");
+
+  const getAppartmentDetailsById = async () => {
+    const res = await getAppartmentById(apartmentId);
+    if (!res || res.status == 204) {
+      alert("We couldn't find the appartment , please try again");
+      navigate(-1);
+      return;
+    }
+    if (res.status == 403) {
+      alert("Something went wrong");
+    } else if (res.status == 200) {
+      setAppartment(res.data);
+      console.log(res.data);
+    }
+  };
 
   useEffect(() => {
     setPageTitle("Apartment");
-    const ap = {
-      _id: userId,
-    };
-    setAppartment(ap);
+    getAppartmentDetailsById();
   }, []);
 
   return (
@@ -76,43 +94,63 @@ const Apartment = () => {
           marginTop={15}
         >
           <Grid item xs={12}>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              spacing={2}
-            >
-              <Grid item xs={12} sm={5}>
-                <Box sx={{ height: 450 }}>
-                  <UserCarousel
-                    apartmentImages={apartmentImages}
-                    height={300}
-                  />
-                </Box>
-                <RoundedPicture
-                  src="https://picsum.photos/101"
-                  alt="Profile Picture 5"
-                  text="Omer Bar, 27"
-                />
+            {appartment ? (
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                spacing={2}
+              >
+                <Grid item xs={12} sm={5}>
+                  <Box sx={{ height: 450 }}>
+                    <UserCarousel
+                      apartmentImages={appartment.images}
+                      height={300}
+                    />
+                  </Box>
+
+                  {/* <RoundedPicture
+                    src="https://picsum.photos/101"
+                    alt="Profile Picture 5"
+                    text="Omer Bar, 27"
+                  /> */}
+                </Grid>
+                <Grid item xs={12} sm={2} />
+                <Grid item xs={12} sm={5}>
+                  <Box sx={{ height: 450 }}>
+                    <Topic
+                      label="Age:"
+                      value={
+                        appartment.age_range[0] +
+                        " - " +
+                        appartment.age_range[1]
+                      }
+                    />
+                    <Topic label="Location:" value={appartment.location} />
+                    <Topic
+                      label="Price:"
+                      value={
+                        appartment.price_range[0] +
+                        "$ - " +
+                        appartment.price_range[1] +
+                        "$/month"
+                      }
+                    />
+                    <Topic label="Gender:" value={appartment.gender} />
+                    <Topic label="Elevator:" value={appartment.elevator} />
+                    <Topic label="Parking:" value={appartment.parking} />
+                    <Topic label="Smoking:" value={appartment.smoking} />
+                  </Box>
+                  {/* <RoundedPicture
+                    src="https://picsum.photos/100"
+                    alt="Profile Picture 5"
+                    text="Noa Sharon, 25"
+                  /> */}
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={2} />
-              <Grid item xs={12} sm={5}>
-                <Box sx={{ height: 450 }}>
-                  <Topic label="Age:" value="24-25" />
-                  <Topic label="Location:" value="New York" />
-                  <Topic label="Price:" value="$2000/month" />
-                  <Topic label="Gender:" value="Male" />
-                  <Topic label="Elevator:" value="Yes" />
-                  <Topic label="Parking:" value="No" />
-                  <Topic label="Pets:" value="Yes" />
-                </Box>
-                <RoundedPicture
-                  src="https://picsum.photos/100"
-                  alt="Profile Picture 5"
-                  text="Noa Sharon, 25"
-                />
-              </Grid>
-            </Grid>
+            ) : (
+              ""
+            )}
           </Grid>
         </Grid>
         <Box

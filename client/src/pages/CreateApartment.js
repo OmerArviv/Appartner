@@ -9,6 +9,7 @@ import {
   CardContent,
   Slider,
   Typography,
+  StyledEngineProvider,
 } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
@@ -41,7 +42,15 @@ const CreateApartment = () => {
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
-  const [roomates, setRoomates] = useState("");
+  const [apartmentImages, setApartmentImages] = useState("");
+  const [roomates, setRoomates] = useState([userEmail]);
+  const [selectedCollaborator, setSelectedCollaborator] = useState("");
+
+  const handleChooseCollaborator = (email) => {
+    setSelectedCollaborator(email);
+    console.log("test", email);
+    console.log(selectedCollaborator);
+  };
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -64,9 +73,6 @@ const CreateApartment = () => {
   const handleSmokingChange = (event) => {
     setSmoking(event.target.value);
   };
-  const handleRoomatesChange = (event) => {
-    setRoomates(event.target.value);
-  };
 
   function valueAgetext(value) {
     return `${value}`;
@@ -75,6 +81,23 @@ const CreateApartment = () => {
     return `${value}`;
   }
 
+  function apartmentImagesHandler(arr) {
+    console.log("set images array handler");
+    const newArray=[]; 
+    if(arr[0]!=""){
+      newArray.push(arr[0]); 
+    }if(arr[1]!=""){
+      newArray.push(arr[1]); 
+    }if(arr[2]!=""){
+      newArray.push(arr[2]); 
+    }if(arr[3]!=""){
+      newArray.push(arr[3]); 
+    }
+    if(newArray!= null){
+    setApartmentImages(newArray);
+    }
+    console.log(apartmentImages);
+  }
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = userEmail;
@@ -99,8 +122,12 @@ const CreateApartment = () => {
         parking: parking,
         smoking: smoking,
         roomates: roomates,
-        images: [],
+        images: apartmentImages,
       };
+      if (selectedCollaborator != "" && selectedCollaborator) {
+        appartment.roomates = [...roomates, selectedCollaborator];
+      }
+
       const result = await createAppartment(appartment);
       if (result.status == 201) {
         navigate("/");
@@ -183,6 +210,7 @@ const CreateApartment = () => {
           >
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="all">All</MenuItem>
           </Select>
         </FormControl>
       </Grid>
@@ -242,7 +270,7 @@ const CreateApartment = () => {
             <MenuItem value="5">5</MenuItem>
           </Select>
         </FormControl> */}
-        <DialogAddCollabrator></DialogAddCollabrator>
+        <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}
@@ -252,7 +280,7 @@ const CreateApartment = () => {
         </Button>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        {/* <UploadImages></UploadImages> */}
+        <UploadImages setArrayImages={apartmentImagesHandler}/>
       </Grid>
     </Grid>
   );

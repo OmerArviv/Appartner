@@ -45,6 +45,16 @@ app.post("/email-userprofile", async (req, res) => {
   }
 });
 
+app.post("/email-all-userprofiles", async (req, res) => {
+  try {
+    const userProfiles = await userProfile.find({});
+    res.status(200).json(userProfiles);
+  } catch (error) {
+    console.error("Error while querying database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
