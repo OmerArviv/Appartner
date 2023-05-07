@@ -36,13 +36,13 @@ function RoomateAvatar(props) {
     <div>
       {roomate ? (
         <div>
-          <Button
+          <Button 
             onClick={() => {
               setModal(true);
             }}
           >
             <Avatar
-              src={roomate.user_images_array[0]}
+              src={roomate.user_profile_image}
               sx={{ width: 75, height: 75 }}
             />
           </Button>
