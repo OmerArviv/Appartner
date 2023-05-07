@@ -37,18 +37,21 @@ export default function NavBar(props) {
 
   useEffect(()=>{ 
     getUserHandler();
+    console.log(Cookies.get("user_email"));
     getUserApartmentsHandler();
   }, []);
 
   const getUserHandler= async ()=>{
     const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
     if (res) {
+      console.log("res");
+      console.log(res);
       setUserProfile(res);
     }
   }
 
   const getUserApartmentsHandler= async ()=>{
-    const res= await getUserProfileByEmail(Cookies.get("user_email"));
+    const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
     if (res) {
       setUserApartments(res);
     }
@@ -123,7 +126,6 @@ export default function NavBar(props) {
             <Avatar 
             src={userProfile ? userProfile.user_profile_image : "" }
             onClick={()=>{navigate("/userProfile")}}
-            sx={{color: "inherit", background: "#CEC9B6", width: 44, height: 44 }}
             />
             </IconButton>
             </Tooltip>

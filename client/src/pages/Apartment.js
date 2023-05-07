@@ -84,6 +84,10 @@ const Apartment = () => {
 
   useEffect(() => {
     setPageTitle("Apartment");
+    const ap = {
+      _id: userId,
+    };
+    setAppartment(ap);
     getAppartmentDetailsById();
   }, []);
 
