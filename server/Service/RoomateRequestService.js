@@ -25,7 +25,10 @@ module.exports = class AppartmentService {
   }
 
   static async findRoomateRequestByAppartmentId(id) {
-    const res = await RoomateRequest.find(id);
+    const res = await RoomateRequest.find({
+      appartment_id: id.id,
+      status: null,
+    });
     return res;
   }
 

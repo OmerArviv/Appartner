@@ -6,16 +6,27 @@ import {
   Grid,
   DialogTitle,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import UserProfile from "../pages/UserProfile";
 
-const RequestItem = () => {
+const RequestItem = (props) => {
+  const { request } = props;
   const [modal, setModal] = useState(false);
-  const [name, setname] = useState("");
+  const [user, setUser] = useState("");
   const handleCloseProfile = () => {
     setModal(false);
   };
+
+  const getUser = async () => {
+    const res = await getUserProfileByEmail(request.user_email);
+    if (res) {
+      setUser(res);
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Grid
@@ -27,7 +38,7 @@ const RequestItem = () => {
       <Grid item xs={1}>
         <Avatar
           alt="image1"
-          src="https://images.squarespace-cdn.com/content/v1/522b327ee4b0673919bbe57a/1551246048479-DN3TH6PYE3PKCPDGMVNH/%D7%A0%D7%95%D7%A2%D7%94-%D7%9C%D7%A4%D7%99%D7%93%D7%95%D7%AA_01_1500.jpg"
+          src={user.user_profile_image}
           sx={{ width: 100, height: 100 }}
           onClick={() => {
             setModal(true);
@@ -36,10 +47,10 @@ const RequestItem = () => {
       </Grid>
       <Dialog maxWidth="lg" open={modal} onClose={handleCloseProfile}>
         <DialogTitle textAlign="center">Roomate Details</DialogTitle>
-        <UserProfile email={getUserProfileByEmail}></UserProfile>
+        <UserProfile email={user.email}></UserProfile>
       </Dialog>
       <Grid item xs={2} sx={{ textAlign: "left" }}>
-        <Typography sx={{ fontSize: "25px" }}>Oriya Atar</Typography>
+        <Typography sx={{ fontSize: "25px" }}>{user.email}</Typography>
       </Grid>
       <Grid item xs={2}>
         <Button

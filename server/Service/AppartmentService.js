@@ -30,7 +30,7 @@ module.exports = class AppartmentService {
   }
 
   static async findAppartmentByUserEmail(userId) {
-    const res = await Appartment.findOne({ userId });
+    const res = await Appartment.find(userId);
     return res;
   }
 

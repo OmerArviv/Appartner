@@ -15,6 +15,7 @@ import { useParams } from "react-router";
 import { getAppartmentById } from "../controller/appartmentController";
 import { useNavigate } from "react-router";
 import RoomateAvatar from "../components/RoomateAvatar";
+import { createRoomateRequest } from "../controller/RoomateRequestController";
 
 const RoundedPicture = ({ src, alt, text }) => (
   <Box
@@ -60,7 +61,7 @@ const apartmentImages = [
 
 const Apartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
-  const { userRole, userId } = useContext(authContext);
+  const { userRole, userId, userEmail } = useContext(authContext);
   const { apartmentId } = useParams();
   const navigate = useNavigate();
 
@@ -85,6 +86,21 @@ const Apartment = () => {
     setPageTitle("Apartment");
     getAppartmentDetailsById();
   }, []);
+
+  const sendRequest = async () => {
+    const request = {
+      appartment_id: apartmentId,
+      user_email: userEmail,
+    };
+    const res = await createRoomateRequest(request);
+    if (!res || res.status == 400 || res.status == 403) {
+      alert("something went wrong");
+      return;
+    }
+    if (res.status == 201) {
+      alert("request was send");
+    }
+  };
 
   return (
     <Grid
@@ -170,7 +186,7 @@ const Apartment = () => {
           {userRole === "Looker" ? (
             <Button
               variant="contained"
-              // onClick={onSubmitHandler}
+              onClick={sendRequest}
               style={btnstyle}
               sx={{ width: "400px", marginBottom: "20px" }}
             >

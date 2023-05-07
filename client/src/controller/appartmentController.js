@@ -48,14 +48,15 @@ export const getAppartmentById = (id) => {
 export const getAppartmentByUserEmail = (userEmail) => {
   let url = APP_ROUTES.appartment.getAppartmentByUserEmail;
   let data = { email: userEmail };
+
   return axios
     .get(url, {
       params: data,
       headers: GET_HEADERS(),
     })
     .then((result) => {
-      if (result.data) {
-        return result.data;
+      if (result) {
+        return result;
       } else {
         return null;
       }
