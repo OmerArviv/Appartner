@@ -9,8 +9,6 @@ function ApartmentListItem(props) {
   const { data } = props;
   const navigate=useNavigate();
   const showApartmentHandler= ()=>{
-    console.log("show apartement");
-    console.log(data._id);
     navigate(`/apartment/${data._id}`);
 
   }
