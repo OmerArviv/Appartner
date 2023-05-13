@@ -19,6 +19,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import { getAppartmentByUserEmail } from "../controller/appartmentController";
+import { getRoomateRequestByAppartmentId } from "../controller/RoomateRequestController";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function NavBar(props) {
   const { pageTitle } = useContext(pageTitleContext);
   const [userProfile, setUserProfile]=useState("");
   const userRole=Cookies.get("user_role");
-  const [requestsNumber, setRequestsNumber] = useState(1);
+  const [requestsNumber, setRequestsNumber] = useState(0);
   const [userApartments, setUserApartments] = useState("");
 
   const handleSignOut = () => {
@@ -37,6 +38,7 @@ export default function NavBar(props) {
 
   useEffect(()=>{ 
     getUserHandler();
+    getUserApartmentsHandler();
     getUserApartmentsHandler();
   }, []);
 
@@ -50,10 +52,22 @@ export default function NavBar(props) {
   const getUserApartmentsHandler= async ()=>{
     const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
     if (res._id) {
-      console.log("apartment");
-      setUserApartments(res);
+      console.log("rommates");
+      setRequestsNumber(res);
       console.log(res);
     }
+  }
+
+  const getRoomateRequesHandler= async ()=>{
+    if(userApartments){
+      const res= await getRoomateRequestByAppartmentId(userApartments._id);
+      if (res) {
+        console.log("apartment");
+        setUserApartments(res);
+        console.log(res);
+      }
+    }
+   
   }
 
   return (
@@ -102,7 +116,7 @@ export default function NavBar(props) {
               <>
               <Tooltip title="Your Requests" disableInteractive>
               <IconButton >
-              <Badge color="secondary" badgeContent={requestsNumber}  onClick={()=>{navigate("/")}} max={10}>
+              <Badge color="secondary" badgeContent={requestsNumber.length}  onClick={()=>{navigate("/")}} max={10}>
                 <PeopleAltIcon fontSize="large"/>
               </Badge>
               </IconButton>
