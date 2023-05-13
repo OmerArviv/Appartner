@@ -11,15 +11,14 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../APP/Utils";
 import { RemoveTokenAfterSignOut } from "../APP/APP_AUTH";
-import { Alert, AlertTitle, Avatar, Badge, ButtonGroup, Tooltip } from "@mui/material";
+import {Avatar, Badge, Tooltip } from "@mui/material";
 import Cookies from "js-cookie";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { Stack } from "@mui/system";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import { getAppartmentByUserEmail } from "../controller/appartmentController";
-import GeneralDialog from "./UI/GeneralDialog";
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import { getAppartmentByUserEmail } from "../controller/appartmentController";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -30,8 +29,6 @@ export default function NavBar(props) {
   const userRole=Cookies.get("user_role");
   const [requestsNumber, setRequestsNumber] = useState(1);
   const [userApartments, setUserApartments] = useState("");
-  const [open, setOpen] = useState(false);
-
 
   const handleSignOut = () => {
     removeUserDetailsAfterSignout();
@@ -41,10 +38,6 @@ export default function NavBar(props) {
   useEffect(()=>{ 
     getUserHandler();
     getUserApartmentsHandler();
-
-    console.log(Cookies.get("user_email"));
-    console.log(Cookies.get("user_email"));
-
   }, []);
 
   const getUserHandler= async ()=>{
