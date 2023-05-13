@@ -38,14 +38,16 @@ export default function NavBar(props) {
   useEffect(()=>{ 
     getUserHandler();
     console.log(Cookies.get("user_email"));
+  }, []);
+
+  
+  useEffect(()=>{ 
     getUserApartmentsHandler();
   }, []);
 
   const getUserHandler= async ()=>{
-    const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
+    const res= await getUserProfileByEmail(Cookies.get("user_email"));
     if (res) {
-      console.log("res");
-      console.log(res);
       setUserProfile(res);
     }
   }
@@ -53,6 +55,8 @@ export default function NavBar(props) {
   const getUserApartmentsHandler= async ()=>{
     const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
     if (res) {
+      console.log("apartment")
+      console.log(res)
       setUserApartments(res);
     }
   }
@@ -102,8 +106,8 @@ export default function NavBar(props) {
             {userRole == "Welcomer" ? (
               <>
               <Tooltip title="Your Requests" disableInteractive>
-              <IconButton onClick={()=>{navigate("/")}} sx={{}}>
-              <Badge color="secondary" badgeContent={requestsNumber} max={10}>
+              <IconButton >
+              <Badge color="secondary" badgeContent={requestsNumber}  onClick={()=>{navigate("/")}} max={10}>
                 <PeopleAltIcon fontSize="large"/>
               </Badge>
               </IconButton>
