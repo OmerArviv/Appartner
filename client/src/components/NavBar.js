@@ -11,23 +11,26 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../APP/Utils";
 import { RemoveTokenAfterSignOut } from "../APP/APP_AUTH";
-import { Avatar, Badge, ButtonGroup, Tooltip } from "@mui/material";
+import { Alert, AlertTitle, Avatar, Badge, ButtonGroup, Tooltip } from "@mui/material";
 import Cookies from "js-cookie";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { Stack } from "@mui/system";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { getAppartmentByUserEmail } from "../controller/appartmentController";
+import GeneralDialog from "./UI/GeneralDialog";
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 export default function NavBar(props) {
   const navigate = useNavigate();
   const { authenticated, removeUserDetailsAfterSignout } =
     useContext(authContext);
   const { pageTitle } = useContext(pageTitleContext);
-  const [userProfile, setUserProfile]=useState();
+  const [userProfile, setUserProfile]=useState("");
   const userRole=Cookies.get("user_role");
   const [requestsNumber, setRequestsNumber] = useState(1);
   const [userApartments, setUserApartments] = useState("");
+  const [open, setOpen] = useState(false);
 
 
   const handleSignOut = () => {
@@ -37,12 +40,11 @@ export default function NavBar(props) {
 
   useEffect(()=>{ 
     getUserHandler();
-    console.log(Cookies.get("user_email"));
-  }, []);
-
-  
-  useEffect(()=>{ 
     getUserApartmentsHandler();
+
+    console.log(Cookies.get("user_email"));
+    console.log(Cookies.get("user_email"));
+
   }, []);
 
   const getUserHandler= async ()=>{
@@ -54,10 +56,10 @@ export default function NavBar(props) {
 
   const getUserApartmentsHandler= async ()=>{
     const res= await getAppartmentByUserEmail(Cookies.get("user_email"));
-    if (res) {
-      console.log("apartment")
-      console.log(res)
+    if (res._id) {
+      console.log("apartment");
       setUserApartments(res);
+      console.log(res);
     }
   }
 
@@ -112,11 +114,18 @@ export default function NavBar(props) {
               </Badge>
               </IconButton>
               </Tooltip >
-              <Tooltip title="Your Apartment" disableInteractive>
-              <IconButton onClick={()=>{navigate(`/apartment/${userApartments._id}`)}}>
-                <HomeRoundedIcon fontSize="large"/>
+              {userApartments? (
+                <Tooltip title="Your Apartment" disableInteractive>
+                <IconButton onClick={()=>navigate(`/apartment/${userApartments._id}`)}>
+                  <HomeRoundedIcon fontSize="large"/>
+                </IconButton>
+                </Tooltip>) : (
+                <Tooltip title="Create Apartment" disableInteractive>
+                <IconButton onClick={()=>{navigate(`/create-apartment`);}}>
+                <AddHomeIcon fontSize="large"/>
               </IconButton>
-              </Tooltip>   
+              </Tooltip>   )}
+              
             </>
             ):(<Stack direction="row">
               <Typography>
