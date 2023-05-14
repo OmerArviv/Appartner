@@ -15,7 +15,7 @@ const WelcomerHomePage = () => {
 
   const getAppartmentRequests = async () => {
     const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
-    if (res) {
+    if (res && res[0]) {
       setRequests(res[0]);
     }
   };
