@@ -1,17 +1,34 @@
-import { useContext, useEffect } from "react";
-import { pageTitleContext } from "../APP/Utils";
-import { Typography } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { authContext, pageTitleContext } from "../APP/Utils";
+import RequestItem from "../components/RequestItem";
+import { Grid } from "@mui/material";
+import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
 
-const Home = () => {
+const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
-
+  const { userEmail } = useContext(authContext);
+  const [requests, setRequests] = useState([]);
   useEffect(() => {
-    setPageTitle("Home");
+    setPageTitle("Requests");
+    getAppartmentRequests();
   }, []);
 
+  const getAppartmentRequests = async () => {
+    const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
+    if (res) {
+      setRequests(res);
+    }
+  };
+
   return (
-    <Typography sx={{ textAlign: "center" }}>Welcomer Home Page</Typography>
+    <Grid>
+      {requests.length != 0
+        ? requests.map((item, index) => {
+            return <RequestItem request={item} key={index}></RequestItem>;
+          })
+        : ""}
+    </Grid>
   );
 };
 
-export default Home;
+export default WelcomerHomePage;

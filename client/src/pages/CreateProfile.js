@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
 import { getUserEmail } from "../APP/APP_AUTH";
+import DialogImage from "../components/DialogImage";
+import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
@@ -46,8 +48,6 @@ const CreateProfile = () => {
   useEffect(() => {
     setPageTitle("Create Profile");
   }, []);
-  // const [userInstagramLink, setUserInstagramLink]=useState(null);
-  const email = "email";
   const userType = "type";
 
   //set user details with speach to text
@@ -64,11 +64,12 @@ const CreateProfile = () => {
   const [userGender, setUserGender] = useState("");
   const [userAlcohol, setUserAlcohol] = useState("");
   const [userKosher, setUserKosher] = useState("");
-  const [userOther, setUserOther] = useState("");
+  const [userHobby, setUserHobby] = useState("");
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
-  const [userImagesArray, setUserImagesArray] = useState("");
+  const [userProfileImage, setUserProfileImage] = useState("");
+  // const [userImagesArray, setUserImagesArray] = useState("");
 
   useEffect(() => {
     if (userSTT != "") {
@@ -140,8 +141,8 @@ const CreateProfile = () => {
     setUserKosher(event.target.value);
   }
 
-  function userOtherHandler(event) {
-    setUserOther(event.target.value);
+  function userHobbyHandler(event) {
+    setUserHobby(event.target.value);
   }
 
   function userAdditonalInformationHandler(event) {
@@ -153,28 +154,9 @@ const CreateProfile = () => {
   }
 
   function userInstagramLinkHandler(event) {
-    setUserFacebookLink(event.target.value);
+    setUserInstagramLink(event.target.value);
   }
 
-  function userImagesArrayHandler(arr) {
-    const newArray = [];
-    if (arr[0] != "") {
-      newArray.push(arr[0]);
-    }
-    if (arr[1] != "") {
-      newArray.push(arr[1]);
-    }
-    if (arr[2] != "") {
-      newArray.push(arr[2]);
-    }
-    if (arr[3] != "") {
-      newArray.push(arr[3]);
-    }
-    if (newArray != null) {
-      setUserImagesArray(newArray);
-    }
-    console.log(userImagesArray);
-  }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -188,7 +170,7 @@ const CreateProfile = () => {
       userGender != null &&
       userAlcohol != null &&
       userKosher != null &&
-      userOther != null
+      userHobby != null
     ) {
       const userProfile = {
         email: user_email,
@@ -199,11 +181,11 @@ const CreateProfile = () => {
         gender: userGender,
         alcohol: userAlcohol,
         kosher: userKosher,
-        other: userOther,
+        hobby: userHobby,
         user_additonal_information: userAdditonal,
         user_facebook_link: userFacebookLink,
         user_instagram_link: userInstagramLink,
-        user_images_array: userImagesArray,
+        user_profile_image: userProfileImage,
       };
       const result = await createUserProfile(userProfile);
       if (result.status == 201) {
@@ -349,7 +331,6 @@ const CreateProfile = () => {
                   Employment
                 </InputLabel>
                 <TextField
-                  //  label='Employment'
                   labelid="user-employment-label"
                   id="employment"
                   onChange={userEmploymentHandler}
@@ -369,11 +350,9 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Smoking"
-                  // labelId='smoking-label'
                   id="smoking"
                   value={userSmoking}
                   onChange={userSmokingHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {options.map((o) => (
@@ -394,12 +373,9 @@ const CreateProfile = () => {
                   Pets
                 </InputLabel>
                 <Select
-                  // label='Smoking'
-                  // labelId='smoking-label'
                   id="pets"
                   value={userPets}
                   onChange={userPetsHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {yesNoOptions.map((o) => (
@@ -432,7 +408,6 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Gender"
-                  // labelId='smoking-label'
                   id="gender"
                   value={userGender}
                   onChange={userGenderHandler}
@@ -456,7 +431,6 @@ const CreateProfile = () => {
                   Alcohol
                 </InputLabel>
                 <Select
-                  //  label='Employment'
                   labelid="user-alcohol-label"
                   id="alcohol"
                   onChange={userAlcoholHandler}
@@ -482,11 +456,9 @@ const CreateProfile = () => {
                 </InputLabel>
                 <Select
                   label="Kosher"
-                  // labelId='smoking-label'
                   id="kosher"
                   value={userKosher}
                   onChange={userKosherHandler}
-                  // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
                   {yesNoOptions.map((o) => (
@@ -502,32 +474,42 @@ const CreateProfile = () => {
                 <InputLabel
                   sx={{ fontSize: 20, textDecoration: "bolt" }}
                   shrink
-                  id="pets-label"
+                  id="hobby-label"
                 >
-                  Other
+                  Hobby
                 </InputLabel>
-                <Select
-                  // label='Smoking'
-                  // labelId='smoking-label'
-                  id="other"
-                  value={userOther}
-                  onChange={userOtherHandler}
-                  // input={<OutlinedInput label="Smoking" />}
+                <TextField
+                  id="hobby"
+                  value={userHobby}
+                  onChange={userHobbyHandler}
                   fullWidth
-                >
-                  {yesNoOptions.map((o) => (
-                    <MenuItem key={o} value={o}>
-                      {o}
-                    </MenuItem>
-                  ))}
-                </Select>
+                ></TextField>
               </CardContent>
             </FormControl>
           </Card>
         </Box>
 
         {/*Third Box photos */}
-        <UploadImages setArrayImages={userImagesArrayHandler} />
+        {/* <UploadImages  setArrayImages={userImagesArrayHandler}/> */}
+        <Box
+          item="true"
+          component="div"
+          xs={2}
+          sx={{
+            width: "fit-content",
+            marginLeft: "auto",
+            marginRight: "auto",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CardContent sx={{ height: "fit-content", width: "fit-content" }}>
+            <Typography align="center" gutterBottom="ture" variant="h5">
+              Upload Profile Image
+            </Typography>
+            <DialogImage setImage={setUserProfileImage} />
+          </CardContent>
+        </Box>
       </Box>
 
       {/*4 Box down */}

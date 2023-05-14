@@ -8,6 +8,7 @@ const AUTHENTICATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}authenticati
 const USER_PROFILE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfile`;
 const USER_PROFILE_PREFERNCES_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfilePrefernces`;
 const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
+const ROOMATE_REQUEST_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}roomateRequest`;
 
 export const APP_ROUTES = {
   Authentication: {
@@ -39,6 +40,14 @@ export const APP_ROUTES = {
     updateAppartment: `${APPARTMENT_ENPOINT}/updateAppartment`,
     getAppartmentByUserEmail: `${APPARTMENT_ENPOINT}/getAppartmentByUserEmail`,
     getAppartmentById: `${APPARTMENT_ENPOINT}/getAppartmentById`,
+    getAllAppartments: `${APPARTMENT_ENPOINT}/getAllAppartments`,
+  },
+
+  roomateRequest: {
+    createRoomateRequest: `${ROOMATE_REQUEST_ENPOINT}/createRoomateRequest`,
+    updateRoomateRequest: `${ROOMATE_REQUEST_ENPOINT}/updateRoomateRequest`,
+    getRoomateRequestByUserEmail: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByUserEmail`,
+    getRoomateRequestByAppartmentId: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByAppartmentId`,
   },
 };
 

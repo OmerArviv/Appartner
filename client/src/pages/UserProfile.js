@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Grid, Typography, Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { authContext, pageTitleContext } from "../APP/Utils";
-import { getUserEmail } from "../APP/APP_AUTH";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",
@@ -27,9 +26,10 @@ const btnstyle = {
   color: "#D0D2D8",
 };
 
-const UserProfile = () => {
+const UserProfile = (props) => {
+  const { email } = props;
   const { setPageTitle } = useContext(pageTitleContext);
-  const { userEmail } = useContext(authContext);
+  const [userProfileImage, setUserProfileImage] = useState("");
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
   const [employment, setEmployment] = useState();
@@ -44,30 +44,32 @@ const UserProfile = () => {
   }, [setPageTitle]);
 
   useEffect(() => {
-    const email = userEmail;
-    fetch("http://localhost:8000/email-userprofile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let uProfile = data.message;
-        console.log(data.message); // logs "Email received"
-        setAge(uProfile.Birthday_date);
-        setGender(uProfile.gender);
-        setEmployment(uProfile.user_employment);
-        setAlcohol(uProfile.alcohol);
-        setKosher(uProfile.kosher);
-        setSmoking(uProfile.smoking);
-        setPets(uProfile.pets);
-        setAdditionInfo(uProfile.user_additonal_information);
+    if (email) {
+      fetch("http://localhost:8000/email-userprofile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          let uProfile = data.message;
+          console.log(data.message); // logs "Email received"
+          setAge(uProfile.Birthday_date);
+          setGender(uProfile.gender);
+          setEmployment(uProfile.user_employment);
+          setAlcohol(uProfile.alcohol);
+          setKosher(uProfile.kosher);
+          setSmoking(uProfile.smoking);
+          setPets(uProfile.pets);
+          setAdditionInfo(uProfile.user_additonal_information);
+          setUserProfileImage(uProfile.user_profile_image);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   return (
@@ -75,15 +77,15 @@ const UserProfile = () => {
       container
       justifyContent="center"
       alignItems="stretch"
-      style={{ margin: "0 auto" }}
+      style={{ margin: "5" }}
     >
-      <Grid item xs={10} sm={8} md={6}>
+      <Grid item xs={10} sm={10} md={10}>
         <Grid
           container
           alignItems="center"
           justifyContent="center"
           spacing={2}
-          marginTop={15}
+          marginTop={5}
         >
           <Grid item xs={12}>
             <Grid
@@ -95,7 +97,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={5}>
                 <Box sx={{ height: 400, overflow: "hidden" }}>
                   <ProfilePicture
-                    src="https://picsum.photos/300/201"
+                    src={userProfileImage}
                     alt="Profile Picture"
                   />
                 </Box>

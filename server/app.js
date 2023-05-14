@@ -38,12 +38,6 @@ app.use(function(req, res, next) {
 
 
 
-// const corsConfig = {
-//   credentials: true,
-//   origin: true,
-// };
-// app.use(cors(corsConfig));
-
 app.post("/authentication/login_test", auth, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
 });
@@ -65,20 +59,15 @@ app.post("/email-userprofile", async (req, res) => {
   }
 });
 
-// app.use(function(req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   next();
-// });
-
-
+app.post("/email-all-userprofiles", async (req, res) => {
+  try {
+    const userProfiles = await userProfile.find({});
+    res.status(200).json(userProfiles);
+  } catch (error) {
+    console.error("Error while querying database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 app.use(function (req, res, next) {
   //Enabling CORS

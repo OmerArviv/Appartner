@@ -1,20 +1,16 @@
 import { Button, CardActionArea } from "@material-ui/core";
 import {
   Box,
-  Card,
-  CardContent,
   CardMedia,
-  Checkbox,
-  ToggleButton,
   Typography,
 } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import looker_img from "../images/looker_img.png";
 import welcomer_img from "../images/welcomer_img.png";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import { updateUserDetails } from "../controller/authenticationController";
-import { getUserEmail } from "../APP/APP_AUTH";
+// import { getUserEmail } from "../APP/APP_AUTH";
 
 const btnstyle = {
   // margin: "8px 0",
