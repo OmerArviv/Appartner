@@ -58,7 +58,7 @@ const CreateProfile = () => {
   const [userAdditonal, setUserAdditonalInformation] = useState("");
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
-  const [userProfileImage, setUserProfileImage]= useState("");
+  const [userProfileImage, setUserProfileImage] = useState("");
   // const [userImagesArray, setUserImagesArray] = useState("");
 
   useEffect(() => {
@@ -136,15 +136,15 @@ const CreateProfile = () => {
 
   // function userImagesArrayHandler(arr) {
   //   console.log("set images array handler");
-  //   const newArray=[]; 
+  //   const newArray=[];
   //   if(arr[0]!=""){
-  //     newArray.push(arr[0]); 
+  //     newArray.push(arr[0]);
   //   }if(arr[1]!=""){
-  //     newArray.push(arr[1]); 
+  //     newArray.push(arr[1]);
   //   }if(arr[2]!=""){
-  //     newArray.push(arr[2]); 
+  //     newArray.push(arr[2]);
   //   }if(arr[3]!=""){
-  //     newArray.push(arr[3]); 
+  //     newArray.push(arr[3]);
   //   }
   //   if(newArray!= null){
   //   setUserImagesArray(newArray);
@@ -415,20 +415,24 @@ const CreateProfile = () => {
         {/*Third Box photos */}
         {/* <UploadImages  setArrayImages={userImagesArrayHandler}/> */}
         <Box
-         item="true"
-         component="div"
-         xs={2}
-         sx={{ width: "fit-content", marginLeft: "auto", marginRight: "auto", alignContent:"center", justifyContent:"center" }}>
-            <CardContent sx={{height:"fit-content", width:"fit-content"}}>
-            <Typography align="center" gutterBottom="ture" variant="h5" >
+          item="true"
+          component="div"
+          xs={2}
+          sx={{
+            width: "fit-content",
+            marginLeft: "auto",
+            marginRight: "auto",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CardContent sx={{ height: "fit-content", width: "fit-content" }}>
+            <Typography align="center" gutterBottom="ture" variant="h5">
               Upload Profile Image
             </Typography>
-                <DialogImage setImage={setUserProfileImage}/>
-            </CardContent>
-            
-
-          
-         </Box>
+            <DialogImage setImage={setUserProfileImage} />
+          </CardContent>
+        </Box>
       </Box>
 
       {/*4 Box down */}
