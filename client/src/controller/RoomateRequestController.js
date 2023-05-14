@@ -1,5 +1,6 @@
 import axios from "axios";
 import { APP_ROUTES, POST_HEADERS, GET_HEADERS } from "../APP/APP_ROUTES";
+import { getAppartmentByUserEmail } from "../controller/appartmentController";
 
 export const createRoomateRequest = (roomateRequest) => {
   let url = APP_ROUTES.roomateRequest.createRoomateRequest;
@@ -63,4 +64,22 @@ export const getRoomateRequestByUserEmail = (userEmail) => {
     .catch((err) => {
       return null;
     });
+};
+
+export const getRoomateRequestByAppartmentUserEmail = async (userEmail) => {
+  const res = await getAppartmentByUserEmail(userEmail);
+  var requests = [];
+  if (res) {
+    if (res.status == 200) {
+      const appartments = res.data;
+      for (let i = 0; i < appartments.length; i++) {
+        const req = await getRoomateRequestByAppartmentId(appartments[i]._id);
+        if (req && req.status == 200) {
+          requests.push(req.data);
+        }
+      }
+      return requests;
+    }
+  }
+  return null;
 };
