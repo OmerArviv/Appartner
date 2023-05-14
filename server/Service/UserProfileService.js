@@ -78,7 +78,7 @@ module.exports = class UserProfileService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Basic myapikey`,
+          Authorization: `Basic b21lcm5hZGFtQGdtYWlsLmNvbQ:Dd1Ek0J26qcTyC6o2LWTV`,
         },
         body: JSON.stringify(requestBody),
       });

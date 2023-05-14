@@ -225,26 +225,28 @@ const CreateProfile = () => {
   )}
 
   
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setIsOpen(true);
+  // };
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  // const handleClose = () => {
+  //   setIsOpen(false);
+  // };
   
 
   return (
     <>
 
-    <div>
+    <DallEApi></DallEApi>
+
+    {/* <div>
     <Button variant="contained" onClick={handleOpen}>
         Open Address Form
       </Button>
       <AddressForm open={isOpen} onClose={handleClose} />
-    </div>
+    </div> */}
    <Box
   sx={{
     display: "flex",
