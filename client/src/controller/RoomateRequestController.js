@@ -75,7 +75,7 @@ export const getRoomateRequestByAppartmentUserEmail = async (userEmail) => {
       for (let i = 0; i < appartments.length; i++) {
         const req = await getRoomateRequestByAppartmentId(appartments[i]._id);
         if (req && req.status == 200) {
-          requests.push(req.data);
+          requests = requests.concat(req.data);
         }
       }
       return requests;

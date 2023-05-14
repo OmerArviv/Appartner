@@ -59,11 +59,8 @@ export default function NavBar(props) {
   const getRoomateRequesHandler = async () => {
     if (userEmail) {
       const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
-      console.log(res);
       if (res) {
-        console.log("apartment");
-        setRequestsNumber(res);
-        console.log(res);
+        setRequestsNumber(res.length);
       }
     }
   };
@@ -120,7 +117,7 @@ export default function NavBar(props) {
                     >
                       <Badge
                         color="secondary"
-                        badgeContent={requestsNumber.length}
+                        badgeContent={requestsNumber}
                         max={10}
                       >
                         <PeopleAltIcon fontSize="large" />
