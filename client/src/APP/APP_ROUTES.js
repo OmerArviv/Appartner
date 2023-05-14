@@ -23,6 +23,9 @@ export const APP_ROUTES = {
     createProfile: `${USER_PROFILE_ENPOINT}/createProfile`,
     updateProfile: `${USER_PROFILE_ENPOINT}/updateProfile`,
     getUserProfileByEmail: `${USER_PROFILE_ENPOINT}/getUserProfileByEmail`,
+    parseUserInput: `${USER_PROFILE_ENPOINT}/parse`,
+    createUserVideo: `${USER_PROFILE_ENPOINT}/dalle`,
+
   },
 
   userProfilePrefernces: {

@@ -14,7 +14,6 @@ const UploadImages= (props)=>{
         if(image1){
             console.log("array - img 1");
             arrayImages[0]=image1;
-            console.log(arrayImages)
         }
         else{
             arrayImages[0]=""; 
@@ -22,7 +21,6 @@ const UploadImages= (props)=>{
         if(image2){
             console.log("array - img 2");
             arrayImages[1]=image2; 
-            console.log(arrayImages)
         }
         else{
             arrayImages[1]=""; 
@@ -30,15 +28,12 @@ const UploadImages= (props)=>{
         if(image3){
             console.log("array - img 3");
             arrayImages[2]=image3; 
-            console.log(arrayImages)
         }
         else{
             arrayImages[2]=""; 
         }
         if(image4){
-            console.log("array - img 4");
             arrayImages[3]=image4; 
-            console.log(arrayImages)
         }
         else{
             arrayImages[3]=""; 
@@ -129,15 +124,11 @@ const UploadImages= (props)=>{
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
             <DialogImage setImage={setImage1}/>
             </Card>
-            {console.log("image1")}
 
-            {console.log(image1)}
 
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
             <DialogImage setImage={setImage3}/>
-            {console.log("image3")}
 
-            {console.log(image3)}
             </Card>
            
             {/* <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginLeft:"auto", marginRight:'auto', marginRight:10}}>
@@ -173,7 +164,6 @@ const UploadImages= (props)=>{
               <DialogImage setImage={setImage2} />
 
 
-              {console.log("image2")}
 
                 {console.log(image2)}
                 {/* <CardActionArea>
@@ -189,9 +179,7 @@ const UploadImages= (props)=>{
             <Card  xs={2} sx={{height: 'fit-content', width: 'fit-content', marginRight:'auto', marginTop:1}}>
               <DialogImage setImage={setImage4}/>
 
-              {console.log("image4")}
 
-                {console.log(image4)}
 
                 {/* <CardActionArea>
                     <CardMedia

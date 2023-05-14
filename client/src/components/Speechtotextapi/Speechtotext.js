@@ -10,7 +10,8 @@ import {
   ReplaySharp,
   CenterFocusStrong,
 } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import { parseData } from "../../controller/userProfileController";
 
 
 
@@ -29,27 +30,39 @@ const Speechtotext = (props) => {
     return null;
   }
 
-  const handleSaveText = async () => {
+  const handleSaveText = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/run-script", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: transcript }), // send the transcript as JSON data
-      });
-      const result = await response.text();
-      props.setUser(JSON.parse(result));
-      console.log(JSON.parse(result));
-      console.log("speach to text"); // log the result returned by the Python script
+      const res = await parseData(transcript);
+      props.setUser(res.data);
     } catch (error) {
       console.error(error);
     }
+
+
+    // try {
+    //   const response = await fetch("http://localhost:8000/run-script", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ text: transcript }), // send the transcript as JSON data
+    //   });
+    //   const result = await response.text();
+    //   props.setUser(JSON.parse(result));
+    //   console.log(JSON.parse(result));
+    //   console.log("speach to text"); // log the result returned by the Python script
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const handleStart = () => {
-    SpeechRecognition.startListening();
+    const recognition = SpeechRecognition.getRecognition();
+    recognition.continuous = true;
+    SpeechRecognition.startListening({ continuous: true });
   };
+  
 
   const handleStop = () => {
     SpeechRecognition.stopListening();
@@ -68,7 +81,7 @@ const Speechtotext = (props) => {
 
   return (
     <Grid>
-      <Box sx={{ border: "2px solid black", width: "50%", height: 250 }}>
+      <Box component={Paper} p={4} boxShadow={2} width={700}>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <IconButton onClick={handleStart}>
             <MicNoneSharp />
@@ -82,21 +95,19 @@ const Speechtotext = (props) => {
         </Box>
 
         <Box sx={{ height: 170 }}>
-        <TextField
-  multiline
-  fullWidth
-  value={isListening ? text : transcript}
-  onChange={(e) => setText(e.target.value)}
-  InputProps={{ disableUnderline: true }}
-  placeholder="Speak or type here..."
-/>
+          <TextField
+              multiline
+              fullWidth
+              value={isListening ? text : transcript}
+              onChange={(e) => setText(e.target.value)}
+              InputProps={{ disableUnderline: true }}
+              placeholder="Speak or type here..."/>
+        </Box>
 
-</Box>
-
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <IconButton onClick={handleSaveText} sx={{ color: "Black" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
+          <Button onClick={handleSaveText} variant="contained" type="submit" sx={{ marginLeft: "auto", marginRight: "auto" }}>
             Save
-          </IconButton>
+          </Button>
         </Box>
       </Box>
     </Grid>
