@@ -78,16 +78,11 @@ const Apartment = () => {
       alert("Something went wrong");
     } else if (res.status == 200) {
       setAppartment(res.data);
-      console.log(res.data);
     }
   };
 
   useEffect(() => {
     setPageTitle("Apartment");
-    const ap = {
-      _id: userId,
-    };
-    setAppartment(ap);
     getAppartmentDetailsById();
   }, []);
 
@@ -138,7 +133,7 @@ const Apartment = () => {
                   </Box>
                   <CardContent>
                     <Stack direction="row" spacing={2}>
-                      {appartment.roomates.length != 0
+                      {appartment.roomates && appartment.roomates.length != 0
                         ? appartment.roomates.map((item, index) => {
                             return (
                               <RoomateAvatar

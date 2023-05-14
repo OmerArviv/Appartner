@@ -44,30 +44,32 @@ const UserProfile = (props) => {
   }, [setPageTitle]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/email-userprofile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let uProfile = data.message;
-        console.log(data.message); // logs "Email received"
-        setAge(uProfile.Birthday_date);
-        setGender(uProfile.gender);
-        setEmployment(uProfile.user_employment);
-        setAlcohol(uProfile.alcohol);
-        setKosher(uProfile.kosher);
-        setSmoking(uProfile.smoking);
-        setPets(uProfile.pets);
-        setAdditionInfo(uProfile.user_additonal_information);
-        setUserProfileImage(uProfile.user_profile_image);
+    if (email) {
+      fetch("http://localhost:8000/email-userprofile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          let uProfile = data.message;
+          console.log(data.message); // logs "Email received"
+          setAge(uProfile.Birthday_date);
+          setGender(uProfile.gender);
+          setEmployment(uProfile.user_employment);
+          setAlcohol(uProfile.alcohol);
+          setKosher(uProfile.kosher);
+          setSmoking(uProfile.smoking);
+          setPets(uProfile.pets);
+          setAdditionInfo(uProfile.user_additonal_information);
+          setUserProfileImage(uProfile.user_profile_image);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   return (
