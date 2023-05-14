@@ -39,22 +39,6 @@ const Speechtotext = (props) => {
       console.error(error);
     }
 
-
-    // try {
-    //   const response = await fetch("http://localhost:8000/run-script", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ text: transcript }), // send the transcript as JSON data
-    //   });
-    //   const result = await response.text();
-    //   props.setUser(JSON.parse(result));
-    //   console.log(JSON.parse(result));
-    //   console.log("speach to text"); // log the result returned by the Python script
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   const handleStart = () => {
