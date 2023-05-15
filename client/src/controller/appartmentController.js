@@ -83,3 +83,21 @@ export const getAllAppartments = () => {
       return null;
     });
 };
+
+export const getAllAppartmentsAndRoomateDetails = () => {
+  let url = APP_ROUTES.appartment.getAllAppartmentsAndRoomateDetails;
+  return axios
+    .get(url, {
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

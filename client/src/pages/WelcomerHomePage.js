@@ -8,10 +8,15 @@ const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
   const [requests, setRequests] = useState([]);
+
   useEffect(() => {
     setPageTitle("Requests");
     getAppartmentRequests();
   }, []);
+
+  useEffect(() => {
+    getAppartmentRequests();
+  }, [requests])
 
   const getAppartmentRequests = async () => {
     const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
@@ -24,8 +29,8 @@ const WelcomerHomePage = () => {
     <Grid>
       {requests.length != 0
         ? requests.map((item, index) => {
-            return <RequestItem request={item} key={index}></RequestItem>;
-          })
+          return <RequestItem request={item} key={index}></RequestItem>;
+        })
         : ""}
     </Grid>
   );

@@ -18,14 +18,12 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import UploadImages from "../components/UploadImages";
-import { getUserEmail } from "../APP/APP_AUTH";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import DallEApi from "../components/ChatGptApi/DallEApi/DallEApi";
-import AddressForm from "../components/AddressForm";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -41,7 +39,7 @@ const genderOptions = ["Male", "Female", "Other"];
 const CreateProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
-  const { userEmail } = useContext(authContext);
+  const { userEmail, userRole } = useContext(authContext);
 
   // const [arrayImages, setArrayImages]= useState(null);
 
@@ -56,7 +54,6 @@ const CreateProfile = () => {
   //set user details with chat GPT
   const [userGPT, setUserGPT] = useState("");
 
-
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
   const [userSmoking, setUserSmoking] = useState("");
@@ -69,7 +66,6 @@ const CreateProfile = () => {
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
   const [userProfileImage, setUserProfileImage] = useState("");
-  // const [userImagesArray, setUserImagesArray] = useState("");
 
   useEffect(() => {
     if (userSTT != "") {
@@ -85,7 +81,7 @@ const CreateProfile = () => {
   }, [userSTT]);
 
   useEffect(() => {
-    if (userGPT !== '') {
+    if (userGPT !== "") {
       setUserBirthday(userGPT.age);
       setUserEmployment(userGPT.user_employment);
       setUserSmoking(userGPT.smoking);
@@ -95,7 +91,6 @@ const CreateProfile = () => {
       setUserGender(userGPT.gender);
     }
   }, [userGPT]);
-
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -157,20 +152,20 @@ const CreateProfile = () => {
     setUserInstagramLink(event.target.value);
   }
 
-
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = userEmail;
     if (
-      user_email != null &&
-      userBirthday != null &&
-      userEmployment != null &&
-      userSmoking != null &&
-      userPets != null &&
-      userGender != null &&
-      userAlcohol != null &&
-      userKosher != null &&
-      userHobby != null
+      user_email != "" &&
+      userBirthday != "" &&
+      userEmployment != "" &&
+      userSmoking != "" &&
+      userPets != "" &&
+      userGender != "" &&
+      userAlcohol != "" &&
+      userKosher != "" &&
+      userHobby != "" &&
+      userProfileImage != ""
     ) {
       const userProfile = {
         email: user_email,
@@ -189,7 +184,11 @@ const CreateProfile = () => {
       };
       const result = await createUserProfile(userProfile);
       if (result.status == 201) {
-        navigate("/create-profile/set-prefernces");
+        if (userRole == "Welcomer") {
+          navigate("/");
+        } else {
+          navigate("/create-profile/set-prefernces");
+        }
       } else if (result.status == 403) {
         alert("Error occured!");
       }
@@ -200,13 +199,14 @@ const CreateProfile = () => {
 
   const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
-  {selectedOption === "parseChatGpt" ? (
-    <ParseChatGpt setUser={setUserGPT} />
-  ) : (
-    <Speechtotext setUser={setUserSTT} />
-  )}
+  {
+    selectedOption === "parseChatGpt" ? (
+      <ParseChatGpt setUser={setUserGPT} />
+    ) : (
+      <Speechtotext setUser={setUserSTT} />
+    );
+  }
 
-  
   // const [isOpen, setIsOpen] = useState(false);
 
   // const handleOpen = () => {
@@ -216,62 +216,60 @@ const CreateProfile = () => {
   // const handleClose = () => {
   //   setIsOpen(false);
   // };
-  
 
   return (
     <>
+      <DallEApi></DallEApi>
 
-    <DallEApi></DallEApi>
-
-    {/* <div>
+      {/* <div>
     <Button variant="contained" onClick={handleOpen}>
         Open Address Form
       </Button>
       <AddressForm open={isOpen} onClose={handleClose} />
     </div> */}
-   <Box
-  sx={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    marginBottom: 5,
-  }}
->
-  <ToggleButtonGroup
-    value={selectedOption}
-    exclusive
-    onChange={(event, newSelectedOption) =>
-      newSelectedOption && setSelectedOption(newSelectedOption)
-    }
-  >
-    <ToggleButton value="parseChatGpt">Text</ToggleButton>
-    <ToggleButton value="speechtotext">Voice</ToggleButton>
-  </ToggleButtonGroup>
-  {selectedOption === "parseChatGpt" && (
-  <Box
-    sx={{
-      justifyContent: "center",
-      marginTop: 5,
-    }}
-  >
-    <ParseChatGpt setUser={setUserGPT} />
-  </Box>
-)}
-{selectedOption === "speechtotext" && (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 5,
-    }}
-  >
-    <Speechtotext setUser={setUserSTT} />
-  </Box>
-)}
-</Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 5,
+          marginBottom: 5,
+        }}
+      >
+        <ToggleButtonGroup
+          value={selectedOption}
+          exclusive
+          onChange={(event, newSelectedOption) =>
+            newSelectedOption && setSelectedOption(newSelectedOption)
+          }
+        >
+          <ToggleButton value="parseChatGpt">Text</ToggleButton>
+          <ToggleButton value="speechtotext">Voice</ToggleButton>
+        </ToggleButtonGroup>
+        {selectedOption === "parseChatGpt" && (
+          <Box
+            sx={{
+              justifyContent: "center",
+              marginTop: 5,
+            }}
+          >
+            <ParseChatGpt setUser={setUserGPT} />
+          </Box>
+        )}
+        {selectedOption === "speechtotext" && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 5,
+            }}
+          >
+            <Speechtotext setUser={setUserSTT} />
+          </Box>
+        )}
+      </Box>
       <Box
         container="true"
         spacing={50}
@@ -317,7 +315,7 @@ const CreateProfile = () => {
                   max="75"
                   inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   helperText="Your age have to be 18-75"
-                  // max="2023-03-25" min="2023-03-20"
+                // max="2023-03-25" min="2023-03-20"
                 />
               </CardContent>
             </FormControl>
@@ -545,8 +543,8 @@ const CreateProfile = () => {
               id="additonal"
               onChange={userAdditonalInformationHandler}
               value={userAdditonal}
-              //  multiline
-              //  maxRows={3}
+            //  multiline
+            //  maxRows={3}
             />
           </FormControl>
         </Box>

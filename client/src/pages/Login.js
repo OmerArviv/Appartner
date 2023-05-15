@@ -87,15 +87,13 @@ const Login = (props) => {
     }
     if (userEmail && userPassword) {
       const salt = await getSalt(userEmail);
-      console.log(salt);
       if (salt && salt.status == 200) {
         const hashedPassword = bcrypt.hashSync(userPassword, salt.data);
         const result = await signIn(userEmail, hashedPassword);
         if (result == true) {
           handleLogin();
         } else {
-          console.log(result);
-          // handle failed login
+          alert("Email or Password are incorrect!");
         }
       } else {
         alert("Something went wrong!");

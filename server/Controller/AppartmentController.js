@@ -65,4 +65,14 @@ router.route("/getAllAppartments").get(async (request, response) => {
   return response.status(204).send(null);
 });
 
+router
+  .route("/getAllAppartmentsAndRoomateDetails")
+  .get(async (request, response) => {
+    const Appartments =
+      await AppartmentService.getAllAppartmentsAndRoomateDetails();
+    if (Appartments) {
+      return response.status(200).json(Appartments);
+    }
+    return response.status(204).send(null);
+  });
 module.exports = router;

@@ -85,15 +85,15 @@ const SetPreferncesProfile = () => {
     const user_email = userEmail;
     event.preventDefault();
     if (
-      user_email != null &&
-      ageRange != null &&
-      loaction != null &&
-      priceRange != null &&
-      gender != null &&
-      elevator != null &&
-      parking != null &&
-      smoking != null &&
-      roomates != null
+      user_email != "" &&
+      ageRange != "" &&
+      loaction != "" &&
+      priceRange != "" &&
+      gender != "" &&
+      elevator != "" &&
+      parking != "" &&
+      smoking != "" &&
+      roomates != ""
     ) {
       const userProfilePrefernces = {
         email: user_email,

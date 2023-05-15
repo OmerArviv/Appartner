@@ -75,7 +75,7 @@ const Register = (props) => {
         // handle failed login
         if (result.status == 409) {
           alert("You already have an account");
-        } else if (result.status == 403) {
+        } else {
           alert("Error occured!");
         }
       }

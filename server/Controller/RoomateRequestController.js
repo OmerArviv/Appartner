@@ -10,10 +10,13 @@ router.route("/createRoomateRequest").post(auth, async (request, response) => {
     return response.status(400).send("Something went wrong");
   }
   var result = await RoomateRequestService.insertRoomateRequest(RoomateRequest);
+  if (result == false) {
+    return response.status(403).send("Request has alredy sent");
+  }
   if (result != null) {
     return response.status(201).json(RoomateRequest);
   }
-  return response.status(403).send({});
+  return response.status(403).send("something went wrong");
 });
 
 router.route("/updateRoomateRequest").post(auth, async (request, response) => {
@@ -30,7 +33,7 @@ router.route("/updateRoomateRequest").post(auth, async (request, response) => {
 });
 
 router.route("/getRoomateRequestByUserEmail").get(async (request, response) => {
-  const { email } = request.query;
+  const email = request.query;
   if (!email) {
     return response.status(403).send({});
   }
@@ -47,7 +50,6 @@ router
   .route("/getRoomateRequestByAppartmentId")
   .get(async (request, response) => {
     const id = request.query;
-    console.log(id);
     if (!id) {
       return response.status(403).send({});
     }

@@ -1,4 +1,5 @@
 const Appartment = require("../Model/appartment");
+const UserProfileService = require("../Service/UserProfileService");
 
 module.exports = class AppartmentService {
   static async insertAppartment(AppartmentDetails) {
@@ -42,5 +43,25 @@ module.exports = class AppartmentService {
       .catch((error) => {
         return null;
       });
+  }
+
+  static async getAllAppartmentsAndRoomateDetails() {
+    var allAppartments = await this.getAllAppartments();
+    if (allAppartments) {
+      for (var i = 0; i < allAppartments.length; i++) {
+        var roomates = allAppartments[i].roomates;
+        var roomatesDataArray = [];
+        for (var j = 0; j < roomates.length; j++) {
+          var res = await UserProfileService.findUserProfileByEmail(
+            roomates[j]
+          );
+          roomatesDataArray.push(res);
+        }
+        allAppartments[i].roomates = roomatesDataArray;
+      }
+      return allAppartments;
+    } else {
+      return null;
+    }
   }
 };
