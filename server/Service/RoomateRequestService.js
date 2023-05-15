@@ -33,7 +33,7 @@ module.exports = class AppartmentService {
   }
 
   static async findRoomateRequestByUserEmail(userEmail) {
-    const res = await RoomateRequest.find({ user_email: userEmail });
+    const res = await RoomateRequest.find(userEmail);
     return res;
   }
 };

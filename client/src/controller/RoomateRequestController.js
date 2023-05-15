@@ -47,7 +47,7 @@ export const getRoomateRequestByAppartmentId = (id) => {
 };
 
 export const getRoomateRequestByUserEmail = (userEmail) => {
-  let url = APP_ROUTES.RoomateRequest.getRoomateRequestByUserEmail;
+  let url = APP_ROUTES.roomateRequest.getRoomateRequestByUserEmail;
   let data = { user_email: userEmail };
   return axios
     .get(url, {

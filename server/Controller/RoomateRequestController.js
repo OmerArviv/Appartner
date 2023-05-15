@@ -30,7 +30,7 @@ router.route("/updateRoomateRequest").post(auth, async (request, response) => {
 });
 
 router.route("/getRoomateRequestByUserEmail").get(async (request, response) => {
-  const { email } = request.query;
+  const email = request.query;
   if (!email) {
     return response.status(403).send({});
   }
@@ -47,7 +47,6 @@ router
   .route("/getRoomateRequestByAppartmentId")
   .get(async (request, response) => {
     const id = request.query;
-    console.log(id);
     if (!id) {
       return response.status(403).send({});
     }
