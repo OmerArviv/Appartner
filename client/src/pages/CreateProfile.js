@@ -156,15 +156,16 @@ const CreateProfile = () => {
     event.preventDefault();
     const user_email = userEmail;
     if (
-      user_email != null &&
-      userBirthday != null &&
-      userEmployment != null &&
-      userSmoking != null &&
-      userPets != null &&
-      userGender != null &&
-      userAlcohol != null &&
-      userKosher != null &&
-      userHobby != null
+      user_email != "" &&
+      userBirthday != "" &&
+      userEmployment != "" &&
+      userSmoking != "" &&
+      userPets != "" &&
+      userGender != "" &&
+      userAlcohol != "" &&
+      userKosher != "" &&
+      userHobby != "" &&
+      userProfileImage != ""
     ) {
       const userProfile = {
         email: user_email,
@@ -314,7 +315,7 @@ const CreateProfile = () => {
                   max="75"
                   inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   helperText="Your age have to be 18-75"
-                  // max="2023-03-25" min="2023-03-20"
+                // max="2023-03-25" min="2023-03-20"
                 />
               </CardContent>
             </FormControl>
@@ -542,8 +543,8 @@ const CreateProfile = () => {
               id="additonal"
               onChange={userAdditonalInformationHandler}
               value={userAdditonal}
-              //  multiline
-              //  maxRows={3}
+            //  multiline
+            //  maxRows={3}
             />
           </FormControl>
         </Box>
