@@ -12,8 +12,9 @@ module.exports = class AppartmentService {
   }
 
   static async updateRoomateRequest(roomateRequestDetails) {
+    console.log(roomateRequestDetails);
     return RoomateRequest.findOneAndUpdate(
-      { _id: AppartmentDetails.id },
+      { _id: roomateRequestDetails._id },
       roomateRequestDetails
     )
       .then((value) => {
