@@ -9,6 +9,8 @@ import {
   MenuItem,
   Button,
   InputAdornment,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -20,7 +22,10 @@ import { getUserEmail } from "../APP/APP_AUTH";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
+import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
+import DallEApi from "../components/ChatGptApi/DallEApi/DallEApi";
+import AddressForm from "../components/AddressForm";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -45,7 +50,12 @@ const CreateProfile = () => {
   }, []);
   const userType = "type";
 
+  //set user details with speach to text
   const [userSTT, setUserSTT] = useState("");
+
+  //set user details with chat GPT
+  const [userGPT, setUserGPT] = useState("");
+
 
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
@@ -73,6 +83,19 @@ const CreateProfile = () => {
       setUserGender(userSTT["gender"]);
     }
   }, [userSTT]);
+
+  useEffect(() => {
+    if (userGPT !== '') {
+      setUserBirthday(userGPT.age);
+      setUserEmployment(userGPT.user_employment);
+      setUserSmoking(userGPT.smoking);
+      setUserPets(userGPT.pets);
+      setUserAlcohol(userGPT.alcohol);
+      setUserKosher(userGPT.kosher);
+      setUserGender(userGPT.gender);
+    }
+  }, [userGPT]);
+
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -134,23 +157,6 @@ const CreateProfile = () => {
     setUserInstagramLink(event.target.value);
   }
 
-  // function userImagesArrayHandler(arr) {
-  //   console.log("set images array handler");
-  //   const newArray=[];
-  //   if(arr[0]!=""){
-  //     newArray.push(arr[0]);
-  //   }if(arr[1]!=""){
-  //     newArray.push(arr[1]);
-  //   }if(arr[2]!=""){
-  //     newArray.push(arr[2]);
-  //   }if(arr[3]!=""){
-  //     newArray.push(arr[3]);
-  //   }
-  //   if(newArray!= null){
-  //   setUserImagesArray(newArray);
-  //   }
-  //   console.log(userImagesArray);
-  // }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -192,9 +198,80 @@ const CreateProfile = () => {
     }
   };
 
+  const [selectedOption, setSelectedOption] = useState("parseChatGpt");
+
+  {selectedOption === "parseChatGpt" ? (
+    <ParseChatGpt setUser={setUserGPT} />
+  ) : (
+    <Speechtotext setUser={setUserSTT} />
+  )}
+
+  
+  // const [isOpen, setIsOpen] = useState(false);
+
+  // const handleOpen = () => {
+  //   setIsOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setIsOpen(false);
+  // };
+  
+
   return (
     <>
-      {/* <Speechtotext setUser={setUserSTT}></Speechtotext> */}
+
+    <DallEApi></DallEApi>
+
+    {/* <div>
+    <Button variant="contained" onClick={handleOpen}>
+        Open Address Form
+      </Button>
+      <AddressForm open={isOpen} onClose={handleClose} />
+    </div> */}
+   <Box
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
+    marginBottom: 5,
+  }}
+>
+  <ToggleButtonGroup
+    value={selectedOption}
+    exclusive
+    onChange={(event, newSelectedOption) =>
+      newSelectedOption && setSelectedOption(newSelectedOption)
+    }
+  >
+    <ToggleButton value="parseChatGpt">Text</ToggleButton>
+    <ToggleButton value="speechtotext">Voice</ToggleButton>
+  </ToggleButtonGroup>
+  {selectedOption === "parseChatGpt" && (
+  <Box
+    sx={{
+      justifyContent: "center",
+      marginTop: 5,
+    }}
+  >
+    <ParseChatGpt setUser={setUserGPT} />
+  </Box>
+)}
+{selectedOption === "speechtotext" && (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 5,
+    }}
+  >
+    <Speechtotext setUser={setUserSTT} />
+  </Box>
+)}
+</Box>
       <Box
         container="true"
         spacing={50}

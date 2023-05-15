@@ -17,6 +17,7 @@ import UserProfile from "./pages/UserProfile";
 import CreateApartment from "./pages/CreateApartment";
 import LookerHomePage from "./pages/LookerHomePage";
 import WelcomerHomePage from "./pages/WelcomerHomePage";
+import DallEApi from "./components/ChatGptApi/DallEApi/DallEApi";
 
 function GeneralBrawser() {
   const { authenticated, userRole } = useContext(authContext);
@@ -53,6 +54,7 @@ function GeneralBrawser() {
         </Routes>
       ) : (
         <Routes>
+          {/* <Route path="/test" element={<ParseChatGpt/>}></Route> */}
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

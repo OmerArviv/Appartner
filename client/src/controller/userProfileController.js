@@ -1,7 +1,7 @@
 import axios from "axios";
 import { APP_ROUTES, POST_HEADERS, GET_HEADERS } from "../APP/APP_ROUTES";
 
-/**
+/**;
  * This module hold all the request of Actions.
  */
 
@@ -17,6 +17,33 @@ export const createUserProfile = (userProfile) => {
       return err;
     });
 };
+
+export const parseData = async (data) => {
+  try {
+    const res = await axios.post("http://localhost:8000/userProfile/parse", { data }, { headers: { 'Content-Type': 'application/json' } });
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+
+export const createVideo = async (imageUrl, text) => {
+  try {
+    const data ={imageUrl, text};
+    const dataJson = JSON.stringify(data);
+    const response = await axios.post('http://localhost:8000/userProfile/dalle', data);
+    console.log(response)
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+
+
 
 export const getUserProfileByEmail = (email) => {
   let url = APP_ROUTES.userProfile.getUserProfileByEmail;
@@ -37,3 +64,6 @@ export const getUserProfileByEmail = (email) => {
       return null;
     });
 };
+
+
+

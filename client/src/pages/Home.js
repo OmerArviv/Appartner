@@ -4,6 +4,7 @@ import { Grid, Avatar, Typography } from "@mui/material";
 import main_1 from "../images/main_1.jpeg";
 import main_2 from "../images/main_2.jpeg";
 import main_3 from "../images/main_3.jpeg";
+import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 
 const Home = () => {
   const { setPageTitle } = useContext(pageTitleContext);
