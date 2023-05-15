@@ -3,29 +3,30 @@ import { getUserProfileByEmail } from "../controller/userProfileController";
 import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  IconButton,
-  Grid,
+  DialogTitle
 } from "@mui/material";
 import UserProfile from "../pages/UserProfile";
 
 function RoomateAvatar(props) {
   const { email } = props;
   const [roomate, setRoomate] = useState(null);
+  const [roomateImage, setRoomateImage] = useState("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
     getRoomatesDetails();
-  }, []);
+  }, [email]);
 
   const getRoomatesDetails = async () => {
     const res = await getUserProfileByEmail(email);
     if (res) {
       setRoomate(res);
+      setRoomateImage(res.user_profile_image);
     }
+  };
+
+  const handleImageError = (event) => {
+    setRoomateImage("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg")
   };
 
   const handleCloseProfile = () => {
@@ -42,8 +43,9 @@ function RoomateAvatar(props) {
             }}
           >
             <Avatar
-              src={roomate.user_profile_image}
+              src={roomateImage}
               sx={{ width: 75, height: 75 }}
+              onError={handleImageError}
             />
           </Button>
           <Typography>{roomate.email}</Typography>

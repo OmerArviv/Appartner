@@ -35,14 +35,6 @@ function DialogAddCollabrator(props) {
     setOpen(false);
   };
 
-  const handleOpenAddProfile = () => {
-    setaddProfileOpen(true);
-  };
-
-  const handleCloseAddProfile = () => {
-    setaddProfileOpen(false);
-  };
-
   const handleChooseCollaborator = () => {
     if (usersData.some(user => user.email === tempEmail)) {
       setEmail(tempEmail);
@@ -114,12 +106,6 @@ function DialogAddCollabrator(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            sx={{ color: "black", fontSize: "12px" }}
-            onClick={handleOpenAddProfile}
-          >
-            your roommate doesn't have an account?
-          </Button>
           <Button style={btnstyle} onClick={handleClose}>
             Cancel
           </Button>
@@ -127,10 +113,6 @@ function DialogAddCollabrator(props) {
             Choose
           </Button>
         </DialogActions>
-      </Dialog>
-      <Dialog open={addProfileOpen} onClose={handleCloseAddProfile}>
-        <DialogTitle>Creat Profile For collaborator</DialogTitle>
-        <CreateProfile></CreateProfile>
       </Dialog>
     </div>
   );

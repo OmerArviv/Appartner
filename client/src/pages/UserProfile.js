@@ -28,8 +28,9 @@ const btnstyle = {
 
 const UserProfile = (props) => {
   const { email } = props;
+  const { userEmail } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
-  const [userProfileImage, setUserProfileImage] = useState("");
+  const [userProfileImage, setUserProfileImage] = useState("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
   const [employment, setEmployment] = useState();
@@ -72,6 +73,10 @@ const UserProfile = (props) => {
     }
   }, []);
 
+  const handleImageError = (event) => {
+    setUserProfileImage("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
+  };
+
   return (
     <Grid
       container
@@ -99,6 +104,7 @@ const UserProfile = (props) => {
                   <ProfilePicture
                     src={userProfileImage}
                     alt="Profile Picture"
+                    onError={handleImageError}
                   />
                 </Box>
                 <Box
@@ -108,13 +114,15 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    style={btnstyle}
-                    sx={{ width: "300px", marginBottom: "20px" }}
-                  >
-                    CHANGE PROFILE IMAGE
-                  </Button>
+                  {email == userEmail &&
+                    <Button
+                      variant="contained"
+                      style={btnstyle}
+                      sx={{ width: "300px", marginBottom: "20px" }}
+                    >
+                      CHANGE PROFILE IMAGE
+                    </Button>
+                  }
                 </Box>
               </Grid>
               <Grid item xs={2} />
@@ -136,13 +144,15 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    style={btnstyle}
-                    sx={{ width: "300px", marginBottom: "20px" }}
-                  >
-                    EDIT PROFILE
-                  </Button>
+                  {email == userEmail &&
+                    <Button
+                      variant="contained"
+                      style={btnstyle}
+                      sx={{ width: "300px", marginBottom: "20px" }}
+                    >
+                      EDIT PROFILE
+                    </Button>
+                  }
                 </Box>
               </Grid>
             </Grid>
