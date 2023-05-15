@@ -48,6 +48,7 @@ export const APP_ROUTES = {
     updateRoomateRequest: `${ROOMATE_REQUEST_ENPOINT}/updateRoomateRequest`,
     getRoomateRequestByUserEmail: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByUserEmail`,
     getRoomateRequestByAppartmentId: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByAppartmentId`,
+    getBestMatches:`${ROOMATE_REQUEST_ENPOINT}/getBestMatches`,
   },
 };
 

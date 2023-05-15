@@ -50,4 +50,22 @@ module.exports = class AppartmentService {
     const res = await RoomateRequest.find(userEmail);
     return res;
   }
+
+  static async getMatches(input) {
+    let user=input.user;
+    let apartments=input.apartments;
+    const prompt = `Find the best 10 apartments based on the user profile and preferences. Return an array of the apartment IDs:\n\nUser Profile:\n${user}\n\nApartments:\n${apartments}`;
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      max_tokens: 100,
+      temperature: 1,
+    });
+  
+    const jsonResponse = response.data.choices[0].text;
+    const json = JSON.parse(jsonResponse);
+    //console.log(json);
+  
+    return json;
+  }
 };
