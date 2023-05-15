@@ -26,7 +26,6 @@ export const APP_ROUTES = {
     getUserProfileByEmail: `${USER_PROFILE_ENPOINT}/getUserProfileByEmail`,
     parseUserInput: `${USER_PROFILE_ENPOINT}/parse`,
     createUserVideo: `${USER_PROFILE_ENPOINT}/dalle`,
-
   },
 
   userProfilePrefernces: {
@@ -41,6 +40,7 @@ export const APP_ROUTES = {
     getAppartmentByUserEmail: `${APPARTMENT_ENPOINT}/getAppartmentByUserEmail`,
     getAppartmentById: `${APPARTMENT_ENPOINT}/getAppartmentById`,
     getAllAppartments: `${APPARTMENT_ENPOINT}/getAllAppartments`,
+    getAllAppartmentsAndRoomateDetails: `${APPARTMENT_ENPOINT}/getAllAppartmentsAndRoomateDetails`,
   },
 
   roomateRequest: {
