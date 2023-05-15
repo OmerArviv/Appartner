@@ -8,7 +8,6 @@ import {
   CardContent,
   Stack,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
 import { useParams } from "react-router";
@@ -16,26 +15,6 @@ import { getAppartmentById } from "../controller/appartmentController";
 import { useNavigate } from "react-router";
 import RoomateAvatar from "../components/RoomateAvatar";
 import { createRoomateRequest } from "../controller/RoomateRequestController";
-
-const RoundedPicture = ({ src, alt, text }) => (
-  <Box
-    sx={{
-      position: "relative",
-      display: "inline-block",
-      textAlign: "center",
-      marginRight: 2,
-    }}
-  >
-    <Box
-      sx={{ borderRadius: "50%", overflow: "hidden", display: "inline-block" }}
-    >
-      <img src={src} alt={alt} style={{ width: "100%", height: "auto" }} />
-    </Box>
-    <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 1 }}>
-      {text}
-    </Typography>
-  </Box>
-);
 
 const btnstyle = {
   background: "#4F4E51",
@@ -52,16 +31,9 @@ const Topic = ({ label, value }) => (
   </Box>
 );
 
-const apartmentImages = [
-  "https://picsum.photos/300/101",
-  "https://picsum.photos/300/102",
-  "https://picsum.photos/300/103",
-  "https://picsum.photos/300/104",
-];
-
 const Apartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
-  const { userRole, userId, userEmail } = useContext(authContext);
+  const { userRole, userEmail } = useContext(authContext);
   const { apartmentId } = useParams();
   const navigate = useNavigate();
 
@@ -69,6 +41,7 @@ const Apartment = () => {
 
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
+    console.log(res.data);
     if (!res || res.status == 204) {
       alert("We couldn't find the appartment , please try again");
       navigate(-1);
@@ -93,7 +66,8 @@ const Apartment = () => {
     };
     const res = await createRoomateRequest(request);
     if (!res || res.status == 400 || res.status == 403) {
-      alert("something went wrong");
+      alert(res.data);
+      navigate("/");
       return;
     }
     if (res.status == 201) {
@@ -194,7 +168,7 @@ const Apartment = () => {
           ) : (
             ""
           )}
-          {userRole === "Welcomer" && userId == appartment._id ? (
+          {userRole === "Welcomer" && userEmail == appartment.email ? (
             <Button
               variant="contained"
               // onClick={onSubmitHandler}

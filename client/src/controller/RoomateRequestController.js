@@ -10,7 +10,7 @@ export const createRoomateRequest = (roomateRequest) => {
       return result;
     })
     .catch((err) => {
-      return err;
+      return err.response;
     });
 };
 

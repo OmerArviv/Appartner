@@ -1,7 +1,20 @@
 const RoomateRequest = require("../Model/RoomateRequest");
 
 module.exports = class AppartmentService {
+  static async findRoomateRequest(data) {
+    const res = await RoomateRequest.find(data);
+    return res;
+  }
+
   static async insertRoomateRequest(roomateRequestDetails) {
+    roomateRequestDetails.status = "pending";
+    const res = await this.findRoomateRequest({
+      appartment_id: roomateRequestDetails.appartment_id,
+      user_email: roomateRequestDetails.user_email,
+    });
+    if (res.length != 0) {
+      return false;
+    }
     return RoomateRequest.create(roomateRequestDetails)
       .then((value) => {
         return value;
@@ -13,7 +26,7 @@ module.exports = class AppartmentService {
 
   static async updateRoomateRequest(roomateRequestDetails) {
     return RoomateRequest.findOneAndUpdate(
-      { _id: AppartmentDetails.id },
+      { _id: roomateRequestDetails.id },
       roomateRequestDetails
     )
       .then((value) => {
@@ -27,7 +40,7 @@ module.exports = class AppartmentService {
   static async findRoomateRequestByAppartmentId(id) {
     const res = await RoomateRequest.find({
       appartment_id: id.id,
-      status: null,
+      status: "pending",
     });
     return res;
   }
