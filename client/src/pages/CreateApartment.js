@@ -18,6 +18,7 @@ import DialogAddCollabrator from "../components/DialogAddCollabrator";
 import { createAppartment } from "../controller/appartmentController";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
+import RoomateAvatar from "../components/RoomateAvatar";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -49,7 +50,7 @@ const CreateApartment = () => {
   const handleChooseCollaborator = (email) => {
     setSelectedCollaborator(email);
     console.log("test", email);
-    console.log(selectedCollaborator);
+    console.log("selected", selectedCollaborator);
   };
 
   const handleGenderChange = (event) => {
@@ -83,18 +84,18 @@ const CreateApartment = () => {
 
   function apartmentImagesHandler(arr) {
     console.log("set images array handler");
-    const newArray=[]; 
-    if(arr[0]!=""){
-      newArray.push(arr[0]); 
-    }if(arr[1]!=""){
-      newArray.push(arr[1]); 
-    }if(arr[2]!=""){
-      newArray.push(arr[2]); 
-    }if(arr[3]!=""){
-      newArray.push(arr[3]); 
+    const newArray = [];
+    if (arr[0] != "") {
+      newArray.push(arr[0]);
+    } if (arr[1] != "") {
+      newArray.push(arr[1]);
+    } if (arr[2] != "") {
+      newArray.push(arr[2]);
+    } if (arr[3] != "") {
+      newArray.push(arr[3]);
     }
-    if(newArray!= null){
-    setApartmentImages(newArray);
+    if (newArray != null) {
+      setApartmentImages(newArray);
     }
     console.log(apartmentImages);
   }
@@ -270,7 +271,13 @@ const CreateApartment = () => {
             <MenuItem value="5">5</MenuItem>
           </Select>
         </FormControl> */}
-        <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
+        <div>
+          <h1> test</h1>
+          {selectedCollaborator != "" &&
+            <RoomateAvatar email={selectedCollaborator} />
+          }
+          <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
+        </div>
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}
@@ -280,7 +287,7 @@ const CreateApartment = () => {
         </Button>
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
-        <UploadImages setArrayImages={apartmentImagesHandler}/>
+        <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>
   );

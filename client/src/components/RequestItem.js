@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import UserProfile from "../pages/UserProfile";
+import { updateRoomateRequest } from "../controller/RoomateRequestController";
 
 const RequestItem = (props) => {
   const { request } = props;
@@ -24,9 +25,38 @@ const RequestItem = (props) => {
       setUser(res);
     }
   };
+
   useEffect(() => {
     getUser();
   }, []);
+
+  const onAcceptHandler = async () => {
+    const updatedRequest = { ...request, status: "accepted" };
+    try {
+      const res = await updateRoomateRequest(updatedRequest);
+      if (res) {
+        console.log("Roommate request accepted successfully");
+      } else {
+        console.error("Failed to accept roommate request");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onIgnoreHandler = async () => {
+    const updatedRequest = { ...request, status: "ignored" };
+    try {
+      const res = await updateRoomateRequest(updatedRequest);
+      if (res) {
+        console.log("Roommate request accepted successfully");
+      } else {
+        console.error("Failed to accept roommate request");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Grid
@@ -61,7 +91,7 @@ const RequestItem = (props) => {
             color: "black",
             marginRight: "15px",
           }}
-          //   onClick={onAcceptHandler}
+          onClick={onAcceptHandler}
         >
           ACCEPT
         </Button>
@@ -72,7 +102,7 @@ const RequestItem = (props) => {
             height: "50px",
             color: "black",
           }}
-          //   onClick={onIgnoretHandler}
+          onClick={onIgnoreHandler}
         >
           IGNORE
         </Button>

@@ -17,6 +17,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
+import UploadImages from "../components/UploadImages";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
