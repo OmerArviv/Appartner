@@ -31,7 +31,7 @@ function ApartmentListItem(props) {
             component="img"
             height="250"
             width="250"
-            src={data.images[0]}
+            src={data.images ? data.images[0] : ""}
             alt="home image"
             sx={{ borderRadius: 3, boxShadow: 5 }}
             variant="rounded"

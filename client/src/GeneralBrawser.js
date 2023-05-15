@@ -18,6 +18,7 @@ import CreateApartment from "./pages/CreateApartment";
 import LookerHomePage from "./pages/LookerHomePage";
 import WelcomerHomePage from "./pages/WelcomerHomePage";
 import DallEApi from "./components/ChatGptApi/DallEApi/DallEApi";
+import LookerRequestsPage from "./pages/LookerRequestsPage";
 
 function GeneralBrawser() {
   const { authenticated, userRole } = useContext(authContext);
@@ -51,6 +52,7 @@ function GeneralBrawser() {
           <Route path="/looker-home-page" element={<LookerHomePage />} />
           <Route path="/apartment/:apartmentId" element={<Apartment />} />
           <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/looker/looker-requests" element={<LookerRequestsPage />} />
         </Routes>
       ) : (
         <Routes>

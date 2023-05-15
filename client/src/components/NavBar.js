@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../APP/Utils";
 import { RemoveTokenAfterSignOut } from "../APP/APP_AUTH";
-import { Avatar, Badge, Tooltip } from "@mui/material";
+import { Avatar, Badge, DialogTitle, Tooltip } from "@mui/material";
 import Cookies from "js-cookie";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { Stack } from "@mui/system";
@@ -20,6 +20,10 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AddHomeIcon from "@mui/icons-material/AddHome";
 import { getAppartmentByUserEmail } from "../controller/appartmentController";
 import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
+import UserProfile from "../pages/UserProfile";
+import {Dialog} from "@mui/material";
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
+import TelegramIcon from '@mui/icons-material/Telegram';
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -30,6 +34,8 @@ export default function NavBar(props) {
   const userRole = Cookies.get("user_role");
   const [requestsNumber, setRequestsNumber] = useState(0);
   const [userApartments, setUserApartments] = useState("");
+  const [modal, setModal] = useState(false);
+
 
   const handleSignOut = () => {
     removeUserDetailsAfterSignout();
@@ -52,7 +58,7 @@ export default function NavBar(props) {
   const getUserApartmentsHandler = async () => {
     const res = await getAppartmentByUserEmail(userEmail);
     if (res.status == 200) {
-      setUserApartments(res.data);
+      setUserApartments(res.data[0]);
     }
   };
 
@@ -63,6 +69,10 @@ export default function NavBar(props) {
         setRequestsNumber(res.length);
       }
     }
+  };
+
+  const handleCloseProfile = () => {
+    setModal(false);
   };
 
   return (
@@ -83,7 +93,7 @@ export default function NavBar(props) {
             variant="h6"
             component="div"
             sx={{
-              flexGrow: 1,
+              flexGrow: 1,  
               textAlign: "center",
               textTransform: "uppercase",
             }}
@@ -128,7 +138,7 @@ export default function NavBar(props) {
                     <Tooltip title="Your Apartment" disableInteractive>
                       <IconButton
                         onClick={() =>
-                          navigate(`/apartment/${userApartments[0]._id}`)
+                          navigate(`/apartment/${userApartments._id}`)
                         }
                       >
                         <HomeRoundedIcon fontSize="large" />
@@ -148,7 +158,9 @@ export default function NavBar(props) {
                 </>
               ) : (
                 <Stack direction="row">
-                  <Typography></Typography>
+                  <IconButton onClick={()=>{navigate("/looker/looker-requests")}}>
+                    <TelegramIcon fontSize="large" />
+                  </IconButton>
                 </Stack>
               )}
 
@@ -156,7 +168,7 @@ export default function NavBar(props) {
                 <Tooltip title="Your Profile" disableInteractive>
                   <IconButton
                     onClick={() => {
-                      navigate("/userProfile");
+                      setModal(true);
                     }}
                   >
                     <Avatar
@@ -164,6 +176,12 @@ export default function NavBar(props) {
                     />
                   </IconButton>
                 </Tooltip>
+                <Dialog maxWidth="lg" open={modal} onClose={handleCloseProfile}>
+                    <DialogTitle  textAlign="center">
+                      Your Profile
+                    </DialogTitle>
+                    <UserProfile email={userEmail? userEmail : ""}/>
+                </Dialog>
               </Stack>
               <Button
                 sx={{ color: "inherit", background: "#CEC9B6" }}
