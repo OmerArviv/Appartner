@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import { APP_ROUTES,POST_HEADERS } from '../../APP/APP_ROUTES';
-import { getUserProfileByEmail, parseData } from '../../controller/userProfileController';
-import { getUserByEmail } from '../../controller/authenticationController';
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { parseData } from "../../controller/userProfileController";
 
-
+const btnstyle = {
+  background: "#4F4E51",
+  height: "50px",
+  width: "100px",
+  color: "#D0D2D8",
+};
 
 const ParseChatGpt = (props) => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [parsedInfo, setParsedInfo] = useState(null);
   const [error, setError] = useState(null);
 
@@ -25,14 +26,9 @@ const ParseChatGpt = (props) => {
       console.error(error);
     }
   };
-  
-  
 
   return (
-    <Box component={Paper} p={4} boxShadow={2} width={700} >
-      <Typography variant="h4" mb={2} textAlign={'center'}>
-        Describe Yourself
-      </Typography>
+    <Box p={4} boxShadow={2} width={700}>
       <form onSubmit={handleSubmit}>
         <Box mb={2}>
           <TextField
@@ -47,11 +43,13 @@ const ParseChatGpt = (props) => {
           />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
-          <Button variant="contained" type="submit" sx={{ marginLeft: "auto", marginRight: "auto" }}>
-             Submit
+          <Button
+            style={btnstyle}
+            sx={{ marginLeft: "auto", marginRight: "auto" }}
+          >
+            Submit
           </Button>
         </Box>
-
       </form>
       {parsedInfo && (
         <Box mt={4}>
@@ -66,6 +64,6 @@ const ParseChatGpt = (props) => {
       )}
     </Box>
   );
-}
+};
 
 export default ParseChatGpt;

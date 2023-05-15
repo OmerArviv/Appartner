@@ -17,8 +17,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
-import UploadImages from "../components/UploadImages";
-import { getUserEmail } from "../APP/APP_AUTH";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
@@ -26,6 +24,7 @@ import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import DallEApi from "../components/ChatGptApi/DallEApi/DallEApi";
 import AddressForm from "../components/AddressForm";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -56,7 +55,6 @@ const CreateProfile = () => {
   //set user details with chat GPT
   const [userGPT, setUserGPT] = useState("");
 
-
   const [userBirthday, setUserBirthday] = useState("");
   const [userEmployment, setUserEmployment] = useState("");
   const [userSmoking, setUserSmoking] = useState("");
@@ -69,7 +67,6 @@ const CreateProfile = () => {
   const [userFacebookLink, setUserFacebookLink] = useState("");
   const [userInstagramLink, setUserInstagramLink] = useState("");
   const [userProfileImage, setUserProfileImage] = useState("");
-  // const [userImagesArray, setUserImagesArray] = useState("");
 
   useEffect(() => {
     if (userSTT != "") {
@@ -85,7 +82,7 @@ const CreateProfile = () => {
   }, [userSTT]);
 
   useEffect(() => {
-    if (userGPT !== '') {
+    if (userGPT !== "") {
       setUserBirthday(userGPT.age);
       setUserEmployment(userGPT.user_employment);
       setUserSmoking(userGPT.smoking);
@@ -95,7 +92,6 @@ const CreateProfile = () => {
       setUserGender(userGPT.gender);
     }
   }, [userGPT]);
-
 
   function userBirthdayHandler(event) {
     // console.log('birthday');
@@ -157,7 +153,6 @@ const CreateProfile = () => {
     setUserInstagramLink(event.target.value);
   }
 
-
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = userEmail;
@@ -200,78 +195,82 @@ const CreateProfile = () => {
 
   const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
-  {selectedOption === "parseChatGpt" ? (
-    <ParseChatGpt setUser={setUserGPT} />
-  ) : (
-    <Speechtotext setUser={setUserSTT} />
-  )}
+  {
+    selectedOption === "parseChatGpt" ? (
+      <ParseChatGpt setUser={setUserGPT} />
+    ) : (
+      <Speechtotext setUser={setUserSTT} />
+    );
+  }
 
-  
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
 
-  // const handleOpen = () => {
-  //   setIsOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-  // };
-  
+  const handleTitleClick = () => {
+    setIsCodeVisible(!isCodeVisible);
+  };
 
   return (
     <>
+      {/* <DallEApi></DallEApi> */}
 
-    <DallEApi></DallEApi>
-
-    {/* <div>
-    <Button variant="contained" onClick={handleOpen}>
-        Open Address Form
-      </Button>
-      <AddressForm open={isOpen} onClose={handleClose} />
-    </div> */}
-   <Box
-  sx={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    marginBottom: 5,
-  }}
->
-  <ToggleButtonGroup
-    value={selectedOption}
-    exclusive
-    onChange={(event, newSelectedOption) =>
-      newSelectedOption && setSelectedOption(newSelectedOption)
-    }
-  >
-    <ToggleButton value="parseChatGpt">Text</ToggleButton>
-    <ToggleButton value="speechtotext">Voice</ToggleButton>
-  </ToggleButtonGroup>
-  {selectedOption === "parseChatGpt" && (
-  <Box
-    sx={{
-      justifyContent: "center",
-      marginTop: 5,
-    }}
-  >
-    <ParseChatGpt setUser={setUserGPT} />
-  </Box>
-)}
-{selectedOption === "speechtotext" && (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 5,
-    }}
-  >
-    <Speechtotext setUser={setUserSTT} />
-  </Box>
-)}
-</Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 5,
+          marginBottom: 5,
+        }}
+      >
+        <Typography
+          variant="h6"
+          gutterBottom
+          onClick={handleTitleClick}
+          style={{ cursor: "pointer" }}
+        >
+          Click to fill the fields by record or short text
+        </Typography>
+        {isCodeVisible && (
+          <Box
+            sx={{
+              justifyContent: "center",
+              marginTop: 5,
+            }}
+          >
+            <ToggleButtonGroup
+              value={selectedOption}
+              exclusive
+              onChange={(event, newSelectedOption) =>
+                newSelectedOption && setSelectedOption(newSelectedOption)
+              }
+            >
+              <ToggleButton value="parseChatGpt">Text</ToggleButton>
+              <ToggleButton value="speechtotext">Voice</ToggleButton>
+            </ToggleButtonGroup>
+            {selectedOption === "parseChatGpt" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <ParseChatGpt setUser={setUserGPT} />
+              </Box>
+            )}
+            {selectedOption === "speechtotext" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <Speechtotext setUser={setUserSTT} />
+              </Box>
+            )}
+          </Box>
+        )}
+      </Box>
       <Box
         container="true"
         spacing={50}
@@ -483,6 +482,7 @@ const CreateProfile = () => {
                   value={userHobby}
                   onChange={userHobbyHandler}
                   fullWidth
+                  helperText="Anything you like to do"
                 ></TextField>
               </CardContent>
             </FormControl>
