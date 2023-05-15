@@ -42,6 +42,10 @@ export default function NavBar(props) {
     getRoomateRequesHandler();
   }, []);
 
+  useEffect(() => {
+    getUserHandler();
+  }, [userEmail]);
+
   const getUserHandler = async () => {
     const res = await getUserProfileByEmail(userEmail);
     if (res) {
