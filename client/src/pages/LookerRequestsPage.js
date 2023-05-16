@@ -11,16 +11,14 @@ const LookerRequestsPage=()=>{
   const { setPageTitle } = useContext(pageTitleContext);
 const [userRequests, setUserRequests]= useState();
 const { userEmail } = useContext(authContext);
-const [apartments, setApartments]= useState([]);
-const [apartmentsID, setApartmentsID]= useState([]);
+// const [apartments, setApartments]= useState([]);
+// const [apartmentsID, setApartmentsID]= useState([]);
 
 const tmpApartmentsID=[];
 
 useEffect(()=>{
-    getUserRequests();
-    // getAllUserRequestsApartments();
-    setPageTitle("Your Requests");
-    // getAllUserRequestsApartments();
+  setPageTitle("Your Requests");
+  getUserRequests();
 },[]);
 
 useEffect(()=>{
@@ -38,56 +36,35 @@ const getUserRequests= async ()=>{
     if(res){
         setUserRequests(res); 
     }
-    // else{
-    //   console.log("can't get the user requests");
-    // }
-    if(userRequests){
-      userRequests.forEach((item, index)=>{
-        tmpApartmentsID.push(item.appartment_id);
-      });
-      setApartmentsID(tmpApartmentsID);
-    }
-    // if(apartmentsID){
-    //   const tmpApa=[]
-
-    //   for (let i = 0; i < apartmentsID.length; i++) {
-    //     const ap=await getAppartmentById(apartmentsID[i]);
-    //     if(ap){
-    //       tmpApa.push(ap);
-    //     }
-    //   }
-    //   // console.log("apartments");
-    //   // console.log(apartments);
-    //   setApartments(tmpApa);
+    // if(userRequests){
+    //   userRequests.forEach((item, index)=>{
+    //     tmpApartmentsID.push(item.appartment_id);
+    //   });
+    //   setApartmentsID(tmpApartmentsID);
     // }
     // getAllUserRequestsApartments();
 
 }
 
-const getAllUserRequestsApartments= async()=>{
-    if(apartmentsID){
-      const tmpApa=[]
+// const getAllUserRequestsApartments= async()=>{
+//     if(apartmentsID){
+//       const tmpApa=[]
 
-      for (let i = 0; i < apartmentsID.length; i++) {
-        const ap=await getAppartmentById(apartmentsID[i]);
-        if(ap){
-          tmpApa.push(ap);
-        }
-      }
-      // console.log("apartments");
-      // console.log(apartments);
-      setApartments(tmpApa);
-            // console.log(apartments);
-
-    }
-}
+//       for (let i = 0; i < apartmentsID.length; i++) {
+//         const ap=await getAppartmentById(apartmentsID[i]);
+//         if(ap){
+//           tmpApa.push(ap);
+//         }
+//       }
+//       setApartments(tmpApa);
+//     }
+// }
 
 
 return(
 <div>
     {userRequests  ?
     userRequests.map((item, index)=>{
-      // console.log(item);
       return(      
       <LookerRequestItem request={item} key={index}/>
       )

@@ -1,8 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Chip, Skeleton, Typography } from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import {deleteRoomateRequestByUser} from "../controller/RoomateRequestController";
 import { useEffect, useState } from "react";
 import ApartmentListItem from "./ApartmentListItem";
+import TelegramIcon from '@mui/icons-material/Telegram';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 function LookerRequestItem(props){
@@ -14,13 +16,9 @@ function LookerRequestItem(props){
     }, [])
 
     const getRequestApartment= async ()=>{
-        // console.log(request.appartment_id);
         const res= await getAppartmentById(request.appartment_id);
         if(res){
-            // console.log(apartment);
             setApartment(res.data); 
-            // console.log(res);
-
         }
     }
 
@@ -49,8 +47,6 @@ function LookerRequestItem(props){
         }
       };
 
-    // const apartment=props.apartment; 
-    const status=props.status;
     return(
         <div>
             {apartment? ( 
@@ -61,18 +57,28 @@ function LookerRequestItem(props){
                     </ApartmentListItem>
                     {}
                 </Box>
-                <Box item="true" xs={4} sx={{display:'block', width: "auto", marginLeft:"auto", marginRight:'auto', alignContent:"center", alignItems:"center", justifyContent:"center"}}> 
-                    <Typography>
-                        Request Status: <br/>
-                        {request.status}
-                    </Typography>
-                    <Button varient="contained" sx={{height:"fit-content"}}
+                <Box item="true" xs={4} sx={{display:'flex',flexWrap: 'wrap', width: "auto", marginLeft:"auto", marginRight:'auto', alignContent:"center", alignItems:"center", justifyContent:"center"}}> 
+                    <Chip
+                        sx={{backgroundColor:"#ffc457", height:40, width:170, fontFamily: "monospace", fontSize:23, fontStyle:"bolt" }}
+                        icon={<TelegramIcon sx={{color:"black", height:36, width:36}}/>}
+                        label={request.status}
+                    />
+                    <br/>
+                    <Chip
+                    sx={{ height:40, width:170, fontFamily: "monospace", fontSize:23, fontStyle:"bolt" }}
+                    icon={<RemoveCircleIcon sx={{color:"black", height:36, width:36}}/>}
+                    label={"Cancel Request"}
                     onClick={onCancelHandler}
+
                     >
-                        Cancel request
-                    </Button>
+
+                    </Chip>
                 </Box>
-            </Box>): ""}
+            </Box>): 
+            <Skeleton>
+                <Box></Box>
+            </Skeleton>
+            }
            
         </div>
         
