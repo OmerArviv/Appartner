@@ -28,6 +28,8 @@ export const updateAppartment = (appartment) => {
 export const getAppartmentById = (id) => {
   let url = APP_ROUTES.appartment.getAppartmentById;
   let data = { _id: id };
+  console.log(data);
+
   return axios
     .get(url, {
       params: data,

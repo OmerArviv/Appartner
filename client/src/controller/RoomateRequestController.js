@@ -87,7 +87,7 @@ export const getRoomateRequestByAppartmentUserEmail = async (userEmail) => {
 //
 export const deleteRoomateRequestByUser = async (requestId) => {
   let url = APP_ROUTES.roomateRequest.deleteRoomateRequestByUser;
-  let data = { _id: requestId};
+  let data = { _id: requestId };
   return axios
     .post(url, requestId, POST_HEADERS())
     .then((result) => {
@@ -98,14 +98,16 @@ export const deleteRoomateRequestByUser = async (requestId) => {
     });
 };
 
-// export const updateRoomateRequest = (roomateRequest) => {
-//   let url = APP_ROUTES.roomateRequest.updateRoomateRequest;
-//   return axios
-//     .post(url, roomateRequest, POST_HEADERS())
-//     .then((result) => {
-//       return result;
-//     })
-//     .catch((err) => {
-//       return err;
-//     });
-// };
+export const getBestMatchesCgptApi = async (data) => {
+  let url = APP_ROUTES.roomateRequest.getBestMatches;
+  try {
+    const res = await axios.post(
+      url,
+      { data },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

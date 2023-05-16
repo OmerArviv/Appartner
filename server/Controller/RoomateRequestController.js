@@ -62,8 +62,9 @@ router
     return response.status(204).send(null);
   });
 
-  //
-  router.route("/deleteRoomateRequestByUser").post(auth,async (request, response) => {
+router
+  .route("/deleteRoomateRequestByUser")
+  .post(auth, async (request, response) => {
     const requestId = request.body;
     console.log(request.body);
     if (!requestId) {
@@ -77,15 +78,20 @@ router
     } else {
       response.status(403).send();
     }
-    // return response;
-    // console.log(result);
-    // if (result != null) {
-    //   response.status(200).send({
-    //     msg: result,
-    //   });
-    // } else {
-    //   response.status(403).send();
-    // }
   });
+
+router.route("/getBestMatches").post(async (request, response) => {
+  const { data } = request.body;
+  if (!data) {
+    return response.status(403).send({});
+  }
+
+  const dataJson = await RoomateRequestService.getMatches(data);
+
+  if (dataJson) {
+    return response.status(200).json(dataJson);
+  }
+  return response.status(200).send(null);
+});
 
 module.exports = router;
