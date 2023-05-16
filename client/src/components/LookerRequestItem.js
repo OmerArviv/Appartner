@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import ApartmentListItem from "./ApartmentListItem";
 import TelegramIcon from '@mui/icons-material/Telegram';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import PropTypes from 'prop-types';
+
 
 
 function LookerRequestItem(props){
