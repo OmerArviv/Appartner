@@ -1,5 +1,14 @@
 const RoomateRequest = require("../Model/RoomateRequest");
 
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: "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",
+});
+
+// openai.apiKey = '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';
+
+const openai = new OpenAIApi(configuration);
+
 module.exports = class AppartmentService {
   static async findRoomateRequest(data) {
     const res = await RoomateRequest.find(data);
@@ -52,9 +61,14 @@ module.exports = class AppartmentService {
   }
 
   static async getMatches(input) {
-    let user=input.user;
-    let apartments=input.apartments;
-    const prompt = `Find the best 10 apartments based on the user profile and preferences. Return an array of the apartment IDs:\n\nUser Profile:\n${user}\n\nApartments:\n${apartments}`;
+
+    const user=JSON.stringify(input.user);
+    const apartments=JSON.stringify(input.apartments);
+
+
+    const prompt = `Find the best apartments based on the "User Profile" and the "Apartments". Return an array of the apartment IDs("_id"):\n\nUser Profile:\n${user}\n\nApartments:\n${apartments}`;
+    console.log(prompt);
+
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
@@ -63,9 +77,8 @@ module.exports = class AppartmentService {
     });
   
     const jsonResponse = response.data.choices[0].text;
-    const json = JSON.parse(jsonResponse);
-    //console.log(json);
+    //console.log(jsonResponse);
   
-    return json;
+    return jsonResponse;
   }
 };

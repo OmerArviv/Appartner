@@ -7,17 +7,12 @@ import {
   Grid,
   CardActionArea,
   Divider,
-<<<<<<< HEAD
+  Button,
 } from '@mui/material';
 import ApartmentListItem from './ApartmentListItem';
-import { getAllAppartments } from '../controller/appartmentController';
+import { getAllAppartments, getAllAppartmentsAndRoomateDetails, getAppartmentById } from '../controller/appartmentController';
 import FindMatchesButton from './FindMatchesButton';
-=======
-} from "@mui/material";
-import ApartmentListItem from "./ApartmentListItem";
-import { useEffect, useState } from "react";
-import { getAllAppartments } from "../controller/appartmentController";
->>>>>>> e9482089f6e997b01df709048d1631aa37140be2
+import { getBestMatchesCgptApi } from '../controller/RoomateRequestController';
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
@@ -38,6 +33,50 @@ function ApartmentList() {
     setMatchedApartments(apartments);
   };
 
+  const handleFindMatches = async () => {
+    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+    const user = { email: 'omer123@gmail.com',
+    Birthday_date: '22',
+    user_employment: 'teswt',
+    smoking: 'No',
+    pets: 'Yes',
+    gender: 'Female',
+    alcohol: 'Yes',
+    kosher: 'Yes',
+    hobby: 'sdfdsfs',
+    user_additonal_information: '',
+    user_facebook_link: '',
+    user_instagram_link: '',
+    user_profile_image: 's',
+    location: "sfsdfs",
+  }
+
+  const mergedData = {
+    user: user,
+    apartments: getAllAppartments,
+  };
+
+    try {
+      const res = await getBestMatchesCgptApi(mergedData);
+      const response = res.data;
+      const startIndex = response.indexOf("'") + 1;
+      const endIndex = response.lastIndexOf("'");
+      const parsedID = response.substring(startIndex, endIndex);
+      const apartment = await getAppartmentById(parsedID)
+
+      console.log(parsedID); // Output: 6461515faa5a5f543f110fa0
+
+
+      if(apartment && apartment.status==200){
+        setAppartments([apartment]);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   return (
     <>
       <Box
@@ -47,10 +86,9 @@ function ApartmentList() {
           marginBottom: 2,
         }}
       >
-        <FindMatchesButton
-          onMatchedApartments={handleMatchedApartments}
-          apartments={appartments}
-        />
+        <Button variant="contained" onClick={handleFindMatches}>
+      Find the Best Matches
+        </Button>
       </Box>
 
       <List
