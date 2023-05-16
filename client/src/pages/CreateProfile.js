@@ -22,9 +22,6 @@ import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
-import DallEApi from "../components/ChatGptApi/DallEApi/DallEApi";
-import AddressForm from "../components/AddressForm";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const btnstyle = {
   // margin: "8px 0",
