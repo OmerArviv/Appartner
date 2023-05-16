@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   List,
@@ -8,11 +8,15 @@ import {
   CardActionArea,
   Divider,
   Button,
-} from '@mui/material';
-import ApartmentListItem from './ApartmentListItem';
-import { getAllAppartments, getAllAppartmentsAndRoomateDetails, getAppartmentById } from '../controller/appartmentController';
-import FindMatchesButton from './FindMatchesButton';
-import { getBestMatchesCgptApi } from '../controller/RoomateRequestController';
+} from "@mui/material";
+import ApartmentListItem from "./ApartmentListItem";
+import {
+  getAllAppartments,
+  getAllAppartmentsAndRoomateDetails,
+  getAppartmentById,
+} from "../controller/appartmentController";
+import FindMatchesButton from "./FindMatchesButton";
+import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
@@ -35,74 +39,73 @@ function ApartmentList() {
 
   const handleFindMatches = async () => {
     const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
-    const user = { email: 'omer123@gmail.com',
-    Birthday_date: '22',
-    user_employment: 'teswt',
-    smoking: 'No',
-    pets: 'Yes',
-    gender: 'Female',
-    alcohol: 'Yes',
-    kosher: 'Yes',
-    hobby: 'sdfdsfs',
-    user_additonal_information: '',
-    user_facebook_link: '',
-    user_instagram_link: '',
-    user_profile_image: 's',
-    location: "sfsdfs",
-  }
+    const user = {
+      email: "omer123@gmail.com",
+      Birthday_date: "22",
+      user_employment: "teswt",
+      smoking: "No",
+      pets: "Yes",
+      gender: "Female",
+      alcohol: "Yes",
+      kosher: "Yes",
+      hobby: "sdfdsfs",
+      user_additonal_information: "",
+      user_facebook_link: "",
+      user_instagram_link: "",
+      user_profile_image: "s",
+      location: "sfsdfs",
+    };
 
-  const mergedData = {
-    user: user,
-    apartments: getAllAppartments,
-  };
+    const mergedData = {
+      user: user,
+      apartments: getAllAppartments,
+    };
 
     try {
       const res = await getBestMatchesCgptApi(mergedData);
-      const response = JSON.parse(res).data;
-     
-      
-      // const apartment = await getAppartmentById(response[0]);
+      if (res && res.status == 200) {
+        const apartment = await getAppartmentById(res.data[0]);
 
-      console.log(response); // Output: 6461515faa5a5f543f110fa0
-
-
-      // // if(apartment && apartment.status==200){
-      // //   setAppartments([apartment]);
-      // // }
-
+        if (apartment && apartment.status == 200) {
+          setAppartments([apartment.data]);
+        } else {
+          alert("something went wrong");
+        }
+      } else {
+        alert("something went wrong");
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-
   return (
     <>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
+          display: "flex",
+          justifyContent: "flex-end",
           marginBottom: 2,
         }}
       >
         <Button variant="contained" onClick={handleFindMatches}>
-      Find the Best Matches
+          Find the Best Matches
         </Button>
       </Box>
 
       <List
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          display: 'inline-flex',
-          flexDirection: 'column',
-          flexWrap: 'wrap',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          display: "inline-flex",
+          flexDirection: "column",
+          flexWrap: "wrap",
+          alignItems: "center",
         }}
       >
         <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          sx={{ justifyContent: 'center' }}
+          direction={{ xs: "column", sm: "row" }}
+          sx={{ justifyContent: "center" }}
           alignItems="center"
           flexWrap="wrap"
         >
@@ -111,7 +114,7 @@ function ApartmentList() {
                 <Box
                   key={index}
                   component="div"
-                  sx={{ display: 'inline', marginRight: 'auto' }}
+                  sx={{ display: "inline", marginRight: "auto" }}
                 >
                   <ListItem>
                     <ApartmentListItem data={item} />
@@ -123,14 +126,14 @@ function ApartmentList() {
                 <Box
                   key={index}
                   component="div"
-                  sx={{ display: 'inline', marginRight: 'auto' }}
+                  sx={{ display: "inline", marginRight: "auto" }}
                 >
                   <ListItem>
                     <ApartmentListItem data={item} />
                   </ListItem>
                 </Box>
               ))
-            : ''}
+            : ""}
         </Stack>
       </List>
     </>

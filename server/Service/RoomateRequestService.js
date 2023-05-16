@@ -61,15 +61,13 @@ module.exports = class AppartmentService {
   }
 
   static async getMatches(input) {
+    const user = JSON.stringify(input.user);
+    const apartments = JSON.stringify(input.apartments);
 
-    const user=JSON.stringify(input.user);
-    const apartments=JSON.stringify(input.apartments);
-
-
-    const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
+    const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array in json format of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
 
     const headers = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     const response = await openai.createCompletion({
@@ -78,12 +76,9 @@ module.exports = class AppartmentService {
       max_tokens: 100,
       temperature: 1,
     });
-    
-  
+
     const jsonResponse = response.data.choices[0].text;
 
-    console.log(typeof jsonResponse);
-  
-    return jsonResponse;
+    return JSON.parse(jsonResponse);
   }
 };
