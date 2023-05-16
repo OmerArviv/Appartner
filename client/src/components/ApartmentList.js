@@ -7,10 +7,17 @@ import {
   Grid,
   CardActionArea,
   Divider,
+<<<<<<< HEAD
 } from '@mui/material';
 import ApartmentListItem from './ApartmentListItem';
 import { getAllAppartments } from '../controller/appartmentController';
 import FindMatchesButton from './FindMatchesButton';
+=======
+} from "@mui/material";
+import ApartmentListItem from "./ApartmentListItem";
+import { useEffect, useState } from "react";
+import { getAllAppartments } from "../controller/appartmentController";
+>>>>>>> e9482089f6e997b01df709048d1631aa37140be2
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
