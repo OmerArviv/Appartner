@@ -17,13 +17,14 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
-import UploadImages from "../components/UploadImages";
 import DialogImage from "../components/DialogImage";
 import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import DallEApi from "../components/ChatGptApi/DallEApi/DallEApi";
+import AddressForm from "../components/AddressForm";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -207,26 +208,16 @@ const CreateProfile = () => {
     );
   }
 
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
 
-  // const handleOpen = () => {
-  //   setIsOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-  // };
+  const handleTitleClick = () => {
+    setIsCodeVisible(!isCodeVisible);
+  };
 
   return (
     <>
-      <DallEApi></DallEApi>
+      {/* <DallEApi></DallEApi> */}
 
-      {/* <div>
-    <Button variant="contained" onClick={handleOpen}>
-        Open Address Form
-      </Button>
-      <AddressForm open={isOpen} onClose={handleClose} />
-    </div> */}
       <Box
         sx={{
           display: "flex",
@@ -237,36 +228,51 @@ const CreateProfile = () => {
           marginBottom: 5,
         }}
       >
-        <ToggleButtonGroup
-          value={selectedOption}
-          exclusive
-          onChange={(event, newSelectedOption) =>
-            newSelectedOption && setSelectedOption(newSelectedOption)
-          }
+        <Typography
+          variant="h6"
+          gutterBottom
+          onClick={handleTitleClick}
+          style={{ cursor: "pointer" }}
         >
-          <ToggleButton value="parseChatGpt">Text</ToggleButton>
-          <ToggleButton value="speechtotext">Voice</ToggleButton>
-        </ToggleButtonGroup>
-        {selectedOption === "parseChatGpt" && (
+          Click to fill the fields by record or short text
+        </Typography>
+        {isCodeVisible && (
           <Box
             sx={{
               justifyContent: "center",
               marginTop: 5,
             }}
           >
-            <ParseChatGpt setUser={setUserGPT} />
-          </Box>
-        )}
-        {selectedOption === "speechtotext" && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 5,
-            }}
-          >
-            <Speechtotext setUser={setUserSTT} />
+            <ToggleButtonGroup
+              value={selectedOption}
+              exclusive
+              onChange={(event, newSelectedOption) =>
+                newSelectedOption && setSelectedOption(newSelectedOption)
+              }
+            >
+              <ToggleButton value="parseChatGpt">Text</ToggleButton>
+              <ToggleButton value="speechtotext">Voice</ToggleButton>
+            </ToggleButtonGroup>
+            {selectedOption === "parseChatGpt" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <ParseChatGpt setUser={setUserGPT} />
+              </Box>
+            )}
+            {selectedOption === "speechtotext" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <Speechtotext setUser={setUserSTT} />
+              </Box>
+            )}
           </Box>
         )}
       </Box>
@@ -315,7 +321,7 @@ const CreateProfile = () => {
                   max="75"
                   inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   helperText="Your age have to be 18-75"
-                // max="2023-03-25" min="2023-03-20"
+                  // max="2023-03-25" min="2023-03-20"
                 />
               </CardContent>
             </FormControl>
@@ -481,6 +487,7 @@ const CreateProfile = () => {
                   value={userHobby}
                   onChange={userHobbyHandler}
                   fullWidth
+                  helperText="Anything you like to do"
                 ></TextField>
               </CardContent>
             </FormControl>
@@ -543,8 +550,8 @@ const CreateProfile = () => {
               id="additonal"
               onChange={userAdditonalInformationHandler}
               value={userAdditonal}
-            //  multiline
-            //  maxRows={3}
+              //  multiline
+              //  maxRows={3}
             />
           </FormControl>
         </Box>
