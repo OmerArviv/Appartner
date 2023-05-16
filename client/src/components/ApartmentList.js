@@ -58,18 +58,17 @@ function ApartmentList() {
 
     try {
       const res = await getBestMatchesCgptApi(mergedData);
-      const response = res.data;
-      const startIndex = response.indexOf("'") + 1;
-      const endIndex = response.lastIndexOf("'");
-      const parsedID = response.substring(startIndex, endIndex);
-      const apartment = await getAppartmentById(parsedID)
+      const response = JSON.parse(res).data;
+     
+      
+      // const apartment = await getAppartmentById(response[0]);
 
-      console.log(parsedID); // Output: 6461515faa5a5f543f110fa0
+      console.log(response); // Output: 6461515faa5a5f543f110fa0
 
 
-      if(apartment && apartment.status==200){
-        setAppartments([apartment]);
-      }
+      // // if(apartment && apartment.status==200){
+      // //   setAppartments([apartment]);
+      // // }
 
     } catch (error) {
       console.error(error);

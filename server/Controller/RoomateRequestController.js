@@ -71,6 +71,7 @@ router
     const dataJson = await RoomateRequestService.getMatches(data);
   
     if (dataJson) {
+      console.log(typeof dataJson);
       return response.status(200).json(dataJson);
     }
     return response.status(200).send(null);

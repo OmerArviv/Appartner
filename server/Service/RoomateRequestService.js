@@ -66,8 +66,11 @@ module.exports = class AppartmentService {
     const apartments=JSON.stringify(input.apartments);
 
 
-    const prompt = `Find the best apartments based on the "User Profile" and the "Apartments". Return an array of the apartment IDs("_id"):\n\nUser Profile:\n${user}\n\nApartments:\n${apartments}`;
-    console.log(prompt);
+    const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
 
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -75,9 +78,11 @@ module.exports = class AppartmentService {
       max_tokens: 100,
       temperature: 1,
     });
+    
   
     const jsonResponse = response.data.choices[0].text;
-    //console.log(jsonResponse);
+
+    console.log(typeof jsonResponse);
   
     return jsonResponse;
   }
