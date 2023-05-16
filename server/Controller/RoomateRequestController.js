@@ -62,4 +62,30 @@ router
     return response.status(204).send(null);
   });
 
+  //
+  router.route("/deleteRoomateRequestByUser").post(auth,async (request, response) => {
+    const requestId = request.body;
+    console.log(request.body);
+    if (!requestId) {
+      return response.status(400).send("problem");
+    }
+    var result = await RoomateRequestService.deleteRoomateRequest(requestId);
+    if (result != null) {
+      response.status(200).send({
+        msg: result,
+      });
+    } else {
+      response.status(403).send();
+    }
+    // return response;
+    // console.log(result);
+    // if (result != null) {
+    //   response.status(200).send({
+    //     msg: result,
+    //   });
+    // } else {
+    //   response.status(403).send();
+    // }
+  });
+
 module.exports = router;

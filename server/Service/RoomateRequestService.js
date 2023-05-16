@@ -38,6 +38,25 @@ module.exports = class AppartmentService {
       });
   }
 
+  static async deleteRoomateRequest(roomateRequestId) {
+    console.log("deleteRoomateRequest");
+
+    const res= RoomateRequest.findByIdAndRemove({_id: roomateRequestId});
+    console.log(res);
+
+    if (res) {
+      return res;
+    } else {
+      return null;
+    }
+    // .then((value) => {
+    //     return value;
+    //   })
+    //   .catch((error) => {
+    //     return null;
+    //   });
+  }
+
   static async findRoomateRequestByAppartmentId(id) {
     const res = await RoomateRequest.find({
       appartment_id: id.id,
