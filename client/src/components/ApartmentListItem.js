@@ -12,8 +12,8 @@ import { useNavigate } from "react-router";
 
 function ApartmentListItem(props) {
   const { data } = props;
-  const navigate=useNavigate();
-  const showApartmentHandler= ()=>{
+  const navigate = useNavigate();
+  const showApartmentHandler = () => {
     navigate(`/apartment/${data._id}`);
   };
 
@@ -31,10 +31,13 @@ function ApartmentListItem(props) {
             component="img"
             height="250"
             width="250"
-            src={data.images[0] ? data.images[0] : ""}
+            src={data.images[0] ? data.images[0] : "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png"}
             alt="home image"
             sx={{ borderRadius: 3, boxShadow: 5 }}
             variant="rounded"
+            onError={(e) => {
+              e.target.src = "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png";
+            }}
           />
         </CardContent>
       </CardActionArea>
@@ -57,10 +60,10 @@ function ApartmentListItem(props) {
           <Stack direction="row" spacing={2}>
             {data.roomates.length > 0
               ? data.roomates.map((item, index) => {
-                  return (
-                    <RoomateAvatar email={item} key={index}></RoomateAvatar>
-                  );
-                })
+                return (
+                  <RoomateAvatar email={item} key={index}></RoomateAvatar>
+                );
+              })
               : ""}
           </Stack>
         </CardContent>
