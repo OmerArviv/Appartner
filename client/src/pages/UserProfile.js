@@ -29,7 +29,6 @@ const btnstyle = {
 const UserProfile = (props) => {
   const { email } = props;
   const { userEmail } = useContext(authContext);
-  const { setPageTitle } = useContext(pageTitleContext);
   const [userProfileImage, setUserProfileImage] = useState("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
@@ -39,10 +38,6 @@ const UserProfile = (props) => {
   const [smoking, setSmoking] = useState();
   const [pets, setPets] = useState();
   const [additionInfo, setAdditionInfo] = useState();
-
-  useEffect(() => {
-    setPageTitle("User Profile");
-  }, [setPageTitle]);
 
   useEffect(() => {
     if (email) {

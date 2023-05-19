@@ -27,6 +27,7 @@ const btnstyle = {
 };
 
 const options = ["Yes", "No", "It doesn't matter"];
+const genderOptions = ["Males Only", "Females Only", "It doesn't matter"];
 const roomatesOptions = [1, 2, 3, 4, 5];
 
 const SetPreferncesProfile = () => {
@@ -228,7 +229,7 @@ const SetPreferncesProfile = () => {
                   // input={<OutlinedInput label="Smoking" />}
                   fullWidth
                 >
-                  {options.map((o) => (
+                  {genderOptions.map((o) => (
                     <MenuItem key={o} value={o}>
                       {o}
                     </MenuItem>
