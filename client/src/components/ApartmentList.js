@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   List,
@@ -8,6 +8,9 @@ import {
   CardActionArea,
   Divider,
   Button,
+  Tooltip,
+  Dialog,
+  DialogTitle,
 } from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
@@ -18,6 +21,9 @@ import {
 import FindMatchesButton from "./FindMatchesButton";
 import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 import FilterSection from "./FilterSection";
+import UserProfile from "../pages/UserProfile";
+import { authContext } from "../APP/Utils";
+import SetPreferncesProfile from "../pages/SetPreferncesProfile";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -27,6 +33,9 @@ const btnstyle = {
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
+  const [modalPref, setModalPref] = useState(false);
+
+  const { userEmail } = useContext(authContext);
 
   useEffect(() => {
     setAllAppartments();
@@ -37,6 +46,10 @@ function ApartmentList() {
     if (res) {
       setAppartments(res);
     }
+  };
+
+  const handleCloseProfile = () => {
+    setModalPref(false);
   };
 
   const handleMatchedApartments = (apartments) => {
@@ -98,10 +111,30 @@ function ApartmentList() {
         <Button
           variant="contained"
           onClick={handleFindMatches}
-          style={btnstyle}
+          style={{ ...btnstyle, marginRight: "20px" }}
         >
           Find the Best Matches
         </Button>
+        <Stack>
+          <Tooltip title="Your Profile" disableInteractive>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setModalPref(true);
+              }}
+              style={btnstyle}
+            >
+              Set Your Preferences
+            </Button>
+          </Tooltip>
+          <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
+            <DialogTitle textAlign="center">Change Your Prefernces</DialogTitle>
+            <SetPreferncesProfile
+              handleCloseProfile={handleCloseProfile}
+              propEmail={userEmail ? userEmail : ""}
+            />
+          </Dialog>
+        </Stack>
       </Box>
       <FilterSection
         products={appartments}
