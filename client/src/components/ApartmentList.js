@@ -17,6 +17,7 @@ import {
 } from "../controller/appartmentController";
 import FindMatchesButton from "./FindMatchesButton";
 import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
+import FilterSection from "./FilterSection";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -102,7 +103,13 @@ function ApartmentList() {
           Find the Best Matches
         </Button>
       </Box>
-
+      <FilterSection
+        products={appartments}
+        setProducts={setAppartments}
+        filterTab={true}
+        setFilterTab={true}
+        allProducts={appartments}
+      ></FilterSection>
       <List
         sx={{
           display: "flex",
