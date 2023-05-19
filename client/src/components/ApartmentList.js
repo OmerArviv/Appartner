@@ -18,6 +18,11 @@ import {
 import FindMatchesButton from "./FindMatchesButton";
 import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 
+const btnstyle = {
+  background: "#4F4E51",
+  color: "#D0D2D8",
+};
+
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
@@ -39,6 +44,7 @@ function ApartmentList() {
 
   const handleFindMatches = async () => {
     const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+    console.log(getAllAppartments);
     const user = {
       email: "omer123@gmail.com",
       Birthday_date: "22",
@@ -84,11 +90,15 @@ function ApartmentList() {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: 2,
+          justifyContent: "center",
+          m: 5,
         }}
       >
-        <Button variant="contained" onClick={handleFindMatches}>
+        <Button
+          variant="contained"
+          onClick={handleFindMatches}
+          style={btnstyle}
+        >
           Find the Best Matches
         </Button>
       </Box>

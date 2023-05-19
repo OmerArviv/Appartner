@@ -46,22 +46,27 @@ module.exports = class AppartmentService {
   }
 
   static async getAllAppartmentsAndRoomateDetails() {
-    var allAppartments = await this.getAllAppartments();
-    if (allAppartments) {
-      for (var i = 0; i < allAppartments.length; i++) {
-        var roomates = allAppartments[i].roomates;
-        var roomatesDataArray = [];
-        for (var j = 0; j < roomates.length; j++) {
-          var res = await UserProfileService.findUserProfileByEmail(
-            roomates[j]
-          );
-          roomatesDataArray.push(res);
-        }
-        allAppartments[i].roomates = roomatesDataArray;
-      }
-      return allAppartments;
-    } else {
-      return null;
-    }
+    var res = Appartment.find({}).select(
+      "age_range location price_range gender elevator parking smoking"
+    );
+    return res;
+
+    // var allAppartments = await this.getAllAppartments();
+    // if (allAppartments) {
+    //   for (var i = 0; i < allAppartments.length; i++) {
+    //     var roomates = allAppartments[i].roomates;
+    //     var roomatesDataArray = [];
+    //     for (var j = 0; j < roomates.length; j++) {
+    //       var res = await UserProfileService.findUserProfileByEmail(
+    //         roomates[j]
+    //       );
+    //       roomatesDataArray.push(res);
+    //     }
+    //     allAppartments[i].roomates = roomatesDataArray;
+    //   }
+    //   return allAppartments;
+    // } else {
+    //   return null;
+    // }
   }
 };

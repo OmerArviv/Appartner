@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./Model/User");
 const bodyParser = require("body-parser");
+const jsonminify = require("jsonminify");
 // const cors = require("cors");
 
 const auth = require("./middleware/auth");
@@ -18,12 +19,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const cors = require('cors');
-app.options('*', cors());
-app.use(cors({ origin: 'http://localhost:3000' }));
+const cors = require("cors");
+app.options("*", cors());
+app.use(cors({ origin: "http://localhost:3000" }));
 
-
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -35,8 +35,6 @@ app.use(function(req, res, next) {
   );
   next();
 });
-
-
 
 app.post("/authentication/login_test", auth, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
@@ -73,16 +71,19 @@ app.use(function (req, res, next) {
   //Enabling CORS
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
-    next();
-  });
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization"
+  );
+  next();
+});
 
-
-const { spawn } = require('child_process');
-const path = require('path');
+const { spawn } = require("child_process");
+const path = require("path");
 
 app.post("/run-script", (req, res) => {
-  const scriptPath = "c:/Users/Omer/Desktop/omer/College/Final Project/Code/Appartner/server/model/python.py";
+  const scriptPath =
+    "c:/Users/Omer/Desktop/omer/College/Final Project/Code/Appartner/server/model/python.py";
   const py = spawn("python", [scriptPath, req.body.text]); // pass the text input as an argument
 
   let result = "";
@@ -96,26 +97,21 @@ app.post("/run-script", (req, res) => {
     console.error(`Error: ${data}`);
   });
 
-  py.stdout.on('data', (data) => {
+  py.stdout.on("data", (data) => {
     const output = data;
     //console.log(`Output from Python script: ${output}`);
     res.send(output);
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function minifyJSON(jsonString) {
+  try {
+    const minifiedJSON = jsonminify(jsonString);
+    return minifiedJSON;
+  } catch (error) {
+    console.error("Error minifying JSON:", error);
+    return null;
+  }
+}
 
 module.exports = app;

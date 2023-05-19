@@ -1,4 +1,5 @@
 const RoomateRequest = require("../Model/RoomateRequest");
+const minifyJSON = require("../app");
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
@@ -50,7 +51,7 @@ module.exports = class AppartmentService {
   static async deleteRoomateRequest(roomateRequestId) {
     console.log("deleteRoomateRequest");
 
-    const res= RoomateRequest.findByIdAndRemove({_id: roomateRequestId});
+    const res = RoomateRequest.findByIdAndRemove({ _id: roomateRequestId });
     console.log(res);
 
     if (res) {
@@ -83,11 +84,10 @@ module.exports = class AppartmentService {
     const user = JSON.stringify(input.user);
     const apartments = JSON.stringify(input.apartments);
 
-    const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array in json format of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
+    // user = minifyJSON(user);
+    // apartments = minifyJSON(apartments);
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
+    const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array in json format of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
 
     const response = await openai.createCompletion({
       model: "text-davinci-003",
