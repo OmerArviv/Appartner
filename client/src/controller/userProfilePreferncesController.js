@@ -27,6 +27,7 @@ export const updateUserProfilePrefernces = (userProfile) => {
 };
 
 export const getUserPreferncesByEmail = (email) => {
+  console.log(email);
   let url = APP_ROUTES.userProfilePrefernces.getUserPreferncesByEmail;
   let data = { email: email };
   return axios

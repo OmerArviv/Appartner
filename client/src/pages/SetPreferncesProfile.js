@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { createUserProfilePrefernces } from "../controller/userProfilePreferncesController";
+import { createUserProfilePrefernces, getUserPreferncesByEmail, updateUserProfilePrefernces } from "../controller/userProfilePreferncesController";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { authContext, pageTitleContext } from "../APP/Utils";
 
@@ -30,15 +30,11 @@ const options = ["Yes", "No", "It doesn't matter"];
 const genderOptions = ["Males Only", "Females Only", "It doesn't matter"];
 const roomatesOptions = [1, 2, 3, 4, 5];
 
-const SetPreferncesProfile = () => {
+const SetPreferncesProfile = (props) => {
+  const { handleCloseProfile } = props;
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
-
-  useEffect(() => {
-    setPageTitle("Set Prefernces");
-  }, []);
-
   const email = "email";
   const [ageRange, setAgeRange] = useState([18, 75]);
   const [loaction, setLocation] = useState("");
@@ -49,6 +45,31 @@ const SetPreferncesProfile = () => {
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      console.log("Test", userEmail);
+      if (userEmail) {
+        const userData = await getUserPreferncesByEmail(userEmail);
+        console.log(userData);
+        setAgeRange(userData.ageRange);
+        setElevator(userData.elevator);
+        setGender(userData.gender);
+        setLocation(userData.location);
+        setRoomates(userData.numberOfRoomates);
+        setParking(userData.parking);
+        setPriceRange(userData.priceRange);
+        setSmoking(userData.smoking);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   setPageTitle("Set Prefernces");
+  // }, []);
+
+
 
   function ageRangeHandler(event, newValue) {
     setAgeRange(newValue);
@@ -84,6 +105,7 @@ const SetPreferncesProfile = () => {
 
   const onSubmitHandler = async (event) => {
     const user_email = userEmail;
+    console.log(user_email);
     event.preventDefault();
     if (
       user_email != "" &&
@@ -108,7 +130,16 @@ const SetPreferncesProfile = () => {
         numberOfRoomates: roomates,
       };
 
-      const result = await createUserProfilePrefernces(userProfilePrefernces);
+      const userExists = await getUserPreferncesByEmail(userEmail);
+      console.log("userExists \n", userExists);
+      let result = null;
+      if (userExists) {
+        result = await updateUserProfilePrefernces(userProfilePrefernces);
+        handleCloseProfile();
+      }
+      else {
+        result = await createUserProfilePrefernces(userProfilePrefernces);
+      }
       if (result.status == 201) {
         navigate("/");
       } else if (result.status == 403) {
@@ -376,7 +407,7 @@ const SetPreferncesProfile = () => {
             onClick={onSubmitHandler}
             style={btnstyle}
           >
-            Let's find your new home
+            Update My Prefernces
           </Button>
         </Box>
       </Box>

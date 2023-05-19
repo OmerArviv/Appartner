@@ -22,6 +22,7 @@ import FindMatchesButton from "./FindMatchesButton";
 import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 import UserProfile from "../pages/UserProfile";
 import { authContext } from "../APP/Utils";
+import SetPreferncesProfile from "../pages/SetPreferncesProfile";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -32,6 +33,7 @@ function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
   const [modalPref, setModalPref] = useState(false);
+
   const { userEmail } =
     useContext(authContext);
 
@@ -127,9 +129,9 @@ function ApartmentList() {
           </Tooltip>
           <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
             <DialogTitle textAlign="center">
-              Your Profile
+              Change Your Prefernces
             </DialogTitle>
-            <UserProfile email={userEmail ? userEmail : ""} />
+            <SetPreferncesProfile handleCloseProfile={handleCloseProfile} propEmail={userEmail ? userEmail : ""} />
           </Dialog>
         </Stack>
       </Box>
