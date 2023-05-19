@@ -3,83 +3,88 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Container } from "@mui/system";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import { InputLabel, MenuItem, TextField, Select } from "@mui/material";
+import { authContext, pageTitleContext } from "../APP/Utils";
+import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 
-export default function FilterCheckBoxes(props) {
-  const setProducts = props.setProducts;
-  const products = props.products;
-  const allProducts = props.allProducts;
-  const [priceRange, setPriceRange] = useState([0, 100]);
-  const [ageRange, setAgeRange] = useState([0, 100]);
-  const [gender, setGender] = useState([
-    "Male Only",
-    "Female Only",
-    "It doesn't matter",
-  ]);
-  const [elevator, setElevator] = useState(["Yes", "No", "It doesn't matter"]);
-  const [productMaterial, setProductMaterial] = useState([
-    "sterling silver",
-    "gold plated",
-    "rose gold",
-  ]);
+const options = ["Yes", "No", "It doesn't matter"];
+const genderOptions = ["Males Only", "Females Only", "It doesn't matter"];
+const roomatesOptions = [1, 2, 3, 4, 5];
 
-  //   const handleStyleChange = (e) => {
-  //     if (e.target.checked === true) {
-  //       setProductStyle([...productStyle, e.target.value]);
-  //     } else {
-  //       setProductStyle(productStyle.filter((item) => item != e.target.value));
-  //     }
-  //   };
+export default function FilterChoices(props) {
+  const setAppartments = props.setAppartments;
+  const appartments = props.appartments;
+  const allAppartments = props.allAppartments;
+  const [priceRange, setPriceRange] = useState([1000, 10000]);
+  const [ageRange, setAgeRange] = useState([18, 75]);
 
-  const handleMaterialChange = (e) => {
-    if (e.target.checked === true) {
-      setProductMaterial([...productMaterial, e.target.value]);
-    } else {
-      setProductMaterial(
-        productMaterial.filter((item) => item != e.target.value)
-      );
-    }
+  const { userEmail } = useContext(authContext);
+  const [loaction, setLocation] = useState("");
+  const [gender, setGender] = useState("");
+
+  const [elevator, setElevator] = useState("");
+  const [parking, setParking] = useState("");
+  const [smoking, setSmoking] = useState("");
+  const [roomates, setRoomates] = useState("");
+
+  const handleAgeRangeChange = (event, newValue) => {
+    setAgeRange(newValue);
   };
-
-  //   useEffect(() => {
-  //     // setProducts([
-  //     //   ...allProducts.filter((product) => productStyle.includes(product.type)),
-  //     // ]);
-  //   }, [productStyle]);
-
-  //   useEffect(() => {
-  //     // setProducts([
-  //     //   ...allProducts.filter((product) =>
-  //     //     productMaterial.includes(product.material)
-  //     //   ),
-  //     // ]);
-  //   }, [productMaterial]);
-
-  //   useEffect(() => {
-  //     // setProducts([
-  //     //   ...allProducts.filter(
-  //     //     (product) => product.price > value[0] && product.price < value[1]
-  //     //   ),
-  //     // ]);
-  //   }, [value]);
-
-  //   function valuetext(value) {
-  //     return value;
-  //   }
 
   const handlePriceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
   };
 
-  const handleAgeRangeChange = (event, newValue) => {
-    setAgeRange(newValue);
-  };
+  useEffect(() => {
+    async function getUserPrefernces() {
+      if (userEmail) {
+        const userData = await getUserPreferncesByEmail(userEmail);
+        setAgeRange(userData.ageRange);
+        setElevator(userData.elevator);
+        setGender(userData.gender);
+        setLocation(userData.location);
+        setRoomates(userData.numberOfRoomates);
+        setParking(userData.parking);
+        setPriceRange(userData.priceRange);
+        setSmoking(userData.smoking);
+      }
+    }
+    getUserPrefernces();
+  }, []);
+
+  useEffect(() => {
+    setAppartments([
+      ...allAppartments.filter(
+        (appartment) =>
+          appartment.age_range[0] >= ageRange[0] &&
+          appartment.age_range[1] <= ageRange[1] &&
+          appartment.price_range[0] >= priceRange[0] &&
+          appartment.price_range[1] <= priceRange[1] &&
+          appartment.roomates.length == roomates &&
+          (smoking == options[2] ||
+            (smoking != options[2] &&
+              appartment.smoking.toLowerCase() == smoking.toLowerCase())) &&
+          (elevator == options[2] ||
+            appartment.elevator.toLowerCase() == elevator.toLowerCase()) &&
+          (parking == options[2] ||
+            appartment.parking.toLowerCase() == parking.toLowerCase())
+      ),
+    ]);
+  }, [ageRange, priceRange, roomates, smoking, elevator, parking]);
+
+  function valueAgetext(value) {
+    return `${value}`;
+  }
+
+  function valuePricetext(value) {
+    return `${value}`;
+  }
 
   return (
     <Box>
@@ -107,7 +112,10 @@ export default function FilterCheckBoxes(props) {
                   value={ageRange}
                   onChange={handleAgeRangeChange}
                   valueLabelDisplay="auto"
-                  //   getAriaValueText={ageRange}
+                  getAriaValueText={valueAgetext}
+                  min={18}
+                  max={75}
+                  size="small"
                   sx={{ color: "black" }}
                 />
                 <Typography>{ageRange[1]}</Typography>
@@ -117,7 +125,6 @@ export default function FilterCheckBoxes(props) {
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Price Range
@@ -135,20 +142,22 @@ export default function FilterCheckBoxes(props) {
                   value={priceRange}
                   onChange={handlePriceRangeChange}
                   valueLabelDisplay="auto"
+                  getAriaValueText={valuePricetext}
+                  min={1000}
+                  max={10000}
+                  size="small"
                   sx={{ color: "black" }}
-                  //   getAriaValueText={priceRange}
                 />
                 <Typography>{priceRange[1]}</Typography>
               </Stack>
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-          <Grid item xs="auto">
+          {/* <Grid item xs="auto">
             <Typography
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Gender
@@ -156,36 +165,35 @@ export default function FilterCheckBoxes(props) {
             <Select
               label="Gender"
               id="gender"
-              value={gender[0]}
-              //   onChange={genderHandler}
+              value={gender}
+              onChange={(event) => setGender(event.target.value)}
               fullWidth
             >
-              {gender.map((item, index) => (
+              {genderOptions.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
               ))}
             </Select>
-          </Grid>
+          </Grid> */}
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
           <Grid item xs="auto">
             <Typography
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Elevator
             </Typography>
             <Select
               label="Elevator"
-              id="gender"
-              value={elevator[0]}
-              //   onChange={genderHandler}
+              id="elevator"
+              value={elevator}
+              onChange={(event) => setElevator(event.target.value)}
               fullWidth
             >
-              {elevator.map((item, index) => (
+              {options.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
@@ -198,7 +206,6 @@ export default function FilterCheckBoxes(props) {
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Parking
@@ -206,11 +213,11 @@ export default function FilterCheckBoxes(props) {
             <Select
               label="Parking"
               id="parking"
-              value={elevator[0]}
-              //   onChange={genderHandler}
+              value={parking}
+              onChange={(event) => setParking(event.target.value)}
               fullWidth
             >
-              {elevator.map((item, index) => (
+              {options.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
@@ -223,7 +230,6 @@ export default function FilterCheckBoxes(props) {
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Smoking
@@ -231,11 +237,11 @@ export default function FilterCheckBoxes(props) {
             <Select
               label="Smoking"
               id="smoking"
-              value={elevator[0]}
-              //   onChange={genderHandler}
+              value={smoking}
+              onChange={(event) => setSmoking(event.target.value)}
               fullWidth
             >
-              {elevator.map((item, index) => (
+              {options.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
@@ -248,7 +254,6 @@ export default function FilterCheckBoxes(props) {
               sx={{
                 textAlign: "center",
                 mt: 2,
-                fontSize: "110%",
               }}
             >
               Number Of Roomates
@@ -256,11 +261,11 @@ export default function FilterCheckBoxes(props) {
             <Select
               label="Number Of Roomates"
               id="roomates"
-              value={elevator[0]}
-              //   onChange={genderHandler}
+              value={roomates}
+              onChange={(event) => setRoomates(event.target.value)}
               fullWidth
             >
-              {elevator.map((item, index) => (
+              {roomatesOptions.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
@@ -279,11 +284,9 @@ export default function FilterCheckBoxes(props) {
               Location
             </Typography>
             <TextField
-              //  label='Location'
-              labelid="location-label"
               id="location"
-              //   onChange={}
-              //   value={}
+              onChange={(event) => setLocation(event.target.value)}
+              value={loaction}
               fullWidth
             />
           </Grid>

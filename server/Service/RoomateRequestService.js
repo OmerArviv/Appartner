@@ -49,10 +49,7 @@ module.exports = class AppartmentService {
   }
 
   static async deleteRoomateRequest(roomateRequestId) {
-    console.log("deleteRoomateRequest");
-
-    const res = RoomateRequest.findByIdAndRemove({ _id: roomateRequestId });
-    console.log(res);
+    const res = RoomateRequest.findByIdAndRemove(roomateRequestId);
 
     if (res) {
       return res;

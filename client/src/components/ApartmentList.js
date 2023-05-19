@@ -32,6 +32,7 @@ const btnstyle = {
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
+  const [allAppartments, setAllAppartmentsNoFilter] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
   const [modalPref, setModalPref] = useState(false);
 
@@ -45,6 +46,7 @@ function ApartmentList() {
     const res = await getAllAppartments();
     if (res) {
       setAppartments(res);
+      setAllAppartmentsNoFilter(res);
     }
   };
 
@@ -116,17 +118,15 @@ function ApartmentList() {
           Find the Best Matches
         </Button>
         <Stack>
-          <Tooltip title="Your Profile" disableInteractive>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setModalPref(true);
-              }}
-              style={btnstyle}
-            >
-              Set Your Preferences
-            </Button>
-          </Tooltip>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setModalPref(true);
+            }}
+            style={btnstyle}
+          >
+            Set Your Preferences
+          </Button>
           <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
             <DialogTitle textAlign="center">Change Your Prefernces</DialogTitle>
             <SetPreferncesProfile
@@ -137,11 +137,9 @@ function ApartmentList() {
         </Stack>
       </Box>
       <FilterSection
-        products={appartments}
-        setProducts={setAppartments}
-        filterTab={true}
-        setFilterTab={true}
-        allProducts={appartments}
+        appartments={appartments}
+        setAppartments={setAppartments}
+        allAppartments={allAppartments}
       ></FilterSection>
       <List
         sx={{
