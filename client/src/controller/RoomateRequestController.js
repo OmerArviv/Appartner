@@ -89,7 +89,7 @@ export const deleteRoomateRequestByUser = async (requestId) => {
   let url = APP_ROUTES.roomateRequest.deleteRoomateRequestByUser;
   let data = { _id: requestId };
   return axios
-    .post(url, requestId, POST_HEADERS())
+    .post(url, data, POST_HEADERS())
     .then((result) => {
       return result;
     })

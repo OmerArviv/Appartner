@@ -1,9 +1,8 @@
-import { Box, Button, Chip, Skeleton, Typography, IconButton } from "@mui/material";
+import { Box, Skeleton, IconButton } from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import { deleteRoomateRequestByUser } from "../controller/RoomateRequestController";
 import { useEffect, useState } from "react";
 import ApartmentListItem from "./ApartmentListItem";
-import TelegramIcon from "@mui/icons-material/Telegram";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 
@@ -25,14 +24,12 @@ function LookerRequestItem(props) {
   const onDeleteHandler = async (event) => {
     event.preventDefault();
     if (request._id !== "") {
-      const requestId = {
-        _id: request._id,
-      };
-      console.log(requestId);
-      const result = await deleteRoomateRequestByUser(requestId);
+      const result = await deleteRoomateRequestByUser(request._id);
+      if (!result) {
+        alert("something went wrong");
+      }
     }
   };
-  
 
   const getStatusBoxStyle = () => {
     let style = {
