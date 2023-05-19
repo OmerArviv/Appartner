@@ -19,6 +19,8 @@ import LookerHomePage from "./pages/LookerHomePage";
 import WelcomerHomePage from "./pages/WelcomerHomePage";
 import DallEApi from "./components/ChatGptApi/DallEApi/DallEApi";
 import LookerRequestsPage from "./pages/LookerRequestsPage";
+import GoogleMap from "./components/GoogleMap";
+import SearchGoogleMap from "./components/SeachGoogleMap";
 
 function GeneralBrawser() {
   const { authenticated, userRole } = useContext(authContext);
@@ -47,6 +49,7 @@ function GeneralBrawser() {
             path="/create-profile/set-prefernces"
             element={<SetPrefernces />}
           />
+          <Route path="/google-map" element={<SearchGoogleMap />} />
           <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
           <Route path="/looker-home-page" element={<LookerHomePage />} />
