@@ -24,11 +24,12 @@ const Register = (props) => {
   const navigate = useNavigate();
   const { setUserDetailsAfterLogIn } = useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
-  const [userEmail, setUserEmail] = useState();
-  const [userPassword, setUserPassword] = useState();
-  const [userName, setUserName] = useState();
-  const [userPhone, setUserPhone] = useState();
-  const [userSalt, setUserSalt] = useState();
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [userSalt, setUserSalt] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setPageTitle("Sign Up");
@@ -38,17 +39,21 @@ const Register = (props) => {
     setUserDetailsAfterLogIn(id, userEmail);
     navigate("/create-profile/who-are-you");
   };
+
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
   };
+
   const onChangeUserPasswordHandler = (event) => {
     const salt = bcrypt.genSaltSync(10);
     setUserPassword(bcrypt.hashSync(event.target.value, salt));
     setUserSalt(salt);
   };
+
   const onChangeUserNameHandler = (event) => {
     setUserName(event.target.value);
   };
+
   const onChangeUserPhoneHandler = (event) => {
     setUserPhone(event.target.value);
   };
@@ -58,7 +63,7 @@ const Register = (props) => {
     let re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(userEmail)) {
-      alert("Please enter valid email");
+      setError("Please enter a valid email");
       return;
     }
     if (userEmail && userPassword && userName && userPhone) {
@@ -69,18 +74,18 @@ const Register = (props) => {
         userSalt,
         userPhone
       );
-      if (result.status == 201) {
+      if (result.status === 201) {
         handleLogin(result.data.id);
       } else {
-        // handle failed login
-        if (result.status == 409) {
-          alert("You already have an account");
+        // handle failed registration
+        if (result.status === 409) {
+          setError("You already have an account");
         } else {
-          alert("Error occured!");
+          setError("An error occurred");
         }
       }
     } else {
-      alert("Please enter all fields!");
+      setError("Please enter all fields");
     }
   };
 
@@ -126,15 +131,6 @@ const Register = (props) => {
           fullWidth
           required
         />
-        {/* <TextField
-          error={userEmail == "dd"}
-          helperText={userEmail == "" ? "Empty field!" : " "}
-          id="standard-error-helper-text"
-          label="Email"
-          placeholder="Email"
-          variant="outlined"
-          defaultValue="Hello World"
-        /> */}
         <TextField
           onChange={onChangeUserPhoneHandler}
           className="simple-input"
@@ -168,9 +164,9 @@ const Register = (props) => {
         >
           Sign Up
         </Button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <Typography>
-          {" "}
-          Already have an account ?
+          Already have an account?
           <Link onClick={() => navigate("/login")}>Sign In</Link>
         </Typography>
       </Container>

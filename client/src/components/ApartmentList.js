@@ -11,6 +11,7 @@ import {
   Tooltip,
   Dialog,
   DialogTitle,
+  ListItemText,
 } from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
@@ -18,12 +19,13 @@ import {
   getAllAppartmentsAndRoomateDetails,
   getAppartmentById,
 } from "../controller/appartmentController";
-import FindMatchesButton from "./FindMatchesButton";
-import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 import FilterSection from "./FilterSection";
 import UserProfile from "../pages/UserProfile";
 import { authContext } from "../APP/Utils";
 import SetPreferncesProfile from "../pages/SetPreferncesProfile";
+import axios from "axios";
+import { getBestMatchesCgptApi } from "../controller/chatGptController";
+
 
 const btnstyle = {
   background: "#4F4E51",
@@ -34,6 +36,8 @@ function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
   const [modalPref, setModalPref] = useState(false);
+  const [conversation, setConversation] = useState([]);
+  const [userMessage, setUserMessage] = useState("");
 
   const { userEmail } = useContext(authContext);
 
@@ -56,7 +60,25 @@ function ApartmentList() {
     setMatchedApartments(apartments);
   };
 
+  const sendMessage = async (message) => {
+    setConversation([...conversation, { role: "user", content: message }]);
+
+    try {
+      const response = await axios.post("API_ENDPOINT_URL", {
+        message: message,
+        conversation: conversation,
+      });
+
+      setConversation([...conversation, { role: "chatbot", content: response.data.message }]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleFindMatches = async () => {
+    // Send initial message to the chatbot
+    sendMessage("Find the best matches");
+
     const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
     console.log(getAllAppartments);
     const user = {
@@ -96,6 +118,17 @@ function ApartmentList() {
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleUserMessageChange = (event) => {
+    setUserMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (userMessage.trim() !== "") {
+      sendMessage(userMessage);
+      setUserMessage("");
     }
   };
 
@@ -186,6 +219,34 @@ function ApartmentList() {
             : ""}
         </Stack>
       </List>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          m: 5,
+        }}
+      >
+        <input type="text" value={userMessage} onChange={handleUserMessageChange} />
+        <button onClick={handleSendMessage}>Send</button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          m: 5,
+        }}
+      >
+        <List>
+          {conversation.map((message, index) => (
+            <ListItem key={index} alignItems="flex-start">
+              <ListItemText
+                primary={message.role === "user" ? "You" : "Chatbot"}
+                secondary={message.content}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </>
   );
 }

@@ -66,7 +66,6 @@ const Apartment = () => {
     };
     const res = await createRoomateRequest(request);
     if (!res || res.status == 400 || res.status == 403) {
-      alert(res.data);
       navigate("/");
       return;
     }

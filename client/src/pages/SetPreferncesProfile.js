@@ -45,6 +45,7 @@ const SetPreferncesProfile = (props) => {
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -65,9 +66,6 @@ const SetPreferncesProfile = (props) => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   setPageTitle("Set Prefernces");
-  // }, []);
 
 
 
@@ -146,7 +144,7 @@ const SetPreferncesProfile = (props) => {
         alert("Error occured!");
       }
     } else {
-      alert("Please enter all fields!");
+      setError("Please enter all fields!");
     }
   };
 
@@ -397,6 +395,11 @@ const SetPreferncesProfile = (props) => {
           marginTop: 3,
         }}
       >
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+  {error && <p style={{ color: "red", fontSize:"20px" }}>{error}</p>}
+</Box>
+
+
         <Box
           item="true"
           xs={4}

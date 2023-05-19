@@ -30,12 +30,6 @@ function LookerRequestItem(props) {
       };
       console.log(requestId);
       const result = await deleteRoomateRequestByUser(requestId);
-      // console.log(result);
-      // if (result.status === 201) {
-      //   // Request canceled successfully
-      // } else if (result.status === 403) {
-      //   alert("Error occurred!");
-      // }
     }
   };
   

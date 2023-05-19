@@ -28,9 +28,10 @@ const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const navigate = useNavigate();
   const { setUserDetailsAfterLogIn } = useContext(authContext);
-  const [userEmail, setUserEmail] = useState();
-  const [userPassword, setUserPassword] = useState();
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const { setUserRole, getUserRole } = useContext(authContext);
+  const [error, setError] = useState("");
 
   const handleLogin = async () => {
     const user = await getUserByEmail(userEmail);
@@ -49,21 +50,15 @@ const Login = (props) => {
       return;
     }
     const userRole = getUserRole();
-    if (userRole == "Looker") {
-      const userPrefernces = await getUserPreferncesByEmail(userEmail);
-      if (!userPrefernces) {
-        navigate("/create-profile/set-prefernces");
+    if (userRole === "Looker") {
+      const userPreferences = await getUserPreferncesByEmail(userEmail);
+      if (!userPreferences) {
+        navigate("/create-profile/set-preferences");
         return;
       }
     }
     navigate("/");
-
-    // console.log(userProfile);
-    // if (true || checkUserProfileExist(userEmail)) {
-    // navigate("/create-profile/who-are-you");
-    // } else {
-    //   navigate("/create-profile");
-    // }
+    setError(""); // Clear any previous error messages
   };
 
   useEffect(() => {
@@ -73,6 +68,7 @@ const Login = (props) => {
   const onChangeUserEmailHandler = (event) => {
     setUserEmail(event.target.value);
   };
+
   const onChangeUserPasswordHandler = (event) => {
     setUserPassword(event.target.value);
   };
@@ -82,24 +78,24 @@ const Login = (props) => {
     let re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(userEmail)) {
-      alert("Please enter valid email");
+      setError("Please enter a valid email");
       return;
     }
     if (userEmail && userPassword) {
       const salt = await getSalt(userEmail);
-      if (salt && salt.status == 200) {
+      if (salt && salt.status === 200) {
         const hashedPassword = bcrypt.hashSync(userPassword, salt.data);
         const result = await signIn(userEmail, hashedPassword);
-        if (result == true) {
+        if (result === true) {
           handleLogin();
         } else {
-          alert("Email or Password are incorrect!");
+          setError("Email or password is incorrect");
         }
       } else {
-        alert("Something went wrong!");
+        setError("Something went wrong");
       }
     } else {
-      alert("Please enter email and password!");
+      setError("Please enter email and password");
     }
   };
 
@@ -154,12 +150,12 @@ const Login = (props) => {
         >
           Sign in
         </Button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <Typography>
-          <Link href="#">Forgot password ?</Link>
+          <Link href="#">Forgot password?</Link>
         </Typography>
         <Typography>
-          {" "}
-          Do you have an account ?
+          Do you have an account?
           <Link onClick={() => navigate("/register")}>Sign Up</Link>
         </Typography>
       </Container>

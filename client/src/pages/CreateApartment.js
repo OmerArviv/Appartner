@@ -19,6 +19,7 @@ import { createAppartment } from "../controller/appartmentController";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
+import { Box } from "@material-ui/core";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -46,6 +47,8 @@ const CreateApartment = () => {
   const [apartmentImages, setApartmentImages] = useState("");
   const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
+  const [error, setError] = useState("");
+
 
   const handleChooseCollaborator = (email) => {
     setSelectedCollaborator(email);
@@ -133,11 +136,11 @@ const CreateApartment = () => {
       if (result.status == 201) {
         navigate("/");
       } else if (result.status == 403) {
-        alert("Error occured!");
+        setError("Error occured!");
       }
     } else {
-      alert("Please enter all fields!");
-    }
+      setError("Please enter all fields!");
+        }
   };
 
   return (
@@ -255,22 +258,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        {/* <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
-          <InputLabel id="Roomates-label">Roomates</InputLabel>
-          <Select
-            labelId="Roomates-label"
-            id="Roomates"
-            value={roomates}
-            label="Roomates"
-            onChange={handleRoomatesChange}
-          >
-            <MenuItem value="1">1</MenuItem>
-            <MenuItem value="2">2</MenuItem>
-            <MenuItem value="3">3</MenuItem>
-            <MenuItem value="4">4</MenuItem>
-            <MenuItem value="5">5</MenuItem>
-          </Select>
-        </FormControl> */}
+    
         <div>
           <h1> test</h1>
           {selectedCollaborator != "" &&
@@ -278,6 +266,9 @@ const CreateApartment = () => {
           }
           <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         </div>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+  {error && <p style={{ color: "red", fontSize:"20px" }}>{error}</p>}
+</Box>
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}

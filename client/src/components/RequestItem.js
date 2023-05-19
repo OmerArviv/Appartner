@@ -13,6 +13,7 @@ import UserProfile from "../pages/UserProfile";
 import { updateRoomateRequest } from "../controller/RoomateRequestController";
 import { getUserByEmail } from "../controller/authenticationController";
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
 const RequestItem = (props) => {
   const { request } = props;
@@ -20,6 +21,7 @@ const RequestItem = (props) => {
   const [user, setUser] = useState("");
   const [status, setStatus] = useState(request.status); // New state variable
   const [phoneNumber, setPhoneNumber] = useState(""); // New state variable for phone
+  const [showChatButton, setShowChatButton] = useState(false);
 
   const handleCloseProfile = () => {
     setModal(false);
@@ -48,6 +50,7 @@ const RequestItem = (props) => {
       if (res) {
         console.log("Roommate request accepted successfully");
         setStatus("accepted"); // Update the status
+        setShowChatButton(true); // Show the chat button
       } else {
         console.error("Failed to accept roommate request");
       }
@@ -55,6 +58,7 @@ const RequestItem = (props) => {
       console.error(err);
     }
   };
+  
 
   const onIgnoreHandler = async () => {
     const updatedRequest = { ...request, status: "ignored" };
@@ -70,6 +74,8 @@ const RequestItem = (props) => {
       console.error(err);
     }
   };
+
+  
 
   return (
     <Grid
@@ -129,6 +135,7 @@ const RequestItem = (props) => {
             >
               <ContactPhoneOutlinedIcon style={{ fontSize: 30 }} />
               <Typography>{phoneNumber}</Typography>
+              <ChatBubbleOutlineOutlinedIcon></ChatBubbleOutlineOutlinedIcon>
             </div>
           </div>
         ) : status === "ignored" ? (

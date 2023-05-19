@@ -98,16 +98,4 @@ export const deleteRoomateRequestByUser = async (requestId) => {
     });
 };
 
-export const getBestMatchesCgptApi = async (data) => {
-  let url = APP_ROUTES.roomateRequest.getBestMatches;
-  try {
-    const res = await axios.post(
-      url,
-      { data },
-      { headers: { "Content-Type": "application/json" } }
-    );
-    return res;
-  } catch (error) {
-    throw error;
-  }
-};
+
