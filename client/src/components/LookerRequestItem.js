@@ -1,10 +1,10 @@
-import { Box, Button, Chip, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Chip, Skeleton, Typography, IconButton } from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import { deleteRoomateRequestByUser } from "../controller/RoomateRequestController";
 import { useEffect, useState } from "react";
 import ApartmentListItem from "./ApartmentListItem";
 import TelegramIcon from "@mui/icons-material/Telegram";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 
 function LookerRequestItem(props) {
@@ -22,24 +22,49 @@ function LookerRequestItem(props) {
     }
   };
 
-  const onCancelHandler = async (event) => {
+  const onDeleteHandler = async (event) => {
     event.preventDefault();
-    if (request._id != "") {
+    if (request._id !== "") {
       const requestId = {
         _id: request._id,
       };
+      console.log(requestId);
       const result = await deleteRoomateRequestByUser(requestId);
-      //   console.log(result);
-
-      //   if (result.status == 404) {
-      //     console.log(result.status);
-      //     console.log("not found");
-      //   }
-      if (result.status == 201) {
-      } else if (result.status == 403) {
-        alert("Error occured!");
-      }
+      // console.log(result);
+      // if (result.status === 201) {
+      //   // Request canceled successfully
+      // } else if (result.status === 403) {
+      //   alert("Error occurred!");
+      // }
     }
+  };
+  
+
+  const getStatusBoxStyle = () => {
+    let style = {
+      width: "100px",
+      height: "50px",
+      color: "white",
+      fontWeight: "bold",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "5px",
+    };
+
+    if (request.status === "accepted") {
+      style.background = "green";
+    } else if (request.status === "pending") {
+      style.background = "orange";
+    } else if (request.status === "ignored") {
+      style.background = "red";
+    }
+
+    return style;
+  };
+
+  const getStatusLabel = () => {
+    return request.status.charAt(0).toUpperCase() + request.status.slice(1);
   };
 
   return (
@@ -68,7 +93,6 @@ function LookerRequestItem(props) {
             }}
           >
             <ApartmentListItem data={apartment}></ApartmentListItem>
-            {}
           </Box>
           <Box
             item="true"
@@ -84,37 +108,20 @@ function LookerRequestItem(props) {
               justifyContent: "center",
             }}
           >
-            <Chip
-              sx={{
-                backgroundColor: "#ffc457",
-                height: 40,
-                width: 170,
-                fontFamily: "monospace",
-                fontSize: 23,
-                fontStyle: "bolt",
-              }}
-              icon={
-                <TelegramIcon sx={{ color: "black", height: 36, width: 36 }} />
-              }
-              label={request.status}
-            />
+            <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
             <br />
-            <Chip
-              sx={{
-                height: 40,
-                width: 170,
-                fontFamily: "monospace",
-                fontSize: 23,
-                fontStyle: "bolt",
-              }}
-              icon={
-                <RemoveCircleIcon
-                  sx={{ color: "black", height: 36, width: 36 }}
-                />
-              }
-              label={"Cancel"}
-              onClick={onCancelHandler}
-            ></Chip>
+            {request.status === "pending" && (
+              <IconButton
+                sx={{
+                  height: 40,
+                  width: 40,
+                  color: "black",
+                }}
+                onClick={onDeleteHandler}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
           </Box>
         </Box>
       ) : (
@@ -125,5 +132,9 @@ function LookerRequestItem(props) {
     </div>
   );
 }
+
+LookerRequestItem.propTypes = {
+  request: PropTypes.object.isRequired,
+};
 
 export default LookerRequestItem;

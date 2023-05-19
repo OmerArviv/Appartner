@@ -70,7 +70,6 @@ module.exports = class AppartmentService {
   static async findRoomateRequestByAppartmentId(id) {
     const res = await RoomateRequest.find({
       appartment_id: id.id,
-      status: "pending",
     });
     return res;
   }

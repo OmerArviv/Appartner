@@ -62,7 +62,7 @@ export default function NavBar(props) {
   const getUserApartmentsHandler = async () => {
     const res = await getAppartmentByUserEmail(userEmail);
     if (res.status == 200 && res.data.length != 0) {
-      setUserApartments(res.data);
+      setUserApartments(res.data[0]);
     }
   };
 
