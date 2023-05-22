@@ -145,7 +145,7 @@ const CreateApartment = () => {
 
   return (
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400,textAlign: "center" }}>
         <FormControl sx={{ mt: 3, width: "400px" }}>
           <CardContent>
             <InputLabel
@@ -218,7 +218,7 @@ const CreateApartment = () => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400,textAlign: "center" }}>
         <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Elevator-label">Elevator</InputLabel>
           <Select
@@ -277,7 +277,13 @@ const CreateApartment = () => {
           Create My Apartment
         </Button>
       </Grid>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item="ture" xs={4} 
+      sx={{ 
+        width: 400,
+        marginLeft: "auto",
+        marginRight: "auto",
+        alignContent: "center",
+        justifyContent: "center" }}>
         <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>

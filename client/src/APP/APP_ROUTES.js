@@ -10,6 +10,8 @@ const USER_PROFILE_PREFERNCES_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}use
 const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
 const ROOMATE_REQUEST_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}roomateRequest`;
 const CHATGPT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}chatGpt`;
+const MESSENGER_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}messenger`;
+
 
 
 export const APP_ROUTES = {
@@ -55,6 +57,9 @@ export const APP_ROUTES = {
   chatGpt: {
     getBestMatches: `${CHATGPT_ENPOINT}/getBestMatches`,
     parseUserInput: `${CHATGPT_ENPOINT}/parse`,
+  },
+  conversation:{
+    createConversation: `${MESSENGER_ENPOINT}/createConversation`,
   },
 };
 
