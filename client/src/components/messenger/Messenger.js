@@ -5,17 +5,43 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
 import Message from "./Message";
 import ChatOnline from "./ChatOnline";
-import { authContext } from "../APP/Utils.js";
-import { useContext } from "react";
-
-
+import { authContext } from "../../APP/Utils";
+import Cookies from "js-cookie";
+import { useContext, useEffect, useState } from "react";
+import {getUserByEmail} from "../../controller/authenticationController";
+import {getConversationsByUserId} from "../../controller/conversationController";
 
 function Messenger(){
   const { userEmail } = useContext(authContext);
+  const [user, setUser]=useState(null);
+  const [conversations, setConversations]=useState([]);
+
+  useEffect(()=>{
+    getUser();
+  },[]);
+
+  // useEffect(()=>{
+  //   getUserConversations();
+  // },[user._id]);
 
 
+  const getUser= async ()=>{
+    const res= await getUserByEmail(userEmail);
+    if(res){
+      setUser(res); 
+    }
+  }
 
-console.log(userEmail);
+  const getUserConversations=async ()=>{
+    if(user){
+      const res= await getConversationsByUserId(user._id);
+      if(res){
+        setConversations(res.data);
+      }
+    }
+  }
+
+
     return(
         <>
         {/* <div className="messenger">
@@ -57,7 +83,11 @@ console.log(userEmail);
               size="small"
               placeholder="serch for rommates..."
               />
-              <Conversation/>
+              {/* <Conversation/> */}
+              {conversations? 
+              (conversations.map((c)=>{
+                <Conversation conversation={c}/>
+              })): "You don't have activate conversation"}
         </Box>
         <Box
           item="true"

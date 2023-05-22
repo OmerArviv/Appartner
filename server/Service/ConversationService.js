@@ -13,6 +13,15 @@ module.exports = class ConversationService{
           });
       }
 
+      static async getConversationByid(id) {
+        const res = await Conversation.findOne(id);
+        return res;
+      }
+
+      static async findConversationsByUserEmail(userId) {
+        const res = await Conversation.find(userId);
+        return res;
+      }
 
 
 

@@ -60,6 +60,9 @@ export const APP_ROUTES = {
   },
   conversation:{
     createConversation: `${MESSENGER_ENPOINT}/createConversation`,
+    getConversation: `${MESSENGER_ENPOINT}/getConversationById`,
+    getConversationsByUserId: `${MESSENGER_ENPOINT}/getConversationsByUserId`,
+
   },
 };
 

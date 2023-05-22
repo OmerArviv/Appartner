@@ -4,7 +4,6 @@ import { Stack } from "@mui/system";
 
 function Conversation(props){
 
-
 return(
     <Stack direction="row" sx={{cursor:"pointer"}}>
         <Avatar sx={{mt:1}} />

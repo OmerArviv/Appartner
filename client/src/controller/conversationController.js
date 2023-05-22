@@ -12,3 +12,45 @@ export const createConversation = (conversation) => {
         return err;
       });
   };
+
+  export const getUserConversations = (id) => {
+    let url = APP_ROUTES.conversation.getConversation;
+    let data = { _id: id };
+  
+    return axios
+      .get(url, {
+        params: data,
+        headers: GET_HEADERS(),
+      })
+      .then((result) => {
+        if (result) {
+          return result;
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        return null;
+      });
+  };
+
+  export const getConversationsByUserId = (id) => {
+    let url = APP_ROUTES.conversation.getConversationsByUserId;
+    let data = { _id: id };
+  
+    return axios
+      .get(url, {
+        params: data,
+        headers: GET_HEADERS(),
+      })
+      .then((result) => {
+        if (result) {
+          return result;
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        return null;
+      });
+  };
