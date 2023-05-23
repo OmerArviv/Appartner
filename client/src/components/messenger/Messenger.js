@@ -9,16 +9,22 @@ import { authContext } from "../../APP/Utils";
 import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import {getUserByEmail} from "../../controller/authenticationController";
-import {getConversationsByUserId} from "../../controller/conversationController";
+import {getConversationsByUserEmail} from "../../controller/conversationController";
+
 
 function Messenger(){
   const { userEmail } = useContext(authContext);
   const [user, setUser]=useState(null);
   const [conversations, setConversations]=useState([]);
+  const [currentChat, setCurrentChat]=useState([]);
 
   useEffect(()=>{
     getUser();
   },[]);
+
+  useEffect(()=>{
+    getUserConversations();
+  },[userEmail]);
 
   // useEffect(()=>{
   //   getUserConversations();
@@ -33,12 +39,10 @@ function Messenger(){
   }
 
   const getUserConversations=async ()=>{
-    if(user){
-      const res= await getConversationsByUserId(user._id);
+      const res= await getConversationsByUserEmail(userEmail);
       if(res){
         setConversations(res.data);
       }
-    }
   }
 
 
@@ -83,10 +87,11 @@ function Messenger(){
               size="small"
               placeholder="serch for rommates..."
               />
-              {/* <Conversation/> */}
+              
               {conversations? 
-              (conversations.map((c)=>{
-                <Conversation conversation={c}/>
+              (
+                conversations.map((con,index)=>{
+                  return(<Conversation key={index} conversation={con} user={user}/>)
               })): "You don't have activate conversation"}
         </Box>
         <Box
