@@ -1,15 +1,38 @@
 import { Avatar, Typography, Stack, Box } from "@mui/material";
-
+import {format} from "timeago.js";
+import TimeAgo from 'timeago-react';
 
 function Message(props){
     const message=props.message;
     const own=props.own;
     return(
         <>
-        <Box sx={{mt:"20px", display:"flex"}}>
+        <Box sx={{mt:"20px"}}>
         <Stack direction="row" spacing={2}>
         
-       {own? ( <Typography 
+       {own? ( 
+       <Box sx={{display:"flex", flexDirection:"row-reverse"}}>
+        <Typography 
+            sx={{  
+            padding:"10px",
+            marginTop:3,
+            borderRadius:"18px",
+            backgroundColor:"lightGrey",
+            color:"black",
+            maxWidth:"500px", 
+            alignItems:"end",
+            alignContent:"end", 
+            justifyContent:"right",
+            justifyItems:"flex-end"
+        }}>
+            {message? message.text : ""}
+        </Typography>
+       </Box>
+        ) : ( 
+            <>
+        <Avatar sx={{mt:1}} />
+        <Box sx={{display:"flex"}}>
+        <Typography 
         sx={{
             padding:"10px",
             marginTop:3,
@@ -18,22 +41,10 @@ function Message(props){
             color:"white",
             maxWidth:"300px"
         }}>
-            {message? message.text : ""}
-        </Typography>) : ( 
-            <>
-        <Avatar sx={{mt:1}} />
-        <Typography 
-        sx={{
-            padding:"10px",
-            marginTop:3,
-            borderRadius:"18px",
-            backgroundColor:"lightGrey",
-            color:"black",
-            maxWidth:"300px", 
-            alignItems:"flex-end"
-        }}>
              {message? message.text : ""}
-        </Typography></>) }
+        </Typography>
+        </Box>
+        </>) }
        
         </Stack>
         <Typography 
@@ -41,7 +52,7 @@ function Message(props){
         fontSize:"12px", 
         mt:"10px"
     }}>
-            1 hour ago
+            {format(message? message.createdAt:"")}
         </Typography>
         </Box>
         </>

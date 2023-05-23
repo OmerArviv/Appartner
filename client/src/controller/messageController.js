@@ -3,7 +3,7 @@ import { APP_ROUTES, POST_HEADERS, GET_HEADERS } from "../APP/APP_ROUTES";
 
 //add message to db
 export const createMessage = (message) => {
-  let url = APP_ROUTES.message.addMessage;
+  let url = APP_ROUTES.message.createMessage;
   console.log(message);
   return axios
     .post(url, message, POST_HEADERS())

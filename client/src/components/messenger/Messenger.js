@@ -7,10 +7,10 @@ import Message from "./Message";
 import ChatOnline from "./ChatOnline";
 import { authContext } from "../../APP/Utils";
 import Cookies from "js-cookie";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {getUserByEmail} from "../../controller/authenticationController";
 import {getConversationsByUserEmail} from "../../controller/conversationController";
-import {getMessagesConversationById} from "../../controller/messageController";
+import {createMessage, getMessagesConversationById} from "../../controller/messageController";
 
 function Messenger(){
   const { userEmail } = useContext(authContext);
@@ -18,7 +18,8 @@ function Messenger(){
   const [conversations, setConversations]=useState([]);
   const [currentChat, setCurrentChat]=useState(null);
   const [chatMessages, setChatMessages]=useState(null);
-
+  const [newMessage, setNewMessage]=useState("");
+  const scrollRef=useRef(); // to show the last message that sent
   useEffect(()=>{
     getUser();
   },[]);
@@ -31,6 +32,9 @@ function Messenger(){
     getMessagesConversation();
   },[currentChat]);
 
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView({behavior:"smooth"});
+  },[chatMessages]);
 
   const getUser= async ()=>{
     const res= await getUserByEmail(userEmail);
@@ -55,6 +59,27 @@ function Messenger(){
         console.log(res.data);
       }
     } 
+}
+
+const submitHandler= async (event)=>{
+  event.preventDefault();
+  //should not refresh the page
+  console.log(userEmail);
+  const messageToSend={
+    conversation_id:currentChat._id,
+    sender_email:userEmail, 
+    text: newMessage,
+  };
+  try{
+    const res= await createMessage(messageToSend);
+    if(res){
+      setChatMessages([...chatMessages, res.data]);
+      setNewMessage("");
+    }
+   
+  }catch(err){
+    console.log(err);
+  }
 }
 
 
@@ -122,12 +147,15 @@ function Messenger(){
             {/*Top area- the messages */}
 
                   <Box item="true"
-                  sx={{height:"100%", overflowY:"auto", scrollbarGutter:"stable && both-edges", paddingRight:"10px"}}
+                  sx={{height:"100%", overflowY:"scroll"}}/*scrollbarGutter:"stable && both-edges", paddingRight:"10px"} */
                   >
                     {chatMessages? 
                     (chatMessages.map((mes,index)=>{
                       return(
-                        <Message key={index} message={mes} own={mes.sender_email===userEmail}/>
+                        <div ref={scrollRef}>
+                           <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}/>
+                        </div>
+                       
                       )
                     })):""}
                   </Box>
@@ -138,8 +166,10 @@ function Messenger(){
                     fullWidth={true}
                     placeholder="write your message"
                     sx={{height:"90px", padding:"10px"}}
+                    onChange={(e)=>setNewMessage(e.target.value)}
+                    value={newMessage}
                     />
-                    <Button>
+                    <Button onClick={submitHandler}>
                       Send
                     </Button>
                   </Box></>) : 

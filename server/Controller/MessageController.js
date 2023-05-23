@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 
 // add message
 
-router.route("/addMessege").post(auth, async (request, response) => {
+router.route("/createMessage").post(auth, async (request, response) => {
     const message = request.body;
     console.log(message);
     if (!message) {
