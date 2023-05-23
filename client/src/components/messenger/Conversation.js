@@ -9,18 +9,18 @@ function Conversation(props){
     const conversation=props.conversation;
     const { userEmail } = useContext(authContext);
     const [chatPerson, setChatPerson]=useState(null);
-    const [user, setUser]=useState(null);
+    // const [user, setUser]=useState(null);
     const [chatPersonUserProfile, setchatPersonUserProfile] = useState("");
 
 
     useEffect(()=>{
-        getUser();
+        // getUser();
         getChatPerson();
         // getChatPersonUserProfile();
     },[userEmail]);
 
     const getChatPerson= async ()=>{
-        if(user){
+        if(userEmail){
             if(userEmail==conversation.welcomer_email){
                 setChatPerson(conversation.looker_email);
                 const res= await getUserProfileByEmail(conversation.looker_email);
@@ -49,12 +49,12 @@ function Conversation(props){
         }
     }
 
-      const getUser= async ()=>{
-        const res= await getUserByEmail(userEmail);
-        if(res){
-          setUser(res); 
-        }
-      }
+    //   const getUser= async ()=>{
+    //     const res= await getUserByEmail(userEmail);
+    //     if(res){
+    //       setUser(res); 
+    //     }
+    //   }
 
 return(
     <Stack direction="row" sx={{cursor:"pointer"}}>

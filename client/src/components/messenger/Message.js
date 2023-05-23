@@ -1,12 +1,14 @@
 import { Avatar, Typography, Stack, Box } from "@mui/material";
 
 
-function Message({own}){
+function Message(props){
+    const message=props.message;
+    const own=props.own;
     return(
         <>
-        <Box sx={{mt:"20px"}}>
+        <Box sx={{mt:"20px", display:"flex"}}>
         <Stack direction="row" spacing={2}>
-        <Avatar sx={{mt:1}} />
+        
        {own? ( <Typography 
         sx={{
             padding:"10px",
@@ -16,8 +18,11 @@ function Message({own}){
             color:"white",
             maxWidth:"300px"
         }}>
-            this is my message
-        </Typography>) : ( <Typography 
+            {message? message.text : ""}
+        </Typography>) : ( 
+            <>
+        <Avatar sx={{mt:1}} />
+        <Typography 
         sx={{
             padding:"10px",
             marginTop:3,
@@ -27,8 +32,8 @@ function Message({own}){
             maxWidth:"300px", 
             alignItems:"flex-end"
         }}>
-            this is not my messeage
-        </Typography>) }
+             {message? message.text : ""}
+        </Typography></>) }
        
         </Stack>
         <Typography 
