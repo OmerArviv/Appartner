@@ -7,19 +7,31 @@ const auth = require("../middleware/auth");
 
 router.route("/addMessege").post(auth, async (request, response) => {
     const message = request.body;
+    console.log(message);
     if (!message) {
       return response.status(400).send("something went wrong");
     }
     var result = await MessageService.insertMessage(message);
-    console.log(result);
     if (result != null) {
+      console.log(result);
       return response.status(201).json(message);
     }
     return response.status(403).send({});
   });
 
-  //get message
-
+  //get messages of the conversation
+  router.route("/getConversationMessages").get(async (request, response) => {
+    const id = request.query;
+    if (!id) {
+      return response.status(403).send({});
+    }
+    const messages = await MessageService.getMessagesConversationById(id);
+    if (messages) {
+      return response.status(200).json(messages);
+    }
+    return response.status(204).send(null);
+  });
+  
   
 
 

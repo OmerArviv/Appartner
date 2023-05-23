@@ -15,6 +15,7 @@ const AppartmentAPI = require("./Controller/AppartmentController");
 const roomateRequestAPI = require("./Controller/RoomateRequestController");
 const chatGptAPI = require("./Controller/ChatGPTController");
 const ConversationAPI=require("./Controller/ConversationController");
+const MessageAPI=require("./Controller/MessageController");
 
 
 //Route use
@@ -25,4 +26,5 @@ app.use("/appartment", AppartmentAPI);
 app.use("/roomateRequest", roomateRequestAPI);
 app.use("/chatGpt", chatGptAPI);
 app.use("/conversation", ConversationAPI);
+app.use("/message", MessageAPI);
 

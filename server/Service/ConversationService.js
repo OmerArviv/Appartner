@@ -16,6 +16,7 @@ module.exports = class ConversationService{
           });
       }
 
+      //get conversations by its id
       static async getConversationByid(id) {
         const res = await Conversation.find(id);
         return res;

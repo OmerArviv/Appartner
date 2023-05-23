@@ -11,7 +11,7 @@ const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
 const ROOMATE_REQUEST_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}roomateRequest`;
 const CHATGPT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}chatGpt`;
 const CONVERSATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}conversation`;
-
+const MESSAGE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}message`;
 
 
 export const APP_ROUTES = {
@@ -63,10 +63,10 @@ export const APP_ROUTES = {
     getConversationById: `${CONVERSATION_ENPOINT}/getConversationById`,
     getConversationsByUserEmail: `${CONVERSATION_ENPOINT}/getConversationsByUserEmail`,
   },
-  // message:{
-  //   addMessage:`${MESSENGER_ENPOINT}/addMessage`, 
-  //   getMessage:`${MESSENGER_ENPOINT}/getMessage`, 
-  // }
+  message:{
+    addMessage:`${MESSAGE_ENPOINT}/addMessage`, 
+    getConversationMessages:`${MESSAGE_ENPOINT}/getConversationMessages`, 
+  }
 };
 
 // HEADERS()
