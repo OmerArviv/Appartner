@@ -6,17 +6,18 @@ export const createConversation = (conversation) => {
     return axios
       .post(url, conversation, POST_HEADERS())
       .then((result) => {
+        console.log(result);
         return result;
       })
       .catch((err) => {
+        console.log(err);
         return err;
       });
   };
 
-  export const getUserConversations = (id) => {
-    let url = APP_ROUTES.conversation.getConversation;
+  export const getConversationByid = (id) => {
+    let url = APP_ROUTES.conversation.getConversationById;
     let data = { _id: id };
-  
     return axios
       .get(url, {
         params: data,
@@ -34,9 +35,9 @@ export const createConversation = (conversation) => {
       });
   };
 
-  export const getConversationsByUserId = (id) => {
-    let url = APP_ROUTES.conversation.getConversationsByUserId;
-    let data = { _id: id };
+  export const getConversationsByUserEmail = (email) => {
+    let url = APP_ROUTES.conversation.getConversationsByUserEmail;
+    let data = { user_email: email };
   
     return axios
       .get(url, {

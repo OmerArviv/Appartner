@@ -10,7 +10,7 @@ const USER_PROFILE_PREFERNCES_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}use
 const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
 const ROOMATE_REQUEST_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}roomateRequest`;
 const CHATGPT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}chatGpt`;
-const MESSENGER_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}messenger`;
+const CONVERSATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}conversation`;
 
 
 
@@ -59,11 +59,14 @@ export const APP_ROUTES = {
     parseUserInput: `${CHATGPT_ENPOINT}/parse`,
   },
   conversation:{
-    createConversation: `${MESSENGER_ENPOINT}/createConversation`,
-    getConversation: `${MESSENGER_ENPOINT}/getConversationById`,
-    getConversationsByUserId: `${MESSENGER_ENPOINT}/getConversationsByUserId`,
-
+    createConversation: `${CONVERSATION_ENPOINT}/createConversation`,
+    getConversationById: `${CONVERSATION_ENPOINT}/getConversationById`,
+    getConversationsByUserEmail: `${CONVERSATION_ENPOINT}/getConversationsByUserEmail`,
   },
+  // message:{
+  //   addMessage:`${MESSENGER_ENPOINT}/addMessage`, 
+  //   getMessage:`${MESSENGER_ENPOINT}/getMessage`, 
+  // }
 };
 
 // HEADERS()

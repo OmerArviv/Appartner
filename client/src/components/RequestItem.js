@@ -7,21 +7,25 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import UserProfile from "../pages/UserProfile";
 import { updateRoomateRequest } from "../controller/RoomateRequestController";
 import { getUserByEmail } from "../controller/authenticationController";
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import {createConversation} from "../controller/conversationController";
+import { authContext } from "../APP/Utils";
 
 const RequestItem = (props) => {
   const { request } = props;
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState("");
+  // const [lookerRequestEmail, setLookerRequestId] = useState("");
   const [status, setStatus] = useState(request.status); // New state variable
   const [phoneNumber, setPhoneNumber] = useState(""); // New state variable for phone
   const [showChatButton, setShowChatButton] = useState(false);
+  const { userEmail } = useContext(authContext);
 
   const handleCloseProfile = () => {
     setModal(false);
@@ -51,6 +55,7 @@ const RequestItem = (props) => {
         console.log("Roommate request accepted successfully");
         setStatus("accepted"); // Update the status
         setShowChatButton(true); // Show the chat button
+        createNewConversation();
       } else {
         console.error("Failed to accept roommate request");
       }
@@ -75,6 +80,26 @@ const RequestItem = (props) => {
     }
   };
 
+  const createNewConversation= async()=>{
+    const user_email=userEmail ; 
+      const newConversation= {
+        welcomer_email: user_email, 
+        looker_email: request.user_email,
+      };
+      const res= await createConversation(newConversation);
+      if(res.status == 201){
+        console.log("add new conversation");
+        console.log(res);
+      }
+      else if (res.status == 403) {
+        console.log("Error occured!");
+      }
+      else{
+        console.log("can't add new conversation");
+
+      }
+  
+  }
   
 
   return (

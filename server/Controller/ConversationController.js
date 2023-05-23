@@ -5,17 +5,12 @@ const auth = require("../middleware/auth");
 
 //new conversation
 
-
 router.route("/createConversation").post(auth, async (request, response) => {
-    console.log("newConversation");
-    // const newConversation = {members:[request.body.sender_id, request.body.receiver_id]};
     const newConversation=request.body;
-    console.log(newConversation);
     if (!newConversation) {
-      return response.status(400).send("All input is required");
+      return response.status(400).send("Something went wrong");
     }
     var result = await ConversationService.insertConversation(newConversation);
-    console.log(result);
     if (result != null) {
       return response.status(201).json(newConversation);
     }
@@ -23,13 +18,15 @@ router.route("/createConversation").post(auth, async (request, response) => {
   });
 
 
-//get conversation of a user
-router.route("/getConversationsByUserId").get(async (request, response) => {
+//get conversation by Id
+router.route("/getConversationById").get(async (request, response) => {
   const id = request.query;
+  console.log("server controller");
+
+  console.log(id);
   if (!id) {
     return response.status(403).send({});
   }
-
   const conversation = await ConversationService.getConversationByid(id);
   if (conversation) {
     return response.status(200).json(conversation);
@@ -37,14 +34,14 @@ router.route("/getConversationsByUserId").get(async (request, response) => {
   return response.status(204).send(null);
 });
 
-//get conversation by user id
-router.route("/getConversationsByUserId").get(async (request, response) => {
-  const id = request.query;
-  if (!id) {
+//get conversation by user email
+router.route("/getConversationsByUserEmail").get(async (request, response) => {
+  const email = request.query;
+  if (!email) {
     return response.status(403).send({});
   }
 
-  const conversations = await ConversationService.findConversationsByUserEmail(id);
+  const conversations = await ConversationService.getConversationsByUserEmail(email);
   if (conversations) {
     return response.status(200).json(conversations);
   }
