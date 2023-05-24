@@ -11,7 +11,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import {getUserByEmail} from "../../controller/authenticationController";
 import {getConversationsByUserEmail} from "../../controller/conversationController";
 import {createMessage, getMessagesConversationById} from "../../controller/messageController";
-
+import {io} from "socket.io-client";
 function Messenger(){
   const { userEmail } = useContext(authContext);
   const [user, setUser]=useState(null);
@@ -19,7 +19,11 @@ function Messenger(){
   const [currentChat, setCurrentChat]=useState(null);
   const [chatMessages, setChatMessages]=useState(null);
   const [newMessage, setNewMessage]=useState("");
+  // const [socket, setSocket]=useState(null);
+  const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
+
+
   useEffect(()=>{
     getUser();
   },[]);
@@ -35,6 +39,43 @@ function Messenger(){
   useEffect(()=>{
     scrollRef.current?.scrollIntoView({behavior:"smooth"});
   },[chatMessages]);
+
+   //send something to socket server
+  useEffect(()=>{
+    // socket.current.emit("addUser", user._id);
+    // socket.current.on("getUsers", users=>{
+    //   console.log(users);
+    // });
+    handleEmitEvent();
+  },[user]);
+
+    //connect to socket
+  useEffect(()=>{
+    socket.current= io(("ws://localhost:8900"));//ws:web socket
+  },[]);
+
+  const handleEmitEvent = () => {
+    if (socket.current) {
+      socket.current.emit("addUser", user._id);
+      socket.current.on("getUsers", users=>{
+      console.log(users);
+    })
+    }
+  };
+
+  //connect to socket
+  // useEffect(()=>{
+  //   setSocket(io("ws://localhost:8900"));//ws:web socket
+  // },[]);
+
+
+  
+  /*message from server to all users */
+  // useEffect(()=>{//if we want something from the server
+  //   socket?.on("welcome", message=>{
+  //     console.log(message);
+  //   })
+  // },[socket]);
 
   const getUser= async ()=>{
     const res= await getUserByEmail(userEmail);
@@ -152,7 +193,7 @@ const submitHandler= async (event)=>{
                     {chatMessages? 
                     (chatMessages.map((mes,index)=>{
                       return(
-                        <div ref={scrollRef}>
+                        <div key={index} ref={scrollRef}>
                            <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}/>
                         </div>
                        
