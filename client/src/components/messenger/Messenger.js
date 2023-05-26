@@ -19,10 +19,21 @@ function Messenger(){
   const [currentChat, setCurrentChat]=useState(null);
   const [chatMessages, setChatMessages]=useState(null);
   const [newMessage, setNewMessage]=useState("");
+  const [arrivalMessage, setArrivalMessage]=useState("");
   // const [socket, setSocket]=useState(null);
   const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
-
+  const reciverId= ()=>{
+    var reciver_email=null;
+    if(user.role==="Welcomer"){
+      console.log(user.role);
+      reciver_email=currentChat.looker_email; 
+    }
+    else{
+      reciver_email=currentChat.welcomer_email; 
+    }
+    return reciver_email;
+  }
 
   useEffect(()=>{
     getUser();
@@ -51,14 +62,33 @@ function Messenger(){
 
     //connect to socket
   useEffect(()=>{
-    socket.current= io(("ws://localhost:8900"));//ws:web socket
+    socket.current= io(("ws://localhost:8900"));//ws:web socke
   },[]);
+
+  useEffect(()=>{
+    socket.current.on("getMessage", data=>{
+      console.log(data);
+      setArrivalMessage({
+        sender_email:data.senderEmail,
+        text:data.text,
+        createdAt:Date.now(),
+      });
+    })
+  },[]);
+  
+  
+  useEffect(()=>{
+    arrivalMessage && (currentChat?.looker_email ===arrivalMessage.sender_email || currentChat?.welcomer_email ===arrivalMessage.sender_email) && 
+    setChatMessages(prev=>[...prev, arrivalMessage]);
+  },
+  [arrivalMessage,currentChat]);
+
 
   const handleEmitEvent = () => {
     if (socket.current) {
-      socket.current.emit("addUser", user._id);
+      socket.current.emit("addUser", user.email);//
       socket.current.on("getUsers", users=>{
-      console.log(users);
+      // console.log(users);
     })
     }
   };
@@ -111,6 +141,11 @@ const submitHandler= async (event)=>{
     sender_email:userEmail, 
     text: newMessage,
   };
+
+socket.current.emit("sendMessage",{
+  senderEmail:userEmail, 
+  reciverEmail:reciverId(), 
+  text:newMessage});
   try{
     const res= await createMessage(messageToSend);
     if(res){
@@ -169,7 +204,7 @@ const submitHandler= async (event)=>{
               (
                 conversations.map((con,index)=>{
                   return(
-                    <div  key={index} onClick={()=>{setCurrentChat(con);console.log(currentChat)}}>
+                    <div  key={index} onClick={()=>{setCurrentChat(con);}}>
                      <Conversation key={index} conversation={con} user={user}/>
                      </div>
 
