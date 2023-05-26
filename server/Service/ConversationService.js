@@ -28,6 +28,11 @@ module.exports = class ConversationService{
         return res;
       }
 
+      static async getConversationsByLookerAndWelcomersEmails(email) {
+        const res = await Conversation.find();
+        return res;
+      }
+
 
 
 

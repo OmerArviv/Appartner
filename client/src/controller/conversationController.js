@@ -55,3 +55,24 @@ export const createConversation = (conversation) => {
         return null;
       });
   };
+
+  export const getConversationsByLookerAndWelcomersEmails = (email1,email2) => {
+    let url = APP_ROUTES.conversation.getConversationsByUserEmail;
+    let data = { user_email1: email1, user_email2: email2 };
+  
+    return axios
+      .get(url, {
+        params: data,
+        headers: GET_HEADERS(),
+      })
+      .then((result) => {
+        if (result) {
+          return result;
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        return null;
+      });
+  };

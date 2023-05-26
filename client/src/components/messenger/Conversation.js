@@ -25,7 +25,6 @@ function Conversation(props){
                 setChatPerson(conversation.looker_email);
                 const res= await getUserProfileByEmail(conversation.looker_email);
                 if(res){
-                    console.log(res);
                   setchatPersonUserProfile(res); 
                 }
                 // const res=await getUserByEmail(conversation.looker_email)
@@ -36,7 +35,6 @@ function Conversation(props){
                 setChatPerson(conversation.welcomer_email);
                 const res1= await getUserProfileByEmail(conversation.welcomer_email);
                 if(res1){
-                    console.log(res1);
                   setchatPersonUserProfile(res1); 
                 }
                 // const res=await getUserByEmail(conversation.welcomer_email)

@@ -62,6 +62,7 @@ export const APP_ROUTES = {
     createConversation: `${CONVERSATION_ENPOINT}/createConversation`,
     getConversationById: `${CONVERSATION_ENPOINT}/getConversationById`,
     getConversationsByUserEmail: `${CONVERSATION_ENPOINT}/getConversationsByUserEmail`,
+    getConversationsByLookerAndWelcomersEmails: `${CONVERSATION_ENPOINT}/getConversationsByLookerAndWelcomersEmails`,
   },
   message:{
     createMessage:`${MESSAGE_ENPOINT}/createMessage`, 

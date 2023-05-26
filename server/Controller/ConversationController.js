@@ -48,5 +48,20 @@ router.route("/getConversationsByUserEmail").get(async (request, response) => {
   return response.status(204).send(null);
 });
 
+//get conversation by welcomer & looker email
+router.route("/getConversationsByLookerAndWelcomersEmails").get(async (request, response) => {
+  const emails = request.query;
+  if (!emails) {
+    return response.status(403).send({});
+  }
+
+  const conversation = await ConversationService.getConversationsByUserEmail(email);
+  if (conversation) {
+    return response.status(200).json(conversation);
+  }
+  return response.status(204).send(null);
+});
+
+
 
 module.exports = router;

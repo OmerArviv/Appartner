@@ -20,6 +20,8 @@ function Messenger(){
   const [chatMessages, setChatMessages]=useState(null);
   const [newMessage, setNewMessage]=useState("");
   const [arrivalMessage, setArrivalMessage]=useState("");
+  const [onlineUsers, setonlineUsers]=useState(null);
+
   // const [socket, setSocket]=useState(null);
   const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
@@ -88,8 +90,18 @@ function Messenger(){
     if (socket.current) {
       socket.current.emit("addUser", user.email);//
       socket.current.on("getUsers", users=>{
-      // console.log(users);
-    })
+        if(user.role==="Welcomer"){
+          setonlineUsers(
+            users.filter(u=>conversations?.some(c=> u.userId===c.looker_email))
+          );
+        }
+        else{
+          setonlineUsers(
+            users.filter(u=>conversations?.some(c=> u.userId===c.welcomer_email))
+          );
+        }
+        });
+    
     }
   };
 
@@ -121,13 +133,11 @@ function Messenger(){
       }
   }
 
-  
   const getMessagesConversation=async ()=>{
     if(currentChat){
       const res= await getMessagesConversationById(currentChat._id);
       if(res.data){
         setChatMessages(res.data);
-        console.log(res.data);
       }
     } 
 }
@@ -261,7 +271,12 @@ socket.current.emit("sendMessage",{
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
-            <ChatOnline/>
+            <ChatOnline 
+            allUsersConversations={conversations}
+            onlineUsers={onlineUsers} 
+            currentUserEmail={userEmail} 
+            setCurrentChat={setCurrentChat}
+            />
         </Box>
 
 
