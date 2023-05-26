@@ -1,10 +1,12 @@
 import { Avatar, Typography, Stack, Box } from "@mui/material";
 import {format} from "timeago.js";
-import TimeAgo from 'timeago-react';
+import {getUserProfileByEmail} from "../../controller/userProfileController";
 
 function Message(props){
     const message=props.message;
     const own=props.own;
+    const currentChat=props.currentChat;
+    const userEmail=props.userEmail;
     return(
         <>
         <Box sx={{mt:"20px"}}>
@@ -30,7 +32,7 @@ function Message(props){
        </Box>
         ) : ( 
             <>
-        <Avatar sx={{mt:1}} />
+        <Avatar sx={{mt:1}}/>
         <Box sx={{display:"flex"}}>
         <Typography 
         sx={{

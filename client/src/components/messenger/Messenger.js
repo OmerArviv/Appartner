@@ -171,20 +171,6 @@ socket.current.emit("sendMessage",{
 
     return(
         <>
-        {/* <div className="messenger">
-            <div className="chatMenu">
-            <div className="chatMwnuWrapper">
-                menu
-            </div>
-            </div>
-            <div className="chatBox">
-                <div className="chatBoxWrapper">Box</div>
-            </div>
-            <div className="chatOnline">
-                <div className="chatOnlineWrapper">Online</div>
-            </div>
-        </div> */}
-
 
         {/*MUI */}
         <Box
@@ -239,7 +225,10 @@ socket.current.emit("sendMessage",{
                     (chatMessages.map((mes,index)=>{
                       return(
                         <div key={index} ref={scrollRef}>
-                           <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}/>
+                           <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}
+                           currentChat={currentChat}
+                           userEmail={userEmail}
+                           />
                         </div>
                        
                       )
