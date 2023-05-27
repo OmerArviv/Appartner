@@ -22,8 +22,8 @@ import { getAppartmentByUserEmail } from "../controller/appartmentController";
 import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
 import UserProfile from "../pages/UserProfile";
 import { Dialog } from "@mui/material";
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -166,7 +166,7 @@ export default function NavBar(props) {
                     <TelegramIcon fontSize="large" />
                   </IconButton>
                   <IconButton onClick={() => { navigate("/set-your-pref") }}>
-                    test
+                    <PsychologyAltIcon fontSize="large" />
                   </IconButton>
                 </Stack>
               )}
