@@ -72,7 +72,7 @@ const SetPreferncesProfile = () => {
 
   useEffect(() => {
     setPageTitle("Set Your Preferences");
-  })
+  });
 
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
@@ -121,7 +121,6 @@ const SetPreferncesProfile = () => {
     if (
       user_email !== "" &&
       ageRange !== "" &&
-      loaction !== "" &&
       priceRange !== "" &&
       gender !== "" &&
       elevator !== "" &&
