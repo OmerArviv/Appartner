@@ -66,7 +66,7 @@ function ApartmentList() {
 
   const sendMessage = async (message) => {
     const appartments = await getAppartmentsFiltered()
-    
+
 
     const userMessage = { role: "user", content: message };
     const apartmentData = { user: message, apartments: appartments };
@@ -91,40 +91,40 @@ function ApartmentList() {
   };
 
   const getAppartmentsFiltered = async () => {
-    const data=[];
-    for(let i=0;i<appartments.length;i++){
+    const data = [];
+    for (let i = 0; i < appartments.length; i++) {
       let apartment = appartments[i];
       data.push({
         id: apartment._id,
         age_range: apartment.age_range,
         location: apartment.location,
         price_range: apartment.price_range,
-        gender:apartment.gender,
-        elevator:apartment.elevator,
-        parking:apartment.parking,
-        smoking:apartment.smoking 
+        gender: apartment.gender,
+        elevator: apartment.elevator,
+        parking: apartment.parking,
+        smoking: apartment.smoking
       })
     }
-   return data;
+    return data;
   };
 
 
   const handleFindMatches = async () => {
 
     const user = await getUserProfileByEmail(userEmail);
-    const user_per=await getUserPreferncesByEmail(userEmail);
+    const user_per = await getUserPreferncesByEmail(userEmail);
     const apartments_data = await getAppartmentsFiltered();
 
     const mergedData = {
       user: {
         age: user.Birthday_date,
-        smoking:user.smoking,
-        gender:user.gender,
-        age_range:user_per.age_range,
-        location:user_per.location,
-        price_range:user_per.price_range,
-        elevator:user_per.elevator,
-        parking:user_per.parking,
+        smoking: user.smoking,
+        gender: user.gender,
+        age_range: user_per.age_range,
+        location: user_per.location,
+        price_range: user_per.price_range,
+        elevator: user_per.elevator,
+        parking: user_per.parking,
       },
       apartments: apartments_data,
     };
@@ -195,24 +195,6 @@ function ApartmentList() {
         >
           Find the Best Match !
         </Button>
-        <Stack>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setModalPref(true);
-            }}
-            style={btnstyle}
-          >
-            Set Your Preferences
-          </Button>
-          <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
-            <DialogTitle textAlign="center">Change Your Prefernces</DialogTitle>
-            <SetPreferncesProfile
-              handleCloseProfile={handleCloseProfile}
-              propEmail={userEmail ? userEmail : ""}
-            />
-          </Dialog>
-        </Stack>
       </Box>
       <Grid container>
         <Grid item>
