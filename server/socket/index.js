@@ -53,6 +53,8 @@ function start(server){
         io.emit("getUsers", users);
     });
     });
+
+    console.log('Socket is up and running in port 8900');
     
 }
 
