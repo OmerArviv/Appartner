@@ -7,6 +7,7 @@ import {
   Button,
   CardContent,
   Stack,
+  TextField,
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -144,6 +145,7 @@ const Apartment = () => {
                     <Topic label="Elevator:" value={appartment.elevator} />
                     <Topic label="Parking:" value={appartment.parking} />
                     <Topic label="Smoking:" value={appartment.smoking} />
+
                   </Box>
                 </Grid>
               </Grid>
