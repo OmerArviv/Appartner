@@ -50,14 +50,14 @@ const Apartment = () => {
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
     console.log(res.data);
-    if (!res || res.status == 204) {
+    if (!res || res.status === 204) {
       alert("We couldn't find the appartment , please try again");
       navigate(-1);
       return;
     }
-    if (res.status == 403) {
+    if (res.status === 403) {
       alert("Something went wrong");
-    } else if (res.status == 200) {
+    } else if (res.status === 200) {
       setAppartment(res.data);
     }
   };
@@ -73,11 +73,11 @@ const Apartment = () => {
       user_email: userEmail,
     };
     const res = await createRoomateRequest(request);
-    if (!res || res.status == 400 || res.status == 403) {
+    if (!res || res.status === 400 || res.status === 403) {
       navigate("/");
       return;
     }
-    if (res.status == 201) {
+    if (res.status === 201) {
       alert("request was send");
     }
   };
@@ -103,7 +103,7 @@ const Apartment = () => {
                   </Box>
                   <CardContent>
                     <Stack direction="row" spacing={4}>
-                      {appartment.roomates && appartment.roomates.length != 0
+                      {appartment.roomates && appartment.roomates.length !== 0
                         ? appartment.roomates.map((item, index) => {
                             return (
                               <RoomateAvatar
@@ -229,7 +229,7 @@ const Apartment = () => {
           ) : (
             ""
           )}
-          {userRole === "Welcomer" && userEmail == appartment.email ? (
+          {userRole === "Welcomer" && userEmail === appartment.email ? (
             <Button
               variant="contained"
               // onClick={onSubmitHandler}

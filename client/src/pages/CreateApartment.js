@@ -97,16 +97,16 @@ const CreateApartment = () => {
   function apartmentImagesHandler(arr) {
     console.log("set images array handler");
     const newArray = [];
-    if (arr[0] != "") {
+    if (arr[0] !== "") {
       newArray.push(arr[0]);
     }
-    if (arr[1] != "") {
+    if (arr[1] !== "") {
       newArray.push(arr[1]);
     }
-    if (arr[2] != "") {
+    if (arr[2] !== "") {
       newArray.push(arr[2]);
     }
-    if (arr[3] != "") {
+    if (arr[3] !== "") {
       newArray.push(arr[3]);
     }
     if (newArray != null) {
@@ -121,7 +121,7 @@ const CreateApartment = () => {
     if (
       user_email != null &&
       age != null &&
-      selectedLocation != "" &&
+      selectedLocation !== "" &&
       selectedPosition != null &&
       price != null &&
       gender != null &&
@@ -145,20 +145,20 @@ const CreateApartment = () => {
         roomates: roomates,
         images: apartmentImages,
       };
-      if (selectedCollaborator != "" && selectedCollaborator) {
+      if (selectedCollaborator !== "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
       }
 
       const respone_summary = await summaryWithChatGpt(appartment);
 
-      if (respone_summary && respone_summary.status == 200) {
+      if (respone_summary && respone_summary.status === 200) {
         appartment.summary = respone_summary.data;
       }
 
       const result = await createAppartment(appartment);
-      if (result.status == 201) {
+      if (result.status === 201) {
         navigate("/");
-      } else if (result.status == 403) {
+      } else if (result.status === 403) {
         setError("Error occured!");
       }
     } else {
@@ -287,7 +287,7 @@ const CreateApartment = () => {
         </FormControl>
 
         <div>
-          {selectedCollaborator != "" && (
+          {selectedCollaborator !== "" && (
             <RoomateAvatar email={selectedCollaborator} />
           )}
           <DialogAddCollabrator

@@ -67,7 +67,7 @@ const CreateProfile = () => {
   const [userProfileImage, setUserProfileImage] = useState("");
 
   useEffect(() => {
-    if (userSTT != "") {
+    if (userSTT !== "") {
       console.log(userSTT);
       setUserBirthday(userSTT["age"]);
       setUserEmployment(userSTT["user_employment"]);
@@ -77,7 +77,6 @@ const CreateProfile = () => {
       setUserKosher(userSTT["kosher"]);
       setUserGender(userSTT["gender"]);
       setUserHobby(userSTT["hobby"]);
-
     }
   }, [userSTT]);
 
@@ -91,7 +90,6 @@ const CreateProfile = () => {
       setUserKosher(userGPT.kosher);
       setUserGender(userGPT.gender);
       setUserHobby(userGPT.hobby);
-
     }
   }, [userGPT]);
 
@@ -143,16 +141,16 @@ const CreateProfile = () => {
     event.preventDefault();
     const user_email = userEmail;
     if (
-      user_email != "" &&
-      userBirthday != "" &&
-      userEmployment != "" &&
-      userSmoking != "" &&
-      userPets != "" &&
-      userGender != "" &&
-      userAlcohol != "" &&
-      userKosher != "" &&
-      userHobby != "" &&
-      userProfileImage != ""
+      user_email !== "" &&
+      userBirthday !== "" &&
+      userEmployment !== "" &&
+      userSmoking !== "" &&
+      userPets !== "" &&
+      userGender !== "" &&
+      userAlcohol !== "" &&
+      userKosher !== "" &&
+      userHobby !== "" &&
+      userProfileImage !== ""
     ) {
       const userName = await getUserByEmail(user_email);
       const userProfile = {
@@ -173,13 +171,13 @@ const CreateProfile = () => {
       };
       console.log(userProfile);
       const result = await createUserProfile(userProfile);
-      if (result.status == 201) {
-        if (userRole == "Welcomer") {
+      if (result.status === 201) {
+        if (userRole === "Welcomer") {
           navigate("/");
         } else {
           navigate("/create-profile/set-prefernces");
         }
-      } else if (result.status == 403) {
+      } else if (result.status === 403) {
         alert("Error occured!");
       }
     } else {

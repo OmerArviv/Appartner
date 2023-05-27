@@ -58,7 +58,7 @@ export default function NavBar(props) {
 
   const getUserApartmentsHandler = async () => {
     const res = await getAppartmentByUserEmail(userEmail);
-    if (res.status == 200 && res.data.length != 0) {
+    if (res.status === 200 && res.data.length !== 0) {
       setUserApartments(res.data[0]);
     }
   };
@@ -118,7 +118,7 @@ export default function NavBar(props) {
             </div>
           ) : (
             <>
-              {userRole == "Welcomer" ? (
+              {userRole === "Welcomer" ? (
                 <>
                   <Tooltip title="Your Requests" disableInteractive>
                     <IconButton
