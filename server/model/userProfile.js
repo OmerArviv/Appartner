@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const userProfileSchema = new mongoose.Schema({
   email: { type: String, unique: true },
+  full_name: { type: String, require },
   user_type: { type: String, require },
   Birthday_date: { type: String, default: null },
   user_employment: { type: String, default: null },
