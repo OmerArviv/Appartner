@@ -32,18 +32,26 @@ export default function FilterSection(props) {
   //     setFilterTab(!filterTab);
   //   };
 
-  // useEffect(() => {
-  //   if (allProducts != null) {
-  //     if (sort == 1)
-  //       setProducts([...allProducts.sort((p1, p2) => p1.price - p2.price)]);
-  //     else if (sort == 2)
-  //       setProducts([...allProducts.sort((p1, p2) => p2.price - p1.price)]);
-  //     else if (sort == 3)
-  //       setProducts([
-  //         ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
-  //       ]);
-  //   }
-  // }, [sort]);
+  useEffect(() => {
+    if (appartments != null) {
+      if (sort == 1)
+        setAppartments([
+          ...appartments.sort(
+            (p1, p2) => p1.price_range[0] - p2.price_range[0]
+          ),
+        ]);
+      else if (sort == 2)
+        setAppartments([
+          ...appartments.sort(
+            (p1, p2) => p2.price_range[0] - p1.price_range[0]
+          ),
+        ]);
+      // else if (sort == 3)
+      //   setAppartments([
+      //     ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
+      //   ]);
+    }
+  }, [sort]);
 
   return (
     <Box
@@ -90,7 +98,7 @@ export default function FilterSection(props) {
               >
                 <MenuItem value={1}>Price: low to high</MenuItem>
                 <MenuItem value={2}>Price: high to low</MenuItem>
-                <MenuItem value={3}>Material</MenuItem>
+                {/* <MenuItem value={3}>Material</MenuItem> */}
               </Select>
             </FormControl>
           </Box>

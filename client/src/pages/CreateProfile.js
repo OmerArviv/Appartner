@@ -22,6 +22,7 @@ import { Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
+import { getUserByEmail } from "../controller/authenticationController";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -165,8 +166,10 @@ const CreateProfile = () => {
       userHobby != "" &&
       userProfileImage != ""
     ) {
+      const userName = await getUserByEmail(user_email);
       const userProfile = {
         email: user_email,
+        full_name: userName.full_name.split(" ")[0],
         Birthday_date: userBirthday,
         user_employment: userEmployment,
         smoking: userSmoking,
@@ -180,6 +183,7 @@ const CreateProfile = () => {
         user_instagram_link: userInstagramLink,
         user_profile_image: userProfileImage,
       };
+      console.log(userProfile);
       const result = await createUserProfile(userProfile);
       if (result.status == 201) {
         if (userRole == "Welcomer") {
@@ -213,7 +217,6 @@ const CreateProfile = () => {
 
   return (
     <>
-
       <Box
         sx={{
           display: "flex",
