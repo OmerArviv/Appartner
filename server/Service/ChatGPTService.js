@@ -48,4 +48,54 @@ module.exports = class ChatGPTService {
   
       return json;
     }
+
+    static async convWithChat(input) {
+      const user = JSON.stringify(input.user);
+      const apartments = JSON.stringify(input.apartments);
+      const prompt = `Find relevant apartments from the following JSON: ${apartments}, based on the user's request: "${user}". Return an array in JSON format containing the IDs ("_id") of the matching apartments.`;
+      console.log(prompt);
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: prompt,
+        max_tokens: 100,
+        temperature: 1,
+      });
+  
+      const jsonResponse = response.data.choices[0].text;
+      return JSON.parse(jsonResponse);
+    }
+
+    //
+
+
+    static async shortcutWithChatGpt(input) {
+      const apartments = JSON.stringify(input);
+      const prompt = `Create compelling marketing descriptions to promote your apartment and attract potential buyers or tenants. Write captivating marketing summaries for each apartment in ${apartments}. Return an array in JSON format containing the apartment IDs ("_id") and their enticing marketing summaries as ("summary").`;
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: prompt,
+        max_tokens: 1000,
+        temperature: 1,
+      });
+  
+      const jsonResponse = response.data.choices[0].text;
+      console.log(jsonResponse);
+
+      return JSON.parse(jsonResponse);
+    }
+
+    static async summaryWithChatGpt(input) {
+      const apartment = JSON.stringify(input);
+      const prompt = `Create compelling marketing description to promote your apartment and attract potential buyers or tenants. Write captivating marketing summary for: ${apartment}. Return the summary in text format`;
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: prompt,
+        max_tokens: 1000,
+        temperature: 1,
+      });
+  
+      const jsonResponse = response.data.choices[0].text;
+
+      return jsonResponse;
+    }
 };

@@ -57,6 +57,9 @@ export const APP_ROUTES = {
   chatGpt: {
     getBestMatches: `${CHATGPT_ENPOINT}/getBestMatches`,
     parseUserInput: `${CHATGPT_ENPOINT}/parse`,
+    convWithChat: `${CHATGPT_ENPOINT}/conver`,
+    shortcutWithChatGpt: `${CHATGPT_ENPOINT}/shortcut`,
+    summaryWithChatGpt: `${CHATGPT_ENPOINT}/summary`
   },
   conversation:{
     createConversation: `${CONVERSATION_ENPOINT}/createConversation`,
