@@ -8,19 +8,19 @@ const btnstyle = {
     color: "#D0D2D8",
 };
 
-const SearchGoogleMap = () => {
+const SearchGoogleMap = ({ onPositionSelect, onSearchValueSelect }) => {
     const [searchValue, setSearchValue] = useState('');
     const [selectedPosition, setSelectedPosition] = useState(null);
     const [showMapPopup, setShowMapPopup] = useState(false);
 
     const handleSearchSelect = (value) => {
         setSearchValue(value);
-        // Do something with the search value
+        onSearchValueSelect(value);
     };
 
     const handlePositionSelect = (position) => {
         setSelectedPosition(position);
-        // Do something with the selected position
+        onPositionSelect(position);
     };
 
     const handleOpenMapPopup = () => {
@@ -33,10 +33,7 @@ const SearchGoogleMap = () => {
 
     return (
         <div>
-            <Button
-                variant='contained'
-                onClick={handleOpenMapPopup}
-                style={btnstyle}>
+            <Button variant="contained" onClick={handleOpenMapPopup} style={btnstyle}>
                 {searchValue ? searchValue : 'Open Map'}
             </Button>
             {showMapPopup && (
@@ -45,10 +42,7 @@ const SearchGoogleMap = () => {
                         onSearchSelect={handleSearchSelect}
                         onPositionSelect={handlePositionSelect}
                     />
-                    <Button
-                        variant='contained'
-                        onClick={handleCloseMapPopup}
-                        style={btnstyle}>
+                    <Button variant="contained" onClick={handleCloseMapPopup} style={btnstyle}>
                         Close Map
                     </Button>
                 </div>

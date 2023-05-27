@@ -19,6 +19,7 @@ import { createAppartment } from "../controller/appartmentController";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
+import SearchGoogleMap from "../components/SeachGoogleMap";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -39,6 +40,8 @@ const CreateApartment = () => {
   const [gender, setGender] = useState("");
   const [age, setAge] = useState([18, 75]);
   const [location, setLocation] = useState("");
+  const [selectedPosition, setSelectedPosition] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [price, setPrice] = useState([2500, 5500]);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
@@ -46,6 +49,14 @@ const CreateApartment = () => {
   const [apartmentImages, setApartmentImages] = useState("");
   const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
+
+  const handlePositionSelect = (position) => {
+    setSelectedPosition(position);
+  };
+
+  const handleSearchValueSelect = (value) => {
+    setSelectedLocation(value);
+  };
 
   const handleChooseCollaborator = (email) => {
     setSelectedCollaborator(email);
@@ -105,7 +116,8 @@ const CreateApartment = () => {
     if (
       user_email != null &&
       age != null &&
-      location != null &&
+      selectedLocation != '' &&
+      selectedPosition != null &&
       price != null &&
       gender != null &&
       elevator != null &&
@@ -116,7 +128,10 @@ const CreateApartment = () => {
       const appartment = {
         email: user_email,
         age_range: age,
-        location: location,
+        location: {
+          position: selectedPosition,
+          name: selectedLocation
+        },
         price_range: price,
         gender: gender,
         elevator: elevator,
@@ -128,7 +143,7 @@ const CreateApartment = () => {
       if (selectedCollaborator != "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
       }
-
+      console.log(appartment)
       const result = await createAppartment(appartment);
       if (result.status == 201) {
         navigate("/");
@@ -168,13 +183,6 @@ const CreateApartment = () => {
             </Typography>
           </CardContent>
         </FormControl>
-        <TextField
-          id="location"
-          label="Enter Location"
-          value={location}
-          onChange={handleLocationChange}
-          sx={{ width: "400px", marginBottom: "20px" }}
-        ></TextField>
         <FormControl sx={{ width: "400px", marginTop: "10px" }}>
           <CardContent>
             <InputLabel
@@ -214,6 +222,12 @@ const CreateApartment = () => {
             <MenuItem value="all">All</MenuItem>
           </Select>
         </FormControl>
+        <SearchGoogleMap
+          onPositionSelect={handlePositionSelect}
+          onSearchValueSelect={handleSearchValueSelect} />
+        <h1>{selectedLocation}</h1>
+        {selectedPosition &&
+          <h1>{selectedPosition.lat()}, {selectedPosition.lng()}</h1>}
       </Grid>
       <Grid item xs={4} sx={{ textAlign: "center" }}>
         <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
@@ -255,6 +269,22 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
+        {/* <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
+          <InputLabel id="Roomates-label">Roomates</InputLabel>
+          <Select
+            labelId="Roomates-label"
+            id="Roomates"
+            value={roomates}
+            label="Roomates"
+            onChange={handleRoomatesChange}
+          >
+            <MenuItem value="1">1</MenuItem>
+            <MenuItem value="2">2</MenuItem>
+            <MenuItem value="3">3</MenuItem>
+            <MenuItem value="4">4</MenuItem>
+            <MenuItem value="5">5</MenuItem>
+          </Select>
+        </FormControl> */}
         <div>
           {selectedCollaborator != "" &&
             <RoomateAvatar email={selectedCollaborator} />
