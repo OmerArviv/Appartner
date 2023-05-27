@@ -24,7 +24,7 @@ import UserProfile from "../pages/UserProfile";
 import { authContext } from "../APP/Utils";
 import SetPreferncesProfile from "../pages/SetPreferncesProfile";
 import axios from "axios";
-import { getBestMatchesCgptApi } from "../controller/chatGptController";
+import { convWithChatGpt, getBestMatchesCgptApi, shortcutWithChatGpt } from "../controller/chatGptController";
 
 
 const btnstyle = {
@@ -41,6 +41,9 @@ function ApartmentList() {
   const [userMessage, setUserMessage] = useState("");
 
   const { userEmail } = useContext(authContext);
+
+  const apartments_array = [];
+
 
   useEffect(() => {
     setAllAppartments();
@@ -63,24 +66,36 @@ function ApartmentList() {
   };
 
   const sendMessage = async (message) => {
-    setConversation([...conversation, { role: "user", content: message }]);
+    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+  
+    const userMessage = { role: "user", content: message };
+    const apartmentData = { user: message, apartments: getAllAppartments };
 
+  
+    setConversation([...conversation, userMessage]);
+
+  
     try {
-      const response = await axios.post("API_ENDPOINT_URL", {
-        message: message,
-        conversation: conversation,
-      });
+      const res = await convWithChatGpt(apartmentData);
 
-      setConversation([...conversation, { role: "chatbot", content: response.data.message }]);
-    } catch (error) {
+      if (res && res.status == 200) {
+
+        for (let i = 0; i < res.data.length; i++) {
+          const apartment = await getAppartmentById(res.data[0]._id);
+          apartments_array.push(apartment.data);
+        }
+        console.log(apartments_array);
+
+        setAppartments(apartments_array);
+    }}catch (error) {
       console.error(error);
     }
+
   };
+  
 
   const handleFindMatches = async () => {
-    // Send initial message to the chatbot
-    sendMessage("Find the best matches");
-
+   //צריך להוסיף את הפונקציה של הלקוח
     const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
     console.log(getAllAppartments);
     const user = {
@@ -134,6 +149,31 @@ function ApartmentList() {
     }
   };
 
+  const handleCreateShortcut = async () =>{
+    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+    const res = await shortcutWithChatGpt(getAllAppartments);
+    
+    const data =[];
+
+    if (res && res.status == 200) {
+      for(let i=0;i<res.data.length;i++){
+        let name = "omer";
+        data.push({
+          name: name,
+          summary: res.data[i].summary
+        })
+      }
+
+      
+
+
+
+    } else {
+      alert("something went wrong");
+    }
+  
+  }
+
   return (
     <>
       <Box
@@ -143,6 +183,13 @@ function ApartmentList() {
           m: 5,
         }}
       >
+        <Button
+          variant="contained"
+          onClick={handleCreateShortcut}
+          style={{ ...btnstyle, marginRight: "20px" }}
+        >
+          SHORTCUT ON THE APARTMENTS
+        </Button>
         <Button
           variant="contained"
           onClick={handleFindMatches}
@@ -244,6 +291,7 @@ function ApartmentList() {
             </ListItem>
           ))}
         </List>
+     
       </Box>
     </>
   );
