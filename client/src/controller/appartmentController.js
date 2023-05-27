@@ -102,3 +102,30 @@ export const getAllAppartmentsAndRoomateDetails = () => {
       return null;
     });
 };
+
+
+export const calculateDistance = (pos1, pos2) => {
+  const R = 6371000;
+
+  // convert decimal degrees to radians
+  const lat1Rad = (pos1.lat * Math.PI) / 180;
+  const lon1Rad = (pos1.lng * Math.PI) / 180;
+  const lat2Rad = (pos2.lat * Math.PI) / 180;
+  const lon2Rad = (pos2.lng * Math.PI) / 180;
+
+  // calculate the differences between the latitudes and longitudes
+  const deltaLat = lat2Rad - lat1Rad;
+  const deltaLon = lon2Rad - lon1Rad;
+
+  // apply the Haversine formula
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(lat1Rad) *
+    Math.cos(lat2Rad) *
+    Math.sin(deltaLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  // calculate the distance
+  const calculatedDistance = R * c;
+  return calculatedDistance;
+};
