@@ -117,13 +117,13 @@ const Apartment = () => {
                     <Stack direction="row" spacing={4}>
                       {appartment.roomates && appartment.roomates.length != 0
                         ? appartment.roomates.map((item, index) => {
-                          return (
-                            <RoomateAvatar
-                              email={item}
-                              key={index}
-                            ></RoomateAvatar>
-                          );
-                        })
+                            return (
+                              <RoomateAvatar
+                                email={item}
+                                key={index}
+                              ></RoomateAvatar>
+                            );
+                          })
                         : ""}
                     </Stack>
                   </CardContent>
@@ -156,7 +156,7 @@ const Apartment = () => {
                       }}
                     >
                       <LocationOnOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic label="Location:" value={appartment.location.name} />
+                      <Topic label="Location:" value={appartment.location} />
                     </Box>
                     <Box
                       sx={{
