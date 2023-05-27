@@ -90,7 +90,7 @@ export default function FilterChoices(props) {
     <Box>
       <Container maxWidth="xl" sx={{ color: "black", bgcolor: "white" }}>
         <Grid container>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -152,7 +152,7 @@ export default function FilterChoices(props) {
               </Stack>
             </Box>
           </Grid>
-          <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+          {/* <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> */}
           {/* <Grid item xs="auto">
             <Typography
               sx={{
@@ -177,7 +177,7 @@ export default function FilterChoices(props) {
             </Select>
           </Grid> */}
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-          <Grid item xs="auto">
+          <Grid item xs={1.5}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -187,7 +187,6 @@ export default function FilterChoices(props) {
               Elevator
             </Typography>
             <Select
-              label="Elevator"
               id="elevator"
               value={elevator}
               onChange={(event) => setElevator(event.target.value)}
@@ -201,7 +200,7 @@ export default function FilterChoices(props) {
             </Select>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-          <Grid item xs="auto">
+          <Grid item xs={1.5}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -211,7 +210,6 @@ export default function FilterChoices(props) {
               Parking
             </Typography>
             <Select
-              label="Parking"
               id="parking"
               value={parking}
               onChange={(event) => setParking(event.target.value)}
@@ -225,7 +223,7 @@ export default function FilterChoices(props) {
             </Select>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-          <Grid item xs="auto">
+          <Grid item xs={1.5}>
             <Typography
               sx={{
                 textAlign: "center",
@@ -235,7 +233,6 @@ export default function FilterChoices(props) {
               Smoking
             </Typography>
             <Select
-              label="Smoking"
               id="smoking"
               value={smoking}
               onChange={(event) => setSmoking(event.target.value)}
@@ -259,7 +256,6 @@ export default function FilterChoices(props) {
               Number Of Roomates
             </Typography>
             <Select
-              label="Number Of Roomates"
               id="roomates"
               value={roomates}
               onChange={(event) => setRoomates(event.target.value)}

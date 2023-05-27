@@ -8,7 +8,7 @@ module.exports = class AppartmentService {
         return value;
       })
       .catch((error) => {
-        return null;
+        return error;
       });
   }
 

@@ -20,6 +20,8 @@ import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
 import { Box } from "@material-ui/core";
+import { shortcutWithChatGpt, summaryWithChatGpt } from "../controller/chatGptController";
+
 
 const btnstyle = {
   background: "#4F4E51",
@@ -115,6 +117,7 @@ const CreateApartment = () => {
       parking != null &&
       smoking != null &&
       roomates != null
+      
     ) {
       const appartment = {
         email: user_email,
@@ -130,6 +133,14 @@ const CreateApartment = () => {
       };
       if (selectedCollaborator != "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
+      }
+
+
+
+      const respone_summary = await summaryWithChatGpt(appartment);
+
+      if(respone_summary&&respone_summary.status==200){
+          appartment.summary=respone_summary.data;
       }
 
       const result = await createAppartment(appartment);
@@ -260,7 +271,7 @@ const CreateApartment = () => {
         </FormControl>
     
         <div>
-          <h1> test</h1>
+          <h1> Add Roommates</h1>
           {selectedCollaborator != "" &&
             <RoomateAvatar email={selectedCollaborator} />
           }
