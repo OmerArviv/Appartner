@@ -9,6 +9,10 @@ const USER_PROFILE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfile`;
 const USER_PROFILE_PREFERNCES_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}userProfilePrefernces`;
 const APPARTMENT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}appartment`;
 const ROOMATE_REQUEST_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}roomateRequest`;
+const CHATGPT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}chatGpt`;
+const CONVERSATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}conversation`;
+const MESSAGE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}message`;
+
 
 export const APP_ROUTES = {
   Authentication: {
@@ -24,7 +28,7 @@ export const APP_ROUTES = {
     createProfile: `${USER_PROFILE_ENPOINT}/createProfile`,
     updateProfile: `${USER_PROFILE_ENPOINT}/updateProfile`,
     getUserProfileByEmail: `${USER_PROFILE_ENPOINT}/getUserProfileByEmail`,
-    parseUserInput: `${USER_PROFILE_ENPOINT}/parse`,
+ 
     createUserVideo: `${USER_PROFILE_ENPOINT}/dalle`,
   },
 
@@ -49,8 +53,24 @@ export const APP_ROUTES = {
     getRoomateRequestByUserEmail: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByUserEmail`,
     getRoomateRequestByAppartmentId: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByAppartmentId`,
     deleteRoomateRequestByUser: `${ROOMATE_REQUEST_ENPOINT}/deleteRoomateRequestByUser`,
-    getBestMatches: `${ROOMATE_REQUEST_ENPOINT}/getBestMatches`,
   },
+  chatGpt: {
+    getBestMatches: `${CHATGPT_ENPOINT}/getBestMatches`,
+    parseUserInput: `${CHATGPT_ENPOINT}/parse`,
+    convWithChat: `${CHATGPT_ENPOINT}/conver`,
+    shortcutWithChatGpt: `${CHATGPT_ENPOINT}/shortcut`,
+    summaryWithChatGpt: `${CHATGPT_ENPOINT}/summary`
+  },
+  conversation:{
+    createConversation: `${CONVERSATION_ENPOINT}/createConversation`,
+    getConversationById: `${CONVERSATION_ENPOINT}/getConversationById`,
+    getConversationsByUserEmail: `${CONVERSATION_ENPOINT}/getConversationsByUserEmail`,
+    getConversationsByLookerAndWelcomersEmails: `${CONVERSATION_ENPOINT}/getConversationsByLookerAndWelcomersEmails`,
+  },
+  message:{
+    createMessage:`${MESSAGE_ENPOINT}/createMessage`, 
+    getConversationMessages:`${MESSAGE_ENPOINT}/getConversationMessages`, 
+  }
 };
 
 // HEADERS()

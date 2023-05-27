@@ -9,14 +9,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import FilterCheckBoxes from "./FilterCheckBoxes";
+import FilterChoices from "./FilterChoices";
 
 export default function FilterSection(props) {
-  const products = props.products;
-  const setProducts = props.setProducts;
-  const allProducts = props.allProducts;
-  const filterTab = props.filterTab;
-  const setFilterTab = props.setFilterTab;
+  const appartments = props.appartments;
+  const setAppartments = props.setAppartments;
+  const allAppartments = props.allAppartments;
+  const [filterTab, setFilterTab] = useState(false);
 
   const [sort, setSort] = useState("");
 
@@ -24,20 +23,33 @@ export default function FilterSection(props) {
     setSort(event.target.value);
   };
 
+  const onCloseFilterTab = () => {
+    setFilterTab(false);
+    setAppartments(allAppartments);
+  };
+
   //   const openFilterTab = () => {
   //     setFilterTab(!filterTab);
   //   };
 
   useEffect(() => {
-    if (allProducts != null) {
+    if (appartments != null) {
       if (sort == 1)
-        setProducts([...allProducts.sort((p1, p2) => p1.price - p2.price)]);
-      else if (sort == 2)
-        setProducts([...allProducts.sort((p1, p2) => p2.price - p1.price)]);
-      else if (sort == 3)
-        setProducts([
-          ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
+        setAppartments([
+          ...appartments.sort(
+            (p1, p2) => p1.price_range[0] - p2.price_range[0]
+          ),
         ]);
+      else if (sort == 2)
+        setAppartments([
+          ...appartments.sort(
+            (p1, p2) => p2.price_range[0] - p1.price_range[0]
+          ),
+        ]);
+      // else if (sort == 3)
+      //   setAppartments([
+      //     ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
+      //   ]);
     }
   }, [sort]);
 
@@ -59,9 +71,15 @@ export default function FilterSection(props) {
           <Button sx={{ color: "black", mx: 2 }}>
             Filter
             {filterTab === false ? (
-              <AddIcon sx={{ height: "80%", ml: 2 }}></AddIcon>
+              <AddIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={() => setFilterTab(true)}
+              ></AddIcon>
             ) : (
-              <RemoveIcon sx={{ height: "80%", ml: 2 }}></RemoveIcon>
+              <RemoveIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={onCloseFilterTab}
+              ></RemoveIcon>
             )}
           </Button>
           <Divider orientation="vertical" flexItem />
@@ -80,18 +98,18 @@ export default function FilterSection(props) {
               >
                 <MenuItem value={1}>Price: low to high</MenuItem>
                 <MenuItem value={2}>Price: high to low</MenuItem>
-                <MenuItem value={3}>Material</MenuItem>
+                {/* <MenuItem value={3}>Material</MenuItem> */}
               </Select>
             </FormControl>
           </Box>
         </ButtonGroup>
       </Box>
       {filterTab === true ? (
-        <FilterCheckBoxes
-          setProducts={setProducts}
-          products={products}
-          allProducts={allProducts}
-        ></FilterCheckBoxes>
+        <FilterChoices
+          setAppartments={setAppartments}
+          appartments={appartments}
+          allAppartments={allAppartments}
+        ></FilterChoices>
       ) : (
         ""
       )}

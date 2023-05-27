@@ -11,6 +11,7 @@ import {
   Tooltip,
   Dialog,
   DialogTitle,
+  ListItemText,
 } from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
@@ -18,12 +19,16 @@ import {
   getAllAppartmentsAndRoomateDetails,
   getAppartmentById,
 } from "../controller/appartmentController";
-import FindMatchesButton from "./FindMatchesButton";
-import { getBestMatchesCgptApi } from "../controller/RoomateRequestController";
 import FilterSection from "./FilterSection";
 import UserProfile from "../pages/UserProfile";
 import { authContext } from "../APP/Utils";
 import SetPreferncesProfile from "../pages/SetPreferncesProfile";
+import axios from "axios";
+import {
+  convWithChatGpt,
+  getBestMatchesCgptApi,
+  shortcutWithChatGpt,
+} from "../controller/chatGptController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -32,10 +37,15 @@ const btnstyle = {
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
+  const [allAppartments, setAllAppartmentsNoFilter] = useState(null);
   const [matchedApartments, setMatchedApartments] = useState([]);
   const [modalPref, setModalPref] = useState(false);
+  const [conversation, setConversation] = useState([]);
+  const [userMessage, setUserMessage] = useState("");
 
   const { userEmail } = useContext(authContext);
+
+  const apartments_array = [];
 
   useEffect(() => {
     setAllAppartments();
@@ -45,6 +55,7 @@ function ApartmentList() {
     const res = await getAllAppartments();
     if (res) {
       setAppartments(res);
+      setAllAppartmentsNoFilter(res);
     }
   };
 
@@ -56,7 +67,33 @@ function ApartmentList() {
     setMatchedApartments(apartments);
   };
 
+  const sendMessage = async (message) => {
+    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+
+    const userMessage = { role: "user", content: message };
+    const apartmentData = { user: message, apartments: getAllAppartments };
+
+    setConversation([...conversation, userMessage]);
+
+    try {
+      const res = await convWithChatGpt(apartmentData);
+
+      if (res && res.status == 200) {
+        for (let i = 0; i < res.data.length; i++) {
+          const apartment = await getAppartmentById(res.data[0]._id);
+          apartments_array.push(apartment.data);
+        }
+        console.log(apartments_array);
+
+        setAppartments(apartments_array);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleFindMatches = async () => {
+    //צריך להוסיף את הפונקציה של הלקוח
     const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
     console.log(getAllAppartments);
     const user = {
@@ -99,6 +136,36 @@ function ApartmentList() {
     }
   };
 
+  const handleUserMessageChange = (event) => {
+    setUserMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (userMessage.trim() !== "") {
+      sendMessage(userMessage);
+      setUserMessage("");
+    }
+  };
+
+  const handleCreateShortcut = async () => {
+    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+    const res = await shortcutWithChatGpt(getAllAppartments);
+
+    const data = [];
+
+    if (res && res.status == 200) {
+      for (let i = 0; i < res.data.length; i++) {
+        let name = "omer";
+        data.push({
+          name: name,
+          summary: res.data[i].summary,
+        });
+      }
+    } else {
+      alert("something went wrong");
+    }
+  };
+
   return (
     <>
       <Box
@@ -110,23 +177,28 @@ function ApartmentList() {
       >
         <Button
           variant="contained"
+          onClick={handleCreateShortcut}
+          style={{ ...btnstyle, marginRight: "20px" }}
+        >
+          SHORTCUT ON THE APARTMENTS
+        </Button>
+        <Button
+          variant="contained"
           onClick={handleFindMatches}
           style={{ ...btnstyle, marginRight: "20px" }}
         >
           Find the Best Matches
         </Button>
         <Stack>
-          <Tooltip title="Your Profile" disableInteractive>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setModalPref(true);
-              }}
-              style={btnstyle}
-            >
-              Set Your Preferences
-            </Button>
-          </Tooltip>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setModalPref(true);
+            }}
+            style={btnstyle}
+          >
+            Set Your Preferences
+          </Button>
           <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
             <DialogTitle textAlign="center">Change Your Prefernces</DialogTitle>
             <SetPreferncesProfile
@@ -137,11 +209,9 @@ function ApartmentList() {
         </Stack>
       </Box>
       <FilterSection
-        products={appartments}
-        setProducts={setAppartments}
-        filterTab={true}
-        setFilterTab={true}
-        allProducts={appartments}
+        appartments={appartments}
+        setAppartments={setAppartments}
+        allAppartments={allAppartments}
       ></FilterSection>
       <List
         sx={{
@@ -186,6 +256,38 @@ function ApartmentList() {
             : ""}
         </Stack>
       </List>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          m: 5,
+        }}
+      >
+        <input
+          type="text"
+          value={userMessage}
+          onChange={handleUserMessageChange}
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          m: 5,
+        }}
+      >
+        <List>
+          {conversation.map((message, index) => (
+            <ListItem key={index} alignItems="flex-start">
+              <ListItemText
+                primary={message.role === "user" ? "You" : "Chatbot"}
+                secondary={message.content}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </>
   );
 }

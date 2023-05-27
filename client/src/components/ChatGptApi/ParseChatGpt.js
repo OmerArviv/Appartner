@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { parseData } from "../../controller/userProfileController";
+import { parseData } from "../../controller/chatGptController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -21,6 +21,7 @@ const ParseChatGpt = (props) => {
     event.preventDefault();
     try {
       const res = await parseData(input);
+      console.log(input);
       props.setUser(res.data);
     } catch (error) {
       console.error(error);
@@ -46,6 +47,7 @@ const ParseChatGpt = (props) => {
           <Button
             style={btnstyle}
             sx={{ marginLeft: "auto", marginRight: "auto" }}
+            onClick={handleSubmit}
           >
             Submit
           </Button>

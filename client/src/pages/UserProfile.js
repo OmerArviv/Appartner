@@ -1,22 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Typography, Box, Paper, Button } from "@mui/material";
+import { Grid, Typography, Box, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import { authContext, pageTitleContext } from "../APP/Utils";
+import { authContext } from "../APP/Utils";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import TransgenderOutlinedIcon from "@mui/icons-material/TransgenderOutlined";
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import LocalBarOutlinedIcon from "@mui/icons-material/LocalBarOutlined";
+import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
+import LocalDiningOutlinedIcon from "@mui/icons-material/LocalDiningOutlined";
+import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
+import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",
   height: "400px",
   objectFit: "cover",
-  borderRadius: "20%",
+  borderRadius: "10%",
   marginBottom: theme.spacing(2),
 }));
 
 const Topic = ({ label, value }) => (
   <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
-    <Paper sx={{ padding: "2px 8px", marginRight: 1, bgcolor: "#fff7e9" }}>
-      <Typography variant="h6">{label}</Typography>
-    </Paper>
-    <Typography variant="h6">{value}</Typography>
+    <Typography
+      sx={{ padding: "2px 8px", marginRight: 1, fontWeight: 600, fontSize: 18 }}
+    >
+      {label}
+    </Typography>
+    <Typography sx={{ fontSize: 18 }}>{value}</Typography>
   </Box>
 );
 
@@ -29,7 +39,9 @@ const btnstyle = {
 const UserProfile = (props) => {
   const { email } = props;
   const { userEmail } = useContext(authContext);
-  const [userProfileImage, setUserProfileImage] = useState("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
+  const [userProfileImage, setUserProfileImage] = useState(
+    "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
+  );
   const [age, setAge] = useState();
   const [gender, setGender] = useState();
   const [employment, setEmployment] = useState();
@@ -69,7 +81,9 @@ const UserProfile = (props) => {
   }, []);
 
   const handleImageError = (event) => {
-    setUserProfileImage("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
+    setUserProfileImage(
+      "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
+    );
   };
 
   return (
@@ -77,22 +91,22 @@ const UserProfile = (props) => {
       container
       justifyContent="center"
       alignItems="stretch"
-      style={{ margin: "5" }}
+      style={{ margin: "0 auto" }}
     >
       <Grid item xs={10} sm={10} md={10}>
         <Grid
           container
           alignItems="center"
           justifyContent="center"
-          spacing={2}
-          marginTop={5}
+          spacing={1}
+          marginTop={2}
         >
           <Grid item xs={12}>
             <Grid
               container
               alignItems="center"
               justifyContent="center"
-              spacing={2}
+              spacing={1}
             >
               <Grid item xs={12} sm={5}>
                 <Box sx={{ height: 400, overflow: "hidden" }}>
@@ -109,7 +123,7 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  {email == userEmail &&
+                  {email == userEmail && (
                     <Button
                       variant="contained"
                       style={btnstyle}
@@ -117,20 +131,87 @@ const UserProfile = (props) => {
                     >
                       CHANGE PROFILE IMAGE
                     </Button>
-                  }
+                  )}
                 </Box>
               </Grid>
-              <Grid item xs={2} />
-              <Grid item xs={5}>
-                <Box sx={{ height: 400 }}>
-                  <Topic label="Age" value={age} />
-                  <Topic label="Gender" value={gender} />
-                  <Topic label="Employment" value={employment} />
-                  <Topic label="Alcohol" value={alcohol} />
-                  <Topic label="Smoking" value={smoking} />
-                  <Topic label="Kosher" value={kosher} />
-                  <Topic label="Pets" value={pets} />
-                  <Topic label="Additional Information" value={additionInfo} />
+              <Grid item xs={1} />
+              <Grid item xs={6}>
+                <Box sx={{ height: 350 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Age:" value={age} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Gender:" value={gender} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <BadgeOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Employment:" value={employment} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <LocalBarOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Alcohol:" value={alcohol} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Smoking:" value={smoking} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <LocalDiningOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Kosher:" value={kosher} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <PetsOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Pets:" value={pets} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <AddCommentOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic
+                      label="Additional Information:"
+                      value={additionInfo}
+                    />
+                  </Box>
                 </Box>
                 <Box
                   sx={{
@@ -139,15 +220,15 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  {email == userEmail &&
+                  {email == userEmail && (
                     <Button
                       variant="contained"
                       style={btnstyle}
-                      sx={{ width: "300px", marginBottom: "20px" }}
+                      sx={{ width: "300px", marginTop: "30px" }}
                     >
                       EDIT PROFILE
                     </Button>
-                  }
+                  )}
                 </Box>
               </Grid>
             </Grid>

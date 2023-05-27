@@ -18,16 +18,6 @@ export const createUserProfile = (userProfile) => {
     });
 };
 
-export const parseData = async (data) => {
-  try {
-    const res = await axios.post("http://localhost:8000/userProfile/parse", { data }, { headers: { 'Content-Type': 'application/json' } });
-    return res;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 
 export const createVideo = async (imageUrl, text) => {
   try {

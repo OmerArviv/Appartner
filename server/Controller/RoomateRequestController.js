@@ -80,18 +80,5 @@ router
     }
   });
 
-router.route("/getBestMatches").post(async (request, response) => {
-  const { data } = request.body;
-  if (!data) {
-    return response.status(403).send({});
-  }
-
-  const dataJson = await RoomateRequestService.getMatches(data);
-
-  if (dataJson) {
-    return response.status(200).json(dataJson);
-  }
-  return response.status(200).send(null);
-});
 
 module.exports = router;

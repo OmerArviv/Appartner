@@ -3,7 +3,6 @@ const app = express();
 const UserProfileService = require("../Service/UserProfileService");
 const router = express.Router();
 const auth = require("../middleware/auth");
-const openai = require('openai');
 const axios = require('axios');
 
 
@@ -35,19 +34,7 @@ router.route("/getUserProfileByEmail").get(async (request, response) => {
   return response.status(200).send(null);
 });
 
-router.route("/parse").post(async (request, response) => {
-  const { data } = request.body;
-  if (!data) {
-    return response.status(403).send({});
-  }
 
-  const dataJson = await UserProfileService.parseUserInfo(data);
-
-  if (dataJson) {
-    return response.status(200).json(dataJson);
-  }
-  return response.status(200).send(null);
-});
 
 
 //b21lcm5hZGFtQGdtYWlsLmNvbQ:YvOraHztgCHIXpKOVp9QI

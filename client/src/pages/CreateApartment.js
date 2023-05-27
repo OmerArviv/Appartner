@@ -20,6 +20,9 @@ import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
 import SearchGoogleMap from "../components/SeachGoogleMap";
+import { Box } from "@material-ui/core";
+import { shortcutWithChatGpt, summaryWithChatGpt } from "../controller/chatGptController";
+
 
 const btnstyle = {
   background: "#4F4E51",
@@ -49,6 +52,8 @@ const CreateApartment = () => {
   const [apartmentImages, setApartmentImages] = useState("");
   const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
+  const [error, setError] = useState("");
+
 
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
@@ -124,6 +129,7 @@ const CreateApartment = () => {
       parking != null &&
       smoking != null &&
       roomates != null
+
     ) {
       const appartment = {
         email: user_email,
@@ -143,21 +149,29 @@ const CreateApartment = () => {
       if (selectedCollaborator != "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
       }
-      console.log(appartment)
+
+
+
+      const respone_summary = await summaryWithChatGpt(appartment);
+
+      if (respone_summary && respone_summary.status == 200) {
+        appartment.summary = respone_summary.data;
+      }
+
       const result = await createAppartment(appartment);
       if (result.status == 201) {
         navigate("/");
       } else if (result.status == 403) {
-        alert("Error occured!");
+        setError("Error occured!");
       }
     } else {
-      alert("Please enter all fields!");
+      setError("Please enter all fields!");
     }
   };
 
   return (
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
         <FormControl sx={{ mt: 3, width: "400px" }}>
           <CardContent>
             <InputLabel
@@ -229,7 +243,7 @@ const CreateApartment = () => {
         {selectedPosition &&
           <h1>{selectedPosition.lat()}, {selectedPosition.lng()}</h1>}
       </Grid>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
         <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Elevator-label">Elevator</InputLabel>
           <Select
@@ -269,28 +283,16 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        {/* <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
-          <InputLabel id="Roomates-label">Roomates</InputLabel>
-          <Select
-            labelId="Roomates-label"
-            id="Roomates"
-            value={roomates}
-            label="Roomates"
-            onChange={handleRoomatesChange}
-          >
-            <MenuItem value="1">1</MenuItem>
-            <MenuItem value="2">2</MenuItem>
-            <MenuItem value="3">3</MenuItem>
-            <MenuItem value="4">4</MenuItem>
-            <MenuItem value="5">5</MenuItem>
-          </Select>
-        </FormControl> */}
+
         <div>
           {selectedCollaborator != "" &&
             <RoomateAvatar email={selectedCollaborator} />
           }
           <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         </div>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
+        </Box>
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}
@@ -299,7 +301,14 @@ const CreateApartment = () => {
           Create My Apartment
         </Button>
       </Grid>
-      <Grid item xs={4} sx={{ textAlign: "center" }}>
+      <Grid item="ture" xs={4}
+        sx={{
+          width: 400,
+          marginLeft: "auto",
+          marginRight: "auto",
+          alignContent: "center",
+          justifyContent: "center"
+        }}>
         <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>
