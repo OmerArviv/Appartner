@@ -5,12 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { pageTitle, pageTitleContext } from "../APP/Utils";
+import { pageTitleContext } from "../APP/Utils";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../APP/Utils";
-import { RemoveTokenAfterSignOut } from "../APP/APP_AUTH";
 import { Avatar, Badge, DialogTitle, Tooltip } from "@mui/material";
 import Cookies from "js-cookie";
 import { getUserProfileByEmail } from "../controller/userProfileController";
@@ -21,9 +19,8 @@ import AddHomeIcon from "@mui/icons-material/AddHome";
 import { getAppartmentByUserEmail } from "../controller/appartmentController";
 import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
 import UserProfile from "../pages/UserProfile";
-import {Dialog} from "@mui/material";
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
-import TelegramIcon from '@mui/icons-material/Telegram';
+import { Dialog } from "@mui/material";
+import TelegramIcon from "@mui/icons-material/Telegram";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -35,7 +32,6 @@ export default function NavBar(props) {
   const [requestsNumber, setRequestsNumber] = useState(0);
   const [userApartments, setUserApartments] = useState("");
   const [modal, setModal] = useState(false);
-
 
   const handleSignOut = () => {
     removeUserDetailsAfterSignout();
@@ -97,7 +93,7 @@ export default function NavBar(props) {
             variant="h6"
             component="div"
             sx={{
-              flexGrow: 1,  
+              flexGrow: 1,
               textAlign: "center",
               textTransform: "uppercase",
             }}
@@ -162,7 +158,11 @@ export default function NavBar(props) {
                 </>
               ) : (
                 <Stack direction="row">
-                  <IconButton onClick={()=>{navigate("/looker/looker-requests")}}>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/looker/looker-requests");
+                    }}
+                  >
                     <TelegramIcon fontSize="large" />
                   </IconButton>
                 </Stack>
@@ -181,10 +181,8 @@ export default function NavBar(props) {
                   </IconButton>
                 </Tooltip>
                 <Dialog maxWidth="lg" open={modal} onClose={handleCloseProfile}>
-                    <DialogTitle  textAlign="center">
-                      Your Profile
-                    </DialogTitle>
-                    <UserProfile email={userEmail? userEmail : ""}/>
+                  <DialogTitle textAlign="center">Your Profile</DialogTitle>
+                  <UserProfile email={userEmail ? userEmail : ""} />
                 </Dialog>
               </Stack>
               <Button

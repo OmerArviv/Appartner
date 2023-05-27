@@ -4,14 +4,11 @@ import {
   List,
   ListItem,
   Stack,
-  Grid,
-  CardActionArea,
-  Divider,
   Button,
-  Tooltip,
   Dialog,
   DialogTitle,
-  ListItemText,
+  TextField,
+  Grid,
 } from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
@@ -20,10 +17,8 @@ import {
   getAppartmentById,
 } from "../controller/appartmentController";
 import FilterSection from "./FilterSection";
-import UserProfile from "../pages/UserProfile";
 import { authContext } from "../APP/Utils";
 import SetPreferncesProfile from "../pages/SetPreferncesProfile";
-import axios from "axios";
 import {
   convWithChatGpt,
   getBestMatchesCgptApi,
@@ -177,13 +172,6 @@ function ApartmentList() {
       >
         <Button
           variant="contained"
-          onClick={handleCreateShortcut}
-          style={{ ...btnstyle, marginRight: "20px" }}
-        >
-          SHORTCUT ON THE APARTMENTS
-        </Button>
-        <Button
-          variant="contained"
           onClick={handleFindMatches}
           style={{ ...btnstyle, marginRight: "20px" }}
         >
@@ -208,11 +196,31 @@ function ApartmentList() {
           </Dialog>
         </Stack>
       </Box>
-      <FilterSection
-        appartments={appartments}
-        setAppartments={setAppartments}
-        allAppartments={allAppartments}
-      ></FilterSection>
+      <Grid container>
+        <Grid item>
+          <FilterSection
+            appartments={appartments}
+            setAppartments={setAppartments}
+            allAppartments={allAppartments}
+          ></FilterSection>
+        </Grid>
+        <Grid item sx={{ marginLeft: "30px", marginTop: "15px" }}>
+          <TextField
+            sx={{ marginRight: "10px" }}
+            type="text"
+            placeholder="Filter By Text"
+            value={userMessage}
+            onChange={handleUserMessageChange}
+          />
+          <Button
+            style={btnstyle}
+            sx={{ height: "55px" }}
+            onClick={handleSendMessage}
+          >
+            Send
+          </Button>
+        </Grid>
+      </Grid>
       <List
         sx={{
           display: "flex",
@@ -256,38 +264,6 @@ function ApartmentList() {
             : ""}
         </Stack>
       </List>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          m: 5,
-        }}
-      >
-        <input
-          type="text"
-          value={userMessage}
-          onChange={handleUserMessageChange}
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          m: 5,
-        }}
-      >
-        <List>
-          {conversation.map((message, index) => (
-            <ListItem key={index} alignItems="flex-start">
-              <ListItemText
-                primary={message.role === "user" ? "You" : "Chatbot"}
-                secondary={message.content}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
     </>
   );
 }

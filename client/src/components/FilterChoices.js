@@ -5,12 +5,9 @@ import { Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useState, useEffect, useContext } from "react";
 import { Container } from "@mui/system";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
-import { InputLabel, MenuItem, TextField, Select } from "@mui/material";
-import { authContext, pageTitleContext } from "../APP/Utils";
+import { MenuItem, TextField, Select } from "@mui/material";
+import { authContext } from "../APP/Utils";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 
 const options = ["Yes", "No", "It doesn't matter"];

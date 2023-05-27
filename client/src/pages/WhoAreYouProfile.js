@@ -49,6 +49,7 @@ const WhoAreYouProfile = () => {
           width: "fit-content",
           marginLeft: "auto",
           marginRight: "auto",
+          marginTop: "15px",
         }}
       >
         {userType ? (

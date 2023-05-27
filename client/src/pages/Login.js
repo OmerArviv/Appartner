@@ -2,7 +2,6 @@ import { React, useState } from "react";
 import "../App.css";
 import {
   Grid,
-  Paper,
   Avatar,
   TextField,
   Button,
@@ -21,7 +20,6 @@ import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 import { getUserProfileByEmail } from "../controller/userProfileController";
-import { getUserRole, setUserRole } from "../APP/APP_AUTH";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 
 const Login = (props) => {

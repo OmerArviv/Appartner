@@ -5,7 +5,6 @@ import {
   CardMedia,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Stack } from "@mui/material";
 import RoomateAvatar from "./RoomateAvatar";
 import { useNavigate } from "react-router";
@@ -19,57 +18,50 @@ function ApartmentListItem(props) {
 
   return (
     <>
-      {/* <Box container="true" sx={{ height: 200, width: 300,display: 'inline-flex', flexDirection: 'column', flexWrap: "wrap", alignItems: 'center' }}> */}
-
-      {/* <Box item="true" sx={{ height: "fit-content", width: "fit-content"}}> */}
-      <CardActionArea
-        sx={{ width: "fit-content" }}
-        onClick={showApartmentHandler}
-      >
+      <CardActionArea sx={{ width: 350 }} onClick={showApartmentHandler}>
         <CardContent>
           <CardMedia
             component="img"
             height="250"
             width="250"
-            src={data.images[0] ? data.images[0] : "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png"}
+            src={
+              data.images[0]
+                ? data.images[0]
+                : "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png"
+            }
             alt="home image"
             sx={{ borderRadius: 3, boxShadow: 5 }}
             variant="rounded"
             onError={(e) => {
-              e.target.src = "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png";
+              e.target.src =
+                "https://www.easylinedrawing.com/wp-content/uploads/2019/07/house_drawing_tutorial.png";
             }}
           />
         </CardContent>
       </CardActionArea>
-
-      {/* </Box> */}
-      {/* <Box item="true" sx={{ height: "fit-content", width: "fit-content"}} > */}
-      <Stack direction="column">
-        <CardContent>
+      <Stack direction="column" sx={{ width: 370 }}>
+        <CardContent sx={{ marginTop: "20px" }}>
           <Typography variant="h5">
             <LocationOnIcon /> {data.location.name}
           </Typography>
         </CardContent>
         <CardContent>
           <Typography variant="h6">
-            Price:{data.price_range[0] + "$ - " + data.price_range[1] + "$"}
-            {"   "}
+            Price: {data.price_range[0] + "$ - " + data.price_range[1] + "$"}
           </Typography>
         </CardContent>
         <CardContent>
           <Stack direction="row" spacing={2}>
             {data.roomates.length > 0
               ? data.roomates.map((item, index) => {
-                return (
-                  <RoomateAvatar email={item} key={index}></RoomateAvatar>
-                );
-              })
+                  return (
+                    <RoomateAvatar email={item} key={index}></RoomateAvatar>
+                  );
+                })
               : ""}
           </Stack>
         </CardContent>
       </Stack>
-      {/* </Box> */}
-      {/* </Box> */}
     </>
   );
 }

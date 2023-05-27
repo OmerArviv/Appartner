@@ -23,7 +23,6 @@ import {
 import { authContext, pageTitleContext } from "../APP/Utils";
 
 const btnstyle = {
-  // margin: "8px 0",
   background: "#4F4E51",
   height: "50px",
   color: "#D0D2D8",
@@ -106,15 +105,15 @@ const SetPreferncesProfile = (props) => {
     console.log(user_email);
     event.preventDefault();
     if (
-      user_email != "" &&
-      ageRange != "" &&
-      loaction != "" &&
-      priceRange != "" &&
-      gender != "" &&
-      elevator != "" &&
-      parking != "" &&
-      smoking != "" &&
-      roomates != ""
+      user_email !== "" &&
+      ageRange !== "" &&
+      loaction !== "" &&
+      priceRange !== "" &&
+      gender !== "" &&
+      elevator !== "" &&
+      parking !== "" &&
+      smoking !== "" &&
+      roomates !== ""
     ) {
       const userProfilePrefernces = {
         email: user_email,
@@ -137,9 +136,9 @@ const SetPreferncesProfile = (props) => {
       } else {
         result = await createUserProfilePrefernces(userProfilePrefernces);
       }
-      if (result.status == 201) {
+      if (result.status === 201) {
         navigate("/");
-      } else if (result.status == 403) {
+      } else if (result.status === 403) {
         alert("Error occured!");
       }
     } else {
@@ -160,7 +159,7 @@ const SetPreferncesProfile = (props) => {
       <Box
         container="true"
         spacing={50}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10", marginTop: 5 }}
+        sx={{ display: "flex", flexWrap: "wrap", marginTop: 5 }}
       >
         <Box
           item="true"
@@ -386,12 +385,7 @@ const SetPreferncesProfile = (props) => {
       <Box
         container="true"
         sx={{
-          display: "flex",
-          flexWrap: "warp",
-          width: "auto",
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: 3,
+          marginTop: 5,
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -401,7 +395,7 @@ const SetPreferncesProfile = (props) => {
         <Box
           item="true"
           xs={4}
-          sx={{ width: 400, marginLeft: "auto", marginRight: "auto" }}
+          sx={{ width: 250, marginLeft: "auto", marginRight: "auto" }}
         >
           <Button
             variant="contained"

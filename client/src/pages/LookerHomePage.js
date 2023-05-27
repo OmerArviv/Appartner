@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import { pageTitleContext } from "../APP/Utils";
 import ApartmentList from "../components/ApartmentList";
 
