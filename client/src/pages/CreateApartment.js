@@ -1,6 +1,5 @@
 import {
   Grid,
-  TextField,
   FormControl,
   InputLabel,
   Select,
@@ -9,20 +8,17 @@ import {
   CardContent,
   Slider,
   Typography,
-  StyledEngineProvider,
 } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
 import { useContext, useEffect, useState } from "react";
 import DialogAddCollabrator from "../components/DialogAddCollabrator";
 import { createAppartment } from "../controller/appartmentController";
-import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
 import SearchGoogleMap from "../components/SeachGoogleMap";
-import { Box } from "@material-ui/core";
-import { shortcutWithChatGpt, summaryWithChatGpt } from "../controller/chatGptController";
-
+import { Box, CircularProgress } from "@material-ui/core";
+import { summaryWithChatGpt } from "../controller/chatGptController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -33,6 +29,7 @@ const btnstyle = {
 const CreateApartment = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,7 +41,7 @@ const CreateApartment = () => {
   const [age, setAge] = useState([18, 75]);
   const [location, setLocation] = useState("");
   const [selectedPosition, setSelectedPosition] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [price, setPrice] = useState([2500, 5500]);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
@@ -53,7 +50,6 @@ const CreateApartment = () => {
   const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
   const [error, setError] = useState("");
-
 
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
@@ -103,11 +99,14 @@ const CreateApartment = () => {
     const newArray = [];
     if (arr[0] != "") {
       newArray.push(arr[0]);
-    } if (arr[1] != "") {
+    }
+    if (arr[1] != "") {
       newArray.push(arr[1]);
-    } if (arr[2] != "") {
+    }
+    if (arr[2] != "") {
       newArray.push(arr[2]);
-    } if (arr[3] != "") {
+    }
+    if (arr[3] != "") {
       newArray.push(arr[3]);
     }
     if (newArray != null) {
@@ -117,11 +116,12 @@ const CreateApartment = () => {
   }
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const user_email = userEmail;
     if (
       user_email != null &&
       age != null &&
-      selectedLocation != '' &&
+      selectedLocation != "" &&
       selectedPosition != null &&
       price != null &&
       gender != null &&
@@ -129,14 +129,13 @@ const CreateApartment = () => {
       parking != null &&
       smoking != null &&
       roomates != null
-
     ) {
       const appartment = {
         email: user_email,
         age_range: age,
         location: {
           position: selectedPosition,
-          name: selectedLocation
+          name: selectedLocation,
         },
         price_range: price,
         gender: gender,
@@ -149,8 +148,6 @@ const CreateApartment = () => {
       if (selectedCollaborator != "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
       }
-
-
 
       const respone_summary = await summaryWithChatGpt(appartment);
 
@@ -167,6 +164,7 @@ const CreateApartment = () => {
     } else {
       setError("Please enter all fields!");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -238,10 +236,14 @@ const CreateApartment = () => {
         </FormControl>
         <SearchGoogleMap
           onPositionSelect={handlePositionSelect}
-          onSearchValueSelect={handleSearchValueSelect} />
+          onSearchValueSelect={handleSearchValueSelect}
+        />
         <h1>{selectedLocation}</h1>
-        {selectedPosition &&
-          <h1>{selectedPosition.lat()}, {selectedPosition.lng()}</h1>}
+        {selectedPosition && (
+          <h1>
+            {selectedPosition.lat()}, {selectedPosition.lng()}
+          </h1>
+        )}
       </Grid>
       <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
         <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
@@ -285,10 +287,13 @@ const CreateApartment = () => {
         </FormControl>
 
         <div>
-          {selectedCollaborator != "" &&
+          {selectedCollaborator != "" && (
             <RoomateAvatar email={selectedCollaborator} />
-          }
-          <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
+          )}
+          <DialogAddCollabrator
+            onChooseCollaborator={handleChooseCollaborator}
+            sx={{ width: "400px", marginBottom: "20px" }}
+          />
         </div>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
@@ -298,17 +303,24 @@ const CreateApartment = () => {
           sx={{ width: "400px", marginTop: "100px" }}
           onClick={onSubmitHandler}
         >
-          Create My Apartment
+          {isLoading ? (
+            <CircularProgress color="white" size={30} />
+          ) : (
+            "Create My Apartment"
+          )}
         </Button>
       </Grid>
-      <Grid item="ture" xs={4}
+      <Grid
+        item="ture"
+        xs={4}
         sx={{
           width: 400,
           marginLeft: "auto",
           marginRight: "auto",
           alignContent: "center",
-          justifyContent: "center"
-        }}>
+          justifyContent: "center",
+        }}
+      >
         <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>

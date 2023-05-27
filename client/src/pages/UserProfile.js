@@ -123,7 +123,7 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  {email == userEmail && (
+                  {email === userEmail && (
                     <Button
                       variant="contained"
                       style={btnstyle}
@@ -220,7 +220,7 @@ const UserProfile = (props) => {
                     marginTop: "3rem",
                   }}
                 >
-                  {email == userEmail && (
+                  {email === userEmail && (
                     <Button
                       variant="contained"
                       style={btnstyle}

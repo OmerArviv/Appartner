@@ -15,8 +15,11 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { createUserProfilePrefernces, getUserPreferncesByEmail, updateUserProfilePrefernces } from "../controller/userProfilePreferncesController";
-import { getUserEmail } from "../APP/APP_AUTH";
+import {
+  createUserProfilePrefernces,
+  getUserPreferncesByEmail,
+  updateUserProfilePrefernces,
+} from "../controller/userProfilePreferncesController";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import SearchGoogleMap from "../components/SeachGoogleMap";
 
@@ -39,7 +42,7 @@ const SetPreferncesProfile = () => {
   const [priceRange, setPriceRange] = useState([2500, 5500]);
   const [gender, setGender] = useState("");
   const [selectedPosition, setSelectedPosition] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [radius, setRadius] = useState(2000);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
@@ -84,7 +87,6 @@ const SetPreferncesProfile = () => {
     setRadius(newValue);
   }
 
-
   function priceRangeHandler(event, newValue) {
     setPriceRange(newValue);
   }
@@ -116,7 +118,7 @@ const SetPreferncesProfile = () => {
     if (
       user_email != "" &&
       ageRange != "" &&
-      selectedLocation != '' &&
+      selectedLocation != "" &&
       selectedPosition != null &&
       priceRange != "" &&
       gender != "" &&
@@ -131,7 +133,7 @@ const SetPreferncesProfile = () => {
         ageRange: ageRange,
         location: {
           position: selectedPosition,
-          name: selectedLocation
+          name: selectedLocation,
         },
         radius: radius,
         priceRange: priceRange,
@@ -147,8 +149,7 @@ const SetPreferncesProfile = () => {
       let result = null;
       if (userExists) {
         result = await updateUserProfilePrefernces(userProfilePrefernces);
-      }
-      else {
+      } else {
         result = await createUserProfilePrefernces(userProfilePrefernces);
       }
       if (result.status == 201) {
@@ -219,7 +220,8 @@ const SetPreferncesProfile = () => {
                 </InputLabel>
                 <SearchGoogleMap
                   onPositionSelect={handlePositionSelect}
-                  onSearchValueSelect={handleSearchValueSelect} />
+                  onSearchValueSelect={handleSearchValueSelect}
+                />
                 <TextField
                   //  label='Location'
                   labelid="location-label"
@@ -248,9 +250,7 @@ const SetPreferncesProfile = () => {
                   size="small"
                   sx={{ color: "black" }}
                 />
-                <Typography>
-                  The range is up to {radius} meters
-                </Typography>
+                <Typography>The range is up to {radius} meters</Typography>
               </CardContent>
             </FormControl>
           </Card>
@@ -437,7 +437,6 @@ const SetPreferncesProfile = () => {
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
         </Box>
-
 
         <Box
           item="true"

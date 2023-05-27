@@ -25,7 +25,7 @@ import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import { getUserByEmail } from "../controller/authenticationController";
 
 const btnstyle = {
-  // margin: "8px 0",
+  margin: "8px 0",
   background: "#4F4E51",
   height: "50px",
   color: "#D0D2D8",
@@ -537,8 +537,6 @@ const CreateProfile = () => {
               id="additonal"
               onChange={userAdditonalInformationHandler}
               value={userAdditonal}
-              //  multiline
-              //  maxRows={3}
             />
           </FormControl>
         </Box>
@@ -601,30 +599,18 @@ const CreateProfile = () => {
       </Box>
 
       <Box
-        container="true"
         sx={{
-          display: "flex",
-          flexWrap: "warp",
-          width: "auto",
-          marginLeft: "auto",
-          marginRight: "auto",
+          textAlign: "center",
         }}
       >
-        <Box
-          item="true"
+        <Button
+          variant="contained"
+          onClick={onSubmitHandler}
+          style={btnstyle}
           xs={4}
-          sx={{ width: 400, marginLeft: "auto", marginRight: "auto" }}
         >
-          <Button
-            variant="contained"
-            onClick={onSubmitHandler}
-            style={btnstyle}
-            sx={{ width: "auto", marginLeft: 1 / 2, marginRight: 1 / 2 }}
-            xs={4}
-          >
-            Lets set your prefernces
-          </Button>
-        </Box>
+          Lets set your prefernces
+        </Button>
       </Box>
     </>
   );
