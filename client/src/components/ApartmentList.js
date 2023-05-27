@@ -249,18 +249,18 @@ function ApartmentList() {
         >
           {matchedApartments.length > 0
             ? matchedApartments.map((item, index) => (
-                <Box
-                  key={index}
-                  component="div"
-                  sx={{ display: "inline", marginRight: "auto" }}
-                >
-                  <ListItem>
-                    <ApartmentListItem data={item} />
-                  </ListItem>
-                </Box>
-              ))
+              <Box
+                key={index}
+                component="div"
+                sx={{ display: "inline", marginRight: "auto" }}
+              >
+                <ListItem>
+                  <ApartmentListItem data={item} />
+                </ListItem>
+              </Box>
+            ))
             : appartments
-            ? appartments.map((item, index) => (
+              ? appartments.map((item, index) => (
                 <Box
                   key={index}
                   component="div"
@@ -271,7 +271,7 @@ function ApartmentList() {
                   </ListItem>
                 </Box>
               ))
-            : ""}
+              : ""}
         </Stack>
       </List>
       <Box

@@ -38,35 +38,16 @@ const WelcomerHomePage = () => {
   };
 
   return (
-    <Grid container direction="column" alignItems="center">
-      <Grid item>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setModalPref(true);
-          }}
-          style={btnstyle}
-        >
-          Set Your Preferences
-        </Button>
+    <div>
+      <Grid>
+        {requests.length != 0
+          ? requests.map((item, index) => {
+            return <RequestItem request={item} key={index}></RequestItem>;
+          })
+          : ""}
       </Grid>
-      <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
-        <DialogTitle textAlign="center">Change Your Preferences</DialogTitle>
-        <SetPreferncesProfile
-          handleCloseProfile={handleCloseProfile}
-          propEmail={userEmail ? userEmail : ""}
-        />
-      </Dialog>
-      {requests.length !== 0 ? (
-        requests.map((item, index) => {
-          return <RequestItem request={item} key={index} />;
-        })
-      ) : (
-        <></>
-      )}
-    </Grid>
+    </div>
   );
-
 };
 
 export default WelcomerHomePage;
