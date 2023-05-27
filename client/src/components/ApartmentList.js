@@ -26,7 +26,6 @@ import SetPreferncesProfile from "../pages/SetPreferncesProfile";
 import axios from "axios";
 import { getBestMatchesCgptApi } from "../controller/chatGptController";
 
-
 const btnstyle = {
   background: "#4F4E51",
   color: "#D0D2D8",
@@ -71,7 +70,10 @@ function ApartmentList() {
         conversation: conversation,
       });
 
-      setConversation([...conversation, { role: "chatbot", content: response.data.message }]);
+      setConversation([
+        ...conversation,
+        { role: "chatbot", content: response.data.message },
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -224,7 +226,11 @@ function ApartmentList() {
           m: 5,
         }}
       >
-        <input type="text" value={userMessage} onChange={handleUserMessageChange} />
+        <input
+          type="text"
+          value={userMessage}
+          onChange={handleUserMessageChange}
+        />
         <button onClick={handleSendMessage}>Send</button>
       </Box>
       <Box
