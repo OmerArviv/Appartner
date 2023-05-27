@@ -33,21 +33,10 @@ const SearchGoogleMap = ({ onPositionSelect, onSearchValueSelect }) => {
 
     return (
         <div>
-            <Button variant="contained" onClick={handleOpenMapPopup} style={btnstyle}>
-                {searchValue ? searchValue : 'Open Map'}
-            </Button>
-            {showMapPopup && (
-                <div className="map-popup">
-                    <GoogleMap
-                        onSearchSelect={handleSearchSelect}
-                        onPositionSelect={handlePositionSelect}
-                    />
-                    <Button variant="contained" onClick={handleCloseMapPopup} style={btnstyle}>
-                        Close Map
-                    </Button>
-                </div>
-            )}
-
+            <GoogleMap
+                onSearchSelect={handleSearchSelect}
+                onPositionSelect={handlePositionSelect}
+            />
             {selectedPosition && (
                 <p>
                     Search Value: {searchValue} <br />
