@@ -255,24 +255,7 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-        {/* <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
-          <InputLabel id="Roomates-label">Roomates</InputLabel>
-          <Select
-            labelId="Roomates-label"
-            id="Roomates"
-            value={roomates}
-            label="Roomates"
-            onChange={handleRoomatesChange}
-          >
-            <MenuItem value="1">1</MenuItem>
-            <MenuItem value="2">2</MenuItem>
-            <MenuItem value="3">3</MenuItem>
-            <MenuItem value="4">4</MenuItem>
-            <MenuItem value="5">5</MenuItem>
-          </Select>
-        </FormControl> */}
         <div>
-          <h1> test</h1>
           {selectedCollaborator != "" &&
             <RoomateAvatar email={selectedCollaborator} />
           }

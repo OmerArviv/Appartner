@@ -63,6 +63,8 @@ function GeneralBrawser() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/google-map" element={<SearchGoogleMap />} />
+
         </Routes>
       )}
     </BrowserRouter>
