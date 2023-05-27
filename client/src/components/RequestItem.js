@@ -35,11 +35,8 @@ const RequestItem = (props) => {
     const res = await getUserProfileByEmail(request.user_email);
     if (res) {
       setUser(res);
-      console.log(res);
       const user_auth = await getUserByEmail(res.email);
-      console.log(user_auth);
-      //setPhoneNumber(user_auth[0].phone_number); // Set the phone number
-
+      setPhoneNumber(user_auth.phone_number);
     }
   };
 
@@ -52,10 +49,10 @@ const RequestItem = (props) => {
     try {
       const res = await updateRoomateRequest(updatedRequest);
       if (res) {
-        console.log("Roommate request accepted successfully");
         setStatus("accepted"); // Update the status
         setShowChatButton(true); // Show the chat button
         createNewConversation();
+
       } else {
         console.error("Failed to accept roommate request");
       }
@@ -160,7 +157,6 @@ const RequestItem = (props) => {
             >
               <ContactPhoneOutlinedIcon style={{ fontSize: 30 }} />
               <Typography>{phoneNumber}</Typography>
-              <ChatBubbleOutlineOutlinedIcon></ChatBubbleOutlineOutlinedIcon>
             </div>
           </div>
         ) : status === "ignored" ? (
