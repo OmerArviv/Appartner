@@ -23,6 +23,11 @@ export default function FilterSection(props) {
     setSort(event.target.value);
   };
 
+  const onCloseFilterTab = () => {
+    setFilterTab(false);
+    setAppartments(allAppartments);
+  };
+
   //   const openFilterTab = () => {
   //     setFilterTab(!filterTab);
   //   };
@@ -65,7 +70,7 @@ export default function FilterSection(props) {
             ) : (
               <RemoveIcon
                 sx={{ height: "80%", ml: 2 }}
-                onClick={() => setFilterTab(false)}
+                onClick={onCloseFilterTab}
               ></RemoveIcon>
             )}
           </Button>
