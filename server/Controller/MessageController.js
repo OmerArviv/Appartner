@@ -7,13 +7,11 @@ const auth = require("../middleware/auth");
 
 router.route("/createMessage").post(auth, async (request, response) => {
     const message = request.body;
-    console.log(message);
     if (!message) {
       return response.status(400).send("something went wrong");
     }
     var result = await MessageService.insertMessage(message);
     if (result != null) {
-      console.log(result);
       return response.status(201).json(message);
     }
     return response.status(403).send({});
