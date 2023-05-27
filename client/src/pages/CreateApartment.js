@@ -19,6 +19,7 @@ import { createAppartment } from "../controller/appartmentController";
 import { getUserEmail } from "../APP/APP_AUTH";
 import { useNavigate } from "react-router-dom";
 import RoomateAvatar from "../components/RoomateAvatar";
+import SearchGoogleMap from "../components/SeachGoogleMap";
 import { Box } from "@material-ui/core";
 import { shortcutWithChatGpt, summaryWithChatGpt } from "../controller/chatGptController";
 
@@ -42,6 +43,8 @@ const CreateApartment = () => {
   const [gender, setGender] = useState("");
   const [age, setAge] = useState([18, 75]);
   const [location, setLocation] = useState("");
+  const [selectedPosition, setSelectedPosition] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [price, setPrice] = useState([2500, 5500]);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
@@ -51,6 +54,14 @@ const CreateApartment = () => {
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
   const [error, setError] = useState("");
 
+
+  const handlePositionSelect = (position) => {
+    setSelectedPosition(position);
+  };
+
+  const handleSearchValueSelect = (value) => {
+    setSelectedLocation(value);
+  };
 
   const handleChooseCollaborator = (email) => {
     setSelectedCollaborator(email);
@@ -110,19 +121,23 @@ const CreateApartment = () => {
     if (
       user_email != null &&
       age != null &&
-      location != null &&
+      selectedLocation != '' &&
+      selectedPosition != null &&
       price != null &&
       gender != null &&
       elevator != null &&
       parking != null &&
       smoking != null &&
       roomates != null
-      
+
     ) {
       const appartment = {
         email: user_email,
         age_range: age,
-        location: location,
+        location: {
+          position: selectedPosition,
+          name: selectedLocation
+        },
         price_range: price,
         gender: gender,
         elevator: elevator,
@@ -139,8 +154,8 @@ const CreateApartment = () => {
 
       const respone_summary = await summaryWithChatGpt(appartment);
 
-      if(respone_summary&&respone_summary.status==200){
-          appartment.summary=respone_summary.data;
+      if (respone_summary && respone_summary.status == 200) {
+        appartment.summary = respone_summary.data;
       }
 
       const result = await createAppartment(appartment);
@@ -151,12 +166,12 @@ const CreateApartment = () => {
       }
     } else {
       setError("Please enter all fields!");
-        }
+    }
   };
 
   return (
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
-      <Grid item xs={4} sx={{ width: 400,textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
         <FormControl sx={{ mt: 3, width: "400px" }}>
           <CardContent>
             <InputLabel
@@ -182,13 +197,6 @@ const CreateApartment = () => {
             </Typography>
           </CardContent>
         </FormControl>
-        <TextField
-          id="location"
-          label="Enter Location"
-          value={location}
-          onChange={handleLocationChange}
-          sx={{ width: "400px", marginBottom: "20px" }}
-        ></TextField>
         <FormControl sx={{ width: "400px", marginTop: "10px" }}>
           <CardContent>
             <InputLabel
@@ -228,8 +236,14 @@ const CreateApartment = () => {
             <MenuItem value="all">All</MenuItem>
           </Select>
         </FormControl>
+        <SearchGoogleMap
+          onPositionSelect={handlePositionSelect}
+          onSearchValueSelect={handleSearchValueSelect} />
+        <h1>{selectedLocation}</h1>
+        {selectedPosition &&
+          <h1>{selectedPosition.lat()}, {selectedPosition.lng()}</h1>}
       </Grid>
-      <Grid item xs={4} sx={{ width: 400,textAlign: "center" }}>
+      <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
         <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
           <InputLabel id="Elevator-label">Elevator</InputLabel>
           <Select
@@ -269,17 +283,16 @@ const CreateApartment = () => {
             <MenuItem value="no">No</MenuItem>
           </Select>
         </FormControl>
-    
+
         <div>
-          <h1> Add Roommates</h1>
           {selectedCollaborator != "" &&
             <RoomateAvatar email={selectedCollaborator} />
           }
           <DialogAddCollabrator onChooseCollaborator={handleChooseCollaborator} sx={{ width: "400px", marginBottom: "20px" }} />
         </div>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-  {error && <p style={{ color: "red", fontSize:"20px" }}>{error}</p>}
-</Box>
+          {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
+        </Box>
         <Button
           style={btnstyle}
           sx={{ width: "400px", marginTop: "100px" }}
@@ -288,13 +301,14 @@ const CreateApartment = () => {
           Create My Apartment
         </Button>
       </Grid>
-      <Grid item="ture" xs={4} 
-      sx={{ 
-        width: 400,
-        marginLeft: "auto",
-        marginRight: "auto",
-        alignContent: "center",
-        justifyContent: "center" }}>
+      <Grid item="ture" xs={4}
+        sx={{
+          width: 400,
+          marginLeft: "auto",
+          marginRight: "auto",
+          alignContent: "center",
+          justifyContent: "center"
+        }}>
         <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>

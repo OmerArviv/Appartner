@@ -19,6 +19,8 @@ import LookerHomePage from "./pages/LookerHomePage";
 import WelcomerHomePage from "./pages/WelcomerHomePage";
 import DallEApi from "./components/ChatGptApi/DallEApi/DallEApi";
 import LookerRequestsPage from "./pages/LookerRequestsPage";
+import GoogleMap from "./components/GoogleMap";
+import SearchGoogleMap from "./components/SeachGoogleMap";
 import Messenger from "./components/messenger/Messenger";
 
 function GeneralBrawser() {
@@ -48,13 +50,14 @@ function GeneralBrawser() {
             path="/create-profile/set-prefernces"
             element={<SetPrefernces />}
           />
+          <Route path="/google-map" element={<SearchGoogleMap />} />
           <Route path="/create-apartment" element={<CreateApartment />} />
           <Route path="/speach-to-text" element={<SpeechToText />} />
           <Route path="/looker-home-page" element={<LookerHomePage />} />
           <Route path="/apartment/:apartmentId" element={<Apartment />} />
           <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/looker/looker-requests" element={<LookerRequestsPage />} />
-          <Route path="/messenger" element={<Messenger/>}/>
+          <Route path="/messenger" element={<Messenger />} />
         </Routes>
       ) : (
         <Routes>
@@ -62,6 +65,8 @@ function GeneralBrawser() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/google-map" element={<SearchGoogleMap />} />
+
         </Routes>
       )}
     </BrowserRouter>

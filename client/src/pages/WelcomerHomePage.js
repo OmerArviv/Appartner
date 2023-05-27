@@ -1,13 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import RequestItem from "../components/RequestItem";
-import { Grid } from "@mui/material";
+import { Button, Dialog, DialogTitle, Grid } from "@mui/material";
 import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
+import SetPreferncesProfile from "./SetPreferncesProfile";
+
+const btnstyle = {
+  background: "#4F4E51",
+  color: "#D0D2D8",
+};
 
 const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
   const [requests, setRequests] = useState([]);
+  const [modalPref, setModalPref] = useState(false);
+
 
   useEffect(() => {
     setPageTitle("Requests");
@@ -18,6 +26,10 @@ const WelcomerHomePage = () => {
     getAppartmentRequests();
   }, [requests]);
 
+  const handleCloseProfile = () => {
+    setModalPref(false);
+  };
+
   const getAppartmentRequests = async () => {
     const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
     if (res) {
@@ -26,14 +38,35 @@ const WelcomerHomePage = () => {
   };
 
   return (
-    <Grid>
-      {requests.length != 0
-        ? requests.map((item, index) => {
-            return <RequestItem request={item} key={index}></RequestItem>;
-          })
-        : ""}
+    <Grid container direction="column" alignItems="center">
+      <Grid item>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setModalPref(true);
+          }}
+          style={btnstyle}
+        >
+          Set Your Preferences
+        </Button>
+      </Grid>
+      <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
+        <DialogTitle textAlign="center">Change Your Preferences</DialogTitle>
+        <SetPreferncesProfile
+          handleCloseProfile={handleCloseProfile}
+          propEmail={userEmail ? userEmail : ""}
+        />
+      </Dialog>
+      {requests.length !== 0 ? (
+        requests.map((item, index) => {
+          return <RequestItem request={item} key={index} />;
+        })
+      ) : (
+        <></>
+      )}
     </Grid>
   );
+
 };
 
 export default WelcomerHomePage;

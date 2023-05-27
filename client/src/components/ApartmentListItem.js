@@ -47,7 +47,7 @@ function ApartmentListItem(props) {
       <Stack direction="column">
         <CardContent>
           <Typography variant="h5">
-            <LocationOnIcon /> {data.location}
+            <LocationOnIcon /> {data.location.name}
           </Typography>
         </CardContent>
         <CardContent>
