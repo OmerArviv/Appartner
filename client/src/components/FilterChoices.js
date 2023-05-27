@@ -63,20 +63,22 @@ export default function FilterChoices(props) {
   useEffect(() => {
     setAppartments([
       ...allAppartments.filter((appartment) => {
-        const distance = calculateDistance(location.position, appartment.location.position);
-        console.log(distance); // Print the calculated distance
-        return (
-          appartment.age_range[0] >= ageRange[0] &&
-          appartment.age_range[1] <= ageRange[1] &&
-          appartment.price_range[0] >= priceRange[0] &&
-          appartment.price_range[1] <= priceRange[1] &&
-          appartment.roomates.length === roomates &&
-          (smoking === options[2] ||
-            (smoking !== options[2] && appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
-          (elevator === options[2] || appartment.elevator.toLowerCase() === elevator.toLowerCase()) &&
-          (parking === options[2] || appartment.parking.toLowerCase() === parking.toLowerCase()) &&
-          distance <= radius
-        );
+        if (location.position && appartment.location) {
+          const distance = calculateDistance(location.position, appartment.location.position);
+          console.log(distance); // Print the calculated distance
+          return (
+            appartment.age_range[0] >= ageRange[0] &&
+            appartment.age_range[1] <= ageRange[1] &&
+            appartment.price_range[0] >= priceRange[0] &&
+            appartment.price_range[1] <= priceRange[1] &&
+            appartment.roomates.length === roomates &&
+            (smoking === options[2] ||
+              (smoking !== options[2] && appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
+            (elevator === options[2] || appartment.elevator.toLowerCase() === elevator.toLowerCase()) &&
+            (parking === options[2] || appartment.parking.toLowerCase() === parking.toLowerCase()) &&
+            distance <= radius
+          );
+        }
       }),
     ]);
   }, [ageRange, priceRange, roomates, smoking, elevator, parking]);
