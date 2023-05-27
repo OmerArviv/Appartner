@@ -21,9 +21,6 @@ router.route("/createConversation").post(auth, async (request, response) => {
 //get conversation by Id
 router.route("/getConversationById").get(async (request, response) => {
   const id = request.query;
-  console.log("server controller");
-
-  console.log(id);
   if (!id) {
     return response.status(403).send({});
   }

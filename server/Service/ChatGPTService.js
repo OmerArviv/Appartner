@@ -19,11 +19,11 @@ module.exports = class ChatGPTService {
     // apartments = minifyJSON(apartments);
 
     const prompt = `Find the best apartment based on the "User Profile" and the "Apartments". Return an array in json format of the apartment IDs("_id"): User Profile: ${user} Apartments: ${apartments}`;
-
+    
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
-      max_tokens: 100,
+      max_tokens: 1000,
       temperature: 1,
     });
 
@@ -35,7 +35,7 @@ module.exports = class ChatGPTService {
     //Hey my name is Omer, I drink alcohol once a month and like to walk with my dog "Barney" I'm 27 years old and im a boy, working as software developer and not eating kosher.
 
     static async parseUserInfo(input) {
-      const prompt = `Parse the following user description into JSON format:\n\n"${input}"\n\nJSON format:\n{"gender": enum {"Male", "Female", "Other"}, "age": number,"user_employment": string, "alcohol": enum {"Yes", "No", "Sometimes"}, "pets": enum {"Yes", "No"}, "kosher": enum {"Yes", "No"}, "smoking": enum {"Yes", "No", "Sometimes"}}\n\nParsed JSON: `;
+      const prompt = `Parse the following user description into JSON format:\n\n"${input}"\n\nJSON format:\n{"gender": enum {"Male", "Female", "Other"}, "age": number,"user_employment": string, "alcohol": enum {"Yes", "No", "Sometimes"}, "pets": enum {"Yes", "No"}, "kosher": enum {"Yes", "No"}, "smoking": enum {"Yes", "No", "Sometimes"}}, "hobby": enum {"Yes", "No", "Sometimes"}}\n\nParsed JSON: `;
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: prompt,

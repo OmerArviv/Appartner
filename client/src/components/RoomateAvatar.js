@@ -1,16 +1,15 @@
 import { Avatar, Button, Typography } from "@mui/material";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogTitle
-} from "@mui/material";
+import { Dialog, DialogTitle } from "@mui/material";
 import UserProfile from "../pages/UserProfile";
 
 function RoomateAvatar(props) {
   const { email } = props;
   const [roomate, setRoomate] = useState(null);
-  const [roomateImage, setRoomateImage] = useState("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg");
+  const [roomateImage, setRoomateImage] = useState(
+    "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
+  );
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -26,7 +25,9 @@ function RoomateAvatar(props) {
   };
 
   const handleImageError = (event) => {
-    setRoomateImage("https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg")
+    setRoomateImage(
+      "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
+    );
   };
 
   const handleCloseProfile = () => {
@@ -48,7 +49,9 @@ function RoomateAvatar(props) {
               onError={handleImageError}
             />
           </Button>
-          <Typography>{roomate.email}</Typography>
+          <Typography sx={{ textAlign: "center" }}>
+            {roomate.full_name}
+          </Typography>
           <Dialog maxWidth="lg" open={modal} onClose={handleCloseProfile}>
             <DialogTitle textAlign="center">Roomate Details</DialogTitle>
             <UserProfile email={roomate.email} />

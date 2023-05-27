@@ -10,7 +10,6 @@ router.route("/createAppartment").post(auth, async (request, response) => {
     return response.status(400).send("All input is required");
   }
   var result = await AppartmentService.insertAppartment(Appartment);
-  console.log(result);
   if (result != null) {
     return response.status(201).json(Appartment);
   }

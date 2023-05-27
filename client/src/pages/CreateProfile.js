@@ -76,6 +76,8 @@ const CreateProfile = () => {
       setUserAlcohol(userSTT["alcohol"]);
       setUserKosher(userSTT["kosher"]);
       setUserGender(userSTT["gender"]);
+      setUserHobby(userSTT["hobby"]);
+
     }
   }, [userSTT]);
 
@@ -88,26 +90,12 @@ const CreateProfile = () => {
       setUserAlcohol(userGPT.alcohol);
       setUserKosher(userGPT.kosher);
       setUserGender(userGPT.gender);
+      setUserHobby(userGPT.hobby);
+
     }
   }, [userGPT]);
 
   function userBirthdayHandler(event) {
-    // console.log('birthday');
-    // console.log(event.target.value);
-    // let age=event.target.value;
-
-    // if(age>=18 && age<=75){
-    //     console.log(userBirthday);
-    //     setUserBirthday(event.target.value);
-    //     console.log(userBirthday);
-    // }
-    // else{
-    //     // alert("change age");
-    //     age="";
-    // }
-    // setUserBirthday(event.target.value);
-    // console.log(userBirthday);
-
     setUserBirthday(event.target.value);
   }
 

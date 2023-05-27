@@ -165,6 +165,13 @@ export default function NavBar(props) {
                   >
                     <TelegramIcon fontSize="large" />
                   </IconButton>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/set-your-pref");
+                    }}
+                  >
+                    test
+                  </IconButton>
                 </Stack>
               )}
 
