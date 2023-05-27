@@ -15,8 +15,11 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { createUserProfilePrefernces, getUserPreferncesByEmail, updateUserProfilePrefernces } from "../controller/userProfilePreferncesController";
-import { getUserEmail } from "../APP/APP_AUTH";
+import {
+  createUserProfilePrefernces,
+  getUserPreferncesByEmail,
+  updateUserProfilePrefernces,
+} from "../controller/userProfilePreferncesController";
 import { authContext, pageTitleContext } from "../APP/Utils";
 
 const btnstyle = {
@@ -65,9 +68,6 @@ const SetPreferncesProfile = (props) => {
     }
     fetchData();
   }, []);
-
-
-
 
   function ageRangeHandler(event, newValue) {
     setAgeRange(newValue);
@@ -134,8 +134,7 @@ const SetPreferncesProfile = (props) => {
       if (userExists) {
         result = await updateUserProfilePrefernces(userProfilePrefernces);
         handleCloseProfile();
-      }
-      else {
+      } else {
         result = await createUserProfilePrefernces(userProfilePrefernces);
       }
       if (result.status == 201) {
@@ -395,10 +394,9 @@ const SetPreferncesProfile = (props) => {
           marginTop: 3,
         }}
       >
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-  {error && <p style={{ color: "red", fontSize:"20px" }}>{error}</p>}
-</Box>
-
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
+        </Box>
 
         <Box
           item="true"

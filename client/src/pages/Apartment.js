@@ -6,7 +6,6 @@ import {
   Button,
   CardContent,
   Stack,
-  TextField,
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -84,53 +83,42 @@ const Apartment = () => {
   };
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="stretch"
-      style={{ margin: "0 auto" }}
-    >
+    <Grid container justifyContent="center">
       <Grid item xs={10} sm={8} md={6}>
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
-          spacing={2}
-          marginTop={5}
-        >
+        <Grid container marginTop={5}>
           <Grid item xs={12}>
             {appartment ? (
-              <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                spacing={10}
-              >
+              <Grid container spacing={10}>
                 <Grid item xs={12} sm={5}>
                   <Box sx={{ height: 450, width: 450 }}>
-                    <UserCarousel
-                      apartmentImages={appartment.images}
-                      height={300}
-                    />
+                    <UserCarousel apartmentImages={appartment.images} />
+                  </Box>
+                  <Box sx={{ width: 750, paddingTop: "10px" }}>
+                    <Topic label="About The Appartment:" />
+                    <Typography
+                      sx={{ marginLeft: "10px", paddingBottom: "10px" }}
+                    >
+                      {appartment.summary}
+                    </Typography>
                   </Box>
                   <CardContent>
                     <Stack direction="row" spacing={4}>
                       {appartment.roomates && appartment.roomates.length != 0
                         ? appartment.roomates.map((item, index) => {
-                          return (
-                            <RoomateAvatar
-                              email={item}
-                              key={index}
-                            ></RoomateAvatar>
-                          );
-                        })
+                            return (
+                              <RoomateAvatar
+                                email={item}
+                                key={index}
+                              ></RoomateAvatar>
+                            );
+                          })
                         : ""}
                     </Stack>
                   </CardContent>
                 </Grid>
                 <Grid item xs={12} sm={2} />
                 <Grid item xs={12} sm={5}>
-                  <Box sx={{ height: 500 }}>
+                  <Box sx={{ marginTop: "30px" }}>
                     <Box
                       sx={{
                         display: "flex",
@@ -156,7 +144,10 @@ const Apartment = () => {
                       }}
                     >
                       <LocationOnOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic label="Location:" value={appartment.location.name} />
+                      <Topic
+                        label="Location:"
+                        value={appartment.location.name}
+                      />
                     </Box>
                     <Box
                       sx={{
