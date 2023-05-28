@@ -1,5 +1,5 @@
 import "./messenger.css";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button, Typography, Autocomplete } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
@@ -20,12 +20,12 @@ function Messenger(){
   const [chatMessages, setChatMessages]=useState(null);
   const [newMessage, setNewMessage]=useState("");
   const [arrivalMessage, setArrivalMessage]=useState("");
-  const [onlineUsers, setonlineUsers]=useState(null);
-
-  // const [socket, setSocket]=useState(null);
+  const [onlineUsers, setonlineUsers]=useState([]);
+  const [membersEmail, setMembersEmail]=useState(null);
   const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
-  const reciverId= ()=>{
+  
+   const reciverId= ()=>{
     var reciver_email=null;
     if(user.role==="Welcomer"){
       console.log(user.role);
@@ -40,6 +40,10 @@ function Messenger(){
   useEffect(()=>{
     getUser();
   },[]);
+
+  useEffect(()=>{
+    getAllMembers();
+  },[conversations,user]);
 
   useEffect(()=>{
     getUserConversations();
@@ -168,7 +172,24 @@ socket.current.emit("sendMessage",{
   }
 }
 
+const getAllMembers= ()=>{
+  var tmpMembers=[];
+  if(user && conversations){
+    if(user.role==="Welcomer"){
+      conversations.forEach(item => {
+        tmpMembers.push(item.looker_email);
+      }); 
+    }
+    else{
+      conversations.forEach(item => {
+        tmpMembers.push(item.welcomer_email);
+      }); 
+    }
+      setMembersEmail(tmpMembers);
+    }
+}
 
+// console.log(membersEmail);
     return(
         <>
 
@@ -185,6 +206,13 @@ socket.current.emit("sendMessage",{
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
+          <Autocomplete
+          // disablePortal
+          id="search"
+          options={Array.isArray(membersEmail)? membersEmail:""}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Search" />}
+        />
             <TextField id="search" label="Search" variant="standard"
              InputProps={{
                 startAdornment: (
@@ -193,6 +221,7 @@ socket.current.emit("sendMessage",{
                   </InputAdornment>
                 ),
               }}
+              renderInput={membersEmail}
               size="small"
               placeholder="serch for rommates..."
               />

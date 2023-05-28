@@ -61,7 +61,7 @@ return(
         <>
         <Avatar sx={{mt:1}} alt="profile image" src={chatPersonUserProfile.user_profile_image}/>
         <Typography sx={{mt:2, ml:1, fontWeight:"500"}}>
-            {chatPerson}
+            {chatPersonUserProfile.full_name}
         </Typography>
         </>) :("")}
         

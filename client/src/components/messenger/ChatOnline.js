@@ -141,7 +141,7 @@ console.log();
                      <Typography
                      sx={{marginTop:5}}
                      >
-                        {o.email}
+                        {o.full_name}
                      </Typography>
                  </Stack>
                 
