@@ -1,4 +1,4 @@
-import { Box, Avatar, Badge, Stack, Typography } from "@mui/material";
+import { Box, Avatar, Badge, Stack, Typography, Divider } from "@mui/material";
 import {getUserByEmail} from "../../controller/authenticationController";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
@@ -104,11 +104,8 @@ console.log();
 
   const clickHandler=(user)=>{
     allUsersConversations?.filter(c=>{
-      if(c.looker_email==user.email && c.welcomer_email==userEmail){
-        props.setCurrentChat(c._id);
-      }
-      else if(c.welcomer_email==user.email && c.looker_email==userEmail){
-        props.setCurrentChat(c._id);
+      if((c.looker_email==user.email && c.welcomer_email==userEmail) || (c.welcomer_email==user.email && c.looker_email==userEmail)){
+        props.setCurrentChat(c);
       }
     });
   }
@@ -122,13 +119,13 @@ console.log();
               </Typography>
 
         <Box container="true" 
-        sx={{mt:"20px",display:"flex", alignItems:"center", fontWeight:"500", cursor:"pointer", ml:4}}
+        sx={{mt:"20px",alignItems:"center", fontWeight:"500", cursor:"pointer", ml:4}}
         >
           {onlineMembers? (onlineMembers.map((o,index)=>{
              {/*Chat online image */}
              return(
               <Box item="true"
-             sx={{objectFit:"cover", position:"relative"}}
+             sx={{objectFit:"cover", position:"relative", marginTop:3}}
              key={index}
              component="div"
              onClick={()=>{clickHandler(o,index)}}
@@ -139,17 +136,17 @@ console.log();
                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                      variant="dot"
                  >
-                     <Avatar key={index} alt="user profile image" src={o? o.user_profile_image : ""} />
+                     <Avatar key={index} alt="user profile image" src={o? o.user_profile_image : ""} 
+                     sx={{height:56, width:56}}
+                     />
                  </StyledBadge>
                      <Typography
-                     sx={{marginTop:5}}
+                     sx={{marginTop:5, fontSize:25}}
                      >
                         {o.full_name}
                      </Typography>
                  </Stack>
-                
              </Box>
-             
              )
              
           })) :("")}

@@ -1,5 +1,5 @@
 import "./messenger.css";
-import { Box, TextField, Button, Typography, Autocomplete, Divider } from "@mui/material";
+import { Box, TextField, Button, Typography, Autocomplete, Divider, IconButton, Stack } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
@@ -21,14 +21,16 @@ function Messenger(){
   const [newMessage, setNewMessage]=useState("");
   const [arrivalMessage, setArrivalMessage]=useState("");
   const [onlineUsers, setonlineUsers]=useState([]);
-  const [membersEmail, setMembersEmail]=useState(null);
+  const [membersEmail, setMembersEmail]=useState([]);
+  const [searchMembers, setSearchMembers] = useState("");
+const [options, setOptions] = useState([]);
+
   const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
   
    const reciverId= ()=>{
     var reciver_email=null;
     if(user.role==="Welcomer"){
-      console.log(user.role);
       reciver_email=currentChat.looker_email; 
     }
     else{
@@ -89,6 +91,9 @@ function Messenger(){
   },
   [arrivalMessage,currentChat]);
 
+  useEffect(()=>{
+    handleSearch();
+    },[searchMembers,options,user,conversations]);
 
   const handleEmitEvent = () => {
     if (socket.current) {
@@ -189,7 +194,34 @@ const getAllMembers= ()=>{
     }
 }
 
-// console.log(membersEmail);
+const handleSearchChange = (event, value) => {
+  setSearchMembers(value);
+  if(value==""){
+    setOptions([]);
+  }
+};
+
+const handleSearch = (event, value) => {
+  // setSearchMembers(value);
+  if(searchMembers){
+    var filteredOptions=[];
+      if(user.role==="Welcomer"){
+        filteredOptions= conversations.filter(c=> 
+          c.looker_email.startsWith(searchMembers));
+      }
+      else{
+        filteredOptions= conversations.filter(c=> 
+          c.welcomer_email.startsWith(searchMembers));
+      }
+    
+    setOptions(filteredOptions);
+  }
+  else{
+    setOptions(conversations);
+  }
+  
+};
+
     return(
         <>
 
@@ -202,7 +234,7 @@ const getAllMembers= ()=>{
         >
         <Box
           item="true"
-          component="form"
+          component="div"
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
@@ -210,14 +242,35 @@ const getAllMembers= ()=>{
             sx={{backgroundColor:"#d2f7d8",fontWeight:"bold",marginRight:1}}>
               MEMBERS
               </Typography>
-          {/* <Autocomplete
-          // disablePortal
-          id="search"
-          options={Array.isArray(membersEmail)? membersEmail:""}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Search" />}
-        /> */}
-            <TextField id="search" label="Search" variant="standard"
+              <Box item="true"
+                    sx={{display:"flex", flexWarp:"warp", alignItems:"center", justifyContent:"space-between"}}>
+                  <Autocomplete
+                  fullWidth
+                    freeSolo
+                    options={membersEmail? membersEmail :""}
+                    inputValue={searchMembers}
+                    onInputChange={handleSearchChange}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Search for rommates.."
+                        variant="standard"
+                        size="small"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: <SearchIcon />,
+                        }}
+                      />
+                    )}
+                  />
+                  {/* <IconButton onClick={handleSearch}>
+                  <SearchIcon />
+
+                  </IconButton> */}
+                    </Box>
+                 
+            
+            {/* <TextField id="search" label="Search" variant="standard"
              InputProps={{
                 startAdornment: (
                   <InputAdornment position="end">
@@ -225,11 +278,49 @@ const getAllMembers= ()=>{
                   </InputAdornment>
                 ),
               }}
-              renderInput={membersEmail}
+              // renderInput={membersEmail}
               size="small"
               placeholder="serch for rommates..."
-              />
-              {conversations? 
+              /> */}
+
+              
+          {options  ? 
+                        (
+                          options.map((con,index)=>{
+                            return(
+                              <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                              <Conversation key={index} conversation={con} user={user}/>
+                              </div>
+
+                      ) })): ("" )}
+                        
+
+
+
+          {/* 
+              {options  ? 
+              (
+                options.map((con,index)=>{
+                  return(
+                    <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                      {console.log("in options")}
+                     <Conversation key={index} conversation={con} user={user}/>
+                     </div>
+
+             ) })): (
+              conversations?.map((con,index)=>{
+                return(
+                  <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                                          {console.log("in conversation")}
+
+                   <Conversation key={index} conversation={con} user={user}/>
+                   </div>
+
+           ) })
+
+             )} */}
+
+{/* {conversations? 
               (
                 conversations.map((con,index)=>{
                   return(
@@ -237,7 +328,8 @@ const getAllMembers= ()=>{
                      <Conversation key={index} conversation={con} user={user}/>
                      </div>
 
-             ) })): ""}
+             ) })): ""} */}
+              
         </Box>
 
         
