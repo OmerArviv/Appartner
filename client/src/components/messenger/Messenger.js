@@ -1,5 +1,5 @@
 import "./messenger.css";
-import { Box, TextField, Button, Typography, Autocomplete } from "@mui/material";
+import { Box, TextField, Button, Typography, Autocomplete, Divider } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
@@ -198,7 +198,7 @@ const getAllMembers= ()=>{
         container="true"
         // spacing={50}
         xs={12}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10px", marginTop: 5, justifyContent:"center" }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10px", marginTop:3,justifyContent:"center", }}
         >
         <Box
           item="true"
@@ -206,6 +206,10 @@ const getAllMembers= ()=>{
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
+           <Typography align="center"
+            sx={{backgroundColor:"#d2f7d8",fontWeight:"bold",marginRight:1}}>
+              MEMBERS
+              </Typography>
           {/* <Autocomplete
           // disablePortal
           id="search"
@@ -235,6 +239,8 @@ const getAllMembers= ()=>{
 
              ) })): ""}
         </Box>
+
+        
         
         {/*the chat with the message */}
         <Box
@@ -243,20 +249,49 @@ const getAllMembers= ()=>{
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
+          
           {currentChat? ( 
             <>
             {/*Top area- the messages */}
 
+            <Typography align="center"
+            sx={{backgroundColor:"#d2f7d8",fontWeight:"bold"}}>
+              CHAT
+              </Typography>
+
                   <Box item="true"
-                  sx={{height:"100%", overflowY:"scroll"}}/*scrollbarGutter:"stable && both-edges", paddingRight:"10px"} */
+                  sx={{height:"450px", 
+                  overflowY:"scroll",
+                  scrollbarWidth: "thin",
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(0, 0, 0, 0.3)",
+                    borderRadius: "3px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                 }}/*scrollbarGutter:"stable && both-edges", paddingRight:"10px"} */
+                  ref={scrollRef}
                   >
                     {chatMessages? 
                     (chatMessages.map((mes,index)=>{
                       return(
-                        <div key={index} ref={scrollRef}>
+                        // <div key={index} ref={scrollRef} 
+                        // style={{maxHeight: "300px", overflowY:"auto"}}
+                        // >
+                            <div key={index}
+                        // style={{maxHeight: "300px", overflowY:"auto"}}
+                        >
                            <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}
                            currentChat={currentChat}
                            userEmail={userEmail}
+                           chatPerson={reciverId()}
                            />
                         </div>
                        
@@ -265,7 +300,7 @@ const getAllMembers= ()=>{
                   </Box>
                   {/*Bottom area- sending message */}
                     <Box item="true"
-                    sx={{mt:"20px", display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+                    sx={{mt:"20px", display:"flex", flexWarp:"warp", alignItems:"center", justifyContent:"space-between"}}>
                     <TextField 
                     fullWidth={true}
                     placeholder="write your message"

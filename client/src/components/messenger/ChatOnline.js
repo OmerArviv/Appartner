@@ -116,7 +116,10 @@ console.log();
     return(
         <>
         {/*ChatOnline rommates */}
-        <Typography>ONLINE MEMBERS</Typography>
+        <Typography align="center"
+            sx={{backgroundColor:"#d2f7d8",fontWeight:"bold",marginLeft:1}}>
+              ONLINE MEMBERS
+              </Typography>
 
         <Box container="true" 
         sx={{mt:"20px",display:"flex", alignItems:"center", fontWeight:"500", cursor:"pointer", ml:4}}
