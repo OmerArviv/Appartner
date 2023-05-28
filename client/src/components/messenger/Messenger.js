@@ -1,7 +1,6 @@
 import "./messenger.css";
 import { Box, TextField, Button, Typography, Autocomplete, Divider, IconButton, Stack } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
 import Message from "./Message";
 import ChatOnline from "./ChatOnline";
@@ -12,6 +11,7 @@ import {getUserByEmail} from "../../controller/authenticationController";
 import {getConversationsByUserEmail} from "../../controller/conversationController";
 import {createMessage, getMessagesConversationById} from "../../controller/messageController";
 import {io} from "socket.io-client";
+
 function Messenger(){
   const { userEmail } = useContext(authContext);
   const [user, setUser]=useState(null);
@@ -81,7 +81,7 @@ const [options, setOptions] = useState([]);
         text:data.text,
         createdAt:Date.now(),
       });
-    })
+    });
   },[]);
   
   
@@ -118,7 +118,6 @@ const [options, setOptions] = useState([]);
   // useEffect(()=>{
   //   setSocket(io("ws://localhost:8900"));//ws:web socket
   // },[]);
-
 
   
   /*message from server to all users */
@@ -168,6 +167,7 @@ socket.current.emit("sendMessage",{
   try{
     const res= await createMessage(messageToSend);
     if(res){
+      console.log(res);
       setChatMessages([...chatMessages, res.data]);
       setNewMessage("");
     }
@@ -202,7 +202,6 @@ const handleSearchChange = (event, value) => {
 };
 
 const handleSearch = (event, value) => {
-  // setSearchMembers(value);
   if(searchMembers){
     var filteredOptions=[];
       if(user.role==="Welcomer"){
