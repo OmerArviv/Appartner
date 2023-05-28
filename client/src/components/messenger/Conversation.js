@@ -4,9 +4,13 @@ import { useEffect, useState, useContext } from "react";
 import {getUserByEmail} from "../../controller/authenticationController";
 import { authContext } from "../../APP/Utils";
 import {getUserProfileByEmail} from "../../controller/userProfileController";
+import { googleFonts } from 'google-fonts';
+
 
 function Conversation(props){
     const conversation=props.conversation;
+    const currentChat=props.currentChat;
+    const nameFont="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap";
     const { userEmail } = useContext(authContext);
     const [chatPerson, setChatPerson]=useState(null);
     // const [user, setUser]=useState(null);
@@ -27,23 +31,13 @@ function Conversation(props){
                 if(res){
                   setChatPersonUserProfile(res); 
                 }
-                // const res=await getUserByEmail(conversation.looker_email)
-                // if(res){
-                //     setChatPerson(conversation.looker_email);
-                // }
             }else{
                 setChatPerson(conversation.welcomer_email);
                 const res1= await getUserProfileByEmail(conversation.welcomer_email);
                 if(res1){
                     setChatPersonUserProfile(res1); 
                 }
-                // const res=await getUserByEmail(conversation.welcomer_email)
-                // if(res){
-                //     setChatPerson(conversation.looker_email);
-                // }
-            }
-         
-            
+            }   
         }
     }
 
@@ -56,16 +50,49 @@ function Conversation(props){
 
 
 return(
-    <Stack direction="row" sx={{cursor:"pointer"}}>
+  <>
+  {(currentChat?._id===conversation?._id)?
+  ( 
+  <Stack direction="row" 
+    sx={{cursor:"pointer",marginTop:2}}>
         {chatPerson && chatPersonUserProfile? (
         <>
-        <Avatar sx={{mt:1}} alt="profile image" src={chatPersonUserProfile.user_profile_image}/>
-        <Typography sx={{mt:2, ml:1, fontWeight:"500"}}>
-            {chatPersonUserProfile.full_name}
-        </Typography>
+        <Avatar alt="profile image" src={chatPersonUserProfile.user_profile_image}
+        sx={{height:45, width:45}}
+        />
+        <Stack direction="column" 
+        
+        sx={{width: "95%", cursor:"pointer",borderRadius:2,borderRadius:2, backgroundColor:"lightgray", marginRight:2,}}>
+            <Typography sx={{marginLeft:1,fontSize:"20px", marginTop:"auto", marginBottom:"auto"}}>
+                {chatPersonUserProfile.full_name}
+            </Typography>
+            <Typography sx={{marginLeft:1,fontSize:"12px", borderRadius:2, marginTop:"auto", marginBottom:"auto"}}>
+                {chatPersonUserProfile.email}
+            </Typography>
+         </Stack>
         </>) :("")}
         
-    </Stack>
+    </Stack>):(
+         <Stack direction="row" sx={{cursor:"pointer",marginTop:2}}>
+         {chatPerson && chatPersonUserProfile? (
+         <>
+         <Avatar alt="profile image" src={chatPersonUserProfile.user_profile_image}
+         sx={{height:45, width:45}}/>
+         <Stack direction="column" sx={{width: "95%", cursor:"pointer",borderRadius:2,borderRadius:2, marginRight:2}}>
+            <Typography sx={{marginLeft:1,fontSize:"20px", marginTop:"auto", marginBottom:"auto"}}>
+                {chatPersonUserProfile.full_name}
+            </Typography>
+            <Typography sx={{marginLeft:1,fontSize:"12px", borderRadius:2, marginTop:"auto", marginBottom:"auto"}}>
+                {chatPersonUserProfile.email}
+            </Typography>
+         </Stack>
+        
+         </>) :("")}
+         
+     </Stack>
+    )}
+   
+    </>
 )
 
 };

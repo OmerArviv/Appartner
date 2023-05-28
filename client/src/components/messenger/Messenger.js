@@ -288,7 +288,7 @@ const handleSearch = (event, value) => {
                           options.map((con,index)=>{
                             return(
                               <div  key={index} onClick={()=>{setCurrentChat(con);}}>
-                              <Conversation key={index} conversation={con} user={user}/>
+                              <Conversation key={index} conversation={con} user={user} currentChat={currentChat}/>
                               </div>
 
                       ) })): ("" )}
