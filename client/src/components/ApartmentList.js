@@ -29,6 +29,8 @@ import {
   getBestMatchesCgptApi,
   shortcutWithChatGpt,
 } from "../controller/chatGptController";
+import { getUserProfileByEmail } from "../controller/userProfileController";
+import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -68,10 +70,11 @@ function ApartmentList() {
   };
 
   const sendMessage = async (message) => {
-    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
+    const appartments = await getAppartmentsFiltered()
+
 
     const userMessage = { role: "user", content: message };
-    const apartmentData = { user: message, apartments: getAllAppartments };
+    const apartmentData = { user: message, apartments: appartments };
 
     setConversation([...conversation, userMessage]);
 
@@ -92,31 +95,46 @@ function ApartmentList() {
     }
   };
 
+  const getAppartmentsFiltered = async () => {
+    const data = [];
+    for (let i = 0; i < appartments.length; i++) {
+      let apartment = appartments[i];
+      data.push({
+        id: apartment._id,
+        age_range: apartment.age_range,
+        location: apartment.location,
+        price_range: apartment.price_range,
+        gender: apartment.gender,
+        elevator: apartment.elevator,
+        parking: apartment.parking,
+        smoking: apartment.smoking
+      })
+    }
+    return data;
+  };
+
+
   const handleFindMatches = async () => {
-    //צריך להוסיף את הפונקציה של הלקוח
-    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
-    console.log(getAllAppartments);
-    const user = {
-      email: "omer123@gmail.com",
-      Birthday_date: "22",
-      user_employment: "teswt",
-      smoking: "No",
-      pets: "Yes",
-      gender: "Female",
-      alcohol: "Yes",
-      kosher: "Yes",
-      hobby: "sdfdsfs",
-      user_additonal_information: "",
-      user_facebook_link: "",
-      user_instagram_link: "",
-      user_profile_image: "s",
-      location: "sfsdfs",
-    };
+
+    const user = await getUserProfileByEmail(userEmail);
+    const user_per = await getUserPreferncesByEmail(userEmail);
+    const apartments_data = await getAppartmentsFiltered();
 
     const mergedData = {
-      user: user,
-      apartments: getAllAppartments,
+      user: {
+        age: user.Birthday_date,
+        smoking: user.smoking,
+        gender: user.gender,
+        age_range: user_per.age_range,
+        location: user_per.location,
+        price_range: user_per.price_range,
+        elevator: user_per.elevator,
+        parking: user_per.parking,
+      },
+      apartments: apartments_data,
     };
+
+    console.log(mergedData);
 
     try {
       const res = await getBestMatchesCgptApi(mergedData);
@@ -187,26 +205,8 @@ function ApartmentList() {
           onClick={handleFindMatches}
           style={{ ...btnstyle, marginRight: "20px" }}
         >
-          Find the Best Matches
+          Find the Best Match !
         </Button>
-        <Stack>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setModalPref(true);
-            }}
-            style={btnstyle}
-          >
-            Set Your Preferences
-          </Button>
-          <Dialog maxWidth="lg" open={modalPref} onClose={handleCloseProfile}>
-            <DialogTitle textAlign="center">Change Your Prefernces</DialogTitle>
-            <SetPreferncesProfile
-              handleCloseProfile={handleCloseProfile}
-              propEmail={userEmail ? userEmail : ""}
-            />
-          </Dialog>
-        </Stack>
       </Box>
       <FilterSection
         appartments={appartments}
@@ -231,18 +231,18 @@ function ApartmentList() {
         >
           {matchedApartments.length > 0
             ? matchedApartments.map((item, index) => (
-                <Box
-                  key={index}
-                  component="div"
-                  sx={{ display: "inline", marginRight: "auto" }}
-                >
-                  <ListItem>
-                    <ApartmentListItem data={item} />
-                  </ListItem>
-                </Box>
-              ))
+              <Box
+                key={index}
+                component="div"
+                sx={{ display: "inline", marginRight: "auto" }}
+              >
+                <ListItem>
+                  <ApartmentListItem data={item} />
+                </ListItem>
+              </Box>
+            ))
             : appartments
-            ? appartments.map((item, index) => (
+              ? appartments.map((item, index) => (
                 <Box
                   key={index}
                   component="div"
@@ -253,7 +253,7 @@ function ApartmentList() {
                   </ListItem>
                 </Box>
               ))
-            : ""}
+              : ""}
         </Stack>
       </List>
       <Box

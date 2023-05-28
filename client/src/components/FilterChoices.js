@@ -12,6 +12,7 @@ import Slider from "@mui/material/Slider";
 import { InputLabel, MenuItem, TextField, Select } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
+import { calculateDistance } from "../controller/appartmentController";
 
 const options = ["Yes", "No", "It doesn't matter"];
 const genderOptions = ["Males Only", "Females Only", "It doesn't matter"];
@@ -23,9 +24,9 @@ export default function FilterChoices(props) {
   const allAppartments = props.allAppartments;
   const [priceRange, setPriceRange] = useState([1000, 10000]);
   const [ageRange, setAgeRange] = useState([18, 75]);
-
+  const [radius, setRadius] = useState(2000);
   const { userEmail } = useContext(authContext);
-  const [loaction, setLocation] = useState("");
+  const [location, setLocation] = useState("");
   const [gender, setGender] = useState("");
 
   const [elevator, setElevator] = useState("");
@@ -53,6 +54,7 @@ export default function FilterChoices(props) {
         setParking(userData.parking);
         setPriceRange(userData.priceRange);
         setSmoking(userData.smoking);
+        setRadius(userData.radius);
       }
     }
     getUserPrefernces();
@@ -60,23 +62,27 @@ export default function FilterChoices(props) {
 
   useEffect(() => {
     setAppartments([
-      ...allAppartments.filter(
-        (appartment) =>
-          appartment.age_range[0] >= ageRange[0] &&
-          appartment.age_range[1] <= ageRange[1] &&
-          appartment.price_range[0] >= priceRange[0] &&
-          appartment.price_range[1] <= priceRange[1] &&
-          appartment.roomates.length == roomates &&
-          (smoking == options[2] ||
-            (smoking != options[2] &&
-              appartment.smoking.toLowerCase() == smoking.toLowerCase())) &&
-          (elevator == options[2] ||
-            appartment.elevator.toLowerCase() == elevator.toLowerCase()) &&
-          (parking == options[2] ||
-            appartment.parking.toLowerCase() == parking.toLowerCase())
-      ),
+      ...allAppartments.filter((appartment) => {
+        if (location.position && appartment.location) {
+          const distance = calculateDistance(location.position, appartment.location.position);
+          console.log(distance); // Print the calculated distance
+          return (
+            appartment.age_range[0] >= ageRange[0] &&
+            appartment.age_range[1] <= ageRange[1] &&
+            appartment.price_range[0] >= priceRange[0] &&
+            appartment.price_range[1] <= priceRange[1] &&
+            appartment.roomates.length === roomates &&
+            (smoking === options[2] ||
+              (smoking !== options[2] && appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
+            (elevator === options[2] || appartment.elevator.toLowerCase() === elevator.toLowerCase()) &&
+            (parking === options[2] || appartment.parking.toLowerCase() === parking.toLowerCase()) &&
+            distance <= radius
+          );
+        }
+      }),
     ]);
   }, [ageRange, priceRange, roomates, smoking, elevator, parking]);
+
 
   function valueAgetext(value) {
     return `${value}`;
@@ -281,8 +287,7 @@ export default function FilterChoices(props) {
             </Typography>
             <TextField
               id="location"
-              onChange={(event) => setLocation(event.target.value)}
-              value={loaction}
+              value={location.name}
               fullWidth
             />
           </Grid>

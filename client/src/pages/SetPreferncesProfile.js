@@ -15,9 +15,13 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { createUserProfilePrefernces, getUserPreferncesByEmail, updateUserProfilePrefernces } from "../controller/userProfilePreferncesController";
-import { getUserEmail } from "../APP/APP_AUTH";
+import {
+  createUserProfilePrefernces,
+  getUserPreferncesByEmail,
+  updateUserProfilePrefernces,
+} from "../controller/userProfilePreferncesController";
 import { authContext, pageTitleContext } from "../APP/Utils";
+import SearchGoogleMap from "../components/SeachGoogleMap";
 
 const btnstyle = {
   // margin: "8px 0",
@@ -30,17 +34,16 @@ const options = ["Yes", "No", "It doesn't matter"];
 const genderOptions = ["Males Only", "Females Only", "It doesn't matter"];
 const roomatesOptions = [1, 2, 3, 4, 5];
 
-const SetPreferncesProfile = (props) => {
-  const { handleCloseProfile } = props;
+const SetPreferncesProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
-  const email = "email";
   const [ageRange, setAgeRange] = useState([18, 75]);
-  const [loaction, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState([2500, 5500]);
   const [gender, setGender] = useState("");
-
+  const [selectedPosition, setSelectedPosition] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [radius, setRadius] = useState(2000);
   const [elevator, setElevator] = useState("");
   const [parking, setParking] = useState("");
   const [smoking, setSmoking] = useState("");
@@ -56,25 +59,36 @@ const SetPreferncesProfile = (props) => {
         setAgeRange(userData.ageRange);
         setElevator(userData.elevator);
         setGender(userData.gender);
-        setLocation(userData.location);
+        setSelectedLocation(userData.location.name);
+        setSelectedPosition(userData.location.position);
         setRoomates(userData.numberOfRoomates);
         setParking(userData.parking);
         setPriceRange(userData.priceRange);
         setSmoking(userData.smoking);
+        setRadius(userData.radius);
       }
     }
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setPageTitle("Set Your Preferences");
+  })
 
+  const handlePositionSelect = (position) => {
+    setSelectedPosition(position);
+  };
 
+  const handleSearchValueSelect = (value) => {
+    setSelectedLocation(value);
+  };
 
   function ageRangeHandler(event, newValue) {
     setAgeRange(newValue);
   }
 
-  function locationHandler(event) {
-    setLocation(event.target.value);
+  function radiusHandler(event, newValue) {
+    setRadius(newValue);
   }
 
   function priceRangeHandler(event, newValue) {
@@ -108,18 +122,24 @@ const SetPreferncesProfile = (props) => {
     if (
       user_email != "" &&
       ageRange != "" &&
-      loaction != "" &&
+      selectedLocation != "" &&
+      selectedPosition != null &&
       priceRange != "" &&
       gender != "" &&
       elevator != "" &&
       parking != "" &&
       smoking != "" &&
+      radius != null &&
       roomates != ""
     ) {
       const userProfilePrefernces = {
         email: user_email,
         ageRange: ageRange,
-        location: loaction,
+        location: {
+          position: selectedPosition,
+          name: selectedLocation,
+        },
+        radius: radius,
         priceRange: priceRange,
         gender: gender,
         elevator: elevator,
@@ -133,9 +153,7 @@ const SetPreferncesProfile = (props) => {
       let result = null;
       if (userExists) {
         result = await updateUserProfilePrefernces(userProfilePrefernces);
-        handleCloseProfile();
-      }
-      else {
+      } else {
         result = await createUserProfilePrefernces(userProfilePrefernces);
       }
       if (result.status == 201) {
@@ -167,7 +185,7 @@ const SetPreferncesProfile = (props) => {
           item="true"
           component="form"
           xs={4}
-          sx={{ width: 400, marginLeft: "auto", marginRight: "auto" }}
+          sx={{ width: 600, marginLeft: "auto", marginRight: "auto" }}
         >
           <Card>
             <FormControl fullWidth sx={{ mt: 3 }}>
@@ -204,40 +222,75 @@ const SetPreferncesProfile = (props) => {
                 >
                   Location
                 </InputLabel>
+                <SearchGoogleMap
+                  onPositionSelect={handlePositionSelect}
+                  onSearchValueSelect={handleSearchValueSelect}
+                />
                 <TextField
                   //  label='Location'
                   labelid="location-label"
                   id="location"
-                  onChange={locationHandler}
-                  value={loaction}
+                  value={selectedLocation}
                   fullWidth
                 />
               </CardContent>
             </FormControl>
-            <FormControl fullWidth>
+            <FormControl fullWidth sx={{ mt: 3 }}>
               <CardContent>
                 <InputLabel
                   sx={{ fontSize: 20, textDecoration: "bolt" }}
                   shrink
-                  id="price-range-label"
+                  id="ages-range-label"
                 >
-                  Enter price range
+                  Enter Range In Meters
                 </InputLabel>
                 <Slider
-                  getAriaLabel={() => "Price range"}
-                  value={priceRange}
-                  onChange={priceRangeHandler}
+                  getAriaLabel={() => "Range"}
+                  value={radius}
+                  onChange={radiusHandler}
                   valueLabelDisplay="auto"
-                  getAriaValueText={valuePricetext}
-                  min={1000}
-                  max={10000}
+                  getAriaValueText={valuetext}
+                  max={3000}
                   size="small"
                   sx={{ color: "black" }}
                 />
-                <Typography>
-                  The range of price: {`${priceRange[0]}`}-{`${priceRange[1]}`}{" "}
-                  $ ₪
-                </Typography>
+                <Typography>The range is up to {radius} meters</Typography>
+              </CardContent>
+            </FormControl>
+          </Card>
+        </Box>
+
+        <Box
+          item="true"
+          component="form"
+          xs={4}
+          sx={{ width: 600, marginLeft: "auto", marginRight: "auto" }}
+        >
+          <Card>
+            <FormControl fullWidth sx={{ mt: 3 }}>
+              <CardContent>
+                <InputLabel
+                  sx={{ fontSize: 20, textDecoration: "bolt" }}
+                  shrink
+                  id="elevator-label"
+                >
+                  Elevator
+                </InputLabel>
+                <Select
+                  label="Elevator"
+                  // labelId='smoking-label'
+                  id="elevator"
+                  value={elevator}
+                  onChange={elevatorHandler}
+                  // input={<OutlinedInput label="Smoking" />}
+                  fullWidth
+                >
+                  {options.map((o) => (
+                    <MenuItem key={o} value={o}>
+                      {o}
+                    </MenuItem>
+                  ))}
+                </Select>
               </CardContent>
             </FormControl>
             <FormControl fullWidth>
@@ -266,40 +319,30 @@ const SetPreferncesProfile = (props) => {
                 </Select>
               </CardContent>
             </FormControl>
-          </Card>
-        </Box>
-
-        <Box
-          item="true"
-          component="form"
-          xs={4}
-          sx={{ width: 400, marginLeft: "auto", marginRight: "auto" }}
-        >
-          <Card>
-            <FormControl fullWidth sx={{ mt: 3 }}>
+            <FormControl fullWidth>
               <CardContent>
                 <InputLabel
                   sx={{ fontSize: 20, textDecoration: "bolt" }}
                   shrink
-                  id="elevator-label"
+                  id="price-range-label"
                 >
-                  Elevator
+                  Enter price range
                 </InputLabel>
-                <Select
-                  label="Elevator"
-                  // labelId='smoking-label'
-                  id="elevator"
-                  value={elevator}
-                  onChange={elevatorHandler}
-                  // input={<OutlinedInput label="Smoking" />}
-                  fullWidth
-                >
-                  {options.map((o) => (
-                    <MenuItem key={o} value={o}>
-                      {o}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <Slider
+                  getAriaLabel={() => "Price range"}
+                  value={priceRange}
+                  onChange={priceRangeHandler}
+                  valueLabelDisplay="auto"
+                  getAriaValueText={valuePricetext}
+                  min={1000}
+                  max={10000}
+                  size="small"
+                  sx={{ color: "black" }}
+                />
+                <Typography>
+                  The range of price: {`${priceRange[0]}`}-{`${priceRange[1]}`}{" "}
+                  $ ₪
+                </Typography>
               </CardContent>
             </FormControl>
             <FormControl fullWidth>
@@ -395,10 +438,9 @@ const SetPreferncesProfile = (props) => {
           marginTop: 3,
         }}
       >
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-  {error && <p style={{ color: "red", fontSize:"20px" }}>{error}</p>}
-</Box>
-
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {error && <p style={{ color: "red", fontSize: "20px" }}>{error}</p>}
+        </Box>
 
         <Box
           item="true"

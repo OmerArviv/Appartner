@@ -9,14 +9,15 @@ const appartmentSchema = new mongoose.Schema({
       lng: { type: Number, default: null }
     },
     name: { type: String, default: null }
-  }, price_range: { type: Array, default: null },
+  },
+  price_range: { type: Array, default: null },
   gender: { type: String, default: null },
   elevator: { type: String, default: null },
   parking: { type: String, default: null },
   smoking: { type: String, default: null },
   roomates: { type: Array, default: null },
   images: { type: Array, default: null },
-  summary: {type: String, default: null},
+  summary: { type: String, default: null },
 });
 
 module.exports = mongoose.model("appartment", appartmentSchema);

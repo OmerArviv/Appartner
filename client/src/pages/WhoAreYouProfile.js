@@ -45,19 +45,17 @@ const WhoAreYouProfile = () => {
     <>
       <Box
         item="true"
-        xs={6}
         sx={{
           width: "fit-content",
           marginLeft: "auto",
           marginRight: "auto",
-          paddingTop: "30px",
         }}
       >
         {userType ? (
           <Typography sx={{ fontSize: 40 }}>Hello, {`${userType}`}</Typography>
         ) : (
-          <Typography sx={{ fontSize: 30, color: "black" }}>
-            Please Click To Choose Who Are You?
+          <Typography sx={{ fontSize: 24, color: "black" }}>
+            CHOOSE YOUR USER TYPE
           </Typography>
         )}
       </Box>
@@ -65,7 +63,7 @@ const WhoAreYouProfile = () => {
         <Box
           item="true"
           xs={6}
-          sx={{ width: "fit-content", marginLeft: "auto", marginRight: "auto" }}
+          sx={{ width: "fit-content", marginLeft: "auto" }}
         >
           <Button
             sx={{ display: "flex", flexWrap: "wrap" }}
@@ -86,7 +84,7 @@ const WhoAreYouProfile = () => {
                 alt="welcomer image"
                 sx={{ width: "fit-content" }}
               />
-              <Typography sx={{ fontSize: 30 }}>Welcomer</Typography>
+              <Typography sx={{ fontSize: 26 }}>WELCOMER</Typography>
               <Typography sx={{ fontSize: 20 }}>
                 People who own an apartment and <br /> looking for roommates
               </Typography>
@@ -96,10 +94,10 @@ const WhoAreYouProfile = () => {
         <Box
           item="true"
           xs={6}
-          sx={{ width: "fit-content", marginLeft: "auto", marginRight: "auto" }}
+          sx={{ width: "fit-content", marginRight: "auto" }}
         >
           <Button
-            sx={{ display: "flex", flexWrap: "wrap", margin: "10" }}
+            sx={{ display: "flex", flexWrap: "wrap" }}
             onClick={() => setUserType("Looker")}
           >
             <CardActionArea>
@@ -110,7 +108,7 @@ const WhoAreYouProfile = () => {
                 image={looker_img}
                 alt="upload image 2"
               />
-              <Typography sx={{ fontSize: 30 }}>Looker</Typography>
+              <Typography sx={{ fontSize: 26 }}>LOOKER</Typography>
               <Typography sx={{ fontSize: 20 }}>
                 People who are looking for <br /> an apartment to enter
               </Typography>

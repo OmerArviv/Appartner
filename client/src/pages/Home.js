@@ -1,10 +1,9 @@
 import { useContext, useEffect } from "react";
 import { pageTitleContext } from "../APP/Utils";
 import { Grid, Avatar, Typography } from "@mui/material";
-import main_1 from "../images/main_1.jpeg";
-import main_2 from "../images/main_2.jpeg";
-import main_3 from "../images/main_3.jpeg";
-import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
+import main_1 from "../images/main_1.jpg";
+import main_2 from "../images/main_2.jpg";
+import main_3 from "../images/main_3.jpg";
 
 const Home = () => {
   const { setPageTitle } = useContext(pageTitleContext);

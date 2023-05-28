@@ -1,17 +1,28 @@
 import { Box, Skeleton, IconButton } from "@mui/material";
+import {
+
+  Typography,
+
+} from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import { deleteRoomateRequestByUser } from "../controller/RoomateRequestController";
 import { useEffect, useState } from "react";
 import ApartmentListItem from "./ApartmentListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
+import { getUserByEmail } from "../controller/authenticationController";
+import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+
 
 function LookerRequestItem(props) {
   const request = props.request;
   const [apartment, setApartment] = useState();
+  const [phone, setPhone] = useState();
+
 
   useEffect(() => {
     getRequestApartment();
+    getPhoneNumber();
   }, []);
 
   const getRequestApartment = async () => {
@@ -20,6 +31,13 @@ function LookerRequestItem(props) {
       setApartment(res.data);
     }
   };
+
+  const getPhoneNumber = async()=>{
+    const res = await getUserByEmail(request.user_email);
+    if (res) {
+      setPhone(res.phone_number);
+      console.log(phone);
+    }  }
 
   const onDeleteHandler = async (event) => {
     event.preventDefault();
@@ -55,8 +73,9 @@ function LookerRequestItem(props) {
   };
 
   const getStatusLabel = () => {
-    return request.status.charAt(0).toUpperCase() + request.status.slice(1);
+    return request.status.toUpperCase();
   };
+  
 
   return (
     <div>
@@ -100,6 +119,8 @@ function LookerRequestItem(props) {
             }}
           >
             <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
+            <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin:5 }} />
+              <Typography>{phone}</Typography>
             <br />
             {request.status === "pending" && (
               <IconButton

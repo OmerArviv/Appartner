@@ -4,7 +4,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { MicNoneSharp, StopSharp, ReplaySharp } from "@mui/icons-material";
-import { Button, IconButton, InputBase, Typography } from "@mui/material";
+import { Button, IconButton, InputBase } from "@mui/material";
 import { parseData } from "../../controller/chatGptController";
 
 const btnstyle = {
