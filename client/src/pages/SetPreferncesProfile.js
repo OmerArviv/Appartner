@@ -71,6 +71,10 @@ const SetPreferncesProfile = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setPageTitle("Set Your Preferences");
+  })
+
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
   };
