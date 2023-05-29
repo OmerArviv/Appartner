@@ -1,7 +1,6 @@
 import "./messenger.css";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button, Typography, Autocomplete, Divider, IconButton, Stack } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
 import Conversation from "./Conversation";
 import Message from "./Message";
 import ChatOnline from "./ChatOnline";
@@ -12,6 +11,7 @@ import {getUserByEmail} from "../../controller/authenticationController";
 import {getConversationsByUserEmail} from "../../controller/conversationController";
 import {createMessage, getMessagesConversationById} from "../../controller/messageController";
 import {io} from "socket.io-client";
+
 function Messenger(){
   const { userEmail } = useContext(authContext);
   const [user, setUser]=useState(null);
@@ -20,15 +20,17 @@ function Messenger(){
   const [chatMessages, setChatMessages]=useState(null);
   const [newMessage, setNewMessage]=useState("");
   const [arrivalMessage, setArrivalMessage]=useState("");
-  const [onlineUsers, setonlineUsers]=useState(null);
+  const [onlineUsers, setonlineUsers]=useState([]);
+  const [membersEmail, setMembersEmail]=useState([]);
+  const [searchMembers, setSearchMembers] = useState("");
+const [options, setOptions] = useState([]);
 
-  // const [socket, setSocket]=useState(null);
   const socket=useRef(null);
   const scrollRef=useRef(); // to show the last message that sent
-  const reciverId= ()=>{
+  
+   const reciverId= ()=>{
     var reciver_email=null;
     if(user.role==="Welcomer"){
-      console.log(user.role);
       reciver_email=currentChat.looker_email; 
     }
     else{
@@ -40,6 +42,10 @@ function Messenger(){
   useEffect(()=>{
     getUser();
   },[]);
+
+  useEffect(()=>{
+    getAllMembers();
+  },[conversations,user]);
 
   useEffect(()=>{
     getUserConversations();
@@ -75,7 +81,7 @@ function Messenger(){
         text:data.text,
         createdAt:Date.now(),
       });
-    })
+    });
   },[]);
   
   
@@ -85,6 +91,9 @@ function Messenger(){
   },
   [arrivalMessage,currentChat]);
 
+  useEffect(()=>{
+    handleSearch();
+    },[searchMembers,options,user,conversations]);
 
   const handleEmitEvent = () => {
     if (socket.current) {
@@ -109,7 +118,6 @@ function Messenger(){
   // useEffect(()=>{
   //   setSocket(io("ws://localhost:8900"));//ws:web socket
   // },[]);
-
 
   
   /*message from server to all users */
@@ -159,6 +167,7 @@ socket.current.emit("sendMessage",{
   try{
     const res= await createMessage(messageToSend);
     if(res){
+      console.log(res);
       setChatMessages([...chatMessages, res.data]);
       setNewMessage("");
     }
@@ -168,6 +177,49 @@ socket.current.emit("sendMessage",{
   }
 }
 
+const getAllMembers= ()=>{
+  var tmpMembers=[];
+  if(user && conversations){
+    if(user.role==="Welcomer"){
+      conversations.forEach(item => {
+        tmpMembers.push(item.looker_email);
+      }); 
+    }
+    else{
+      conversations.forEach(item => {
+        tmpMembers.push(item.welcomer_email);
+      }); 
+    }
+      setMembersEmail(tmpMembers);
+    }
+}
+
+const handleSearchChange = (event, value) => {
+  setSearchMembers(value);
+  if(value==""){
+    setOptions([]);
+  }
+};
+
+const handleSearch = (event, value) => {
+  if(searchMembers){
+    var filteredOptions=[];
+      if(user.role==="Welcomer"){
+        filteredOptions= conversations.filter(c=> 
+          c.looker_email.startsWith(searchMembers));
+      }
+      else{
+        filteredOptions= conversations.filter(c=> 
+          c.welcomer_email.startsWith(searchMembers));
+      }
+    
+    setOptions(filteredOptions);
+  }
+  else{
+    setOptions(conversations);
+  }
+  
+};
 
     return(
         <>
@@ -177,15 +229,47 @@ socket.current.emit("sendMessage",{
         container="true"
         // spacing={50}
         xs={12}
-        sx={{ display: "flex", flexWrap: "wrap", margin: "10px", marginTop: 5, justifyContent:"center" }}
+        sx={{ display: "flex", flexWrap: "wrap", margin: "10px", marginTop:3,justifyContent:"center", }}
         >
         <Box
           item="true"
-          component="form"
+          component="div"
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
-            <TextField id="search" label="Search" variant="standard"
+           <Typography align="center"
+            sx={{backgroundColor:"#d2f7d8",fontWeight:"bold",marginRight:1}}>
+              MEMBERS
+              </Typography>
+              <Box item="true"
+                    sx={{display:"flex", flexWarp:"warp", alignItems:"center", justifyContent:"space-between"}}>
+                  <Autocomplete
+                  fullWidth
+                    freeSolo
+                    options={membersEmail? membersEmail :""}
+                    inputValue={searchMembers}
+                    onInputChange={handleSearchChange}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Search for rommates.."
+                        variant="standard"
+                        size="small"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: <SearchIcon />,
+                        }}
+                      />
+                    )}
+                  />
+                  {/* <IconButton onClick={handleSearch}>
+                  <SearchIcon />
+
+                  </IconButton> */}
+                    </Box>
+                 
+            
+            {/* <TextField id="search" label="Search" variant="standard"
              InputProps={{
                 startAdornment: (
                   <InputAdornment position="end">
@@ -193,10 +277,49 @@ socket.current.emit("sendMessage",{
                   </InputAdornment>
                 ),
               }}
+              // renderInput={membersEmail}
               size="small"
               placeholder="serch for rommates..."
-              />
-              {conversations? 
+              /> */}
+
+              
+          {options  ? 
+                        (
+                          options.map((con,index)=>{
+                            return(
+                              <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                              <Conversation key={index} conversation={con} user={user} currentChat={currentChat}/>
+                              </div>
+
+                      ) })): ("" )}
+                        
+
+
+
+          {/* 
+              {options  ? 
+              (
+                options.map((con,index)=>{
+                  return(
+                    <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                      {console.log("in options")}
+                     <Conversation key={index} conversation={con} user={user}/>
+                     </div>
+
+             ) })): (
+              conversations?.map((con,index)=>{
+                return(
+                  <div  key={index} onClick={()=>{setCurrentChat(con);}}>
+                                          {console.log("in conversation")}
+
+                   <Conversation key={index} conversation={con} user={user}/>
+                   </div>
+
+           ) })
+
+             )} */}
+
+{/* {conversations? 
               (
                 conversations.map((con,index)=>{
                   return(
@@ -204,8 +327,11 @@ socket.current.emit("sendMessage",{
                      <Conversation key={index} conversation={con} user={user}/>
                      </div>
 
-             ) })): ""}
+             ) })): ""} */}
+              
         </Box>
+
+        
         
         {/*the chat with the message */}
         <Box
@@ -214,20 +340,49 @@ socket.current.emit("sendMessage",{
           xs={4}
           sx={{ width: 1/3, marginLeft: "auto", marginRight: "auto" }}
         >
+          
           {currentChat? ( 
             <>
             {/*Top area- the messages */}
 
+            <Typography align="center"
+            sx={{backgroundColor:"#d2f7d8",fontWeight:"bold"}}>
+              CHAT
+              </Typography>
+
                   <Box item="true"
-                  sx={{height:"100%", overflowY:"scroll"}}/*scrollbarGutter:"stable && both-edges", paddingRight:"10px"} */
+                  sx={{height:"450px", 
+                  overflowY:"scroll",
+                  scrollbarWidth: "thin",
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(0, 0, 0, 0.3)",
+                    borderRadius: "3px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                 }}/*scrollbarGutter:"stable && both-edges", paddingRight:"10px"} */
+                  ref={scrollRef}
                   >
                     {chatMessages? 
                     (chatMessages.map((mes,index)=>{
                       return(
-                        <div key={index} ref={scrollRef}>
+                        // <div key={index} ref={scrollRef} 
+                        // style={{maxHeight: "300px", overflowY:"auto"}}
+                        // >
+                            <div key={index}
+                        // style={{maxHeight: "300px", overflowY:"auto"}}
+                        >
                            <Message key={index} message={mes} own={mes? mes.sender_email===userEmail : ""}
                            currentChat={currentChat}
                            userEmail={userEmail}
+                           chatPerson={reciverId()}
                            />
                         </div>
                        
@@ -236,7 +391,7 @@ socket.current.emit("sendMessage",{
                   </Box>
                   {/*Bottom area- sending message */}
                     <Box item="true"
-                    sx={{mt:"20px", display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+                    sx={{mt:"20px", display:"flex", flexWarp:"warp", alignItems:"center", justifyContent:"space-between"}}>
                     <TextField 
                     fullWidth={true}
                     placeholder="write your message"

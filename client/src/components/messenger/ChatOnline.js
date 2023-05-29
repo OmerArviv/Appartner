@@ -102,13 +102,11 @@ function ChatOnline(props) {
 
   const clickHandler = (user) => {
     allUsersConversations?.filter((c) => {
-      if (c.looker_email === user.email && c.welcomer_email === userEmail) {
-        props.setCurrentChat(c._id);
-      } else if (
-        c.welcomer_email === user.email &&
-        c.looker_email === userEmail
+      if (
+        (c.looker_email == user.email && c.welcomer_email == userEmail) ||
+        (c.welcomer_email == user.email && c.looker_email == userEmail)
       ) {
-        props.setCurrentChat(c._id);
+        props.setCurrentChat(c);
       }
     });
   };
@@ -116,13 +114,17 @@ function ChatOnline(props) {
   return (
     <>
       {/*ChatOnline rommates */}
-      <Typography>ONLINE MEMBERS</Typography>
+      <Typography
+        align="center"
+        sx={{ backgroundColor: "#d2f7d8", fontWeight: "bold", marginLeft: 1 }}
+      >
+        ONLINE MEMBERS
+      </Typography>
 
       <Box
         container="true"
         sx={{
           mt: "20px",
-          display: "flex",
           alignItems: "center",
           fontWeight: "500",
           cursor: "pointer",
@@ -137,7 +139,11 @@ function ChatOnline(props) {
               return (
                 <Box
                   item="true"
-                  sx={{ objectFit: "cover", position: "relative" }}
+                  sx={{
+                    objectFit: "cover",
+                    position: "relative",
+                    marginTop: 3,
+                  }}
                   key={index}
                   component="div"
                   onClick={() => {
@@ -154,9 +160,12 @@ function ChatOnline(props) {
                         key={index}
                         alt="user profile image"
                         src={o ? o.user_profile_image : ""}
+                        sx={{ height: 56, width: 56 }}
                       />
                     </StyledBadge>
-                    <Typography sx={{ marginTop: 5 }}>{o.email}</Typography>
+                    <Typography sx={{ marginTop: 5, fontSize: 25 }}>
+                      {o.full_name}
+                    </Typography>
                   </Stack>
                 </Box>
               );

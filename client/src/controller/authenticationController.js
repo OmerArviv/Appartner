@@ -102,3 +102,23 @@ export const getUserByEmail = (email) => {
       return null;
     });
 };
+
+export const getUserLastLogin = (email) => {
+  let url = APP_ROUTES.Authentication.getUserLastLogin;
+  console.log(url);
+  return axios
+    .get(url, {
+      params: { email: email },
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

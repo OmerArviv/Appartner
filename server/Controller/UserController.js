@@ -3,6 +3,7 @@ const UserService = require("../Service/UserService");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { now } = require("mongoose");
 
 router.route("/register").post(async (request, response) => {
   // Get user input
@@ -78,6 +79,9 @@ router.route("/login").post(async (request, response) => {
 
     // user
     return response.status(200).json(user);
+    // const temp = await UserService.updateUserByEmail(user);
+    // if (temp) {
+    // }
   }
   return response.status(400).send("Invalid Credentials");
 });
@@ -122,6 +126,23 @@ router.route("/getUserByEmail").get(async (request, response) => {
   const user = await UserService.findUserByEmail(email);
   if (user) {
     return response.status(200).json(user);
+  }
+  return response.status(403).send({});
+});
+
+router.route("/getUserLastLogin").get(async (request, response) => {
+  const { email } = request.query;
+  if (!email) {
+    return response.status(403).send({});
+  }
+
+  const user = await UserService.findUserByEmail(email);
+  const updateUserLastLogin = await UserService.updateUserByEmail({
+    email: email,
+    last_login: Math.floor(Date.now() / 1000),
+  });
+  if (user) {
+    return response.status(200).json(user.last_login);
   }
   return response.status(403).send({});
 });

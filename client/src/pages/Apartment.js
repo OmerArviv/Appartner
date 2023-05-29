@@ -39,10 +39,11 @@ const Topic = ({ label, value }) => (
   </Box>
 );
 
-const Apartment = () => {
+const Apartment = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userRole, userEmail } = useContext(authContext);
   const { apartmentId } = useParams();
+  const { ap } = props;
   const navigate = useNavigate();
 
   const [appartment, setAppartment] = useState("");
@@ -64,7 +65,11 @@ const Apartment = () => {
 
   useEffect(() => {
     setPageTitle("Apartment");
-    getAppartmentDetailsById();
+    if (ap) {
+      setAppartment(ap);
+    } else {
+      getAppartmentDetailsById();
+    }
   }, []);
 
   const sendRequest = async () => {
@@ -83,166 +88,155 @@ const Apartment = () => {
   };
 
   return (
-    <Grid container justifyContent="center">
-      <Grid item xs={10} sm={8} md={6}>
-        <Grid container marginTop={5}>
-          <Grid item xs={12}>
-            {appartment ? (
-              <Grid container spacing={10}>
-                <Grid item xs={12} sm={5}>
-                  <Box sx={{ height: 450, width: 450 }}>
-                    <UserCarousel apartmentImages={appartment.images} />
-                  </Box>
-                  <Box sx={{ width: 750, paddingTop: "10px" }}>
-                    <Topic label="About The Appartment:" />
-                    <Typography
-                      sx={{ marginLeft: "10px", paddingBottom: "10px" }}
-                    >
-                      {appartment.summary}
-                    </Typography>
-                  </Box>
-                  <CardContent>
-                    <Stack direction="row" spacing={4}>
-                      {appartment.roomates && appartment.roomates.length !== 0
-                        ? appartment.roomates.map((item, index) => {
-                            return (
-                              <RoomateAvatar
-                                email={item}
-                                key={index}
-                              ></RoomateAvatar>
-                            );
-                          })
-                        : ""}
-                    </Stack>
-                  </CardContent>
-                </Grid>
-                <Grid item xs={12} sm={2} />
-                <Grid item xs={12} sm={5}>
-                  <Box sx={{ marginTop: "30px" }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <AccountCircleOutlinedIcon
-                        sx={{ paddingBottom: "15px" }}
-                      />
-                      <Topic
-                        label="Age:"
-                        value={
-                          appartment.age_range[0] +
-                          " - " +
-                          appartment.age_range[1]
-                        }
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <LocationOnOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic
-                        label="Location:"
-                        value={appartment.location.name}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <AttachMoneyOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic
-                        label="Price:"
-                        value={
-                          appartment.price_range[0] +
-                          "$ - " +
-                          appartment.price_range[1] +
-                          "$"
-                        }
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic label="Gender:" value={appartment.gender} />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <ElevatorOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                      <Topic label="Elevator:" value={appartment.elevator} />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <LocalParkingOutlinedIcon
-                        sx={{ paddingBottom: "15px" }}
-                      />
-                      <Topic label="Parking:" value={appartment.parking} />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <SmokingRoomsOutlinedIcon
-                        sx={{ paddingBottom: "15px" }}
-                      />
-                      <Topic label="Smoking:" value={appartment.smoking} />
-                    </Box>
-                  </Box>
-                </Grid>
+    <Grid container sx={{ margin: "auto" }} xs={10} sm={8} md={6}>
+      <Grid container marginTop={5}>
+        <Grid item xs={12}>
+          {appartment ? (
+            <Grid container spacing={10}>
+              <Grid item xs={12} sm={5}>
+                <Box sx={{ height: 450, width: 450 }}>
+                  <UserCarousel apartmentImages={appartment.images} />
+                </Box>
+                <Box sx={{ width: 750, paddingTop: "10px" }}>
+                  <Topic label="About The Appartment:" />
+                  <Typography
+                    sx={{ marginLeft: "10px", paddingBottom: "10px" }}
+                  >
+                    {appartment.summary}
+                  </Typography>
+                </Box>
+                <CardContent>
+                  <Stack direction="row" spacing={4}>
+                    {appartment.roomates && appartment.roomates.length != 0
+                      ? appartment.roomates.map((item, index) => {
+                          return (
+                            <RoomateAvatar
+                              email={item}
+                              key={index}
+                            ></RoomateAvatar>
+                          );
+                        })
+                      : ""}
+                  </Stack>
+                </CardContent>
               </Grid>
-            ) : (
-              ""
-            )}
-          </Grid>
+              <Grid item xs={12} sm={2} />
+              <Grid item xs={12} sm={5}>
+                <Box sx={{ marginTop: "30px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic
+                      label="Age:"
+                      value={
+                        appartment.age_range[0] +
+                        " - " +
+                        appartment.age_range[1]
+                      }
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <LocationOnOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Location:" value={appartment.location.name} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <AttachMoneyOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic
+                      label="Price:"
+                      value={
+                        appartment.price_range[0] +
+                        "$ - " +
+                        appartment.price_range[1] +
+                        "$"
+                      }
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Gender:" value={appartment.gender} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ElevatorOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Elevator:" value={appartment.elevator} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <LocalParkingOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Parking:" value={appartment.parking} />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                    <Topic label="Smoking:" value={appartment.smoking} />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
-        <Box
-          sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}
-        >
-          {userRole === "Looker" ? (
-            <Button
-              variant="contained"
-              onClick={sendRequest}
-              style={btnstyle}
-              sx={{ width: "400px", marginBottom: "20px" }}
-            >
-              I LOVE THIS APARTMENT, SEND REQUEST
-            </Button>
-          ) : (
-            ""
-          )}
-          {userRole === "Welcomer" && userEmail === appartment.email ? (
-            <Button
-              variant="contained"
-              // onClick={onSubmitHandler}
-              style={btnstyle}
-              sx={{ width: "400px", marginBottom: "20px" }}
-            >
-              EDIT APPARTMENT
-            </Button>
-          ) : (
-            ""
-          )}
-        </Box>
       </Grid>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}
+      >
+        {userRole === "Looker" ? (
+          <Button
+            variant="contained"
+            onClick={sendRequest}
+            style={btnstyle}
+            sx={{ width: "400px", marginBottom: "20px" }}
+          >
+            I LOVE THIS APARTMENT, SEND REQUEST
+          </Button>
+        ) : (
+          ""
+        )}
+        {userRole === "Welcomer" && userEmail == appartment.email ? (
+          <Button
+            variant="contained"
+            // onClick={onSubmitHandler}
+            style={btnstyle}
+            sx={{ width: "400px", marginBottom: "20px" }}
+          >
+            EDIT APPARTMENT
+          </Button>
+        ) : (
+          ""
+        )}
+      </Box>
     </Grid>
   );
 };

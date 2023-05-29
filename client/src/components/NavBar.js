@@ -159,20 +159,24 @@ export default function NavBar(props) {
                 </>
               ) : (
                 <Stack direction="row">
-                  <IconButton
-                    onClick={() => {
-                      navigate("/looker/looker-requests");
-                    }}
-                  >
-                    <TelegramIcon fontSize="large" />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => {
-                      navigate("/set-your-pref");
-                    }}
-                  >
-                    <PsychologyAltIcon fontSize="large" />
-                  </IconButton>
+                  <Tooltip title="Your Requests" disableInteractive>
+                    <IconButton
+                      onClick={() => {
+                        navigate("/looker/looker-requests");
+                      }}
+                    >
+                      <TelegramIcon fontSize="large" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Set Your Preferences" disableInteractive>
+                    <IconButton
+                      onClick={() => {
+                        navigate("/set-your-pref");
+                      }}
+                    >
+                      <PsychologyAltIcon fontSize="large" />
+                    </IconButton>
+                  </Tooltip>
                 </Stack>
               )}
 
