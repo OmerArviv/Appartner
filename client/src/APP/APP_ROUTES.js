@@ -13,7 +13,6 @@ const CHATGPT_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}chatGpt`;
 const CONVERSATION_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}conversation`;
 const MESSAGE_ENPOINT = `${process.env.REACT_APP_SERVER_HOST}message`;
 
-
 export const APP_ROUTES = {
   Authentication: {
     register: `${AUTHENTICATION_ENPOINT}/register`,
@@ -22,13 +21,14 @@ export const APP_ROUTES = {
     getUserSalt: `${AUTHENTICATION_ENPOINT}/getUserSalt`,
     updateUserDetails: `${AUTHENTICATION_ENPOINT}/updateUserDetails`,
     getUserByEmail: `${AUTHENTICATION_ENPOINT}/getUserByEmail`,
+    getUserLastLogin: `${AUTHENTICATION_ENPOINT}/getUserLastLogin`,
   },
 
   userProfile: {
     createProfile: `${USER_PROFILE_ENPOINT}/createProfile`,
     updateProfile: `${USER_PROFILE_ENPOINT}/updateProfile`,
     getUserProfileByEmail: `${USER_PROFILE_ENPOINT}/getUserProfileByEmail`,
- 
+
     createUserVideo: `${USER_PROFILE_ENPOINT}/dalle`,
   },
 
@@ -59,17 +59,17 @@ export const APP_ROUTES = {
     parseUserInput: `${CHATGPT_ENPOINT}/parse`,
     convWithChat: `${CHATGPT_ENPOINT}/conver`,
     shortcutWithChatGpt: `${CHATGPT_ENPOINT}/shortcut`,
-    summaryWithChatGpt: `${CHATGPT_ENPOINT}/summary`
+    summaryWithChatGpt: `${CHATGPT_ENPOINT}/summary`,
   },
-  conversation:{
+  conversation: {
     createConversation: `${CONVERSATION_ENPOINT}/createConversation`,
     getConversationById: `${CONVERSATION_ENPOINT}/getConversationById`,
     getConversationsByUserEmail: `${CONVERSATION_ENPOINT}/getConversationsByUserEmail`,
   },
-  message:{
-    createMessage:`${MESSAGE_ENPOINT}/createMessage`, 
-    getConversationMessages:`${MESSAGE_ENPOINT}/getConversationMessages`, 
-  }
+  message: {
+    createMessage: `${MESSAGE_ENPOINT}/createMessage`,
+    getConversationMessages: `${MESSAGE_ENPOINT}/getConversationMessages`,
+  },
 };
 
 // HEADERS()

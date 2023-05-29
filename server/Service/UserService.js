@@ -2,7 +2,6 @@ const users = require("../Model/User");
 
 module.exports = class UserService {
   static async insertUser(user) {
-    console.log(user);
     return users
       .create(user)
       .then((value) => {
