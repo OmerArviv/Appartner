@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   phone_number: { type: String },
   role: { type: String },
   token: { type: String },
+  last_login: { type: Number, default: () => Math.floor(Date.now() / 1000) },
 });
 
 module.exports = mongoose.model("user", userSchema);

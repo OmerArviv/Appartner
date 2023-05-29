@@ -6,9 +6,9 @@ const appartmentSchema = new mongoose.Schema({
   location: {
     position: {
       lat: { type: Number, default: null },
-      lng: { type: Number, default: null }
+      lng: { type: Number, default: null },
     },
-    name: { type: String, default: null }
+    name: { type: String, default: null },
   },
   price_range: { type: Array, default: null },
   gender: { type: String, default: null },
@@ -18,6 +18,7 @@ const appartmentSchema = new mongoose.Schema({
   roomates: { type: Array, default: null },
   images: { type: Array, default: null },
   summary: { type: String, default: null },
+  publish_time: { type: Number, default: () => Math.floor(Date.now() / 1000) },
 });
 
 module.exports = mongoose.model("appartment", appartmentSchema);

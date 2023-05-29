@@ -85,6 +85,25 @@ export const getAllAppartments = () => {
     });
 };
 
+export const getNewAppartments = (date) => {
+  let url = APP_ROUTES.appartment.getAllAppartments;
+  return axios
+    .get(url, {
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        const appartments = result.data.filter((i) => i.publish_time > date);
+        return appartments;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};
+
 export const getAllAppartmentsAndRoomateDetails = () => {
   let url = APP_ROUTES.appartment.getAllAppartmentsAndRoomateDetails;
   return axios
@@ -103,7 +122,6 @@ export const getAllAppartmentsAndRoomateDetails = () => {
     });
 };
 
-
 export const calculateDistance = (pos1, pos2) => {
   const R = 6371000;
 
@@ -120,9 +138,7 @@ export const calculateDistance = (pos1, pos2) => {
   // apply the Haversine formula
   const a =
     Math.sin(deltaLat / 2) ** 2 +
-    Math.cos(lat1Rad) *
-    Math.cos(lat2Rad) *
-    Math.sin(deltaLon / 2) ** 2;
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(deltaLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   // calculate the distance
