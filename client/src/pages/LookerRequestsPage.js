@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { getRoomateRequestByUserEmail } from "../controller/RoomateRequestController";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import LookerRequestItem from "../components/LookerRequestItem";
+import ForumIcon from '@mui/icons-material/Forum';
 
 const LookerRequestsPage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
