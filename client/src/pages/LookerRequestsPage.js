@@ -3,11 +3,16 @@ import { getRoomateRequestByUserEmail } from "../controller/RoomateRequestContro
 import { authContext, pageTitleContext } from "../APP/Utils";
 import LookerRequestItem from "../components/LookerRequestItem";
 import ForumIcon from '@mui/icons-material/Forum';
+import { useNavigate } from "react-router-dom";
+import {Button,Grid } from "@mui/material";
+
 
 const LookerRequestsPage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const [userRequests, setUserRequests] = useState();
   const { userEmail } = useContext(authContext);
+  const navigate= useNavigate();
+
   // const [apartments, setApartments]= useState([]);
   // const [apartmentsID, setApartmentsID]= useState([]);
 
@@ -58,10 +63,37 @@ const LookerRequestsPage = () => {
 
   return (
     <div>
-      {userRequests
-        ? userRequests.map((item, index) => {
+        <Grid container="true" sx={{ width:"100%", mt: '10px'}}>
+            {userRequests
+        ? (
+          <>
+            {   userRequests.map((item, index) => {
             return <LookerRequestItem request={item} key={index} />;
-          })
+          })}
+            <Button
+              sx={{
+                '&:hover': {
+                  borderRadius: '4px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                  color: "darkgray"
+                },
+                color: "darkgray", fontSize:"25px",
+                marginRight:"auto",height:"fit-content",marginTop:5,
+                marginLeft:"auto",
+                borderColor:"darkgray"
+              }}
+              onClick={()=>navigate("/messenger")}
+              startIcon={<ForumIcon fontSize="large"/>}
+              variant="outlined"
+              iconSizeLarge
+              >
+                
+                Let's go chat with welcomers! 
+              </Button>
+   
+          </>
+          
+       )
         : // apartments.map((item, index) => {
 
           //             return (
@@ -80,7 +112,14 @@ const LookerRequestsPage = () => {
           //               </Box>
           //               )})
           "You don't have requests"}
-    </div>
+
+
+
+
+
+            </Grid>
+
+         </div>
   );
 };
 

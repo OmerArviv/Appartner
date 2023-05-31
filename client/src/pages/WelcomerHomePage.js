@@ -43,31 +43,38 @@ const WelcomerHomePage = () => {
 
   return (
     <div>
-      <Typography variant="h4" align="center" sx={{ mt: '20px', color: 'ligtblue', fontWeight:"bold" }}>
+      {/* <Typography variant="h4" align="center" sx={{ mt: '20px', color: 'ligtblue', fontWeight:"bold" }}>
               Your Requests
-      </Typography>
+      </Typography> */}
+
       <Grid container="true" sx={{ width:"100%", mt: '10px', display:"flex", flexDirection:"warp"}}>
         {/* <Grid item="true"> */}
+
         {requests.length != 0
           ? (
             <>
-             {requests.map((item, index) => {
-            return <RequestItem request={item} key={index}></RequestItem>;
-          })}
-            <Button
+                    <Button
               sx={{
                 '&:hover': {
                   borderRadius: '4px',
                   backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                  color: "darkgray"
                 },
-                color: "darkgray", fontSize:"30px",
+                color: "darkgray", fontSize:"25px",
                 marginRight:"auto",height:"fit-content",marginTop:5,
+                marginLeft:"auto",
+                borderColor:"darkgray"
               }}
               onClick={()=>navigate("/messenger")}
+              startIcon={<ForumIcon />}
+              variant="outlined"
               >
-                <ForumIcon size="large"/>
-                Chat with your lookers! 
+                
+                Let's go chat! 
               </Button>
+             {requests.map((item, index) => {
+            return <RequestItem request={item} key={index}></RequestItem>;
+          })}
             </>
            )
           : 
