@@ -21,11 +21,12 @@ function LookerHomePage() {
 
   const setNewAppartments = async () => {
     const res = await getUserLastLogin(userEmail);
-    var data = await getNewAppartments(res);
-    console.log(data);
-    if (data.length > 0) {
-      setAppartments(data);
-      setModal(true);
+    if (res) {
+      var data = await getNewAppartments(res);
+      if (data.length > 0) {
+        setAppartments(data);
+        setModal(true);
+      }
     }
   };
 
