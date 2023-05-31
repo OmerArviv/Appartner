@@ -97,7 +97,7 @@ function ApartmentList() {
       data.push({
         id: apartment._id,
         age_range: apartment.age_range,
-        location: apartment.location,
+        location: apartment.location.name,
         price_range: apartment.price_range,
         gender: apartment.gender,
         elevator: apartment.elevator,

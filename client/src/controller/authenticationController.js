@@ -105,7 +105,6 @@ export const getUserByEmail = (email) => {
 
 export const getUserLastLogin = (email) => {
   let url = APP_ROUTES.Authentication.getUserLastLogin;
-  console.log(url);
   return axios
     .get(url, {
       params: { email: email },
