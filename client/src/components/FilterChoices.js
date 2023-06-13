@@ -39,6 +39,10 @@ export default function FilterChoices(props) {
     setPriceRange(newValue);
   };
 
+  const handleRadiusChange = (event, newValue) => {
+    setRadius(newValue);
+  };
+
   useEffect(() => {
     async function getUserPrefernces() {
       if (userEmail) {
@@ -61,7 +65,10 @@ export default function FilterChoices(props) {
     setAppartments([
       ...allAppartments.filter((appartment) => {
         if (location.position && appartment.location) {
-          const distance = calculateDistance(location.position, appartment.location.position);
+          const distance = calculateDistance(
+            location.position,
+            appartment.location.position
+          );
           console.log(distance); // Print the calculated distance
           return (
             appartment.age_range[0] >= ageRange[0] &&
@@ -70,9 +77,12 @@ export default function FilterChoices(props) {
             appartment.price_range[1] <= priceRange[1] &&
             appartment.roomates.length === roomates &&
             (smoking === options[2] ||
-              (smoking !== options[2] && appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
-            (elevator === options[2] || appartment.elevator.toLowerCase() === elevator.toLowerCase()) &&
-            (parking === options[2] || appartment.parking.toLowerCase() === parking.toLowerCase()) &&
+              (smoking !== options[2] &&
+                appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
+            (elevator === options[2] ||
+              appartment.elevator.toLowerCase() === elevator.toLowerCase()) &&
+            (parking === options[2] ||
+              appartment.parking.toLowerCase() === parking.toLowerCase()) &&
             distance <= radius
           );
         }
@@ -80,12 +90,15 @@ export default function FilterChoices(props) {
     ]);
   }, [ageRange, priceRange, roomates, smoking, elevator, parking]);
 
-
   function valueAgetext(value) {
     return `${value}`;
   }
 
   function valuePricetext(value) {
+    return `${value}`;
+  }
+
+  function valueRadiustext(value) {
     return `${value}`;
   }
 
@@ -152,6 +165,37 @@ export default function FilterChoices(props) {
                   sx={{ color: "black" }}
                 />
                 <Typography>{priceRange[1]}</Typography>
+              </Stack>
+            </Box>
+
+            <Typography
+              sx={{
+                textAlign: "center",
+                mt: 2,
+              }}
+            >
+              Radius
+            </Typography>
+            <Box sx={{ width: "100%" }}>
+              <Stack
+                spacing={2}
+                direction="row"
+                sx={{ mb: 1 }}
+                alignItems="center"
+              >
+                <Typography>{radius[0]}</Typography>
+                <Slider
+                  getAriaLabel={() => "Radius"}
+                  value={radius}
+                  onChange={handleRadiusChange}
+                  valueLabelDisplay="auto"
+                  getAriaValueText={valueRadiustext}
+                  min={0}
+                  max={3000}
+                  size="small"
+                  sx={{ color: "black" }}
+                />
+                <Typography>{radius[1]}</Typography>
               </Stack>
             </Box>
           </Grid>
@@ -282,11 +326,7 @@ export default function FilterChoices(props) {
             >
               Location
             </Typography>
-            <TextField
-              id="location"
-              value={location.name}
-              fullWidth
-            />
+            <TextField id="location" value={location.name} fullWidth />
           </Grid>
         </Grid>
       </Container>
