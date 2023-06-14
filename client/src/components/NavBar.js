@@ -78,7 +78,7 @@ export default function NavBar(props) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ background: "#EDE3DF" }}>
+      <AppBar position="static" sx={{ background: "#BDCDD6" }}>
         <Toolbar>
           <img
             id="logo"
@@ -104,13 +104,26 @@ export default function NavBar(props) {
           {!authenticated ? (
             <div>
               <Button
-                sx={{ color: "inherit", background: "#CEC9B6", mr: 2 }}
+                sx={{
+                  color: "inherit",
+                  background: "#E9E8E8",
+                  mr: 2,
+                  ":hover": {
+                    bgcolor: "#fff",
+                  },
+                }}
                 onClick={() => navigate("/register")}
               >
                 Sign Up
               </Button>
               <Button
-                sx={{ color: "inherit", background: "#CEC9B6" }}
+                sx={{
+                  color: "inherit",
+                  background: "#E9E8E8",
+                  ":hover": {
+                    bgcolor: "#fff",
+                  },
+                }}
                 onClick={() => navigate("/login")}
               >
                 Log In
@@ -198,7 +211,13 @@ export default function NavBar(props) {
                 </Dialog>
               </Stack>
               <Button
-                sx={{ color: "inherit", background: "#CEC9B6" }}
+                sx={{
+                  color: "inherit",
+                  background: "#E9E8E8",
+                  ":hover": {
+                    bgcolor: "#fff",
+                  },
+                }}
                 onClick={handleSignOut}
               >
                 Sign Out

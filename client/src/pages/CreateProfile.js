@@ -478,9 +478,6 @@ const CreateProfile = () => {
             </FormControl>
           </Card>
         </Box>
-
-        {/*Third Box photos */}
-        {/* <UploadImages  setArrayImages={userImagesArrayHandler}/> */}
         <Box
           item="true"
           component="div"

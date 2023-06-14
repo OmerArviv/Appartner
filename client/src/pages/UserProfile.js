@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Typography, Box, Button } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { authContext } from "../APP/Utils";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -10,6 +18,7 @@ import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import LocalDiningOutlinedIcon from "@mui/icons-material/LocalDiningOutlined";
 import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
+import DialogImage from "../components/DialogImage";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",
@@ -50,6 +59,15 @@ const UserProfile = (props) => {
   const [smoking, setSmoking] = useState();
   const [pets, setPets] = useState();
   const [additionInfo, setAdditionInfo] = useState();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (email) {
@@ -124,13 +142,23 @@ const UserProfile = (props) => {
                   }}
                 >
                   {email === userEmail && (
-                    <Button
-                      variant="contained"
-                      style={btnstyle}
-                      sx={{ width: "300px", marginBottom: "20px" }}
-                    >
-                      CHANGE PROFILE IMAGE
-                    </Button>
+                    <div>
+                      <Button
+                        variant="contained"
+                        style={btnstyle}
+                        sx={{ width: "300px", marginBottom: "20px" }}
+                        onClick={handleClickOpen}
+                      >
+                        CHANGE PROFILE IMAGE
+                      </Button>
+
+                      <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>Change Profile Image</DialogTitle>
+                        <DialogContent>
+                          <DialogImage setImage={setUserProfileImage} />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                   )}
                 </Box>
               </Grid>

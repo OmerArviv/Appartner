@@ -12,9 +12,9 @@ import { getUserProfileByEmail } from "../controller/userProfileController";
 import UserProfile from "../pages/UserProfile";
 import { updateRoomateRequest } from "../controller/RoomateRequestController";
 import { getUserByEmail } from "../controller/authenticationController";
-import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import {createConversation} from "../controller/conversationController";
+import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import { createConversation } from "../controller/conversationController";
 import { authContext } from "../APP/Utils";
 
 const RequestItem = (props) => {
@@ -52,7 +52,6 @@ const RequestItem = (props) => {
         setStatus("accepted"); // Update the status
         setShowChatButton(true); // Show the chat button
         createNewConversation();
-
       } else {
         console.error("Failed to accept roommate request");
       }
@@ -60,7 +59,6 @@ const RequestItem = (props) => {
       console.error(err);
     }
   };
-  
 
   const onIgnoreHandler = async () => {
     const updatedRequest = { ...request, status: "ignored" };
@@ -77,27 +75,22 @@ const RequestItem = (props) => {
     }
   };
 
-  const createNewConversation= async()=>{
-    const user_email=userEmail ; 
-      const newConversation= {
-        welcomer_email: user_email, 
-        looker_email: request.user_email,
-      };
-      const res= await createConversation(newConversation);
-      if(res.status == 201){
-        console.log("add new conversation");
-        console.log(res);
-      }
-      else if (res.status == 403) {
-        console.log("Error occured!");
-      }
-      else{
-        console.log("can't add new conversation");
-
-      }
-  
-  }
-  
+  const createNewConversation = async () => {
+    const user_email = userEmail;
+    const newConversation = {
+      welcomer_email: user_email,
+      looker_email: request.user_email,
+    };
+    const res = await createConversation(newConversation);
+    if (res.status == 201) {
+      console.log("add new conversation");
+      console.log(res);
+    } else if (res.status == 403) {
+      console.log("Error occured!");
+    } else {
+      console.log("can't add new conversation");
+    }
+  };
 
   return (
     <Grid
@@ -123,7 +116,7 @@ const RequestItem = (props) => {
       <Grid item xs={2} sx={{ textAlign: "left" }}>
         <Typography sx={{ fontSize: "25px" }}>{user.email}</Typography>
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={2} sx={{ marginLeft: "70px" }}>
         {status === "accepted" ? (
           <div
             style={{
@@ -136,9 +129,8 @@ const RequestItem = (props) => {
               style={{
                 width: "100px",
                 height: "50px",
-                background: "green",
-                color: "white",
-                fontWeight: "bold",
+                background: "#B9E3A4",
+                color: "black",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -155,8 +147,12 @@ const RequestItem = (props) => {
                 gap: "5px",
               }}
             >
-              <ContactPhoneOutlinedIcon style={{ fontSize: 30 }} />
-              <Typography>{phoneNumber}</Typography>
+              <ContactPhoneOutlinedIcon
+                sx={{ fontSize: 30, paddingLeft: "5px" }}
+              />
+              <Typography sx={{ paddingLeft: "5px", fontSize: "20px" }}>
+                {phoneNumber}
+              </Typography>
             </div>
           </div>
         ) : status === "ignored" ? (
@@ -164,9 +160,8 @@ const RequestItem = (props) => {
             style={{
               width: "100px",
               height: "50px",
-              background: "red",
-              color: "white",
-              fontWeight: "bold",
+              background: "#EA8E8D",
+              color: "black",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -183,7 +178,7 @@ const RequestItem = (props) => {
                 background: "#B9E3A4",
                 height: "50px",
                 color: "black",
-                marginRight: "15px",
+                marginRight: "10px",
               }}
               onClick={onAcceptHandler}
             >
