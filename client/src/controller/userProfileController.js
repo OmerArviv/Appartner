@@ -18,22 +18,21 @@ export const createUserProfile = (userProfile) => {
     });
 };
 
-
 export const createVideo = async (imageUrl, text) => {
   try {
-    const data ={imageUrl, text};
+    const data = { imageUrl, text };
     const dataJson = JSON.stringify(data);
-    const response = await axios.post('http://localhost:8000/userProfile/dalle', data);
-    console.log(response)
+    const response = await axios.post(
+      "http://localhost:8000/userProfile/dalle",
+      data
+    );
+    console.log(response);
     return response;
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     throw error;
   }
 };
-
-
-
 
 export const getUserProfileByEmail = (email) => {
   let url = APP_ROUTES.userProfile.getUserProfileByEmail;
@@ -55,5 +54,20 @@ export const getUserProfileByEmail = (email) => {
     });
 };
 
-
-
+export const getAllUsersEmails = () => {
+  let url = APP_ROUTES.userProfile.getUserProfileByEmail;
+  return axios
+    .get(url, {
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      return null;
+    });
+};

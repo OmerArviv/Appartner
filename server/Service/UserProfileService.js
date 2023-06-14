@@ -1,8 +1,6 @@
 const usersProfile = require("../Model/userProfile");
 const axios = require("axios");
 
-
-
 module.exports = class UserProfileService {
   static async insertUserProfile(userProfile) {
     console.log(userProfile);
@@ -25,7 +23,15 @@ module.exports = class UserProfileService {
     }
   }
 
-
+  static async getAllUsersEmails() {
+    try {
+      const res = await usersProfile.find({}).select("email");
+      return res;
+    } catch (error) {
+      console.error("Error finding user profile:", error);
+      return null;
+    }
+  }
 
   //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
 
