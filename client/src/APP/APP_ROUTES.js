@@ -30,6 +30,7 @@ export const APP_ROUTES = {
     getUserProfileByEmail: `${USER_PROFILE_ENPOINT}/getUserProfileByEmail`,
     getAllUsersEmails: `${USER_PROFILE_ENPOINT}/getAllUsersEmails`,
     createUserVideo: `${USER_PROFILE_ENPOINT}/dalle`,
+    updateProfile: `${USER_PROFILE_ENPOINT}/updateProfile`,
   },
 
   userProfilePrefernces: {

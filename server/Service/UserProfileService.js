@@ -23,6 +23,17 @@ module.exports = class UserProfileService {
     }
   }
 
+  static async updateUserProfile(UserProfile) {
+    return usersProfile
+      .findOneAndUpdate({ email: UserProfile.email }, UserProfile)
+      .then((value) => {
+        return value;
+      })
+      .catch((error) => {
+        return null;
+      });
+  }
+
   static async getAllUsersEmails() {
     try {
       const res = await usersProfile.find({}).select("email");

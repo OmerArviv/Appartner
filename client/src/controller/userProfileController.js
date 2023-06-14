@@ -18,6 +18,18 @@ export const createUserProfile = (userProfile) => {
     });
 };
 
+export const updateUserProfile = (userProfile) => {
+  let url = APP_ROUTES.userProfile.updateProfile;
+  return axios
+    .post(url, userProfile, POST_HEADERS())
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 export const createVideo = async (imageUrl, text) => {
   try {
     const data = { imageUrl, text };

@@ -27,6 +27,19 @@ router.route("/getAllUsersEmails").get(async (request, response) => {
   return response.status(200).send(null);
 });
 
+router.route("/updateProfile").post(auth, async (request, response) => {
+  // Get user input
+  const userProfile = request.body;
+  if (!userProfile) {
+    return response.status(400).send("Something went wrong");
+  }
+  var result = await UserProfileService.updateUserProfile(userProfile);
+  if (result != null) {
+    return response.status(201).json(userProfile);
+  }
+  return response.status(403).send({});
+});
+
 router.route("/getUserProfileByEmail").get(async (request, response) => {
   const { email } = request.query;
   if (!email) {
