@@ -8,6 +8,9 @@ import {
   Typography,
   Link,
   Container,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -17,6 +20,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
+import steps from "../components/StepperData";
+
 
 const Register = (props) => {
   const navigate = useNavigate();
@@ -103,6 +108,14 @@ const Register = (props) => {
     <Grid>
       <Container maxWidth="sm" style={ContainerStyle}>
         <Grid align="center">
+        <Stepper activeStep={1} alternativeLabel>
+  {steps.map((label) => (
+    <Step key={label}>
+      <StepLabel>{label}</StepLabel>
+    </Step>
+  ))}
+</Stepper>
+          
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <AccountCircleIcon />
           </Avatar>
