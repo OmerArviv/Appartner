@@ -85,20 +85,6 @@ const WelcomerHomePage = () => {
               </AlertTitle>
               You don't have any requests from lookers — <strong>check it out soon again!</strong> 
             </Alert>
-              {/* <Button
-              sx={{
-                '&:hover': {
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                },
-                color: "darkgray", fontSize:"30px",
-                marginRight:"auto",height:"fit-content",marginTop:5,
-              }}
-              disabled="true"
-              >
-                <ForumIcon size="large"/>
-                Chat with your lookers! 
-              </Button> */}
           </> 
           }
       </Grid>

@@ -5,7 +5,7 @@ import {
   Box,
   Button,
   CardContent,
-  Stack,
+  Stack
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -21,6 +21,7 @@ import TransgenderOutlinedIcon from "@mui/icons-material/TransgenderOutlined";
 import ElevatorOutlinedIcon from "@mui/icons-material/ElevatorOutlined";
 import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
+import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -45,14 +46,23 @@ const Apartment = (props) => {
   const { apartmentId } = useParams();
   const { ap } = props;
   const navigate = useNavigate();
-
+  const [openSnackbar, setOpensnackbar]=useState(false);
   const [appartment, setAppartment] = useState("");
+  const [snackbarMessage, setSnackbarMessage]= useState(""); 
+  const [alertSeverity, setAlertSeverity]= useState("");
+  const delay = ms => new Promise(//for delay 
+    resolve => setTimeout(resolve, ms)
+  );
 
+  
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
     console.log(res.data);
     if (!res || res.status === 204) {
-      alert("We couldn't find the appartment , please try again");
+      setSnackbarMessage("We couldn't find the appartment , please try again");
+      setAlertSeverity("error");
+      setOpensnackbar(true);
+      await delay(2500);
       navigate(-1);
       return;
     }
@@ -72,6 +82,7 @@ const Apartment = (props) => {
     }
   }, []);
 
+
   const sendRequest = async () => {
     const request = {
       appartment_id: apartmentId,
@@ -79,17 +90,31 @@ const Apartment = (props) => {
     };
     const res = await createRoomateRequest(request);
     if (!res || res.status === 400 || res.status === 403) {
+      setSnackbarMessage("The appartment does not found- try again!");
+      setAlertSeverity("error");
+      setOpensnackbar(true);
+      await delay(2500);
       navigate("/");
       return;
     }
     if (res.status === 201) {
-      alert("request was send");
+      setSnackbarMessage("Your request was send");
+      setAlertSeverity("success");
+      setOpensnackbar(true);
+      await delay(2500);
+      navigate("/");
+
     }
   };
 
   return (
     <Grid container sx={{ margin: "auto" }} xs={10} sm={8} md={6}>
       <Grid container marginTop={5}>
+      {openSnackbar && 
+      <SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
+      open={openSnackbar} 
+      severity={alertSeverity}
+      />}
         <Grid item xs={12}>
           {appartment ? (
             <Grid container spacing={10}>

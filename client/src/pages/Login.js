@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
+import { Modal, Box } from "@mui/material";
 
 const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
@@ -30,6 +31,9 @@ const Login = (props) => {
   const [userPassword, setUserPassword] = useState("");
   const { setUserRole, getUserRole } = useContext(authContext);
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleLogin = async () => {
     const user = await getUserByEmail(userEmail);
@@ -85,6 +89,7 @@ const Login = (props) => {
         const hashedPassword = bcrypt.hashSync(userPassword, salt.data);
         const result = await signIn(userEmail, hashedPassword);
         if (result === true) {
+          // handleOpen();
           handleLogin();
         } else {
           setError("Email or password is incorrect");
@@ -110,6 +115,7 @@ const Login = (props) => {
   };
 
   return (
+    <> 
     <Grid>
       <Container maxWidth="sm" style={ContainerStyle}>
         <Grid align="center">
@@ -156,8 +162,15 @@ const Login = (props) => {
           Do you have an account?
           <Link onClick={() => navigate("/register")}>Sign Up</Link>
         </Typography>
+        {open && (<Modal
+      keepMounted
+      open={open}
+      onClose={handleClose}>
+          open modal!
+      </Modal>)}
       </Container>
     </Grid>
+    </>
   );
 };
 
