@@ -268,7 +268,7 @@ const Apartment = (props) => {
         {userRole === "Welcomer" && userEmail == appartment.email ? (
           <Button
             variant="contained"
-            // onClick={onSubmitHandler}
+            onClick={()=>navigate("/create-apartment")}
             style={btnstyle}
             sx={{ width: "400px", marginBottom: "20px" }}
           >
