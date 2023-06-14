@@ -49,11 +49,39 @@ module.exports = class ChatGPTService {
       return json;
     }
 
+    // static async convWithChat(input) {
+    //   const user = JSON.stringify(input.user);
+    //   const apartments = JSON.stringify(input.apartments);
+    //   const messages = [
+    //     { role: 'system', content: 'You are a helpful assistant that finds relevant apartments based on user requests, Return only an array without additional texts, containing the IDs ("_id") of the matching apartments.' },
+    //     { role: 'user', content: user },
+    //     { role: 'assistant', content: apartments }
+    //   ];
+
+    //   console.log(messages);
+    //     const response = await openai.createChatCompletion({
+    //       model:"gpt-3.5-turbo",
+    //       messages: messages,
+    //       max_tokens: 100,
+    //       temperature: 1,
+    //     });
+
+    //   const jsonResponse = response.data.choices[0].message.content;
+    //   try {
+    //     const parsed = JSON.parse(jsonResponse);
+    //     console.log("success");
+    //     return parsed;
+    //   } catch {
+    //     console.log(jsonResponse);
+    //   }
+    // }
+    
+
     static async convWithChat(input) {
       const user = JSON.stringify(input.user);
       const apartments = JSON.stringify(input.apartments);
-      const prompt = `Find relevant apartments from the following JSON: ${apartments}, based on the user's request: "${user}". Return an array in JSON format containing the IDs ("_id") of the matching apartments.`;
-      console.log(prompt);
+      console.log(apartments);
+      const prompt = `Find relevant apartments from the following JSON: ${apartments}, based on the user's request: "${user}". Return only a array without additional texts, containing the IDs ("_id") of the matching apartments.`;
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: prompt,
@@ -62,7 +90,14 @@ module.exports = class ChatGPTService {
       });
   
       const jsonResponse = response.data.choices[0].text;
-      return JSON.parse(jsonResponse);
+      try{
+        const parsed = JSON.parse(jsonResponse);
+        console.log("sucess");
+        return parsed;
+      } catch{
+
+        console.log(jsonResponse);
+      }
     }
 
     //
@@ -79,7 +114,6 @@ module.exports = class ChatGPTService {
       });
   
       const jsonResponse = response.data.choices[0].text;
-      console.log(jsonResponse);
 
       return JSON.parse(jsonResponse);
     }

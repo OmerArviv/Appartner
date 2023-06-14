@@ -245,7 +245,7 @@ const CreateProfile = () => {
                   marginTop: 5,
                 }}
               >
-                <ParseChatGpt setUser={setUserGPT} />
+                <ParseChatGpt setUser={setUserGPT}/>
               </Box>
             )}
             {selectedOption === "speechtotext" && (
