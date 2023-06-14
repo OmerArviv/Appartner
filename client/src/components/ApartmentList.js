@@ -12,6 +12,8 @@ import {
   Typography,
   ToggleButtonGroup,
   ToggleButton,
+  Toolbar,
+  Tooltip,
 } from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
@@ -32,6 +34,7 @@ import { CircularProgress } from "@material-ui/core";
 
 import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
+import SearchIcon from "@mui/icons-material/Search";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -51,8 +54,6 @@ function ApartmentList() {
   const { userEmail } = useContext(authContext);
 
   const apartments_array = [];
-
-  const userType = "type";
 
   //set user details with speach to text
   const [userSTT, setUserSTT] = useState("");
@@ -211,26 +212,7 @@ function ApartmentList() {
             "Find the Best Match !"
           )}
         </Button>
-        <TextField
-          sx={{ marginRight: "10px" }}
-          type="text"
-          placeholder="Filter By Text"
-          value={userMessage}
-          onChange={handleUserMessageChange}
-        />
-        <Button
-          style={btnstyle}
-          sx={{ height: "55px" }}
-          onClick={handleSendMessage}
-        >
-          {isLoading2 ? <CircularProgress color="white" size={30} /> : "Send"}
-        </Button>
       </Box>
-      <FilterSection
-        appartments={appartments}
-        setAppartments={setAppartments}
-        allAppartments={allAppartments}
-      ></FilterSection>
 
       <Box
         sx={{
@@ -242,14 +224,16 @@ function ApartmentList() {
           marginBottom: 5,
         }}
       >
-        <Typography
-          variant="h6"
-          gutterBottom
-          onClick={handleTitleClick}
-          style={{ cursor: "pointer" }}
+        <Tooltip
+          title="Click to fill the fields by record or short text !!!!"
+          disableInteractive
         >
-          Click to fill the fields by record or short text !!!!
-        </Typography>
+          <SearchIcon
+            fontSize="large"
+            onClick={handleTitleClick}
+            style={{ cursor: "pointer" }}
+          ></SearchIcon>
+        </Tooltip>
         {isCodeVisible && (
           <Box
             sx={{
@@ -307,22 +291,6 @@ function ApartmentList() {
             allAppartments={allAppartments}
           ></FilterSection>
         </Grid>
-        {/* <Grid item sx={{ marginLeft: "30px", marginTop: "15px" }}>
-          <TextField
-            sx={{ marginRight: "10px" }}
-            type="text"
-            placeholder="Filter By Text"
-            value={userMessage}
-            onChange={handleUserMessageChange}
-          />
-          <Button
-            style={btnstyle}
-            sx={{ height: "55px" }}
-            onClick={handleSendMessage}
-          >
-            Send
-          </Button>
-        </Grid> */}
       </Grid>
       <List
         sx={{
@@ -354,15 +322,11 @@ function ApartmentList() {
               ))
             : appartments
             ? appartments.map((item, index) => (
-                <Box
-                  key={index}
-                  component="div"
-                  sx={{ display: "inline", marginRight: "auto" }}
-                >
-                  <ListItem>
-                    <ApartmentListItem data={item} />
-                  </ListItem>
-                </Box>
+                <div key={index}>
+                  {/* <ListItem> */}
+                  <ApartmentListItem data={item} />
+                  {/* </ListItem> */}
+                </div>
               ))
             : ""}
         </Stack>
