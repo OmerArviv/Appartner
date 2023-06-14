@@ -12,11 +12,13 @@ function start(server){
     const addUser=(userId,socketId)=>{
         !users.some(user=>user.userId ===userId) && 
         users.push({userId,socketId});
+        console.log("a user added:", userId);
         // console.log(users);
     }
     
     const removeUser=(socketId)=>{
         users=users.filter(user=>user.socketId !==socketId);
+        console.log("a user removed!");
     }
     
     // const getUser=(userId)=>{
@@ -31,7 +33,7 @@ function start(server){
     
     io.on("connection",(socket)=>{//ani bedaka 01:36
         //when connect
-        console.log("a user connected.");
+        // console.log("a user connected.");
         io.emit("welcome", "hello this is socket server!")
         //take users id and socketId from users
         socket.on("addUser", userId=>{
@@ -48,7 +50,7 @@ function start(server){
     
         //when disconnect
         socket.on("disconnect", ()=>{
-        console.log("a user disconnected!");
+        // console.log("a user disconnected!");
         removeUser(socket.id); 
         io.emit("getUsers", users);
     });

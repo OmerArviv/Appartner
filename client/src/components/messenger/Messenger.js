@@ -153,7 +153,6 @@ const [options, setOptions] = useState([]);
 const submitHandler= async (event)=>{
   event.preventDefault();
   //should not refresh the page
-  console.log(userEmail);
   const messageToSend={
     conversation_id:currentChat._id,
     sender_email:userEmail, 
@@ -221,6 +220,16 @@ const handleSearch = (event, value) => {
   
 };
 
+const handleKeyPress = (event) => {
+  
+  // event.preventDefault();
+  event.defaultPrevented="true";
+  console.log(event.keyCode);
+  if (event.keyCode === 13) {
+    submitHandler();
+  }
+};
+
     return(
         <>
 
@@ -262,25 +271,7 @@ const handleSearch = (event, value) => {
                       />
                     )}
                   />
-                  {/* <IconButton onClick={handleSearch}>
-                  <SearchIcon />
-
-                  </IconButton> */}
                     </Box>
-                 
-            
-            {/* <TextField id="search" label="Search" variant="standard"
-             InputProps={{
-                startAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              // renderInput={membersEmail}
-              size="small"
-              placeholder="serch for rommates..."
-              /> */}
 
               
           {options  ? 
@@ -293,41 +284,6 @@ const handleSearch = (event, value) => {
 
                       ) })): ("" )}
                         
-
-
-
-          {/* 
-              {options  ? 
-              (
-                options.map((con,index)=>{
-                  return(
-                    <div  key={index} onClick={()=>{setCurrentChat(con);}}>
-                      {console.log("in options")}
-                     <Conversation key={index} conversation={con} user={user}/>
-                     </div>
-
-             ) })): (
-              conversations?.map((con,index)=>{
-                return(
-                  <div  key={index} onClick={()=>{setCurrentChat(con);}}>
-                                          {console.log("in conversation")}
-
-                   <Conversation key={index} conversation={con} user={user}/>
-                   </div>
-
-           ) })
-
-             )} */}
-
-{/* {conversations? 
-              (
-                conversations.map((con,index)=>{
-                  return(
-                    <div  key={index} onClick={()=>{setCurrentChat(con);}}>
-                     <Conversation key={index} conversation={con} user={user}/>
-                     </div>
-
-             ) })): ""} */}
               
         </Box>
 
@@ -390,14 +346,16 @@ const handleSearch = (event, value) => {
                     })):""}
                   </Box>
                   {/*Bottom area- sending message */}
-                    <Box item="true"
+                    <Box item="true"  
                     sx={{mt:"20px", display:"flex", flexWarp:"warp", alignItems:"center", justifyContent:"space-between"}}>
                     <TextField 
+                    type="text"
                     fullWidth={true}
                     placeholder="write your message"
                     sx={{height:"90px", padding:"10px"}}
                     onChange={(e)=>setNewMessage(e.target.value)}
                     value={newMessage}
+                    onKeyDown={(e) => { e.keyCode === 13 && e.preventDefault(); }}
                     />
                     <Button onClick={submitHandler}>
                       Send
