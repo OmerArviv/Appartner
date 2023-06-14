@@ -1,5 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, List, ListItem, Stack, Button, TextField } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  Stack,
+  Button,
+  Dialog,
+  DialogTitle,
+  TextField,
+  Grid,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 import ApartmentListItem from "./ApartmentListItem";
 import {
   getAllAppartments,
@@ -16,6 +29,9 @@ import {
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
 import { CircularProgress } from "@material-ui/core";
+
+import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
+import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -35,6 +51,14 @@ function ApartmentList() {
   const { userEmail } = useContext(authContext);
 
   const apartments_array = [];
+
+  const userType = "type";
+
+  //set user details with speach to text
+  const [userSTT, setUserSTT] = useState("");
+
+  //set user details with chat GPT
+  const [userGPT, setUserGPT] = useState("");
 
   useEffect(() => {
     setAllAppartments();
@@ -62,8 +86,6 @@ function ApartmentList() {
     const userMessage = { role: "user", content: message };
     const apartmentData = { user: message, apartments: appartments };
 
-    setConversation([...conversation, userMessage]);
-
     try {
       const res = await convWithChatGpt(apartmentData);
 
@@ -72,7 +94,6 @@ function ApartmentList() {
           const apartment = await getAppartmentById(res.data[0]._id);
           apartments_array.push(apartment.data);
         }
-        console.log(apartments_array);
 
         setAppartments(apartments_array);
       }
@@ -119,8 +140,6 @@ function ApartmentList() {
       apartments: apartments_data,
     };
 
-    console.log(mergedData);
-
     try {
       const res = await getBestMatchesCgptApi(mergedData);
       if (res && res.status == 200) {
@@ -153,23 +172,23 @@ function ApartmentList() {
     setIsLoading2(false);
   };
 
-  const handleCreateShortcut = async () => {
-    const getAllAppartments = await getAllAppartmentsAndRoomateDetails();
-    const res = await shortcutWithChatGpt(getAllAppartments);
+  const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
-    const data = [];
+  {
+    selectedOption === "parseChatGpt" ? (
+      <ParseChatGptApart
+        apartment={allAppartments}
+        setAppartments={setAppartments}
+      />
+    ) : (
+      <SpeechtotextApart setUser={setUserSTT} />
+    );
+  }
 
-    if (res && res.status == 200) {
-      for (let i = 0; i < res.data.length; i++) {
-        let name = "omer";
-        data.push({
-          name: name,
-          summary: res.data[i].summary,
-        });
-      }
-    } else {
-      alert("something went wrong");
-    }
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
+
+  const handleTitleClick = () => {
+    setIsCodeVisible(!isCodeVisible);
   };
 
   return (
@@ -212,6 +231,99 @@ function ApartmentList() {
         setAppartments={setAppartments}
         allAppartments={allAppartments}
       ></FilterSection>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 5,
+          marginBottom: 5,
+        }}
+      >
+        <Typography
+          variant="h6"
+          gutterBottom
+          onClick={handleTitleClick}
+          style={{ cursor: "pointer" }}
+        >
+          Click to fill the fields by record or short text !!!!
+        </Typography>
+        {isCodeVisible && (
+          <Box
+            sx={{
+              justifyContent: "center",
+              marginTop: 5,
+            }}
+          >
+            <ToggleButtonGroup
+              value={selectedOption}
+              exclusive
+              onChange={(event, newSelectedOption) =>
+                newSelectedOption && setSelectedOption(newSelectedOption)
+              }
+            >
+              <ToggleButton value="parseChatGpt">Text</ToggleButton>
+              <ToggleButton value="speechtotext">Voice</ToggleButton>
+            </ToggleButtonGroup>
+            {selectedOption === "parseChatGpt" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <ParseChatGptApart
+                  appartments={appartments}
+                  allAppartments={allAppartments}
+                  setAppartments={setAppartments}
+                />
+              </Box>
+            )}
+            {selectedOption === "speechtotext" && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  marginTop: 5,
+                }}
+              >
+                <SpeechtotextApart
+                  appartments={appartments}
+                  allAppartments={allAppartments}
+                  setAppartments={setAppartments}
+                />
+              </Box>
+            )}
+          </Box>
+        )}
+      </Box>
+
+      <Grid container>
+        <Grid item>
+          <FilterSection
+            appartments={appartments}
+            setAppartments={setAppartments}
+            allAppartments={allAppartments}
+          ></FilterSection>
+        </Grid>
+        {/* <Grid item sx={{ marginLeft: "30px", marginTop: "15px" }}>
+          <TextField
+            sx={{ marginRight: "10px" }}
+            type="text"
+            placeholder="Filter By Text"
+            value={userMessage}
+            onChange={handleUserMessageChange}
+          />
+          <Button
+            style={btnstyle}
+            sx={{ height: "55px" }}
+            onClick={handleSendMessage}
+          >
+            Send
+          </Button>
+        </Grid> */}
+      </Grid>
       <List
         sx={{
           display: "flex",
