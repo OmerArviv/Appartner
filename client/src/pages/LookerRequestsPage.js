@@ -49,8 +49,7 @@ const LookerRequestsPage = () => {
       {loading ? (
         <CircularProgress
           sx={{
-            justifyContent: "center",
-            alignItems: "center",
+            marginLeft: "50%",
           }}
         />
       ) : userRequests != 0 ? (

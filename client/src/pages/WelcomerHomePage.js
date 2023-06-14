@@ -1,7 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import RequestItem from "../components/RequestItem";
-import { Alert, AlertTitle, Button, Grid } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Grid,
+  CircularProgress,
+} from "@mui/material";
 import { getRoomateRequestByAppartmentUserEmail } from "../controller/RoomateRequestController";
 import ForumIcon from "@mui/icons-material/Forum";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +21,10 @@ const WelcomerHomePage = () => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userEmail } = useContext(authContext);
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [modalPref, setModalPref] = useState(false);
   const navigate = useNavigate();
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); //for delay
 
   useEffect(() => {
     setPageTitle("Requests");
@@ -35,15 +43,13 @@ const WelcomerHomePage = () => {
     const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
     if (res) {
       setRequests(res);
+      await delay(1000);
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      {/* <Typography variant="h4" align="center" sx={{ mt: '20px', color: 'ligtblue', fontWeight:"bold" }}>
-              Your Requests
-      </Typography> */}
-
       <Grid
         container="true"
         sx={{
@@ -52,9 +58,14 @@ const WelcomerHomePage = () => {
           flexDirection: "warp",
         }}
       >
-        {/* <Grid item="true"> */}
-
-        {requests.length != 0 ? (
+        {loading ? (
+          <CircularProgress
+            sx={{
+              marginLeft: "50%",
+              marginTop: "30px",
+            }}
+          />
+        ) : requests.length != 0 ? (
           <>
             <Button
               sx={{
