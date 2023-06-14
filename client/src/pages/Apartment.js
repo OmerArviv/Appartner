@@ -5,7 +5,9 @@ import {
   Box,
   Button,
   CardContent,
-  Stack
+  Stack,
+  ImageList,
+  ImageListItem
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -22,6 +24,7 @@ import ElevatorOutlinedIcon from "@mui/icons-material/ElevatorOutlined";
 import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
+import StyledImageList from "../components/UI/StyledImageList";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -130,7 +133,8 @@ const Apartment = (props) => {
               sx={{ margin: "auto", textAlign: "-webkit-right" }}
             >
               <Box sx={{ height: 450, width: 450 }}>
-                <UserCarousel apartmentImages={appartment.images} />
+                {/* <UserCarousel apartmentImages={appartment.images} /> */}
+                <StyledImageList images={appartment.images}/>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
