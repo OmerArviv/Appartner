@@ -1,4 +1,4 @@
-import { Snackbar, Alert } from "@mui/material";
+import { Snackbar, Alert, AlertTitle } from "@mui/material";
 import { useState, useEffect, React } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -25,6 +25,9 @@ const SnackBarAlerts = (props)=>{
     <>
         <Snackbar open={open} autoHideDuration={6000} sx={{ width: '100%', marginTop: 5 }}>
             <Alert severity={props.severity} sx={{ width: '100%', marginTop:5 }}>
+                <AlertTitle>
+                    {props.severity}
+                </AlertTitle>
                 {props.snackbarMessage}
             </Alert>
         </Snackbar>

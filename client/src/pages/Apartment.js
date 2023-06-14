@@ -46,8 +46,8 @@ const Apartment = (props) => {
   const { apartmentId } = useParams();
   const { ap } = props;
   const navigate = useNavigate();
-  const [openSnackbar, setOpensnackbar]=useState(false);
   const [appartment, setAppartment] = useState("");
+  const [openSnackbar, setOpensnackbar]=useState(false);
   const [snackbarMessage, setSnackbarMessage]= useState(""); 
   const [alertSeverity, setAlertSeverity]= useState("");
   const delay = ms => new Promise(//for delay 

@@ -22,6 +22,7 @@ import {
 } from "../controller/userProfilePreferncesController";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import SearchGoogleMap from "../components/SeachGoogleMap";
+import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -48,6 +49,12 @@ const SetPreferncesProfile = () => {
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
   const [error, setError] = useState("");
+  const [openSnackbar, setOpensnackbar]=useState(false);
+  const [snackbarMessage, setSnackbarMessage]= useState(""); 
+  const [alertSeverity, setAlertSeverity]= useState("");
+  const delay = ms => new Promise(//for delay 
+    resolve => setTimeout(resolve, ms)
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -153,12 +160,24 @@ const SetPreferncesProfile = () => {
         result = await createUserProfilePrefernces(userProfilePrefernces);
       }
       if (result.status === 201) {
+        setSnackbarMessage("Your prefernces have been updated!");
+        setAlertSeverity("success");
+        setOpensnackbar(true);
+        await delay(2000);
         navigate("/");
       } else if (result.status === 403) {
-        alert("Error occured!");
+        setSnackbarMessage("Something went wrong- try again!");
+        setAlertSeverity("error");
+        setOpensnackbar(true);
+        await delay(2000);
+        navigate("/");
       }
     } else {
-      setError("Please enter all fields!");
+      setError("Please fill all fields!");
+      setSnackbarMessage("Please fill all fields!");
+      setAlertSeverity("warning");
+      setOpensnackbar(true);
+      await delay(2000);
     }
   };
 
@@ -177,6 +196,11 @@ const SetPreferncesProfile = () => {
         spacing={50}
         sx={{ display: "flex", flexWrap: "wrap", marginTop: 5 }}
       >
+         {openSnackbar && 
+        <SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
+        open={openSnackbar} 
+        severity={alertSeverity}
+        />}
         <Box
           item="true"
           component="form"
