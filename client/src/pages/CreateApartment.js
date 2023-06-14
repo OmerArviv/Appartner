@@ -37,6 +37,15 @@ const CreateApartment = () => {
     setPageTitle("Create Apartment");
   }, []);
 
+  
+  // useEffect(() => {
+  //   if()
+  // }, []);
+
+  // const getUserApartment= async ()=>{
+
+  // }
+
   const [gender, setGender] = useState("");
   const [age, setAge] = useState([18, 75]);
   const [location, setLocation] = useState("");
