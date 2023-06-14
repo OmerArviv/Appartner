@@ -36,7 +36,6 @@ function LookerRequestItem(props) {
     const res = await getUserByEmail(request.user_email);
     if (res) {
       setPhone(res.phone_number);
-      console.log(phone);
     }  }
 
   const onDeleteHandler = async (event) => {
