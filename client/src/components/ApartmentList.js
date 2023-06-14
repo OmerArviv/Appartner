@@ -21,7 +21,6 @@ import {
 } from "../controller/appartmentController";
 import FilterSection from "./FilterSection";
 import { authContext } from "../APP/Utils";
-import SetPreferncesProfile from "../pages/SetPreferncesProfile";
 import {
   convWithChatGpt,
   getBestMatchesCgptApi,
@@ -29,12 +28,10 @@ import {
 } from "../controller/chatGptController";
 import { getUserProfileByEmail } from "../controller/userProfileController";
 import { getUserPreferncesByEmail } from "../controller/userProfilePreferncesController";
+import { CircularProgress } from "@material-ui/core";
 
 import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
-
-
-
 
 const btnstyle = {
   background: "#4F4E51",
@@ -48,11 +45,12 @@ function ApartmentList() {
   const [modalPref, setModalPref] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [userMessage, setUserMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const { userEmail } = useContext(authContext);
 
   const apartments_array = [];
-
 
   const userType = "type";
 
@@ -61,7 +59,6 @@ function ApartmentList() {
 
   //set user details with chat GPT
   const [userGPT, setUserGPT] = useState("");
-
 
   useEffect(() => {
     setAllAppartments();
@@ -84,8 +81,7 @@ function ApartmentList() {
   };
 
   const sendMessage = async (message) => {
-    const appartments = await getAppartmentsFiltered()
-
+    const appartments = await getAppartmentsFiltered();
 
     const userMessage = { role: "user", content: message };
     const apartmentData = { user: message, apartments: appartments };
@@ -118,15 +114,14 @@ function ApartmentList() {
         gender: apartment.gender,
         elevator: apartment.elevator,
         parking: apartment.parking,
-        smoking: apartment.smoking
-      })
+        smoking: apartment.smoking,
+      });
     }
     return data;
-  };  
-
+  };
 
   const handleFindMatches = async () => {
-
+    setIsLoading(true);
     const user = await getUserProfileByEmail(userEmail);
     const user_per = await getUserPreferncesByEmail(userEmail);
     const apartments_data = await getAppartmentsFiltered();
@@ -161,6 +156,7 @@ function ApartmentList() {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   const handleUserMessageChange = (event) => {
@@ -168,18 +164,22 @@ function ApartmentList() {
   };
 
   const handleSendMessage = () => {
+    setIsLoading2(true);
     if (userMessage.trim() !== "") {
       sendMessage(userMessage);
       setUserMessage("");
     }
+    setIsLoading2(false);
   };
-
 
   const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
   {
     selectedOption === "parseChatGpt" ? (
-      <ParseChatGptApart apartment={allAppartments} setAppartments={setAppartments} />
+      <ParseChatGptApart
+        apartment={allAppartments}
+        setAppartments={setAppartments}
+      />
     ) : (
       <SpeechtotextApart setUser={setUserSTT} />
     );
@@ -190,7 +190,6 @@ function ApartmentList() {
   const handleTitleClick = () => {
     setIsCodeVisible(!isCodeVisible);
   };
-
 
   return (
     <>
@@ -206,13 +205,32 @@ function ApartmentList() {
           onClick={handleFindMatches}
           style={{ ...btnstyle, marginRight: "20px" }}
         >
-          Find the Best Match !
+          {isLoading ? (
+            <CircularProgress color="white" size={30} />
+          ) : (
+            "Find the Best Match !"
+          )}
+        </Button>
+        <TextField
+          sx={{ marginRight: "10px" }}
+          type="text"
+          placeholder="Filter By Text"
+          value={userMessage}
+          onChange={handleUserMessageChange}
+        />
+        <Button
+          style={btnstyle}
+          sx={{ height: "55px" }}
+          onClick={handleSendMessage}
+        >
+          {isLoading2 ? <CircularProgress color="white" size={30} /> : "Send"}
         </Button>
       </Box>
-
-
-
-
+      <FilterSection
+        appartments={appartments}
+        setAppartments={setAppartments}
+        allAppartments={allAppartments}
+      ></FilterSection>
 
       <Box
         sx={{
@@ -256,7 +274,11 @@ function ApartmentList() {
                   marginTop: 5,
                 }}
               >
-                <ParseChatGptApart appartments={appartments} allAppartments={allAppartments} setAppartments={setAppartments} />
+                <ParseChatGptApart
+                  appartments={appartments}
+                  allAppartments={allAppartments}
+                  setAppartments={setAppartments}
+                />
               </Box>
             )}
             {selectedOption === "speechtotext" && (
@@ -266,18 +288,16 @@ function ApartmentList() {
                   marginTop: 5,
                 }}
               >
-                <SpeechtotextApart appartments={appartments} allAppartments={allAppartments} setAppartments={setAppartments}/>
+                <SpeechtotextApart
+                  appartments={appartments}
+                  allAppartments={allAppartments}
+                  setAppartments={setAppartments}
+                />
               </Box>
             )}
           </Box>
         )}
       </Box>
-
-
-
-
-
-
 
       <Grid container>
         <Grid item>
@@ -322,18 +342,6 @@ function ApartmentList() {
         >
           {matchedApartments.length > 0
             ? matchedApartments.map((item, index) => (
-              <Box
-                key={index}
-                component="div"
-                sx={{ display: "inline", marginRight: "auto" }}
-              >
-                <ListItem>
-                  <ApartmentListItem data={item} />
-                </ListItem>
-              </Box>
-            ))
-            : appartments
-              ? appartments.map((item, index) => (
                 <Box
                   key={index}
                   component="div"
@@ -344,7 +352,19 @@ function ApartmentList() {
                   </ListItem>
                 </Box>
               ))
-              : ""}
+            : appartments
+            ? appartments.map((item, index) => (
+                <Box
+                  key={index}
+                  component="div"
+                  sx={{ display: "inline", marginRight: "auto" }}
+                >
+                  <ListItem>
+                    <ApartmentListItem data={item} />
+                  </ListItem>
+                </Box>
+              ))
+            : ""}
         </Stack>
       </List>
     </>

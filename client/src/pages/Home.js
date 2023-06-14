@@ -34,7 +34,7 @@ const Home = () => {
         item
         xs={11.5}
         sx={{
-          bgcolor: "#CEC9B6",
+          bgcolor: "#EDEDED",
           marginTop: "50px",
           height: 90,
           marginBottom: "40px",

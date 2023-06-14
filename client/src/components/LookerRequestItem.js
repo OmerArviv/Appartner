@@ -1,9 +1,5 @@
 import { Box, Skeleton, IconButton } from "@mui/material";
-import {
-
-  Typography,
-
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import { deleteRoomateRequestByUser } from "../controller/RoomateRequestController";
 import { useEffect, useState } from "react";
@@ -11,14 +7,12 @@ import ApartmentListItem from "./ApartmentListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 import { getUserByEmail } from "../controller/authenticationController";
-import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
-
+import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
 
 function LookerRequestItem(props) {
   const request = props.request;
   const [apartment, setApartment] = useState();
   const [phone, setPhone] = useState();
-
 
   useEffect(() => {
     getRequestApartment();
@@ -32,12 +26,12 @@ function LookerRequestItem(props) {
     }
   };
 
-  const getPhoneNumber = async()=>{
+  const getPhoneNumber = async () => {
     const res = await getUserByEmail(request.user_email);
     if (res) {
       setPhone(res.phone_number);
-      console.log(phone);
-    }  }
+    }
+  };
 
   const onDeleteHandler = async (event) => {
     event.preventDefault();
@@ -75,7 +69,6 @@ function LookerRequestItem(props) {
   const getStatusLabel = () => {
     return request.status.toUpperCase();
   };
-  
 
   return (
     <div>
@@ -109,18 +102,15 @@ function LookerRequestItem(props) {
             xs={4}
             sx={{
               display: "flex",
-              flexWrap: "wrap",
-              width: "auto",
-              marginLeft: "auto",
               marginRight: "auto",
-              alignContent: "center",
               alignItems: "center",
-              justifyContent: "center",
             }}
           >
             <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
-            <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin:5 }} />
-              <Typography>{phone}</Typography>
+            <ContactPhoneOutlinedIcon
+              style={{ fontSize: 30, margin: 5, paddingLeft: "20px" }}
+            />
+            <Typography>{phone}</Typography>
             <br />
             {request.status === "pending" && (
               <IconButton
@@ -128,6 +118,7 @@ function LookerRequestItem(props) {
                   height: 40,
                   width: 40,
                   color: "black",
+                  paddingLeft: "10px",
                 }}
                 onClick={onDeleteHandler}
               >
