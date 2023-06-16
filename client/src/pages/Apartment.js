@@ -6,9 +6,7 @@ import {
   Button,
   CardContent,
   Stack,
-  Divider
-  ImageList,
-  ImageListItem,
+  Divider,
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
