@@ -5,6 +5,9 @@ import {
   Box,
   Typography,
   Button,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import {
   FormControl,
@@ -23,6 +26,8 @@ import {
 import { authContext, pageTitleContext } from "../APP/Utils";
 import SearchGoogleMap from "../components/SeachGoogleMap";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
+import steps from "../components/StepperData";
+import CustomStepper from "../components/CustomStepper";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -49,16 +54,13 @@ const SetPreferncesProfile = () => {
   const [smoking, setSmoking] = useState("");
   const [roomates, setRoomates] = useState("");
   const [error, setError] = useState("");
-  const [openSnackbar, setOpensnackbar]=useState(false);
-  const [snackbarMessage, setSnackbarMessage]= useState(""); 
-  const [alertSeverity, setAlertSeverity]= useState("");
-  const delay = ms => new Promise(//for delay 
-    resolve => setTimeout(resolve, ms)
-  );
+  const [openSnackbar, setOpensnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("");
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); //for delay
 
   useEffect(() => {
     async function fetchData() {
-      console.log("Test", userEmail);
       if (userEmail) {
         const userData = await getUserPreferncesByEmail(userEmail);
         console.log(userData);
@@ -123,7 +125,6 @@ const SetPreferncesProfile = () => {
 
   const onSubmitHandler = async (event) => {
     const user_email = userEmail;
-    console.log(user_email);
     event.preventDefault();
     if (
       user_email !== "" &&
@@ -152,7 +153,6 @@ const SetPreferncesProfile = () => {
       };
 
       const userExists = await getUserPreferncesByEmail(userEmail);
-      console.log("userExists \n", userExists);
       let result = null;
       if (userExists) {
         result = await updateUserProfilePrefernces(userProfilePrefernces);
@@ -191,16 +191,20 @@ const SetPreferncesProfile = () => {
 
   return (
     <>
+      <CustomStepper activeStep={3} steps={steps} />
+
       <Box
         container="true"
         spacing={50}
         sx={{ display: "flex", flexWrap: "wrap", marginTop: 5 }}
       >
-         {openSnackbar && 
-        <SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
-        open={openSnackbar} 
-        severity={alertSeverity}
-        />}
+        {openSnackbar && (
+          <SnackBarAlerts
+            snackbarMessage={<Typography>{snackbarMessage}</Typography>}
+            open={openSnackbar}
+            severity={alertSeverity}
+          />
+        )}
         <Box
           item="true"
           component="form"

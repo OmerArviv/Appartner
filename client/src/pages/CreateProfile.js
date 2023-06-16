@@ -11,6 +11,9 @@ import {
   InputAdornment,
   ToggleButton,
   ToggleButtonGroup,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -23,6 +26,9 @@ import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import { getUserByEmail } from "../controller/authenticationController";
+import steps from "../components/StepperData";
+import CustomStepper from "../components/CustomStepper";
+
 
 const btnstyle = {
   margin: "8px 0",
@@ -169,11 +175,10 @@ const CreateProfile = () => {
         user_instagram_link: userInstagramLink,
         user_profile_image: userProfileImage,
       };
-      console.log(userProfile);
       const result = await createUserProfile(userProfile);
       if (result.status === 201) {
         if (userRole === "Welcomer") {
-          navigate("/");
+          navigate("/create-apartment");
         } else {
           navigate("/create-profile/set-prefernces");
         }
@@ -203,6 +208,10 @@ const CreateProfile = () => {
 
   return (
     <>
+    <Box>
+    <CustomStepper activeStep={2} steps={steps} />
+
+    </Box>
       <Box
         sx={{
           display: "flex",
@@ -245,7 +254,7 @@ const CreateProfile = () => {
                   marginTop: 5,
                 }}
               >
-                <ParseChatGpt setUser={setUserGPT}/>
+                <ParseChatGpt setUser={setUserGPT} />
               </Box>
             )}
             {selectedOption === "speechtotext" && (
