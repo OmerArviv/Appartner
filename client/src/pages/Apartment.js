@@ -6,8 +6,7 @@ import {
   Button,
   CardContent,
   Stack,
-  ImageList,
-  ImageListItem
+  Divider
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -33,13 +32,13 @@ const btnstyle = {
 };
 
 const Topic = ({ label, value }) => (
-  <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1.5 }}>
+  <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1.5}}>
     <Typography
-      sx={{ padding: "2px 8px", marginRight: 1, fontWeight: 600, fontSize: 20 }}
+      sx={{ padding: "2px 8px", fontWeight: 600, fontSize: 18 }}
     >
       {label}
     </Typography>
-    <Typography sx={{ fontSize: 18 }}>{value}</Typography>
+    <Typography sx={{ fontSize: 14 }}>{value}</Typography>
   </Box>
 );
 
@@ -60,7 +59,7 @@ const Apartment = (props) => {
   
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
-    console.log(res.data);
+    // console.log(res.data);
     if (!res || res.status === 204) {
       setSnackbarMessage("We couldn't find the appartment , please try again");
       setAlertSeverity("error");
@@ -125,102 +124,179 @@ const Apartment = (props) => {
       severity={alertSeverity}
       />}
         {appartment ? (
-          <Grid container spacing={10}>
+          <Grid container="true" spacing={1} 
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}>
             <Grid
-              item
+            item="true"
+            xs={12}
+            sm={12}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft:"70px",
+                    gap: "10px",
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Typography align="center"
+                  sx={{fontSize:40}}>
+                  <LocationOnOutlinedIcon fontSize="large" sx={{ color: "black", fontWeight:"bold"}}/>
+
+                    {appartment.location.name}
+                  </Typography>
+                </Grid>
+                
+                {/* images */}
+            <Grid
+              item="true"
               xs={12}
-              sm={6}
-              sx={{ margin: "auto", textAlign: "-webkit-right" }}
-            >
-              <Box sx={{ height: 450, width: 450 }}>
-                {/* <UserCarousel apartmentImages={appartment.images} /> */}
+              sm={12}
+              // sx={{ margin: "auto", textAlign: "-webkit-right" }}
+              sx={{ margin: "auto"}}>
                 <StyledImageList images={appartment.images}/>
-              </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Box sx={{ marginTop: "30px" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic
-                    label="Age:"
-                    value={
-                      appartment.age_range[0] + " - " + appartment.age_range[1]
-                    }
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <LocationOnOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Location:" value={appartment.location.name} />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <AttachMoneyOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic
-                    label="Price:"
-                    value={
-                      appartment.price_range[0] +
-                      "$ - " +
-                      appartment.price_range[1] +
-                      "$"
-                    }
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Gender:" value={appartment.gender} />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <ElevatorOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Elevator:" value={appartment.elevator} />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <LocalParkingOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Parking:" value={appartment.parking} />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
+
+            {/* properties of the appartment */}
+            <Grid
+            item="true"
+            xs={12}
+            sm={9}
+            sx={{backgroundColor:"ButtonShadow", borderRadius:3, marginLeft:"auto", marginRight:"auto", marginTop:3}}>
+              <Grid container="true" sm={9}
+               sx={{marginLeft:"auto", marginRight:"auto",  display:"flex", direction:"warp", 
+               justifyContent:"center"}}>
+              <Grid
+               item="true"
+               xs={12}
+               sm={3}
+                     sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                         <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                        <Topic
+                        label="Age:"
+                        value={
+                          appartment.age_range[0] + " - " + appartment.age_range[1]
+                        }/>
+                </Grid>
+                <Divider  orientation="vertical" flexItem sx={{color:"black", marginTop:1, marginBottom:1}}/>
+                <Grid
+               item="true"
+               xs={12}
+               sm={3}
+                     sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                        <AttachMoneyOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                        <Topic
+                          label="Price:"
+                          value={
+                            appartment.price_range[0] +
+                            "$ - " +
+                            appartment.price_range[1] +
+                            "$"
+                          }
+                        />
+                </Grid>
+                <Divider  orientation="vertical" flexItem sx={{color:"black", marginTop:1, marginBottom:1}}/>
+                <Grid
+                    item="true"
+                    xs={12}
+                    sm={3}
+                    sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                        <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                        <Topic label="Gender:" value={appartment.gender} />
+                </Grid>
+              </Grid>
+            
+                <Divider orientation="horizontal" flexItem sx={{color:"black",marginRight:1, marginLeft:1, }}/>
+
+                <Grid container="true" sm={9}
+                sx={{marginLeft:"auto", marginRight:"auto",  display:"flex", direction:"warp", 
+                justifyContent:"center"}}>
+                <Grid
+               item="true"
+               xs={12}
+               sm={3}
+                     sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                        <ElevatorOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                        <Topic label="Elevator:" value={appartment.elevator} />
+                </Grid>
+                <Divider  orientation="vertical" flexItem sx={{color:"black", marginTop:1, marginBottom:1}}/>
+                <Grid
+               item="true"
+               xs={12}
+               sm={3}
+                     sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                        <LocalParkingOutlinedIcon sx={{ paddingBottom: "15px" }} />
+                        <Topic label="Parking:" value={appartment.parking} />
+                </Grid>
+                <Divider  orientation="vertical" flexItem sx={{color:"black", marginTop:1, marginBottom:1}}/>
+                <Grid
+               item="true"
+               xs={12}
+               sm={3}
+                     sx={{
+                       display: "flex",
+                       alignItems: "center",
+                       marginLeft:"auto",
+                       marginRight:"auto",
+                     }}>
+                        <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
                   <Topic label="Smoking:" value={appartment.smoking} />
-                </Box>
-              </Box>
-            </Grid>
+                </Grid>
+                </Grid>
+                
+              </Grid>
           </Grid>
         ) : (
           ""
         )}
+       
+      
+
+        <Grid container="true"sm={8}
+
+        
+        >
+        <Divider orientation="horizontal" flexItem sx={{color:"black",marginRight:1, marginLeft:1, marginTop:3, marginBottom:3}}/>
+          <Grid
+            sx={{
+              paddingTop: "10px", borderRadius:3, display:"flex"
+            }}
+          >
+            <Topic label="About The Appartment:" />
+            <br/>
+            <Typography sx={{ paddingBottom: "10px" }}>
+              {appartment.summary}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid sm={12}>
         <CardContent>
@@ -236,18 +312,7 @@ const Apartment = (props) => {
         </CardContent>
       </Grid>
       <Grid sm={12} sx={{ textAlign: "-webkit-center" }}>
-        <Grid sm={8}>
-          <Box
-            sx={{
-              paddingTop: "10px",
-            }}
-          >
-            <Topic label="About The Appartment:" />
-            <Typography sx={{ paddingBottom: "10px" }}>
-              {appartment.summary}
-            </Typography>
-          </Box>
-        </Grid>
+        
       </Grid>
 
       <Box
