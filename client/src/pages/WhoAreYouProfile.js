@@ -1,20 +1,35 @@
 import { Button, CardActionArea } from "@material-ui/core";
-import { Box, CardMedia, Typography, Stepper, StepLabel,Step } from "@mui/material";
+import {
+  Box,
+  CardMedia,
+  Typography,
+  Stepper,
+  StepLabel,
+  Step,
+} from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import looker_img from "../images/looker_img.png";
-import welcomer_img from "../images/welcomer_img.png";
+import main_3 from "../images/main_3.jpg";
+import main_1 from "../images/main_1.jpg";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import { updateUserDetails } from "../controller/authenticationController";
 import steps from "../components/StepperData";
 import CustomStepper from "../components/CustomStepper";
-
+import { styled } from "@mui/system";
 
 const WhoAreYouProfile = () => {
   const navigate = useNavigate();
   const { setPageTitle } = useContext(pageTitleContext);
   const [userType, setUserType] = useState("");
   const { setUserRole, userEmail } = useContext(authContext);
+
+  const SmallImage = styled("img")(({ theme }) => ({
+    objectFit: "cover",
+    borderRadius: "16px",
+    width: 350,
+    height: 200,
+    marginBottom: theme.spacing(2),
+  }));
 
   useEffect(() => {
     setPageTitle("Who Are You?");
@@ -46,9 +61,7 @@ const WhoAreYouProfile = () => {
 
   return (
     <>
-    
-    <CustomStepper activeStep={1} steps={steps} />
-
+      <CustomStepper activeStep={1} steps={steps} />
       <Box
         item="true"
         sx={{
@@ -58,12 +71,16 @@ const WhoAreYouProfile = () => {
           marginTop: "15px",
         }}
       >
-
-
         {userType ? (
           <Typography sx={{ fontSize: 40 }}>Hello, {`${userType}`}</Typography>
         ) : (
-          <Typography sx={{ fontSize: 24, color: "black" }}>
+          <Typography
+            sx={{
+              fontSize: 24,
+              color: "black",
+              paddingBottom: "20px",
+            }}
+          >
             CHOOSE YOUR USER TYPE
           </Typography>
         )}
@@ -72,57 +89,62 @@ const WhoAreYouProfile = () => {
         <Box
           item="true"
           xs={6}
-          sx={{ width: "fit-content", marginLeft: "auto" }}
+          sx={{ width: "fit-content", marginLeft: "auto", marginRight: "50px" }}
         >
-          <Button
-            sx={{ display: "flex", flexWrap: "wrap" }}
-            onClick={() => setUserType("Welcomer")}
-          >
-            <CardActionArea
-              sx={{
-                width: "fit-content",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
+          <Box sx={{ marginLeft: "50px" }}>
+            <SmallImage alt="welcomer" src={main_1} />
+            <Typography
+              sx={{ fontSize: 30, textAlign: "center", paddingBottom: "10px" }}
             >
-              <CardMedia
-                component="img"
-                height="400"
-                width="400"
-                image={welcomer_img}
-                alt="welcomer image"
-                sx={{ width: "fit-content" }}
-              />
-              <Typography sx={{ fontSize: 26 }}>WELCOMER</Typography>
-              <Typography sx={{ fontSize: 20 }}>
-                People who own an apartment and <br /> looking for roommates
-              </Typography>
-            </CardActionArea>
-          </Button>
+              WELCOMER
+            </Typography>
+            <Typography
+              sx={{ fontSize: 20, textAlign: "center", paddingBottom: "20px" }}
+            >
+              People who own an apartment and <br /> looking for roommates
+            </Typography>
+            <Box sx={{ textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => setUserType("Welcomer")}
+              >
+                CHOOSE
+              </Button>
+            </Box>
+          </Box>
         </Box>
         <Box
           item="true"
           xs={6}
-          sx={{ width: "fit-content", marginRight: "auto" }}
+          sx={{
+            width: "fit-content",
+            marginRight: "auto",
+            marginLeft: "50px",
+          }}
         >
-          <Button
-            sx={{ display: "flex", flexWrap: "wrap" }}
-            onClick={() => setUserType("Looker")}
-          >
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="400"
-                width="400"
-                image={looker_img}
-                alt="upload image 2"
-              />
-              <Typography sx={{ fontSize: 26 }}>LOOKER</Typography>
-              <Typography sx={{ fontSize: 20 }}>
-                People who are looking for <br /> an apartment to enter
-              </Typography>
-            </CardActionArea>
-          </Button>
+          <Box sx={{ marginLeft: "50px" }}>
+            <SmallImage alt="looker" src={main_3} />
+            <Typography
+              sx={{ fontSize: 30, textAlign: "center", paddingBottom: "10px" }}
+            >
+              LOOKER
+            </Typography>
+            <Typography
+              sx={{ fontSize: 20, textAlign: "center", paddingBottom: "20px" }}
+            >
+              People who are looking for <br /> an apartment to enter
+            </Typography>
+            <Box sx={{ textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => setUserType("Looker")}
+              >
+                CHOOSE
+              </Button>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>
