@@ -5,7 +5,9 @@ import {
   Box,
   Button,
   CardContent,
-  Stack
+  Stack,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
@@ -22,6 +24,7 @@ import ElevatorOutlinedIcon from "@mui/icons-material/ElevatorOutlined";
 import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
+import StyledImageList from "../components/UI/StyledImageList";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -47,14 +50,12 @@ const Apartment = (props) => {
   const { ap } = props;
   const navigate = useNavigate();
   const [appartment, setAppartment] = useState("");
-  const [openSnackbar, setOpensnackbar]=useState(false);
-  const [snackbarMessage, setSnackbarMessage]= useState(""); 
-  const [alertSeverity, setAlertSeverity]= useState("");
-  const delay = ms => new Promise(//for delay 
-    resolve => setTimeout(resolve, ms)
-  );
+  const [openSnackbar, setOpensnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("");
+  const delay = (ms) =>
+    new Promise((resolve) => setTimeout(resolve, ms)); //for delay
 
-  
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
     console.log(res.data);
@@ -82,7 +83,6 @@ const Apartment = (props) => {
     }
   }, []);
 
-
   const sendRequest = async () => {
     const request = {
       appartment_id: apartmentId,
@@ -103,7 +103,6 @@ const Apartment = (props) => {
       setOpensnackbar(true);
       await delay(2500);
       navigate("/");
-
     }
   };
 
@@ -116,11 +115,13 @@ const Apartment = (props) => {
       md={10}
     >
       <Grid container marginTop={5}>
-      {openSnackbar && 
-      <SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
-      open={openSnackbar} 
-      severity={alertSeverity}
-      />}
+        {openSnackbar && (
+          <SnackBarAlerts
+            snackbarMessage={<Typography>{snackbarMessage}</Typography>}
+            open={openSnackbar}
+            severity={alertSeverity}
+          />
+        )}
         {appartment ? (
           <Grid container spacing={10}>
             <Grid
@@ -130,7 +131,8 @@ const Apartment = (props) => {
               sx={{ margin: "auto", textAlign: "-webkit-right" }}
             >
               <Box sx={{ height: 450, width: 450 }}>
-                <UserCarousel apartmentImages={appartment.images} />
+                {/* <UserCarousel apartmentImages={appartment.images} /> */}
+                <StyledImageList images={appartment.images} />
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -268,7 +270,7 @@ const Apartment = (props) => {
         {userRole === "Welcomer" && userEmail == appartment.email ? (
           <Button
             variant="contained"
-            onClick={()=>navigate("/create-apartment")}
+            onClick={() => navigate("/create-apartment")}
             style={btnstyle}
             sx={{ width: "400px", marginBottom: "20px" }}
           >

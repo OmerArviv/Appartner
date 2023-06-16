@@ -11,12 +11,26 @@ router.route("/createProfile").post(auth, async (request, response) => {
   if (!userProfile) {
     return response.status(400).send("All input is required");
   }
-  var result = await UserProfileService.insertUserProfile(userProfile);
-  console.log(result);
-  if (result != null) {
-    return response.status(201).json(userProfile);
+
+  const user = await UserProfileService.findUserProfileByEmail(
+    userProfile.email
+  );
+  //if user profile exist update the profile
+  if (user) {
+    result = await UserProfileService.updateUserProfile(userProfile);
+    if (result != null) {
+      return response.status(201).json(userProfile);
+    }
+    return response.status(403).send({});
   }
-  return response.status(403).send({});
+  //if user profile not exist insert new profile
+  else {
+    var result = await UserProfileService.insertUserProfile(userProfile);
+    if (result != null) {
+      return response.status(201).json(userProfile);
+    }
+    return response.status(403).send({});
+  }
 });
 
 router.route("/getAllUsersEmails").get(async (request, response) => {

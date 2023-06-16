@@ -36,89 +36,13 @@ import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
 import SearchIcon from "@mui/icons-material/Search";
 
-const btnstyle = {
-  background: "#4F4E51",
-  color: "#D0D2D8",
-};
-
-function ApartmentList() {
-  const [appartments, setAppartments] = useState(null);
-  const [allAppartments, setAllAppartmentsNoFilter] = useState(null);
-  const [matchedApartments, setMatchedApartments] = useState([]);
-  const [modalPref, setModalPref] = useState(false);
-  const [conversation, setConversation] = useState([]);
-  const [userMessage, setUserMessage] = useState("");
+function FilterByChatGpt() {
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
-
   const { userEmail } = useContext(authContext);
 
-  const apartments_array = [];
-
-  //set user details with speach to text
-  const [userSTT, setUserSTT] = useState("");
-
-  //set user details with chat GPT
-  const [userGPT, setUserGPT] = useState("");
-
-  useEffect(() => {
-    setAllAppartments();
-  }, []);
-
-  const setAllAppartments = async () => {
-    const res = await getAllAppartments();
-    if (res) {
-      setAppartments(res);
-      setAllAppartmentsNoFilter(res);
-    }
-  };
-
-  const handleCloseProfile = () => {
-    setModalPref(false);
-  };
-
-  const handleMatchedApartments = (apartments) => {
-    setMatchedApartments(apartments);
-  };
-
-  const sendMessage = async (message) => {
-    const appartments = await getAppartmentsFiltered();
-
-    const userMessage = { role: "user", content: message };
-    const apartmentData = { user: message, apartments: appartments };
-
-    try {
-      const res = await convWithChatGpt(apartmentData);
-
-      if (res && res.status == 200) {
-        for (let i = 0; i < res.data.length; i++) {
-          const apartment = await getAppartmentById(res.data[0]._id);
-          apartments_array.push(apartment.data);
-        }
-
-        setAppartments(apartments_array);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getAppartmentsFiltered = async () => {
-    const data = [];
-    for (let i = 0; i < appartments.length; i++) {
-      let apartment = appartments[i];
-      data.push({
-        id: apartment._id,
-        age_range: apartment.age_range,
-        location: apartment.location.name,
-        price_range: apartment.price_range,
-        gender: apartment.gender,
-        elevator: apartment.elevator,
-        parking: apartment.parking,
-        smoking: apartment.smoking,
-      });
-    }
-    return data;
+  const handleTitleClick = () => {
+    setIsCodeVisible(!isCodeVisible);
   };
 
   const handleFindMatches = async () => {
@@ -158,38 +82,6 @@ function ApartmentList() {
       console.error(error);
     }
     setIsLoading(false);
-  };
-
-  const handleUserMessageChange = (event) => {
-    setUserMessage(event.target.value);
-  };
-
-  const handleSendMessage = () => {
-    setIsLoading2(true);
-    if (userMessage.trim() !== "") {
-      sendMessage(userMessage);
-      setUserMessage("");
-    }
-    setIsLoading2(false);
-  };
-
-  const [selectedOption, setSelectedOption] = useState("parseChatGpt");
-
-  {
-    selectedOption === "parseChatGpt" ? (
-      <ParseChatGptApart
-        apartment={allAppartments}
-        setAppartments={setAppartments}
-      />
-    ) : (
-      <SpeechtotextApart setUser={setUserSTT} />
-    );
-  }
-
-  const [isCodeVisible, setIsCodeVisible] = useState(false);
-
-  const handleTitleClick = () => {
-    setIsCodeVisible(!isCodeVisible);
   };
 
   return (
@@ -282,57 +174,8 @@ function ApartmentList() {
           </Box>
         )}
       </Box>
-
-      <Grid container>
-        <Grid item>
-          <FilterSection
-            appartments={appartments}
-            setAppartments={setAppartments}
-            allAppartments={allAppartments}
-          ></FilterSection>
-        </Grid>
-      </Grid>
-      <List
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          display: "inline-flex",
-          flexDirection: "column",
-          flexWrap: "wrap",
-          alignItems: "center",
-        }}
-      >
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          sx={{ justifyContent: "center" }}
-          alignItems="center"
-          flexWrap="wrap"
-        >
-          {matchedApartments.length > 0
-            ? matchedApartments.map((item, index) => (
-                <Box
-                  key={index}
-                  component="div"
-                  sx={{ display: "inline", marginRight: "auto" }}
-                >
-                  <ListItem>
-                    <ApartmentListItem data={item} />
-                  </ListItem>
-                </Box>
-              ))
-            : appartments
-            ? appartments.map((item, index) => (
-                <div key={index}>
-                  {/* <ListItem> */}
-                  <ApartmentListItem data={item} />
-                  {/* </ListItem> */}
-                </div>
-              ))
-            : ""}
-        </Stack>
-      </List>
     </>
   );
 }
 
-export default ApartmentList;
+export default FilterByChatGpt;

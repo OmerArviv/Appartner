@@ -11,13 +11,32 @@ router
     if (!userProfilePrefernces) {
       return response.status(400).send("All input is required");
     }
-    var result = await UserProfilePreferncesService.insertUserProfilePrefernces(
-      userProfilePrefernces
-    );
-    if (result != null) {
-      return response.status(201).json(userProfilePrefernces);
+
+    const userPrefernces =
+      await UserProfilePreferncesService.findUserProfilePreferncesByEmail(
+        userProfilePrefernces.email
+      );
+    //if user prefernces exist update the prefernces
+    if (userPrefernces) {
+      result = await UserProfilePreferncesService.updateUserProfilePrefernces(
+        userProfilePrefernces
+      );
+      if (result != null) {
+        return response.status(201).json(userProfilePrefernces);
+      }
+      return response.status(403).send({});
     }
-    return response.status(403).send({});
+    //if user predernces not exist insert new prefernces
+    else {
+      var result =
+        await UserProfilePreferncesService.insertUserProfilePrefernces(
+          userProfilePrefernces
+        );
+      if (result != null) {
+        return response.status(201).json(userProfilePrefernces);
+      }
+      return response.status(403).send({});
+    }
   });
 
 router
