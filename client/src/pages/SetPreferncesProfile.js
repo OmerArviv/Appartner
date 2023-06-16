@@ -5,6 +5,9 @@ import {
   Box,
   Typography,
   Button,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import {
   FormControl,
@@ -23,6 +26,9 @@ import {
 import { authContext, pageTitleContext } from "../APP/Utils";
 import SearchGoogleMap from "../components/SeachGoogleMap";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
+import steps from "../components/StepperData";
+import CustomStepper from "../components/CustomStepper";
+
 
 const btnstyle = {
   background: "#4F4E51",
@@ -191,11 +197,14 @@ const SetPreferncesProfile = () => {
 
   return (
     <>
+     <CustomStepper activeStep={3} steps={steps} />
+
       <Box
         container="true"
         spacing={50}
         sx={{ display: "flex", flexWrap: "wrap", marginTop: 5 }}
       >
+
          {openSnackbar && 
         <SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
         open={openSnackbar} 

@@ -1,2 +1,5 @@
-const steps = ["Step 1", "Step 2", "Step 3"];
+
+
+const steps = ["Sign Up", "Who Are You", "Create Your Profile", "Finish Set Up",];
+
 export default steps;

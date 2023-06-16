@@ -7,7 +7,9 @@ import {
   Button,
   CardContent,
   Slider,
-  Typography,
+  Typography,  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import UploadImages from "../components/UploadImages";
@@ -19,6 +21,10 @@ import RoomateAvatar from "../components/RoomateAvatar";
 import SearchGoogleMap from "../components/SeachGoogleMap";
 import { Box, CircularProgress } from "@material-ui/core";
 import { summaryWithChatGpt } from "../controller/chatGptController";
+import steps from "../components/StepperData";
+import { red } from "@mui/material/colors";
+import CustomStepper from "../components/CustomStepper";
+
 
 const btnstyle = {
   background: "#4F4E51",
@@ -177,8 +183,14 @@ const CreateApartment = () => {
   };
 
   return (
+<Grid>
+<CustomStepper activeStep={3} steps={steps} />
+
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
+
+
       <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
+ 
         <FormControl sx={{ mt: 3, width: "400px" }}>
           <CardContent>
             <InputLabel
@@ -333,6 +345,8 @@ const CreateApartment = () => {
         <UploadImages setArrayImages={apartmentImagesHandler} />
       </Grid>
     </Grid>
+    </Grid>
+
   );
 };
 

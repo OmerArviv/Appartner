@@ -11,6 +11,9 @@ import {
   InputAdornment,
   ToggleButton,
   ToggleButtonGroup,
+  Stepper,
+  StepLabel,
+  Step,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -23,6 +26,9 @@ import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import { getUserByEmail } from "../controller/authenticationController";
+import steps from "../components/StepperData";
+import CustomStepper from "../components/CustomStepper";
+
 
 const btnstyle = {
   margin: "8px 0",
@@ -203,6 +209,10 @@ const CreateProfile = () => {
 
   return (
     <>
+    <Box>
+    <CustomStepper activeStep={2} steps={steps} />
+
+    </Box>
       <Box
         sx={{
           display: "flex",
