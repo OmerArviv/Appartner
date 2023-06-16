@@ -169,11 +169,10 @@ const CreateProfile = () => {
         user_instagram_link: userInstagramLink,
         user_profile_image: userProfileImage,
       };
-      console.log(userProfile);
       const result = await createUserProfile(userProfile);
       if (result.status === 201) {
         if (userRole === "Welcomer") {
-          navigate("/");
+          navigate("/create-apartment");
         } else {
           navigate("/create-profile/set-prefernces");
         }
@@ -245,7 +244,7 @@ const CreateProfile = () => {
                   marginTop: 5,
                 }}
               >
-                <ParseChatGpt setUser={setUserGPT}/>
+                <ParseChatGpt setUser={setUserGPT} />
               </Box>
             )}
             {selectedOption === "speechtotext" && (

@@ -45,7 +45,7 @@ function RoomateAvatar(props) {
           >
             <Avatar
               src={roomateImage}
-              sx={{ width: 75, height: 75 }}
+              sx={{ width: 65, height: 65 }}
               onError={handleImageError}
             />
           </Button>
