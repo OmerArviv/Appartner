@@ -23,6 +23,7 @@ import { Dialog } from "@mui/material";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 
+
 export default function NavBar(props) {
   const navigate = useNavigate();
   const { authenticated, removeUserDetailsAfterSignout, userEmail } =
@@ -33,6 +34,8 @@ export default function NavBar(props) {
   const [requestsNumber, setRequestsNumber] = useState(0);
   const [userApartments, setUserApartments] = useState("");
   const [modal, setModal] = useState(false);
+
+  
 
   const handleSignOut = () => {
     removeUserDetailsAfterSignout();
@@ -78,7 +81,7 @@ export default function NavBar(props) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ background: "#BDCDD6" }}>
+      <AppBar position="static" style={{ background: "#BDCDD6" }}>
         <Toolbar>
           <img
             id="logo"

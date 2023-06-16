@@ -1,11 +1,14 @@
 import { Button, CardActionArea } from "@material-ui/core";
-import { Box, CardMedia, Typography } from "@mui/material";
+import { Box, CardMedia, Typography, Stepper, StepLabel,Step } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import looker_img from "../images/looker_img.png";
 import welcomer_img from "../images/welcomer_img.png";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import { updateUserDetails } from "../controller/authenticationController";
+import steps from "../components/StepperData";
+import CustomStepper from "../components/CustomStepper";
+
 
 const WhoAreYouProfile = () => {
   const navigate = useNavigate();
@@ -43,6 +46,9 @@ const WhoAreYouProfile = () => {
 
   return (
     <>
+    
+    <CustomStepper activeStep={1} steps={steps} />
+
       <Box
         item="true"
         sx={{
@@ -52,6 +58,8 @@ const WhoAreYouProfile = () => {
           marginTop: "15px",
         }}
       >
+
+
         {userType ? (
           <Typography sx={{ fontSize: 40 }}>Hello, {`${userType}`}</Typography>
         ) : (
