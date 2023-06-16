@@ -119,9 +119,6 @@ const Login = (props) => {
     <Grid>
       <Container maxWidth="sm" style={ContainerStyle}>
         <Grid align="center">
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <AccountCircleIcon />
-          </Avatar>
           <h2>Sign In</h2>
         </Grid>
         <TextField

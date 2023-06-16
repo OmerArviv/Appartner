@@ -14,6 +14,12 @@ import {
   Stepper,
   StepLabel,
   Step,
+  CircularProgress,
+  Tooltip,
+  IconButton,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -21,13 +27,15 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserProfile } from "../controller/userProfileController";
 import DialogImage from "../components/DialogImage";
-import { Typography } from "@material-ui/core";
+import { DialogTitle, Typography } from "@material-ui/core";
 import { authContext, pageTitleContext } from "../APP/Utils";
 import ParseChatGpt from "../components/ChatGptApi/ParseChatGpt";
 import Speechtotext from "../components/Speechtotextapi/Speechtotext";
 import { getUserByEmail } from "../controller/authenticationController";
 import steps from "../components/StepperData";
 import CustomStepper from "../components/CustomStepper";
+import InfoIcon from '@mui/icons-material/Info';
+
 
 
 const btnstyle = {
@@ -143,6 +151,8 @@ const CreateProfile = () => {
     setUserInstagramLink(event.target.value);
   }
 
+
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     const user_email = userEmail;
@@ -206,6 +216,17 @@ const CreateProfile = () => {
     setIsCodeVisible(!isCodeVisible);
   };
 
+
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
+
+  const handleInfoButtonClick = () => {
+    setIsInfoOpen(true);
+  };
+
+  const handleCloseInfo = () => {
+    setIsInfoOpen(false);
+  };
+
   return (
     <>
     <Box>
@@ -222,14 +243,40 @@ const CreateProfile = () => {
           marginBottom: 5,
         }}
       >
-        <Typography
-          variant="h6"
-          gutterBottom
-          onClick={handleTitleClick}
-          style={{ cursor: "pointer" }}
-        >
-          Click to fill the fields by record or short text
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}> 
+             <Button
+        onClick={handleTitleClick}
+        variant="contained"
+        style={{ ...btnstyle, marginRight: "20px" }}
+      >
+        Quick Self-Description
+      </Button>
+
+      <Tooltip title="Information">
+        <IconButton onClick={handleInfoButtonClick}>
+          <InfoIcon />
+        </IconButton>
+      </Tooltip>
+      <Dialog open={isInfoOpen} onClose={handleCloseInfo}>
+        <DialogTitle>Information</DialogTitle>
+        <DialogContent>
+          <p>
+            This feature allows you to provide your self-description using either speech-to-text or typing a short text.
+          </p>
+          <p>
+            Speech-to-Text: Click on the microphone icon and speak your self-description. The speech will be converted to text and filled in the relevant fields automatically.
+          </p>
+          <p>
+            Short Text: Click on the text input field and type a brief self-description manually.
+          </p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseInfo} variant="outlined">Close</Button>
+        </DialogActions>
+      </Dialog>
+      </Box>
+
+
         {isCodeVisible && (
           <Box
             sx={{

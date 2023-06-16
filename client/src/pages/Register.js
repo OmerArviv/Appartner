@@ -113,9 +113,6 @@ const Register = (props) => {
       <Container maxWidth="sm" style={ContainerStyle}>
 
         <Grid align="center">       
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <AccountCircleIcon />
-          </Avatar>
           <h2>Sign Up</h2>
         </Grid>
         <TextField
