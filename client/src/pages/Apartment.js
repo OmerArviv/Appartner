@@ -282,15 +282,15 @@ const Apartment = (props) => {
 
         
         >
-        <Divider orientation="horizontal" flexItem sx={{color:"black",marginRight:1, marginLeft:1, marginTop:3, marginBottom:3}}/>
+        <Divider orientation="horizontal" sx={{color:"black",marginRight:1, marginLeft:1, marginTop:3, marginBottom:3}}/>
           <Grid
             sx={{
-              paddingTop: "10px", borderRadius:3, display:"flex"
+              paddingTop: "10px", borderRadius:3,
             }}
+            sm={12}
           >
-            <Topic label="About The Appartment:" />
-            <br/>
-            <Typography sx={{ paddingBottom: "10px" }}>
+            <Typography sx={{ paddingBottom: "10px", fontWeight:500, fontSize:"25px", marginLeft:"70px" }}>About The Appartment:</Typography>
+            <Typography sx={{ paddingBottom: "10px", marginLeft:"80px", marginRight:"auto" }}>
               {appartment.summary}
             </Typography>
           </Grid>
@@ -298,6 +298,7 @@ const Apartment = (props) => {
       </Grid>
       <Grid sm={12}>
         <CardContent>
+        <Typography sx={{ paddingBottom: "10px", fontWeight:500, fontSize:"25px", marginLeft:"70px" }}>The Appartment Rommates:</Typography>
           <Stack sx={{ justifyContent: "center" }} direction="row" spacing={4}>
             {appartment.roomates && appartment.roomates.length != 0
               ? appartment.roomates.map((item, index) => {

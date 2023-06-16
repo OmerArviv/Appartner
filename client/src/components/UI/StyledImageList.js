@@ -45,6 +45,51 @@ const StyledImageList=(props)=>{
                     };
                     tmpImages.push(img4);
             }
+            if(apartmentImages.length==3){
+                console.log("in function");
+                let img1={
+                    alt: "image 1", 
+                    src: props.images[0], 
+                    rows: 2,
+                    cols: 2,
+                    };
+                    tmpImages.push(img1);
+                let img2={
+                    alt: "image 1", 
+                    src: props.images[1], 
+                    };
+                    tmpImages.push(img2);
+                let img3={
+                    alt: "image 3", 
+                    src: props.images[2],
+                    };
+                    tmpImages.push(img3);
+            }
+            if(apartmentImages.length==2){
+                let img1={
+                    alt: "image 1", 
+                    src: props.images[0], 
+                    rows: 2,
+                    cols: 2,
+                    };
+                    tmpImages.push(img1);
+                let img2={
+                    alt: "image 1", 
+                    src: props.images[1],
+                    rows: 2,
+                    cols: 2, 
+                    };
+                    tmpImages.push(img2);
+            }
+            if(apartmentImages.length==1){
+                let img1={
+                    alt: "image 1", 
+                    src: props.images[0], 
+                    rows: 2,
+                    cols: 2,
+                    };
+                    tmpImages.push(img1);
+            }
             if(tmpImages){
                 setImages(tmpImages);
             }
