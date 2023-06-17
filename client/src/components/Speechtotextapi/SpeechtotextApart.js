@@ -32,14 +32,32 @@ const SpeechtotextApart = (props) => {
     return null;
   }
 
+  const getAppartmentsFiltered = async () => {
+    const data = [];
+    for (let i = 0; i < appartments.length; i++) {
+      let apartment = appartments[i];
+      data.push({
+        id: apartment._id,
+        age_range: apartment.age_range,
+        location: apartment.location.name,
+        price_range: apartment.price_range,
+        gender: apartment.gender,
+        elevator: apartment.elevator,
+        parking: apartment.parking,
+        smoking: apartment.smoking,
+      });
+    }
+    return data;
+  };
+
   const handleSaveText = async (event) => {
-    setIsLoading(true);
     event.preventDefault();
-    const apartmentData = { user: transcript, apartments: appartments };
+    setIsLoading(true);
+    const filteredApartments = await getAppartmentsFiltered();
+    const apartmentData = { user: transcript, apartments: filteredApartments };
 
     try {
       const res = await convWithChatGpt(apartmentData);
-      console.log(res);
       if (res && res.status == 200) {
         const apartments_array = [];
         for (let i = 0; i < res.data.length; i++) {

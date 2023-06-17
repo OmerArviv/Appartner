@@ -35,6 +35,7 @@ import { CircularProgress } from "@material-ui/core";
 import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
 import SearchIcon from "@mui/icons-material/Search";
+import Apartment from "../pages/Apartment";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -42,8 +43,7 @@ const btnstyle = {
 };
 
 function FilterByChatGpt(props) {
-  const { isCodeVisible } = props;
-  const { allAppartments, setAppartments, appartments } = props;
+  const { allAppartments, setAppartments, appartments, isCodeVisible } = props;
   const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
   return (

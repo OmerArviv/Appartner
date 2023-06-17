@@ -169,7 +169,12 @@ export default function FilterSection(props) {
         ) : (
           ""
         )}
-        <FilterByChatGpt isCodeVisible={isCodeVisible}></FilterByChatGpt>
+        <FilterByChatGpt
+          allAppartments={allAppartments}
+          setAppartments={setAppartments}
+          appartments={appartments}
+          isCodeVisible={isCodeVisible}
+        ></FilterByChatGpt>
       </Box>
     </>
   );

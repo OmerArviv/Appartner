@@ -41,18 +41,14 @@ const ParseChatGptApart = (props) => {
   };
 
   const handleSubmit = async (event) => {
-    setIsLoading(true);
     event.preventDefault();
+    setIsLoading(true);
     const filteredApartments = await getAppartmentsFiltered();
     const apartmentData = { user: input, apartments: filteredApartments };
-
     try {
       const res = await convWithChatGpt(apartmentData);
-      console.log(res.data);
-
       if (res && res.status == 200) {
         const apartments_array = [];
-        console.log(res.data);
         for (let i = 0; i < res.data.length; i++) {
           const apartment = await getAppartmentById(res.data[i]);
           apartments_array.push(apartment.data);
