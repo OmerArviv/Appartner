@@ -88,7 +88,7 @@ export default function FilterChoices(props) {
         }
       }),
     ]);
-  }, [ageRange, priceRange, roomates, smoking, elevator, parking]);
+  }, [ageRange, priceRange, roomates, smoking, elevator, parking, radius]);
 
   function valueAgetext(value) {
     return `${value}`;
