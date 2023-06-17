@@ -282,16 +282,15 @@ function ApartmentList() {
           </Box>
         )}
       </Box>
-
-      <Grid container>
-        <Grid item>
-          <FilterSection
-            appartments={appartments}
-            setAppartments={setAppartments}
-            allAppartments={allAppartments}
-          ></FilterSection>
-        </Grid>
-      </Grid>
+      {/* <Grid container>
+        <Grid item> */}
+      <FilterSection
+        appartments={appartments}
+        setAppartments={setAppartments}
+        allAppartments={allAppartments}
+      ></FilterSection>
+      {/* </Grid>
+      </Grid> */}
       <List
         sx={{
           display: "flex",
