@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
   const [userRole, setRole] = useState(Cookies.get("user_role"));
   const [userId, setId] = useState(Cookies.get("user_id"));
   const [userEmail, setEmail] = useState(Cookies.get("user_email"));
+  const [navBarStatus, setNavBarStatus] = useState(false);
 
   const setUserDetailsAfterLogIn = (user_id, user_email) => {
     setAuthenticated(true);
@@ -113,6 +114,8 @@ export function AuthProvider({ children }) {
         setUserDetailsAfterLogIn,
         userEmail,
         removeUserDetailsAfterSignout,
+        setNavBarStatus,
+        navBarStatus,
       }}
     >
       {children}

@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Alert,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { authContext } from "../APP/Utils";
@@ -19,6 +20,11 @@ import LocalDiningOutlinedIcon from "@mui/icons-material/LocalDiningOutlined";
 import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import DialogImage from "../components/DialogImage";
+import {
+  getUserProfileByEmail,
+  updateUserProfile,
+} from "../controller/userProfileController";
+import { Navigate } from "react-router-dom";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
   width: "100%",
@@ -27,6 +33,10 @@ const ProfilePicture = styled("img")(({ theme }) => ({
   borderRadius: "10%",
   marginBottom: theme.spacing(2),
 }));
+
+const options = ["Yes", "No", "Sometimes"];
+const yesNoOptions = ["Yes", "No"];
+const genderOptions = ["Male", "Female", "Other"];
 
 const Topic = ({ label, value }) => (
   <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
@@ -47,7 +57,7 @@ const btnstyle = {
 
 const UserProfile = (props) => {
   const { email } = props;
-  const { userEmail } = useContext(authContext);
+  const { userEmail, setNavBarStatus } = useContext(authContext);
   const [userProfileImage, setUserProfileImage] = useState(
     "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
   );
@@ -61,6 +71,18 @@ const UserProfile = (props) => {
   const [additionInfo, setAdditionInfo] = useState();
   const [open, setOpen] = useState(false);
 
+  const [editMode, setEditMode] = useState(false);
+
+  const [editableAge, setEditableAge] = useState();
+  const [editableGender, setEditableGender] = useState();
+  const [editableEmployment, setEditableEmployment] = useState();
+  const [editableAlcohol, setEditableAlcohol] = useState();
+  const [editableKosher, setEditableKosher] = useState();
+  const [editableSmoking, setEditableSmoking] = useState();
+  const [editablePets, setEditablePets] = useState();
+  const [editableAdditionInfo, setEditableAdditionInfo] =
+    useState(additionInfo);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -69,32 +91,44 @@ const UserProfile = (props) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    if (email) {
-      fetch("http://localhost:8000/email-userprofile", {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/email-userprofile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          let uProfile = data.message;
-          console.log(data.message); // logs "Email received"
-          setAge(uProfile.Birthday_date);
-          setGender(uProfile.gender);
-          setEmployment(uProfile.user_employment);
-          setAlcohol(uProfile.alcohol);
-          setKosher(uProfile.kosher);
-          setSmoking(uProfile.smoking);
-          setPets(uProfile.pets);
-          setAdditionInfo(uProfile.user_additonal_information);
-          setUserProfileImage(uProfile.user_profile_image);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      });
+      const data = await response.json();
+      const uProfile = data.message;
+      console.log(data.message); // logs "Email received"
+      setAge(uProfile.Birthday_date);
+      setGender(uProfile.gender);
+      setEmployment(uProfile.user_employment);
+      setAlcohol(uProfile.alcohol);
+      setKosher(uProfile.kosher);
+      setSmoking(uProfile.smoking);
+      setPets(uProfile.pets);
+      setAdditionInfo(uProfile.user_additonal_information);
+      setUserProfileImage(uProfile.user_profile_image);
+
+      setEditableAge(uProfile.Birthday_date);
+      setEditableGender(uProfile.gender);
+      setEditableEmployment(uProfile.user_employment);
+      setEditableAlcohol(uProfile.alcohol);
+      setEditableKosher(uProfile.kosher);
+      setEditableSmoking(uProfile.smoking);
+      setEditablePets(uProfile.pets);
+      setEditableAdditionInfo(uProfile.user_additonal_information);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (email) {
+      fetchData();
     }
   }, []);
 
@@ -102,6 +136,116 @@ const UserProfile = (props) => {
     setUserProfileImage(
       "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
     );
+  };
+
+  const handleEditProfile = () => {
+    if (editMode) {
+      const confirmSave = window.confirm(
+        "Are you sure you want to save your changes?"
+      );
+      if (confirmSave) {
+        onSubmitHandler();
+      } else {
+        console.log("No");
+      }
+    }
+    setEditMode(!editMode);
+  };
+
+  const onSubmitChangeImageHandler = async (image) => {
+    const isValid = await isValidImageAddress(image);
+
+    if (isValid) {
+      setUserProfileImage(image);
+      const user_email = userEmail;
+
+      const userProfileData = {
+        email: user_email,
+        user_profile_image: image,
+      };
+
+      const userExists = await getUserProfileByEmail(userEmail);
+      if (userExists) {
+        const result = await updateUserProfile(userProfileData);
+        if (result.status === 201) {
+          // alert("Profile image changed successfully!");
+          setNavBarStatus(true);
+        } else {
+          alert("Something went wrong - try again!");
+        }
+      } else {
+        alert("User does not exist.");
+      }
+    } else {
+      alert("Invalid image address provided.");
+    }
+  };
+
+  const isValidImageAddress = (image) => {
+    return new Promise((resolve) => {
+      const imgElement = document.createElement("img");
+
+      imgElement.onload = () => {
+        resolve(true);
+      };
+
+      imgElement.onerror = () => {
+        resolve(false);
+      };
+
+      imgElement.src = image;
+    });
+  };
+
+  const onSubmitHandler = async (event) => {
+    const user_email = userEmail;
+    if (
+      user_email !== "" &&
+      editableAge !== "" &&
+      editableGender !== "" &&
+      editableEmployment !== "" &&
+      editableAlcohol !== "" &&
+      editableKosher !== "" &&
+      editableSmoking !== "" &&
+      editablePets !== "" &&
+      editableAdditionInfo !== ""
+    ) {
+      const ageValue = parseInt(editableAge);
+
+      if (isNaN(ageValue) || ageValue < 18 || ageValue > 75) {
+        alert("Please enter a valid age between 18 and 75.");
+        return;
+      }
+
+      const userProfileData = {
+        email: user_email,
+        Birthday_date: editableAge,
+        user_employment: editableEmployment,
+        smoking: editableSmoking,
+        pets: editablePets,
+        gender: editableGender,
+        alcohol: editableAlcohol,
+        kosher: editableKosher,
+        user_additonal_information: editableAdditionInfo,
+      };
+
+      const userExists = await getUserProfileByEmail(userEmail);
+      if (userExists) {
+        const result = await updateUserProfile(userProfileData);
+        if (result.status === 201) {
+          fetchData();
+          setTimeout(() => {
+            alert("Your preferences have been updated!");
+          }, 500);
+        } else {
+          alert("Something went wrong - try again!");
+        }
+      } else {
+        alert("User does not exist.");
+      }
+    } else {
+      alert("Please fill in all the fields.");
+    }
   };
 
   return (
@@ -155,7 +299,7 @@ const UserProfile = (props) => {
                       <Dialog open={open} onClose={handleClose}>
                         <DialogTitle>Change Profile Image</DialogTitle>
                         <DialogContent>
-                          <DialogImage setImage={setUserProfileImage} />
+                          <DialogImage setImage={onSubmitChangeImageHandler} />
                         </DialogContent>
                       </Dialog>
                     </div>
@@ -172,7 +316,19 @@ const UserProfile = (props) => {
                     }}
                   >
                     <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Age:" value={age} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableAge">Age:</label>
+                        <input
+                          type="text"
+                          id="editableAge"
+                          value={editableAge}
+                          onChange={(e) => setEditableAge(e.target.value)}
+                        />
+                      </div>
+                    ) : (
+                      <Topic label="Age:" value={age} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -181,7 +337,24 @@ const UserProfile = (props) => {
                     }}
                   >
                     <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Gender:" value={gender} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableGender">Gender:</label>
+                        <select
+                          id="editableGender"
+                          value={editableGender}
+                          onChange={(e) => setEditableGender(e.target.value)}
+                        >
+                          {genderOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <Topic label="Gender:" value={gender} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -190,7 +363,21 @@ const UserProfile = (props) => {
                     }}
                   >
                     <BadgeOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Employment:" value={employment} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableEmployment">Employment:</label>
+                        <input
+                          type="text"
+                          id="editableEmployment"
+                          value={editableEmployment}
+                          onChange={(e) =>
+                            setEditableEmployment(e.target.value)
+                          }
+                        />
+                      </div>
+                    ) : (
+                      <Topic label="Employment:" value={employment} />
+                    )}{" "}
                   </Box>
                   <Box
                     sx={{
@@ -199,7 +386,24 @@ const UserProfile = (props) => {
                     }}
                   >
                     <LocalBarOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Alcohol:" value={alcohol} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableAlcohol">Alcohol:</label>
+                        <select
+                          id="editableAlcohol"
+                          value={editableAlcohol}
+                          onChange={(e) => setEditableAlcohol(e.target.value)}
+                        >
+                          {options.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <Topic label="Alcohol:" value={alcohol} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -208,7 +412,24 @@ const UserProfile = (props) => {
                     }}
                   >
                     <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Smoking:" value={smoking} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableSmoking">Smoking:</label>
+                        <select
+                          id="editableSmoking"
+                          value={editableSmoking}
+                          onChange={(e) => setEditableSmoking(e.target.value)}
+                        >
+                          {options.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <Topic label="Smoking:" value={smoking} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -217,7 +438,24 @@ const UserProfile = (props) => {
                     }}
                   >
                     <LocalDiningOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Kosher:" value={kosher} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editableKosher">Kosher:</label>
+                        <select
+                          id="editableKosher"
+                          value={editableKosher}
+                          onChange={(e) => setEditableKosher(e.target.value)}
+                        >
+                          {yesNoOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <Topic label="Kosher:" value={kosher} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -226,7 +464,24 @@ const UserProfile = (props) => {
                     }}
                   >
                     <PetsOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic label="Pets:" value={pets} />
+                    {editMode ? (
+                      <div>
+                        <label htmlFor="editablePets">Pets:</label>
+                        <select
+                          id="editablePets"
+                          value={editablePets}
+                          onChange={(e) => setEditablePets(e.target.value)}
+                        >
+                          {yesNoOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <Topic label="Pets:" value={pets} />
+                    )}
                   </Box>
                   <Box
                     sx={{
@@ -235,10 +490,26 @@ const UserProfile = (props) => {
                     }}
                   >
                     <AddCommentOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                    <Topic
-                      label="Additional Information:"
-                      value={additionInfo}
-                    />
+                    {editMode ? (
+                      <React.Fragment>
+                        <label htmlFor="editableAdditionInfo">
+                          Additional Information:
+                        </label>
+                        <input
+                          type="text"
+                          id="editableAdditionInfo"
+                          value={editableAdditionInfo}
+                          onChange={(e) =>
+                            setEditableAdditionInfo(e.target.value)
+                          }
+                        />
+                      </React.Fragment>
+                    ) : (
+                      <Topic
+                        label="Additional Information:"
+                        value={additionInfo}
+                      />
+                    )}
                   </Box>
                 </Box>
                 <Box
@@ -253,8 +524,9 @@ const UserProfile = (props) => {
                       variant="contained"
                       style={btnstyle}
                       sx={{ width: "300px", marginTop: "30px" }}
+                      onClick={handleEditProfile}
                     >
-                      EDIT PROFILE
+                      {editMode ? "SAVE PROFILE" : "EDIT PROFILE"}
                     </Button>
                   )}
                 </Box>
