@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Button, ButtonGroup, Tooltip } from "@mui/material";
+import { Button, ButtonGroup, Grid, Tooltip } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import AddIcon from "@mui/icons-material/Add";
 import { useState, useEffect } from "react";
@@ -72,84 +72,95 @@ export default function FilterSection(props) {
           border: "1px solid white",
           my: 2,
           alignItems: "right",
+          display: "flex",
         }}
       >
-        <ButtonGroup
-          variant="text"
-          aria-label="text button group"
-          sx={{ alignItems: "right" }}
-        >
-          <Button sx={{ color: "black", mx: 2 }}>
-            Filter
-            {filterTab === false ? (
-              <AddIcon
-                sx={{ height: "80%", ml: 2 }}
-                onClick={onOpenFilterTab}
-              ></AddIcon>
-            ) : (
-              <RemoveIcon
-                sx={{ height: "80%", ml: 2 }}
-                onClick={onCloseFilterTab}
-              ></RemoveIcon>
-            )}
-          </Button>
-          <Divider orientation="vertical" flexItem />
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label" sx={{ color: "black" }}>
-                Sort By
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={sort}
-                label="Age"
-                onChange={handleChange}
+        <Grid container>
+          <Grid xs={5}>
+            <ButtonGroup
+              variant="text"
+              aria-label="text button group"
+              sx={{ alignItems: "center" }}
+            >
+              <Button sx={{ color: "black", mx: 2 }}>
+                Filter
+                {filterTab === false ? (
+                  <AddIcon
+                    sx={{ height: "80%", ml: 2 }}
+                    onClick={onOpenFilterTab}
+                  ></AddIcon>
+                ) : (
+                  <RemoveIcon
+                    sx={{ height: "80%", ml: 2 }}
+                    onClick={onCloseFilterTab}
+                  ></RemoveIcon>
+                )}
+              </Button>
+              <Divider orientation="vertical" flexItem />
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    sx={{ color: "black" }}
+                  >
+                    Sort By
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={sort}
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={1}>Price: low to high</MenuItem>
+                    <MenuItem value={2}>Price: high to low</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <Box
+                sx={{
+                  minWidth: 120,
+                  alignSelf: "center",
+                  mx: 5,
+                  display: "flex",
+                }}
               >
-                <MenuItem value={1}>Price: low to high</MenuItem>
-                <MenuItem value={2}>Price: high to low</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Tooltip
+                    title="Click to fill the fields by record or short text"
+                    disableInteractive
+                  >
+                    <SearchIcon
+                      fontSize="large"
+                      onClick={handleTitleClick}
+                      style={{ cursor: "pointer" }}
+                    ></SearchIcon>
+                  </Tooltip>
+                </Box>
+              </Box>
+            </ButtonGroup>
+          </Grid>
+          <Grid
+            xs={7}
             sx={{
-              minWidth: 120,
+              justifyContent: "left",
               alignSelf: "center",
-              mx: 5,
-              display: "flex",
             }}
           >
             <FindTheBestMatchButton
               setAppartments={setAppartments}
               appartments={appartments}
             ></FindTheBestMatchButton>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Tooltip
-                title="Click to fill the fields by record or short text"
-                disableInteractive
-              >
-                <SearchIcon
-                  fontSize="large"
-                  onClick={handleTitleClick}
-                  style={{ cursor: "pointer" }}
-                ></SearchIcon>
-              </Tooltip>
-            </Box>
-            {/* <FilterByChatGpt
-              appartments={appartments}
-              setAppartments={setAppartments}
-              allAppartments={allAppartments}
-            ></FilterByChatGpt> */}
-          </Box>
-        </ButtonGroup>
+          </Grid>
+        </Grid>
         {filterTab === true ? (
           <FilterChoices
             setAppartments={setAppartments}
