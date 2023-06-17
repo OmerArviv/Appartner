@@ -7,11 +7,13 @@ import {
   CardContent,
   Stack,
   Divider,
+  Slider,
+  InputLabel,
 } from "@mui/material";
 import { pageTitleContext, authContext } from "../APP/Utils";
 import UserCarousel from "../components/UserCarousel";
 import { useParams } from "react-router";
-import { getAppartmentById } from "../controller/appartmentController";
+import { getAppartmentById, updateAppartment } from "../controller/appartmentController";
 import { useNavigate } from "react-router";
 import RoomateAvatar from "../components/RoomateAvatar";
 import { createRoomateRequest } from "../controller/RoomateRequestController";
@@ -26,6 +28,7 @@ import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 import StyledImageList from "../components/UI/StyledImageList";
 import { getRoomateRequestByUserEmailAndApartmentId } from "../controller/RoomateRequestController";
 import { CasinoSharp } from "@mui/icons-material";
+import { getUserProfileByEmail } from "../controller/userProfileController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -42,6 +45,9 @@ const Topic = ({ label, value }) => (
   </Box>
 );
 
+const yesNoOptions = ["yes", "no"];
+const genderOptions = ["male", "female", "all"];
+
 const Apartment = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const { userRole, userEmail } = useContext(authContext);
@@ -49,7 +55,16 @@ const Apartment = (props) => {
   const { ap } = props;
   const navigate = useNavigate();
   const [appartment, setAppartment] = useState("");
-  const [images, setImages] = useState();
+
+  const [editMode, setEditMode] = useState(false);
+
+  const [editableAge, setEditableAge] = useState();
+  const [editablePrice, setEditablePrice] = useState();
+  const [editableGender, setEditableGender] = useState();
+  const [editableElevator, setEditableElevator] = useState();
+  const [editableParking, setEditableParking] = useState();
+  const [editableSmoking, setEditableSmoking] = useState();
+
   const [openSnackbar, setOpensnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
@@ -70,8 +85,26 @@ const Apartment = (props) => {
       alert("Something went wrong");
     } else if (res.status === 200) {
       setAppartment(res.data);
-      setImages(res.data.images);
+
+      setEditableAge(res.data.age_range);
+      setEditablePrice(res.data.price_range);
+      setEditableGender(res.data.gender);
+      setEditableElevator(res.data.elevator);
+      setEditableParking(res.data.parking);
+      setEditableSmoking(res.data.smoking);
     }
+  };
+
+  const handleEditApartment = () => {
+    if (editMode) {
+      const confirmSave = window.confirm(
+        "Are you sure you want to save your changes?"
+      );
+      if (confirmSave) {
+        onSubmitHandler();
+      }
+    }
+    setEditMode(!editMode);
   };
 
   useEffect(() => {
@@ -128,6 +161,56 @@ const Apartment = (props) => {
     }
   };
 
+  const handleAgeChange = (event, newValue) => {
+    setEditableAge(newValue);
+  };
+
+  const handlePriceChange = (event, newValue) => {
+    setEditablePrice(newValue);
+  };
+
+  const onSubmitHandler = async (event) => {
+    const user_email = userEmail;
+    if (
+      user_email !== "" &&
+      editablePrice !== "" &&
+      editableAge !== "" &&
+      editableGender !== "" &&
+      editableElevator !== "" &&
+      editableParking !== "" &&
+      editableSmoking !== ""
+    ) {
+      const userProfileData = {
+        id: apartmentId,
+        email: user_email,
+        age_range: editableAge,
+        price_range: editablePrice,
+        smoking: editableSmoking,
+        gender: editableGender,
+        parking: editableParking,
+        elevator: editableElevator,
+      };
+      const userExists = await getUserProfileByEmail(userEmail);
+      if (userExists) {
+        const result = await updateAppartment(userProfileData);
+        if (result.status === 201) {
+          getAppartmentDetailsById();
+          setTimeout(() => {
+            alert("Your apartment have been updated!");
+          }, 500);
+          console.log(result.status);
+        } else {
+          alert("Something went wrong - try again!");
+        }
+      } else {
+        alert("User does not exist.");
+      }
+    } else {
+      alert("Please fill in all the fields.");
+    }
+  };
+
+
   return (
     <Grid
       item
@@ -176,19 +259,14 @@ const Apartment = (props) => {
                 {appartment.location.name}
               </Typography>
             </Grid>
-
-            {/* images */}
             <Grid
               item
               xs={12}
               sm={12}
-              // sx={{ margin: "auto", textAlign: "-webkit-right" }}
               sx={{ margin: "auto" }}
             >
               <StyledImageList images={appartment.images} />
             </Grid>
-
-            {/* properties of the appartment */}
             <Grid
               item
               xs={12}
@@ -225,12 +303,30 @@ const Apartment = (props) => {
                   }}
                 >
                   <AccountCircleOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic
-                    label="Age:"
-                    value={
-                      appartment.age_range[0] + " - " + appartment.age_range[1]
-                    }
-                  />
+                  {editMode ? (
+                    <CardContent>
+                      <Slider
+                        getAriaLabel={() => "Age range"}
+                        value={editableAge}
+                        onChange={handleAgeChange}
+                        valueLabelDisplay="auto"
+                        min={18}
+                        max={75}
+                        size="small"
+                        sx={{ color: "black" }}
+                      />
+                      <Typography>
+                        The range of ages: {`${editableAge[0]}`}-{`${editableAge[1]}`} $
+                      </Typography>
+                    </CardContent>
+                  ) : (
+                    <Topic
+                      label="Age:"
+                      value={
+                        editableAge[0] + " - " + editableAge[1]
+                      }
+                    />
+                  )}
                 </Grid>
                 <Divider
                   orientation="vertical"
@@ -249,15 +345,34 @@ const Apartment = (props) => {
                   }}
                 >
                   <AttachMoneyOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic
-                    label="Price:"
-                    value={
-                      appartment.price_range[0] +
-                      "$ - " +
-                      appartment.price_range[1] +
-                      "$"
-                    }
-                  />
+                  {editMode ? (
+                    <CardContent>
+                      <Slider
+                        getAriaLabel={() => "Price range"}
+                        value={editablePrice}
+                        onChange={handlePriceChange}
+                        valueLabelDisplay="auto"
+                        min={1000}
+                        max={10000}
+                        size="small"
+                        sx={{ color: "black" }}
+                      />
+                      <Typography>
+                        The range of prices: {`${editablePrice[0]}`}-{`${editablePrice[1]}`} $
+                      </Typography>
+                    </CardContent>
+                  ) : (
+                    <Topic
+                      label="Price:"
+                      value={
+                        editablePrice[0] +
+                        "$ - " +
+                        editablePrice[1] +
+                        "$"
+                      }
+                    />
+                  )}
+
                 </Grid>
                 <Divider
                   orientation="vertical"
@@ -276,7 +391,25 @@ const Apartment = (props) => {
                   }}
                 >
                   <TransgenderOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Gender:" value={appartment.gender} />
+
+                  {editMode ? (
+                    <div>
+                      <label htmlFor="editableGender">Gender:</label>
+                      <select
+                        id="editableGender"
+                        value={editableGender}
+                        onChange={(e) => setEditableGender(e.target.value)}
+                      >
+                        {genderOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <Topic label="Gender:" value={editableGender} />
+                  )}
                 </Grid>
               </Grid>
 
@@ -310,7 +443,24 @@ const Apartment = (props) => {
                   }}
                 >
                   <ElevatorOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Elevator:" value={appartment.elevator} />
+                  {editMode ? (
+                    <div>
+                      <label htmlFor="editableElevator">Elevator:</label>
+                      <select
+                        id="editableElevator"
+                        value={editableElevator}
+                        onChange={(e) => setEditableElevator(e.target.value)}
+                      >
+                        {yesNoOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <Topic label="Elevator:" value={editableElevator} />
+                  )}
                 </Grid>
                 <Divider
                   orientation="vertical"
@@ -329,7 +479,24 @@ const Apartment = (props) => {
                   }}
                 >
                   <LocalParkingOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Parking:" value={appartment.parking} />
+                  {editMode ? (
+                    <div>
+                      <label htmlFor="editableParking">Parking:</label>
+                      <select
+                        id="editableParking"
+                        value={editableParking}
+                        onChange={(e) => setEditableParking(e.target.value)}
+                      >
+                        {yesNoOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <Topic label="Parking:" value={editableParking} />
+                  )}
                 </Grid>
                 <Divider
                   orientation="vertical"
@@ -348,7 +515,24 @@ const Apartment = (props) => {
                   }}
                 >
                   <SmokingRoomsOutlinedIcon sx={{ paddingBottom: "15px" }} />
-                  <Topic label="Smoking:" value={appartment.smoking} />
+                  {editMode ? (
+                    <div>
+                      <label htmlFor="editableSmoking">Smoking:</label>
+                      <select
+                        id="editableSmoking"
+                        value={editableSmoking}
+                        onChange={(e) => setEditableSmoking(e.target.value)}
+                      >
+                        {yesNoOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <Topic label="Smoking:" value={editableSmoking} />
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -413,10 +597,10 @@ const Apartment = (props) => {
           <Stack sx={{ justifyContent: "center" }} direction="row" spacing={4}>
             {appartment.roomates && appartment.roomates.length != 0
               ? appartment.roomates.map((item, index) => {
-                  return (
-                    <RoomateAvatar email={item} key={index}></RoomateAvatar>
-                  );
-                })
+                return (
+                  <RoomateAvatar email={item} key={index}></RoomateAvatar>
+                );
+              })
               : ""}
           </Stack>
         </CardContent>
@@ -457,11 +641,11 @@ const Apartment = (props) => {
         {userRole === "Welcomer" && userEmail == appartment.email ? (
           <Button
             variant="contained"
-            onClick={() => navigate("/create-apartment")}
             style={btnstyle}
-            sx={{ width: "400px", marginBottom: "20px" }}
+            sx={{ width: "300px", marginTop: "30px" }}
+            onClick={handleEditApartment}
           >
-            EDIT APPARTMENT
+            {editMode ? "SAVE APARTMENT" : "EDIT APARTMENT"}
           </Button>
         ) : (
           ""
