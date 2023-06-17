@@ -36,13 +36,38 @@ import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
 import SearchIcon from "@mui/icons-material/Search";
 
-function FilterByChatGpt() {
+const btnstyle = {
+  background: "#4F4E51",
+  color: "#D0D2D8",
+};
+
+function FilterByChatGpt(props) {
   const [isCodeVisible, setIsCodeVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { userEmail } = useContext(authContext);
+  const { allAppartments, setAppartments, appartments } = props;
+  const [selectedOption, setSelectedOption] = useState("parseChatGpt");
 
   const handleTitleClick = () => {
     setIsCodeVisible(!isCodeVisible);
+  };
+
+  const getAppartmentsFiltered = async () => {
+    const data = [];
+    for (let i = 0; i < appartments.length; i++) {
+      let apartment = appartments[i];
+      data.push({
+        id: apartment._id,
+        age_range: apartment.age_range,
+        location: apartment.location.name,
+        price_range: apartment.price_range,
+        gender: apartment.gender,
+        elevator: apartment.elevator,
+        parking: apartment.parking,
+        smoking: apartment.smoking,
+      });
+    }
+    return data;
   };
 
   const handleFindMatches = async () => {
@@ -90,7 +115,6 @@ function FilterByChatGpt() {
         sx={{
           display: "flex",
           justifyContent: "center",
-          m: 5,
         }}
       >
         <Button
@@ -112,8 +136,6 @@ function FilterByChatGpt() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: 5,
-          marginBottom: 5,
         }}
       >
         <Tooltip
@@ -126,54 +148,54 @@ function FilterByChatGpt() {
             style={{ cursor: "pointer" }}
           ></SearchIcon>
         </Tooltip>
-        {isCodeVisible && (
-          <Box
-            sx={{
-              justifyContent: "center",
-              marginTop: 5,
-            }}
-          >
-            <ToggleButtonGroup
-              value={selectedOption}
-              exclusive
-              onChange={(event, newSelectedOption) =>
-                newSelectedOption && setSelectedOption(newSelectedOption)
-              }
-            >
-              <ToggleButton value="parseChatGpt">Text</ToggleButton>
-              <ToggleButton value="speechtotext">Voice</ToggleButton>
-            </ToggleButtonGroup>
-            {selectedOption === "parseChatGpt" && (
-              <Box
-                sx={{
-                  justifyContent: "center",
-                  marginTop: 5,
-                }}
-              >
-                <ParseChatGptApart
-                  appartments={appartments}
-                  allAppartments={allAppartments}
-                  setAppartments={setAppartments}
-                />
-              </Box>
-            )}
-            {selectedOption === "speechtotext" && (
-              <Box
-                sx={{
-                  justifyContent: "center",
-                  marginTop: 5,
-                }}
-              >
-                <SpeechtotextApart
-                  appartments={appartments}
-                  allAppartments={allAppartments}
-                  setAppartments={setAppartments}
-                />
-              </Box>
-            )}
-          </Box>
-        )}
       </Box>
+      {isCodeVisible && (
+        <Box
+          sx={{
+            justifyContent: "center",
+            marginTop: 5,
+          }}
+        >
+          <ToggleButtonGroup
+            value={selectedOption}
+            exclusive
+            onChange={(event, newSelectedOption) =>
+              newSelectedOption && setSelectedOption(newSelectedOption)
+            }
+          >
+            <ToggleButton value="parseChatGpt">Text</ToggleButton>
+            <ToggleButton value="speechtotext">Voice</ToggleButton>
+          </ToggleButtonGroup>
+          {selectedOption === "parseChatGpt" && (
+            <Box
+              sx={{
+                justifyContent: "center",
+                marginTop: 5,
+              }}
+            >
+              <ParseChatGptApart
+                appartments={appartments}
+                allAppartments={allAppartments}
+                setAppartments={setAppartments}
+              />
+            </Box>
+          )}
+          {selectedOption === "speechtotext" && (
+            <Box
+              sx={{
+                justifyContent: "center",
+                marginTop: 5,
+              }}
+            >
+              <SpeechtotextApart
+                appartments={appartments}
+                allAppartments={allAppartments}
+                setAppartments={setAppartments}
+              />
+            </Box>
+          )}
+        </Box>
+      )}
     </>
   );
 }

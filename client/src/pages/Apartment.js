@@ -25,6 +25,7 @@ import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 import StyledImageList from "../components/UI/StyledImageList";
+import { getRoomateRequestByUserEmailAndApartmentId } from "../controller/RoomateRequestController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -53,17 +54,16 @@ const Apartment = (props) => {
   const [openSnackbar, setOpensnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
-  const delay = (ms) =>
-    new Promise((resolve) => setTimeout(resolve, ms)); //for delay
+  const [requestStatus, setRequestStatus] = useState(false);
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); //for delay
 
   const getAppartmentDetailsById = async () => {
     const res = await getAppartmentById(apartmentId);
-    console.log(res.data);
     if (!res || res.status === 204) {
       setSnackbarMessage("We couldn't find the appartment , please try again");
       setAlertSeverity("error");
       setOpensnackbar(true);
-      await delay(2500);
+      await delay(1500);
       navigate(-1);
       return;
     }
@@ -75,6 +75,7 @@ const Apartment = (props) => {
   };
 
   useEffect(() => {
+    checkIfRequestExists();
     setPageTitle("Apartment");
     if (ap) {
       setAppartment(ap);
@@ -82,6 +83,22 @@ const Apartment = (props) => {
       getAppartmentDetailsById();
     }
   }, []);
+
+  const checkIfRequestExists = async () => {
+    const res = await getRoomateRequestByUserEmailAndApartmentId(
+      userEmail,
+      apartmentId
+    );
+    if (res && res.status == 200) {
+      if (res.data.length > 0) {
+        setRequestStatus(false);
+      } else {
+        setRequestStatus(true);
+      }
+    } else {
+      setRequestStatus(true);
+    }
+  };
 
   const sendRequest = async () => {
     const request = {
@@ -93,7 +110,7 @@ const Apartment = (props) => {
       setSnackbarMessage("The appartment does not found- try again!");
       setAlertSeverity("error");
       setOpensnackbar(true);
-      await delay(2500);
+      await delay(1500);
       navigate("/");
       return;
     }
@@ -101,7 +118,7 @@ const Apartment = (props) => {
       setSnackbarMessage("Your request was send");
       setAlertSeverity("success");
       setOpensnackbar(true);
-      await delay(2500);
+      await delay(1500);
       navigate("/");
     }
   };
@@ -255,7 +272,7 @@ const Apartment = (props) => {
           marginTop: "1rem",
         }}
       >
-        {userRole === "Looker" ? (
+        {userRole === "Looker" && requestStatus ? (
           <Button
             variant="contained"
             onClick={sendRequest}

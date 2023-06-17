@@ -54,6 +54,7 @@ export const APP_ROUTES = {
     getRoomateRequestByUserEmail: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByUserEmail`,
     getRoomateRequestByAppartmentId: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByAppartmentId`,
     deleteRoomateRequestByUser: `${ROOMATE_REQUEST_ENPOINT}/deleteRoomateRequestByUser`,
+    getRoomateRequestByUserEmailAndApartmentId: `${ROOMATE_REQUEST_ENPOINT}/getRoomateRequestByUserEmailAndApartmentId`,
   },
   chatGpt: {
     getBestMatches: `${CHATGPT_ENPOINT}/getBestMatches`,
