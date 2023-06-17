@@ -113,7 +113,6 @@ function FilterByChatGpt(props) {
     <>
       <Box
         sx={{
-          display: "flex",
           justifyContent: "center",
         }}
       >
@@ -129,7 +128,6 @@ function FilterByChatGpt(props) {
           )}
         </Button>
       </Box>
-
       <Box
         sx={{
           display: "flex",
@@ -139,7 +137,7 @@ function FilterByChatGpt(props) {
         }}
       >
         <Tooltip
-          title="Click to fill the fields by record or short text !!!!"
+          title="Click to fill the fields by record or short text"
           disableInteractive
         >
           <SearchIcon

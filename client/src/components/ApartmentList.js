@@ -41,13 +41,11 @@ function ApartmentList() {
 
   return (
     <>
-      {/* <Grid container> */}
       <FilterSection
         appartments={appartments}
         setAppartments={setAppartments}
         allAppartments={allAppartments}
       ></FilterSection>
-      {/* </Grid> */}
       <List
         sx={{
           display: "flex",
