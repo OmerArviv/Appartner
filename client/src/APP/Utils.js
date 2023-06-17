@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
   const [userRole, setRole] = useState(Cookies.get("user_role"));
   const [userId, setId] = useState(Cookies.get("user_id"));
   const [userEmail, setEmail] = useState(Cookies.get("user_email"));
-  const [navBarStatus, setNavBarStatus] = useState(false);
+  const [navBarStatus, setNavBarStatus] = useState(0);
 
   const setUserDetailsAfterLogIn = (user_id, user_email) => {
     setAuthenticated(true);

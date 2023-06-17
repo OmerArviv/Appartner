@@ -124,7 +124,6 @@ const StyledImageList = (props) => {
               cols={item.cols || 1}
               rows={item.rows || 1}
             >
-              {console.log(item)}
               <img
                 {...srcset(item.src, 121, item.rows, item.cols)}
                 alt={item.title}

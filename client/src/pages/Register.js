@@ -26,7 +26,8 @@ import CustomStepper from "../components/CustomStepper";
 
 const Register = (props) => {
   const navigate = useNavigate();
-  const { setUserDetailsAfterLogIn } = useContext(authContext);
+  const { setUserDetailsAfterLogIn, setNavBarStatus, navBarStatus } =
+    useContext(authContext);
   const { setPageTitle } = useContext(pageTitleContext);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -80,6 +81,7 @@ const Register = (props) => {
       );
       if (result.status === 201) {
         handleLogin(result.data.id);
+        setNavBarStatus(navBarStatus + 1);
       } else {
         // handle failed registration
         if (result.status === 409) {

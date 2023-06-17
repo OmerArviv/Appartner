@@ -57,7 +57,7 @@ const btnstyle = {
 
 const UserProfile = (props) => {
   const { email } = props;
-  const { userEmail, setNavBarStatus } = useContext(authContext);
+  const { userEmail, setNavBarStatus, navBarStatus } = useContext(authContext);
   const [userProfileImage, setUserProfileImage] = useState(
     "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
   );
@@ -169,7 +169,7 @@ const UserProfile = (props) => {
         const result = await updateUserProfile(userProfileData);
         if (result.status === 201) {
           // alert("Profile image changed successfully!");
-          setNavBarStatus(true);
+          setNavBarStatus(navBarStatus + 1);
         } else {
           alert("Something went wrong - try again!");
         }

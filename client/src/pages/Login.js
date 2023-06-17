@@ -26,7 +26,8 @@ import { Modal, Box } from "@mui/material";
 const Login = (props) => {
   const { setPageTitle } = useContext(pageTitleContext);
   const navigate = useNavigate();
-  const { setUserDetailsAfterLogIn } = useContext(authContext);
+  const { setUserDetailsAfterLogIn, setNavBarStatus, navBarStatus } =
+    useContext(authContext);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const { setUserRole, getUserRole } = useContext(authContext);
@@ -91,6 +92,7 @@ const Login = (props) => {
         if (result === true) {
           // handleOpen();
           handleLogin();
+          setNavBarStatus(navBarStatus + 1);
         } else {
           setError("Email or password is incorrect");
         }
