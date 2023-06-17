@@ -5,8 +5,6 @@ import { authContext, pageTitleContext } from "../APP/Utils";
 import { getNewAppartments } from "../controller/appartmentController";
 import { Box, Dialog, DialogTitle } from "@mui/material";
 import ApartmentCarousel from "../components/ApartmentCarousel";
-import UserProfile from "./UserProfile";
-import { Container } from "@mui/system";
 
 function LookerHomePage() {
   const { setPageTitle } = useContext(pageTitleContext);
@@ -48,8 +46,9 @@ function LookerHomePage() {
             <DialogTitle textAlign="center">
               New Appartments That you Would like
             </DialogTitle>
-            <ApartmentCarousel apartments={appartments}></ApartmentCarousel>
-          </Box>
+            {appartments.length > 0 && (
+              <ApartmentCarousel apartments={appartments}></ApartmentCarousel>
+            )}          </Box>
         </Dialog>
       ) : (
         ""

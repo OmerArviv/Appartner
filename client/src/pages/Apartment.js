@@ -25,6 +25,7 @@ import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 import StyledImageList from "../components/UI/StyledImageList";
 import { getRoomateRequestByUserEmailAndApartmentId } from "../controller/RoomateRequestController";
+import { CasinoSharp } from "@mui/icons-material";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -48,6 +49,7 @@ const Apartment = (props) => {
   const { ap } = props;
   const navigate = useNavigate();
   const [appartment, setAppartment] = useState("");
+  const [images, setImages] = useState();
   const [openSnackbar, setOpensnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
@@ -68,6 +70,7 @@ const Apartment = (props) => {
       alert("Something went wrong");
     } else if (res.status === 200) {
       setAppartment(res.data);
+      setImages(res.data.images);
     }
   };
 
@@ -79,6 +82,11 @@ const Apartment = (props) => {
     } else {
       getAppartmentDetailsById();
     }
+    // Set timeout for console log
+    const timeout = setTimeout(() => {
+      console.log("images", appartment);
+    }, 2000);
+    console.log("images", appartment);
   }, []);
 
   const checkIfRequestExists = async () => {
@@ -120,12 +128,18 @@ const Apartment = (props) => {
     }
   };
 
+  const printHandler = () => {
+    console.log(appartment);
+    console.log(appartment.images[0]);
+    console.log(images[0]);
+  }
+
   return (
     <Grid
+      item
       container
       sx={{ margin: "auto", justifyContent: "center" }}
       xs={12}
-      sm={12}
       md={10}
     >
       <Grid container marginTop={5}>
@@ -138,15 +152,19 @@ const Apartment = (props) => {
         )}
         {appartment ? (
           <Grid
-            container="true"
+            item
+            container
             spacing={1}
             sx={{
               display: "flex",
               alignItems: "center",
             }}
           >
+            <Grid item xs={12} sm={12} sx={{ textAlign: "center" }}>
+              <img src={images} alt="Apartment" />
+            </Grid>
             <Grid
-              item="true"
+              item
               xs={12}
               sm={12}
               sx={{
@@ -170,7 +188,7 @@ const Apartment = (props) => {
 
             {/* images */}
             <Grid
-              item="true"
+              item
               xs={12}
               sm={12}
               // sx={{ margin: "auto", textAlign: "-webkit-right" }}
@@ -181,7 +199,7 @@ const Apartment = (props) => {
 
             {/* properties of the appartment */}
             <Grid
-              item="true"
+              item
               xs={12}
               sm={9}
               sx={{
@@ -193,7 +211,8 @@ const Apartment = (props) => {
               }}
             >
               <Grid
-                container="true"
+                item
+                container
                 sm={9}
                 sx={{
                   marginLeft: "auto",
@@ -204,7 +223,7 @@ const Apartment = (props) => {
                 }}
               >
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -228,7 +247,7 @@ const Apartment = (props) => {
                   sx={{ color: "black", marginTop: 1, marginBottom: 1 }}
                 />
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -255,7 +274,7 @@ const Apartment = (props) => {
                   sx={{ color: "black", marginTop: 1, marginBottom: 1 }}
                 />
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -277,7 +296,8 @@ const Apartment = (props) => {
               />
 
               <Grid
-                container="true"
+                item
+                container
                 sm={9}
                 sx={{
                   marginLeft: "auto",
@@ -288,7 +308,7 @@ const Apartment = (props) => {
                 }}
               >
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -307,7 +327,7 @@ const Apartment = (props) => {
                   sx={{ color: "black", marginTop: 1, marginBottom: 1 }}
                 />
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -326,7 +346,7 @@ const Apartment = (props) => {
                   sx={{ color: "black", marginTop: 1, marginBottom: 1 }}
                 />
                 <Grid
-                  item="true"
+                  item
                   xs={12}
                   sm={3}
                   sx={{
@@ -346,7 +366,7 @@ const Apartment = (props) => {
           ""
         )}
 
-        <Grid container="true" sm={8}>
+        <Grid item container sm={8}>
           <Divider
             orientation="horizontal"
             sx={{
@@ -358,6 +378,7 @@ const Apartment = (props) => {
             }}
           />
           <Grid
+            item
             sx={{
               paddingTop: "10px",
               borderRadius: 3,
@@ -386,7 +407,7 @@ const Apartment = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid sm={12}>
+      <Grid item sm={12}>
         <CardContent>
           <Typography
             sx={{
@@ -401,15 +422,15 @@ const Apartment = (props) => {
           <Stack sx={{ justifyContent: "center" }} direction="row" spacing={4}>
             {appartment.roomates && appartment.roomates.length != 0
               ? appartment.roomates.map((item, index) => {
-                  return (
-                    <RoomateAvatar email={item} key={index}></RoomateAvatar>
-                  );
-                })
+                return (
+                  <RoomateAvatar email={item} key={index}></RoomateAvatar>
+                );
+              })
               : ""}
           </Stack>
         </CardContent>
       </Grid>
-      <Grid sm={12} sx={{ textAlign: "-webkit-center" }}></Grid>
+      <Grid item sm={12} sx={{ textAlign: "-webkit-center" }}></Grid>
 
       <Box
         sx={{
@@ -443,6 +464,11 @@ const Apartment = (props) => {
           ""
         )}
       </Box>
+      <Button
+        onClick={printHandler}
+      >
+        PRINT
+      </Button>
     </Grid>
   );
 };
