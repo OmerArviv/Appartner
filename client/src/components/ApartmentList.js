@@ -56,12 +56,13 @@ function ApartmentList() {
           display: "inline-flex",
           flexDirection: "column",
           flexWrap: "wrap",
-          alignItems: "center",
+          justifyContent: "center",
+          padding: "revert",
+          paddingTop: 2,
         }}
       >
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          sx={{ justifyContent: "center" }}
           alignItems="center"
           flexWrap="wrap"
         >

@@ -25,8 +25,12 @@ import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
-  const { authenticated, removeUserDetailsAfterSignout, userEmail } =
-    useContext(authContext);
+  const {
+    authenticated,
+    removeUserDetailsAfterSignout,
+    userEmail,
+    navBarStatus,
+  } = useContext(authContext);
   const { pageTitle } = useContext(pageTitleContext);
   const [userProfile, setUserProfile] = useState("");
   const userRole = Cookies.get("user_role");
@@ -44,6 +48,12 @@ export default function NavBar(props) {
     getUserApartmentsHandler();
     getRoomateRequesHandler();
   }, []);
+
+  useEffect(() => {
+    getUserHandler();
+    getUserApartmentsHandler();
+    getRoomateRequesHandler();
+  }, [authenticated, navBarStatus]);
 
   useEffect(() => {
     getUserHandler();
@@ -67,7 +77,10 @@ export default function NavBar(props) {
     if (userEmail) {
       const res = await getRoomateRequestByAppartmentUserEmail(userEmail);
       if (res) {
-        setRequestsNumber(res.length);
+        const req = res.filter((x) => {
+          return x.status == "pending";
+        });
+        setRequestsNumber(req.length);
       }
     }
   };
@@ -107,7 +120,6 @@ export default function NavBar(props) {
                 fontWeight: "bold",
                 fontSize: "2rem",
                 marginLeft: "70px", // Adjust the margin value as needed
-
               }}
             >
               {pageTitle}

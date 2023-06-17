@@ -163,13 +163,13 @@ const SetPreferncesProfile = () => {
         setSnackbarMessage("Your prefernces have been updated!");
         setAlertSeverity("success");
         setOpensnackbar(true);
-        await delay(2000);
+        await delay(1500);
         navigate("/");
       } else if (result.status === 403) {
         setSnackbarMessage("Something went wrong- try again!");
         setAlertSeverity("error");
         setOpensnackbar(true);
-        await delay(2000);
+        await delay(1500);
         navigate("/");
       }
     } else {
@@ -177,7 +177,7 @@ const SetPreferncesProfile = () => {
       setSnackbarMessage("Please fill all fields!");
       setAlertSeverity("warning");
       setOpensnackbar(true);
-      await delay(2000);
+      await delay(1500);
     }
   };
 
