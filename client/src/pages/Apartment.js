@@ -413,10 +413,10 @@ const Apartment = (props) => {
           <Stack sx={{ justifyContent: "center" }} direction="row" spacing={4}>
             {appartment.roomates && appartment.roomates.length != 0
               ? appartment.roomates.map((item, index) => {
-                return (
-                  <RoomateAvatar email={item} key={index}></RoomateAvatar>
-                );
-              })
+                  return (
+                    <RoomateAvatar email={item} key={index}></RoomateAvatar>
+                  );
+                })
               : ""}
           </Stack>
         </CardContent>
@@ -430,25 +430,30 @@ const Apartment = (props) => {
           marginTop: "1rem",
         }}
       >
-        {userRole === "Looker" && requestStatus ? (
-          <Button
-            variant="contained"
-            onClick={sendRequest}
-            style={btnstyle}
-            sx={{ width: "400px", marginBottom: "20px" }}
-          >
-            I LOVE THIS APARTMENT, SEND REQUEST
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            disabled
-            style={{ background: "#357f354a", color: "black" }}
-            sx={{ width: "400px", marginBottom: "20px" }}
-          >
-            YOUR REQUEST WAS SENT
-          </Button>
-        )}
+        {userEmail != appartment.email &&
+          userRole === "Looker" &&
+          requestStatus && (
+            <Button
+              variant="contained"
+              onClick={sendRequest}
+              style={btnstyle}
+              sx={{ width: "400px", marginBottom: "20px" }}
+            >
+              I LOVE THIS APARTMENT, SEND REQUEST
+            </Button>
+          )}
+        {userEmail != appartment.email &&
+          userRole === "Looker" &&
+          !requestStatus && (
+            <Button
+              variant="contained"
+              disabled
+              style={{ background: "#357f354a", color: "black" }}
+              sx={{ width: "400px", marginBottom: "20px" }}
+            >
+              YOUR REQUEST WAS SENT
+            </Button>
+          )}
         {userRole === "Welcomer" && userEmail == appartment.email ? (
           <Button
             variant="contained"
