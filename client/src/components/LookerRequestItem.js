@@ -74,15 +74,12 @@ function LookerRequestItem(props) {
     <div>
       {apartment ? (
         <Box
-          container="true"
-          xs={4}
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            width: "auto",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         >
           <Box
             item="true"

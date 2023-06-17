@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Grid,
 } from "@mui/material";
 
 const LookerRequestsPage = () => {
@@ -75,9 +76,13 @@ const LookerRequestsPage = () => {
           >
             Let's go chat with welcomers!
           </Button>
-          {userRequests?.map((item, index) => {
-            return <LookerRequestItem request={item} key={index} />;
-          })}
+          <Grid container spacing={2} justifyContent="center">
+            {userRequests.map((item, index) => (
+              <Grid item key={index} xs={12} sm={6} md={4} lg={3} >
+                <LookerRequestItem request={item} />
+              </Grid>
+            ))}
+          </Grid>
         </>
       ) : (
         <>

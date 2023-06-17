@@ -98,16 +98,12 @@ export default function NavBar(props) {
             }}
           >
             <Typography
-              component="div"
-              variant="h8"
-              sx={{
-                textAlign: "center",
-                textTransform: "uppercase",
-                fontFamily: "Pacifico, cursive",
-                fontWeight: "bold",
-                fontSize: "2rem",
-                marginLeft: "70px", // Adjust the margin value as needed
-
+               variant="h6"
+               component="div"
+               sx={{
+                 flexGrow: 1,
+                 textAlign: "center",
+                 textTransform: "uppercase",
               }}
             >
               {pageTitle}

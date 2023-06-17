@@ -115,7 +115,7 @@ module.exports = class ChatGPTService {
 
   static async summaryWithChatGpt(input) {
     const apartment = JSON.stringify(input);
-    const prompt = `Create compelling marketing description to promote your apartment and attract potential buyers or tenants. Write captivating marketing summary in 3 lines for: ${apartment}. Return the summary in text format`;
+    const prompt = `Create compelling marketing description to promote your apartment and attract potential roommates. Write captivating marketing summary with 30 words in maximum for: ${apartment}. Return the summary in text format`;
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
