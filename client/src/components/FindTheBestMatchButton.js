@@ -102,11 +102,7 @@ function FindTheBestMatchButton(props) {
     setIsLoading(false);
   };
   return (
-    <Box
-      sx={{
-        justifyContent: "center",
-      }}
-    >
+    <Box>
       <Button
         variant="contained"
         onClick={handleFindMatches}
