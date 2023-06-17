@@ -33,6 +33,7 @@ const SpeechtotextApart = (props) => {
   }
 
   const handleSaveText = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const apartmentData = { user: transcript, apartments: appartments };
 
@@ -45,7 +46,7 @@ const SpeechtotextApart = (props) => {
           const apartment = await getAppartmentById(res.data[i]);
           apartments_array.push(apartment.data);
         }
-
+        setIsLoading(false);
         setAppartments(apartments_array);
       } else {
         alert("something went wrong");

@@ -47,10 +47,6 @@ export default function FilterSection(props) {
             (p1, p2) => p2.price_range[0] - p1.price_range[0]
           ),
         ]);
-      // else if (sort == 3)
-      //   setAppartments([
-      //     ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
-      //   ]);
     }
   }, [sort]);
 
@@ -64,51 +60,44 @@ export default function FilterSection(props) {
           alignItems: "right",
         }}
       >
-        <Box>
-          <ButtonGroup
-            variant="text"
-            aria-label="text button group"
-            sx={{ alignItems: "right" }}
-          >
-            <Button sx={{ color: "black", mx: 2 }}>
-              Filter
-              {filterTab === false ? (
-                <AddIcon
-                  sx={{ height: "80%", ml: 2 }}
-                  onClick={() => setFilterTab(true)}
-                ></AddIcon>
-              ) : (
-                <RemoveIcon
-                  sx={{ height: "80%", ml: 2 }}
-                  onClick={onCloseFilterTab}
-                ></RemoveIcon>
-              )}
-            </Button>
-            <Divider orientation="vertical" flexItem />
-
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel
-                  id="demo-simple-select-label"
-                  sx={{ color: "black" }}
-                >
-                  Sort By
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sort}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Price: low to high</MenuItem>
-                  <MenuItem value={2}>Price: high to low</MenuItem>
-                  {/* <MenuItem value={3}>Material</MenuItem> */}
-                </Select>
-              </FormControl>
-            </Box>
-          </ButtonGroup>
-        </Box>
+        <ButtonGroup
+          variant="text"
+          aria-label="text button group"
+          sx={{ alignItems: "right" }}
+        >
+          <Button sx={{ color: "black", mx: 2 }}>
+            Filter
+            {filterTab === false ? (
+              <AddIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={() => setFilterTab(true)}
+              ></AddIcon>
+            ) : (
+              <RemoveIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={onCloseFilterTab}
+              ></RemoveIcon>
+            )}
+          </Button>
+          <Divider orientation="vertical" flexItem />
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label" sx={{ color: "black" }}>
+                Sort By
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sort}
+                label="Age"
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>Price: low to high</MenuItem>
+                <MenuItem value={2}>Price: high to low</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </ButtonGroup>
         {filterTab === true ? (
           <FilterChoices
             setAppartments={setAppartments}
@@ -118,14 +107,20 @@ export default function FilterSection(props) {
         ) : (
           ""
         )}
-      </Box>
-
-      <Box sx={{ minWidth: 120, alignSelf: "center", mx: 15, display: "flex" }}>
-        <FilterByChatGpt
-          appartments={appartments}
-          setAppartments={setAppartments}
-          allAppartments={allAppartments}
-        ></FilterByChatGpt>
+        <Box
+          sx={{
+            minWidth: 120,
+            alignSelf: "center",
+            mx: 15,
+            display: "flex",
+          }}
+        >
+          <FilterByChatGpt
+            appartments={appartments}
+            setAppartments={setAppartments}
+            allAppartments={allAppartments}
+          ></FilterByChatGpt>
+        </Box>
       </Box>
     </>
   );
