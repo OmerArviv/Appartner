@@ -167,37 +167,6 @@ export default function FilterChoices(props) {
                 <Typography>{priceRange[1]}</Typography>
               </Stack>
             </Box>
-
-            <Typography
-              sx={{
-                textAlign: "center",
-                mt: 2,
-              }}
-            >
-              Radius
-            </Typography>
-            <Box sx={{ width: "100%" }}>
-              <Stack
-                spacing={2}
-                direction="row"
-                sx={{ mb: 1 }}
-                alignItems="center"
-              >
-                <Typography>{radius[0]}</Typography>
-                <Slider
-                  getAriaLabel={() => "Radius"}
-                  value={radius}
-                  onChange={handleRadiusChange}
-                  valueLabelDisplay="auto"
-                  getAriaValueText={valueRadiustext}
-                  min={0}
-                  max={3000}
-                  size="small"
-                  sx={{ color: "black" }}
-                />
-                <Typography>{radius[1]}</Typography>
-              </Stack>
-            </Box>
           </Grid>
           {/* <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> */}
           {/* <Grid item xs="auto">
@@ -327,6 +296,36 @@ export default function FilterChoices(props) {
               Location
             </Typography>
             <TextField id="location" value={location.name} fullWidth />
+            <Typography
+              sx={{
+                textAlign: "center",
+                mt: 2,
+              }}
+            >
+              Radius
+            </Typography>
+            <Box sx={{ width: "100%" }}>
+              <Stack
+                spacing={2}
+                direction="row"
+                sx={{ mb: 1 }}
+                alignItems="center"
+              >
+                <Typography>{radius[0]}</Typography>
+                <Slider
+                  getAriaLabel={() => "Radius"}
+                  value={radius}
+                  onChange={handleRadiusChange}
+                  valueLabelDisplay="auto"
+                  getAriaValueText={valueRadiustext}
+                  min={0}
+                  max={3000}
+                  size="small"
+                  sx={{ color: "black" }}
+                />
+                <Typography>{radius[1]}</Typography>
+              </Stack>
+            </Box>
           </Grid>
         </Grid>
       </Container>
