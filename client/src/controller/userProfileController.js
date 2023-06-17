@@ -67,7 +67,7 @@ export const getUserProfileByEmail = (email) => {
 };
 
 export const getAllUsersEmails = () => {
-  let url = APP_ROUTES.userProfile.getUserProfileByEmail;
+  let url = APP_ROUTES.userProfile.getAllUsersEmails;
   return axios
     .get(url, {
       headers: GET_HEADERS(),
