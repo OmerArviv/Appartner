@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import AddIcon from "@mui/icons-material/Add";
 import { useState, useEffect } from "react";
@@ -11,15 +11,24 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import FilterChoices from "./FilterChoices";
 import FilterByChatGpt from "./FilterByChatGpt";
+import SearchIcon from "@mui/icons-material/Search";
+import FindTheBestMatchButton from "./FindTheBestMatchButton";
 
 export default function FilterSection(props) {
   const appartments = props.appartments;
   const setAppartments = props.setAppartments;
   const allAppartments = props.allAppartments;
   const [filterTab, setFilterTab] = useState(false);
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
 
   const [sort, setSort] = useState("");
 
+  const handleTitleClick = () => {
+    setIsCodeVisible(!isCodeVisible);
+    if (filterTab == true) {
+      onCloseFilterTab();
+    }
+  };
   const handleChange = (event) => {
     setSort(event.target.value);
   };
@@ -27,6 +36,11 @@ export default function FilterSection(props) {
   const onCloseFilterTab = () => {
     setFilterTab(false);
     setAppartments(allAppartments);
+  };
+
+  const onOpenFilterTab = () => {
+    setFilterTab(true);
+    setIsCodeVisible(false);
   };
 
   //   const openFilterTab = () => {
@@ -47,10 +61,6 @@ export default function FilterSection(props) {
             (p1, p2) => p2.price_range[0] - p1.price_range[0]
           ),
         ]);
-      // else if (sort == 3)
-      //   setAppartments([
-      //     ...allProducts.sort((p1, p2) => (p1.material < p2.material ? 1 : -1)),
-      //   ]);
     }
   }, [sort]);
 
@@ -64,51 +74,82 @@ export default function FilterSection(props) {
           alignItems: "right",
         }}
       >
-        <Box>
-          <ButtonGroup
-            variant="text"
-            aria-label="text button group"
-            sx={{ alignItems: "right" }}
+        <ButtonGroup
+          variant="text"
+          aria-label="text button group"
+          sx={{ alignItems: "right" }}
+        >
+          <Button sx={{ color: "black", mx: 2 }}>
+            Filter
+            {filterTab === false ? (
+              <AddIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={onOpenFilterTab}
+              ></AddIcon>
+            ) : (
+              <RemoveIcon
+                sx={{ height: "80%", ml: 2 }}
+                onClick={onCloseFilterTab}
+              ></RemoveIcon>
+            )}
+          </Button>
+          <Divider orientation="vertical" flexItem />
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label" sx={{ color: "black" }}>
+                Sort By
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sort}
+                label="Age"
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>Price: low to high</MenuItem>
+                <MenuItem value={2}>Price: high to low</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box
+            sx={{
+              minWidth: 120,
+              alignSelf: "center",
+              mx: 5,
+              display: "flex",
+            }}
           >
-            <Button sx={{ color: "black", mx: 2 }}>
-              Filter
-              {filterTab === false ? (
-                <AddIcon
-                  sx={{ height: "80%", ml: 2 }}
-                  onClick={() => setFilterTab(true)}
-                ></AddIcon>
-              ) : (
-                <RemoveIcon
-                  sx={{ height: "80%", ml: 2 }}
-                  onClick={onCloseFilterTab}
-                ></RemoveIcon>
-              )}
-            </Button>
-            <Divider orientation="vertical" flexItem />
+            <FindTheBestMatchButton
+              setAppartments={setAppartments}
+              appartments={appartments}
+            ></FindTheBestMatchButton>
 
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel
-                  id="demo-simple-select-label"
-                  sx={{ color: "black" }}
-                >
-                  Sort By
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sort}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Price: low to high</MenuItem>
-                  <MenuItem value={2}>Price: high to low</MenuItem>
-                  {/* <MenuItem value={3}>Material</MenuItem> */}
-                </Select>
-              </FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Tooltip
+                title="Click to fill the fields by record or short text"
+                disableInteractive
+              >
+                <SearchIcon
+                  fontSize="large"
+                  onClick={handleTitleClick}
+                  style={{ cursor: "pointer" }}
+                ></SearchIcon>
+              </Tooltip>
             </Box>
-          </ButtonGroup>
-        </Box>
+            {/* <FilterByChatGpt
+              appartments={appartments}
+              setAppartments={setAppartments}
+              allAppartments={allAppartments}
+            ></FilterByChatGpt> */}
+          </Box>
+        </ButtonGroup>
         {filterTab === true ? (
           <FilterChoices
             setAppartments={setAppartments}
@@ -118,14 +159,7 @@ export default function FilterSection(props) {
         ) : (
           ""
         )}
-      </Box>
-
-      <Box sx={{ minWidth: 120, alignSelf: "center", mx: 15, display: "flex" }}>
-        <FilterByChatGpt
-          appartments={appartments}
-          setAppartments={setAppartments}
-          allAppartments={allAppartments}
-        ></FilterByChatGpt>
+        <FilterByChatGpt isCodeVisible={isCodeVisible}></FilterByChatGpt>
       </Box>
     </>
   );

@@ -3,9 +3,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {convWithChatGpt} from "../../controller/chatGptController";
-import {getAppartmentById} from "../../controller/appartmentController";
+import { convWithChatGpt } from "../../controller/chatGptController";
+import { getAppartmentById } from "../../controller/appartmentController";
 import { parseData } from "../../controller/chatGptController";
+import { CircularProgress } from "@material-ui/core";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -18,8 +19,8 @@ const ParseChatGptApart = (props) => {
   const [input, setInput] = useState("");
   const [parsedInfo, setParsedInfo] = useState(null);
   const [error, setError] = useState(null);
-  const {allAppartments , setAppartments, appartments} = props;
-  
+  const { allAppartments, setAppartments, appartments } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAppartmentsFiltered = async () => {
     const data = [];
@@ -33,14 +34,14 @@ const ParseChatGptApart = (props) => {
         gender: apartment.gender,
         elevator: apartment.elevator,
         parking: apartment.parking,
-        smoking: apartment.smoking
-      })
+        smoking: apartment.smoking,
+      });
     }
     return data;
-  };  
-
+  };
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const filteredApartments = await getAppartmentsFiltered();
     const apartmentData = { user: input, apartments: filteredApartments };
@@ -56,9 +57,9 @@ const ParseChatGptApart = (props) => {
           const apartment = await getAppartmentById(res.data[i]);
           apartments_array.push(apartment.data);
         }
-
+        setIsLoading(false);
         setAppartments(apartments_array);
-      }else{
+      } else {
         alert("something went wrong");
       }
     } catch (error) {
@@ -87,7 +88,11 @@ const ParseChatGptApart = (props) => {
             sx={{ marginLeft: "auto", marginRight: "auto" }}
             onClick={handleSubmit}
           >
-            Submit
+            {isLoading ? (
+              <CircularProgress color="white" size={30} />
+            ) : (
+              "Submit"
+            )}
           </Button>
         </Box>
       </form>
