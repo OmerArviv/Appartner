@@ -128,12 +128,6 @@ const Apartment = (props) => {
     }
   };
 
-  const printHandler = () => {
-    console.log(appartment);
-    console.log(appartment.images[0]);
-    console.log(images[0]);
-  }
-
   return (
     <Grid
       item
@@ -160,9 +154,6 @@ const Apartment = (props) => {
               alignItems: "center",
             }}
           >
-            <Grid item xs={12} sm={12} sx={{ textAlign: "center" }}>
-              <img src={images} alt="Apartment" />
-            </Grid>
             <Grid
               item
               xs={12}
@@ -471,11 +462,6 @@ const Apartment = (props) => {
           ""
         )}
       </Box>
-      <Button
-        onClick={printHandler}
-      >
-        PRINT
-      </Button>
     </Grid>
   );
 };
