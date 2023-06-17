@@ -13,6 +13,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import CreateProfile from "../pages/CreateProfile";
 import { authContext } from "../APP/Utils";
+import { getAllUsersEmails } from "../controller/userProfileController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -45,23 +46,19 @@ function DialogAddCollabrator(props) {
     }
   };
 
+
   useEffect(() => {
-    fetch("http://localhost:8000/email-all-userprofiles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then((response) => response.json())
+    const userEmails = getAllUsersEmails(); // Call the getAllUsersEmails function
+    userEmails
       .then((data) => {
         const filteredData = data.filter((user) => user.email !== userEmail);
         setUsersData(filteredData);
-        console.log(filteredData);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
 
 
   return (
@@ -77,10 +74,10 @@ function DialogAddCollabrator(props) {
         }}
       >
         <AddIcon sx={{ marginRight: "7px", paddingBottom: "2px" }}></AddIcon>
-        {email ? email : "Add Collaborator"}
+        {email ? email : "Add Roommate"}
       </Button>
       <Dialog fullWidth open={open} onClose={handleClose}>
-        <DialogTitle>Search Collabrator Profile by Email</DialogTitle>
+        <DialogTitle>Search Roommate Profile by Email</DialogTitle>
         <DialogContent>
           <Autocomplete
             id="collaborator-email"

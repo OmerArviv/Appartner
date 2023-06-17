@@ -37,6 +37,7 @@ module.exports = class UserProfileService {
   static async getAllUsersEmails() {
     try {
       const res = await usersProfile.find({}).select("email");
+      console.log(res);
       return res;
     } catch (error) {
       console.error("Error finding user profile:", error);
