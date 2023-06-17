@@ -20,7 +20,10 @@ import LocalDiningOutlinedIcon from "@mui/icons-material/LocalDiningOutlined";
 import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import DialogImage from "../components/DialogImage";
-import { getUserProfileByEmail, updateUserProfile } from "../controller/userProfileController";
+import {
+  getUserProfileByEmail,
+  updateUserProfile,
+} from "../controller/userProfileController";
 import { Navigate } from "react-router-dom";
 
 const ProfilePicture = styled("img")(({ theme }) => ({
@@ -54,7 +57,7 @@ const btnstyle = {
 
 const UserProfile = (props) => {
   const { email } = props;
-  const { userEmail } = useContext(authContext);
+  const { userEmail, setNavBarStatus } = useContext(authContext);
   const [userProfileImage, setUserProfileImage] = useState(
     "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg"
   );
@@ -77,8 +80,8 @@ const UserProfile = (props) => {
   const [editableKosher, setEditableKosher] = useState();
   const [editableSmoking, setEditableSmoking] = useState();
   const [editablePets, setEditablePets] = useState();
-  const [editableAdditionInfo, setEditableAdditionInfo] = useState(additionInfo);
-
+  const [editableAdditionInfo, setEditableAdditionInfo] =
+    useState(additionInfo);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -137,9 +140,11 @@ const UserProfile = (props) => {
 
   const handleEditProfile = () => {
     if (editMode) {
-      const confirmSave = window.confirm("Are you sure you want to save your changes?");
+      const confirmSave = window.confirm(
+        "Are you sure you want to save your changes?"
+      );
       if (confirmSave) {
-        onSubmitHandler()
+        onSubmitHandler();
       } else {
         console.log("No");
       }
@@ -156,14 +161,15 @@ const UserProfile = (props) => {
 
       const userProfileData = {
         email: user_email,
-        user_profile_image: image
+        user_profile_image: image,
       };
 
       const userExists = await getUserProfileByEmail(userEmail);
       if (userExists) {
         const result = await updateUserProfile(userProfileData);
         if (result.status === 201) {
-          alert("Profile image changed successfully!");
+          // alert("Profile image changed successfully!");
+          setNavBarStatus(true);
         } else {
           alert("Something went wrong - try again!");
         }
@@ -175,10 +181,9 @@ const UserProfile = (props) => {
     }
   };
 
-
   const isValidImageAddress = (image) => {
     return new Promise((resolve) => {
-      const imgElement = document.createElement('img');
+      const imgElement = document.createElement("img");
 
       imgElement.onload = () => {
         resolve(true);
@@ -191,7 +196,6 @@ const UserProfile = (props) => {
       imgElement.src = image;
     });
   };
-
 
   const onSubmitHandler = async (event) => {
     const user_email = userEmail;
@@ -222,7 +226,7 @@ const UserProfile = (props) => {
         gender: editableGender,
         alcohol: editableAlcohol,
         kosher: editableKosher,
-        user_additonal_information: editableAdditionInfo
+        user_additonal_information: editableAdditionInfo,
       };
 
       const userExists = await getUserProfileByEmail(userEmail);
@@ -366,12 +370,15 @@ const UserProfile = (props) => {
                           type="text"
                           id="editableEmployment"
                           value={editableEmployment}
-                          onChange={(e) => setEditableEmployment(e.target.value)}
+                          onChange={(e) =>
+                            setEditableEmployment(e.target.value)
+                          }
                         />
                       </div>
                     ) : (
                       <Topic label="Employment:" value={employment} />
-                    )}                  </Box>
+                    )}{" "}
+                  </Box>
                   <Box
                     sx={{
                       display: "flex",
@@ -485,21 +492,24 @@ const UserProfile = (props) => {
                     <AddCommentOutlinedIcon sx={{ paddingBottom: "15px" }} />
                     {editMode ? (
                       <React.Fragment>
-                        <label htmlFor="editableAdditionInfo">Additional Information:</label>
+                        <label htmlFor="editableAdditionInfo">
+                          Additional Information:
+                        </label>
                         <input
                           type="text"
                           id="editableAdditionInfo"
                           value={editableAdditionInfo}
-                          onChange={(e) => setEditableAdditionInfo(e.target.value)}
+                          onChange={(e) =>
+                            setEditableAdditionInfo(e.target.value)
+                          }
                         />
                       </React.Fragment>
                     ) : (
-                      <Topic label="Additional Information:" value={additionInfo} />
+                      <Topic
+                        label="Additional Information:"
+                        value={additionInfo}
+                      />
                     )}
-
-
-
-
                   </Box>
                 </Box>
                 <Box

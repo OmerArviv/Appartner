@@ -26,7 +26,7 @@ const RequestItem = (props) => {
   const [status, setStatus] = useState(request.status); // New state variable
   const [phoneNumber, setPhoneNumber] = useState(""); // New state variable for phone
   const [showChatButton, setShowChatButton] = useState(false);
-  const { userEmail } = useContext(authContext);
+  const { userEmail, setNavBarStatus } = useContext(authContext);
 
   const handleCloseProfile = () => {
     setModal(false);
@@ -53,6 +53,7 @@ const RequestItem = (props) => {
         setStatus("accepted"); // Update the status
         setShowChatButton(true); // Show the chat button
         createNewConversation();
+        setNavBarStatus(true);
       } else {
         console.error("Failed to accept roommate request");
       }
@@ -68,6 +69,7 @@ const RequestItem = (props) => {
       if (res) {
         console.log("Roommate request ignored successfully");
         setStatus("ignored"); // Update the status
+        setNavBarStatus(true);
       } else {
         console.error("Failed to ignore roommate request");
       }

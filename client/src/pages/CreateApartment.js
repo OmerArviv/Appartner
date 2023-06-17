@@ -7,7 +7,8 @@ import {
   Button,
   CardContent,
   Slider,
-  Typography, Stepper,
+  Typography,
+  Stepper,
   StepLabel,
   Step,
 } from "@mui/material";
@@ -25,7 +26,6 @@ import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 import steps from "../components/StepperData";
 import { red } from "@mui/material/colors";
 import CustomStepper from "../components/CustomStepper";
-
 
 const btnstyle = {
   background: "#4F4E51",
@@ -69,9 +69,7 @@ const CreateApartment = () => {
   const [openSnackbar, setOpensnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
-  const delay = ms => new Promise(//for delay 
-    resolve => setTimeout(resolve, ms)
-  );
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); //for delay
 
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
@@ -198,7 +196,7 @@ const CreateApartment = () => {
         setSnackbarMessage("Your request was send");
         setAlertSeverity("success");
         setOpensnackbar(true);
-        await delay(2500);
+        await delay(1500);
         navigate("/");
       } else if (result.status === 403) {
         setError("Error occured!");
@@ -208,7 +206,7 @@ const CreateApartment = () => {
       // setSnackbarMessage("Please fill all fields!");
       // setAlertSeverity("warning");
       // setOpensnackbar(true);
-      // await delay(2000);
+      // await delay(1500);
     }
     setIsLoading(false);
   };
@@ -218,12 +216,14 @@ const CreateApartment = () => {
       <CustomStepper activeStep={3} steps={steps} />
 
       <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
-        {<SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>}
-          open={openSnackbar}
-          severity={alertSeverity}
-        />}
+        {
+          <SnackBarAlerts
+            snackbarMessage={<Typography>{snackbarMessage}</Typography>}
+            open={openSnackbar}
+            severity={alertSeverity}
+          />
+        }
         <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
-
           <FormControl sx={{ mt: 3, width: "400px" }}>
             <CardContent>
               <InputLabel
@@ -292,6 +292,12 @@ const CreateApartment = () => {
             onPositionSelect={handlePositionSelect}
             onSearchValueSelect={handleSearchValueSelect}
           />
+          <h1>{selectedLocation}</h1>
+          {selectedPosition && (
+            <h1>
+              {selectedPosition.lat()}, {selectedPosition.lng()}
+            </h1>
+          )}
         </Grid>
         <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
           <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
@@ -373,7 +379,6 @@ const CreateApartment = () => {
         </Grid>
       </Grid>
     </Grid>
-
   );
 };
 

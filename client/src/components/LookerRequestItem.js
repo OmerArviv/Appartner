@@ -1,4 +1,4 @@
-import { Box, Skeleton, IconButton } from "@mui/material";
+import { Box, Skeleton, IconButton, Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 import { getAppartmentById } from "../controller/appartmentController";
 import { deleteRoomateRequestByUser } from "../controller/RoomateRequestController";
@@ -47,8 +47,7 @@ function LookerRequestItem(props) {
     let style = {
       width: "100px",
       height: "50px",
-      color: "white",
-      fontWeight: "bold",
+      color: "black",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -56,11 +55,11 @@ function LookerRequestItem(props) {
     };
 
     if (request.status === "accepted") {
-      style.background = "green";
+      style.background = "#B9E3A4";
     } else if (request.status === "pending") {
-      style.background = "orange";
+      style.background = "#ffa5006e";
     } else if (request.status === "ignored") {
-      style.background = "red";
+      style.background = "#EA8E8D";
     }
 
     return style;
@@ -73,69 +72,41 @@ function LookerRequestItem(props) {
   return (
     <div>
       {apartment ? (
-        <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        >
-          <Box
-            item="true"
-            xs={4}
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              width: "auto",
-              marginLeft: "auto",
-              marginRight: "auto",
-              alignItems: "center", // Add this line to center the items vertically
-            }}
+        <>
+          <Grid
+            container
+            sx={{ marginTop: "30px", alignItems: "center", m: 3 }}
           >
-            <ApartmentListItem data={apartment}></ApartmentListItem>
-  
-            <Box
-              item="true"
-              xs={4}
-              sx={{
-                display: "flex",
-                flexDirection: "column", // Change the direction to column
-                marginLeft: "20px", // Add some margin for spacing
-              }}
-            >
+            <Grid item xs={4}>
               <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
-              <Box
-  item="true"
-  xs={4}
-  sx={{
-    display: "flex",
-    flexDirection: "row", // Change the direction to row
-    // marginLeft: "20px", // Add some margin for spacing
-    alignItems: "center", // Align items vertically in the center
-  }}
->
-  <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin: 5 }} />
-  <Typography>{phone}</Typography>
-</Box>
-
-              <br />
+            </Grid>
+            <Grid item xs={5} sx={{ display: "flex", alignItems: "center" }}>
+              {request.status === "accepted" && (
+                <>
+                  <ContactPhoneOutlinedIcon
+                    style={{ fontSize: 30, margin: 5 }}
+                  />
+                  <Typography>{phone}</Typography>
+                </>
+              )}
+            </Grid>
+            <Grid item xs={2}>
               {request.status === "pending" && (
                 <IconButton
                   sx={{
                     height: 40,
                     width: 40,
                     color: "black",
-                    paddingLeft: "10px",
                   }}
                   onClick={onDeleteHandler}
                 >
                   <DeleteIcon />
                 </IconButton>
               )}
-            </Box>
-          </Box>
-        </Box>
+            </Grid>
+          </Grid>
+          <ApartmentListItem data={apartment}></ApartmentListItem>
+        </>
       ) : (
         <Skeleton>
           <Box></Box>
@@ -143,7 +114,6 @@ function LookerRequestItem(props) {
       )}
     </div>
   );
-  
 }
 
 LookerRequestItem.propTypes = {

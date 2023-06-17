@@ -5,7 +5,6 @@ import { getAllAppartments } from "../controller/appartmentController";
 import FilterSection from "./FilterSection";
 import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
-import FilterByChatGpt from "./FilterByChatGpt";
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
@@ -42,13 +41,11 @@ function ApartmentList() {
 
   return (
     <>
-      {/* <Grid container> */}
       <FilterSection
         appartments={appartments}
         setAppartments={setAppartments}
         allAppartments={allAppartments}
       ></FilterSection>
-      {/* </Grid> */}
       <List
         sx={{
           display: "flex",
@@ -56,12 +53,13 @@ function ApartmentList() {
           display: "inline-flex",
           flexDirection: "column",
           flexWrap: "wrap",
-          alignItems: "center",
+          justifyContent: "center",
+          padding: "revert",
+          paddingTop: 2,
         }}
       >
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          sx={{ justifyContent: "center" }}
           alignItems="center"
           flexWrap="wrap"
         >

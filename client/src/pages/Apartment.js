@@ -449,7 +449,14 @@ const Apartment = (props) => {
             I LOVE THIS APARTMENT, SEND REQUEST
           </Button>
         ) : (
-          ""
+          <Button
+            variant="contained"
+            disabled
+            style={{ background: "#357f354a", color: "black" }}
+            sx={{ width: "400px", marginBottom: "20px" }}
+          >
+            YOUR REQUEST WAS SENT
+          </Button>
         )}
         {userRole === "Welcomer" && userEmail == appartment.email ? (
           <Button
