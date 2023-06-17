@@ -74,12 +74,12 @@ function LookerRequestItem(props) {
     <div>
       {apartment ? (
         <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <Box
             item="true"
@@ -94,7 +94,7 @@ function LookerRequestItem(props) {
             }}
           >
             <ApartmentListItem data={apartment}></ApartmentListItem>
-  
+
             <Box
               item="true"
               xs={4}
@@ -106,18 +106,17 @@ function LookerRequestItem(props) {
             >
               <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
               <Box
-  item="true"
-  xs={4}
-  sx={{
-    display: "flex",
-    flexDirection: "row", // Change the direction to row
-    // marginLeft: "20px", // Add some margin for spacing
-    alignItems: "center", // Align items vertically in the center
-  }}
->
-  <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin: 5 }} />
-  <Typography>{phone}</Typography>
-</Box>
+                item="true"
+                xs={4}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin: 5 }} />
+                <Typography>{phone}</Typography>
+              </Box>
 
               <br />
               {request.status === "pending" && (
@@ -143,7 +142,6 @@ function LookerRequestItem(props) {
       )}
     </div>
   );
-  
 }
 
 LookerRequestItem.propTypes = {

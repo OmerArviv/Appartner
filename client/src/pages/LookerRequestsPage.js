@@ -11,6 +11,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Stack,
 } from "@mui/material";
 
 const LookerRequestsPage = () => {
@@ -76,13 +77,18 @@ const LookerRequestsPage = () => {
           >
             Let's go chat with welcomers!
           </Button>
-          <Grid container spacing={2} justifyContent="center">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            sx={{ justifyContent: "center" }}
+            alignItems="center"
+            flexWrap="wrap"
+          >
             {userRequests.map((item, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4} lg={3} >
+              <div item key={index}>
                 <LookerRequestItem request={item} />
-              </Grid>
+              </div>
             ))}
-          </Grid>
+          </Stack>
         </>
       ) : (
         <>
