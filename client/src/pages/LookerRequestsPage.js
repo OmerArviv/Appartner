@@ -78,7 +78,7 @@ const LookerRequestsPage = () => {
           </Button>
           <Grid container spacing={2} justifyContent="center">
             {userRequests.map((item, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+              <Grid item key={index} xs={12} sm={6} md={4} lg={3} >
                 <LookerRequestItem request={item} />
               </Grid>
             ))}
