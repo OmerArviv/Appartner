@@ -71,11 +71,11 @@ export default function FilterChoices(props) {
           );
           console.log(distance); // Print the calculated distance
           return (
-            appartment.age_range[0] >= ageRange[0] &&
-            appartment.age_range[1] <= ageRange[1] &&
-            appartment.price_range[0] >= priceRange[0] &&
-            appartment.price_range[1] <= priceRange[1] &&
-            appartment.roomates.length === roomates &&
+            appartment.age_range[1] >= ageRange[0] &&
+            appartment.age_range[0] <= ageRange[1] &&
+            appartment.price_range[1] >= priceRange[0] &&
+            appartment.price_range[0] <= priceRange[1] &&
+            appartment.roomates.length <= roomates &&
             (smoking === options[2] ||
               (smoking !== options[2] &&
                 appartment.smoking.toLowerCase() === smoking.toLowerCase())) &&
