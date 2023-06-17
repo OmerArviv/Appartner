@@ -21,6 +21,7 @@ const RequestItem = (props) => {
   const { request } = props;
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   // const [lookerRequestEmail, setLookerRequestId] = useState("");
   const [status, setStatus] = useState(request.status); // New state variable
   const [phoneNumber, setPhoneNumber] = useState(""); // New state variable for phone
@@ -114,7 +115,7 @@ const RequestItem = (props) => {
         <UserProfile email={user.email}></UserProfile>
       </Dialog>
       <Grid item xs={2} sx={{ textAlign: "left" }}>
-        <Typography sx={{ fontSize: "25px" }}>{user.email}</Typography>
+        <Typography sx={{ fontSize: "25px" }}>{user.full_name}</Typography>
       </Grid>
       <Grid item xs={2} sx={{ marginLeft: "70px" }}>
         {status === "accepted" ? (

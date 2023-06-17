@@ -5,8 +5,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { MicNoneSharp, StopSharp, ReplaySharp } from "@mui/icons-material";
 import { Button, IconButton, InputBase } from "@mui/material";
-import {convWithChatGpt} from "../../controller/chatGptController";
-import {getAppartmentById} from "../../controller/appartmentController";
+import { convWithChatGpt } from "../../controller/chatGptController";
+import { getAppartmentById } from "../../controller/appartmentController";
 
 const btnstyle = {
   background: "#4F4E51",
@@ -16,15 +16,11 @@ const btnstyle = {
 };
 
 const SpeechtotextApart = (props) => {
-
   const { transcript, resetTranscript } = useSpeechRecognition({
     continuous: true,
   });
 
-
-  const {allAppartments , setAppartments, appartments} = props;
-
-
+  const { allAppartments, setAppartments, appartments } = props;
 
   const [isListening, setIsListening] = useState(false);
 
@@ -42,18 +38,16 @@ const SpeechtotextApart = (props) => {
 
     try {
       const res = await convWithChatGpt(apartmentData);
-
-      console.log(appartments);
-
+      console.log(res);
       if (res && res.status == 200) {
         const apartments_array = [];
         for (let i = 0; i < res.data.length; i++) {
-          const apartment = await getAppartmentById(res.data[0]._id);
+          const apartment = await getAppartmentById(res.data[i]);
           apartments_array.push(apartment.data);
         }
 
         setAppartments(apartments_array);
-      }else{
+      } else {
         alert("something went wrong");
       }
     } catch (error) {

@@ -37,7 +37,6 @@ import CustomStepper from "../components/CustomStepper";
 import InfoIcon from '@mui/icons-material/Info';
 
 
-
 const btnstyle = {
   margin: "8px 0",
   background: "#4F4E51",
@@ -229,10 +228,9 @@ const CreateProfile = () => {
 
   return (
     <>
-    <Box>
-    <CustomStepper activeStep={2} steps={steps} />
-
-    </Box>
+      <Box>
+        <CustomStepper activeStep={2} steps={steps} />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -654,14 +652,25 @@ const CreateProfile = () => {
           textAlign: "center",
         }}
       >
-        <Button
-          variant="contained"
-          onClick={onSubmitHandler}
-          style={btnstyle}
-          xs={4}
-        >
-          Lets set your prefernces
-        </Button>
+        {userRole == "Welcomer" ? (
+          <Button
+            variant="contained"
+            onClick={onSubmitHandler}
+            style={btnstyle}
+            xs={4}
+          >
+            Lets create your apartment
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={onSubmitHandler}
+            style={btnstyle}
+            xs={4}
+          >
+            Lets set your prefernces
+          </Button>
+        )}
       </Box>
     </>
   );
