@@ -21,6 +21,7 @@ import RoomateAvatar from "../components/RoomateAvatar";
 import SearchGoogleMap from "../components/SeachGoogleMap";
 import { Box, CircularProgress } from "@material-ui/core";
 import { summaryWithChatGpt } from "../controller/chatGptController";
+import SnackBarAlerts from "../components/UI/SnackbarAlerts";
 import steps from "../components/StepperData";
 import { red } from "@mui/material/colors";
 import CustomStepper from "../components/CustomStepper";
@@ -65,6 +66,12 @@ const CreateApartment = () => {
   const [roomates, setRoomates] = useState([userEmail]);
   const [selectedCollaborator, setSelectedCollaborator] = useState("");
   const [error, setError] = useState("");
+  const [openSnackbar, setOpensnackbar]=useState(false);
+  const [snackbarMessage, setSnackbarMessage]= useState(""); 
+  const [alertSeverity, setAlertSeverity]= useState("");
+  const delay = ms => new Promise(//for delay 
+    resolve => setTimeout(resolve, ms)
+  );
 
   const handlePositionSelect = (position) => {
     setSelectedPosition(position);
@@ -172,12 +179,20 @@ const CreateApartment = () => {
 
       const result = await createAppartment(appartment);
       if (result.status === 201) {
+        setSnackbarMessage("Your request was send");
+        setAlertSeverity("success");
+        setOpensnackbar(true);
+        await delay(2500);
         navigate("/");
       } else if (result.status === 403) {
         setError("Error occured!");
       }
     } else {
       setError("Please enter all fields!");
+      // setSnackbarMessage("Please fill all fields!");
+      // setAlertSeverity("warning");
+      // setOpensnackbar(true);
+      // await delay(2000);
     }
     setIsLoading(false);
   };
@@ -187,8 +202,10 @@ const CreateApartment = () => {
 <CustomStepper activeStep={3} steps={steps} />
 
     <Grid container spacing={2} sx={{ paddingTop: "40px" }}>
-
-
+      {<SnackBarAlerts snackbarMessage={<Typography>{snackbarMessage}</Typography>} 
+      open={openSnackbar} 
+      severity={alertSeverity}
+      />}
       <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
  
         <FormControl sx={{ mt: 3, width: "400px" }}>

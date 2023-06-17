@@ -11,7 +11,7 @@ import {
   Stepper,
   StepLabel,
   Step,
-  Box
+  Box,
 } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -23,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 import steps from "../components/StepperData";
 import CustomStepper from "../components/CustomStepper";
-
 
 const Register = (props) => {
   const navigate = useNavigate();
@@ -46,7 +45,7 @@ const Register = (props) => {
   };
 
   const onChangeUserEmailHandler = (event) => {
-    setUserEmail(event.target.value);
+    setUserEmail(event.target.value.toLowerCase());
   };
 
   const onChangeUserPasswordHandler = (event) => {
@@ -111,8 +110,7 @@ const Register = (props) => {
       <CustomStepper activeStep={0} steps={steps} />
 
       <Container maxWidth="sm" style={ContainerStyle}>
-
-        <Grid align="center">       
+        <Grid align="center">
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <AccountCircleIcon />
           </Avatar>
@@ -177,10 +175,7 @@ const Register = (props) => {
           Already have an account?
           <Link onClick={() => navigate("/login")}>Sign In</Link>
         </Typography>
-
-        
       </Container>
-
     </Grid>
   );
 };

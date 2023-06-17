@@ -47,6 +47,21 @@ router.route("/getRoomateRequestByUserEmail").get(async (request, response) => {
 });
 
 router
+  .route("/getRoomateRequestByUserEmailAndApartmentId")
+  .get(async (request, response) => {
+    const data = request.query;
+    if (!data) {
+      return response.status(403).send({});
+    }
+
+    const RoomateRequest = await RoomateRequestService.findRoomateRequest(data);
+    if (RoomateRequest) {
+      return response.status(200).json(RoomateRequest);
+    }
+    return response.status(204).send(null);
+  });
+
+router
   .route("/getRoomateRequestByAppartmentId")
   .get(async (request, response) => {
     const id = request.query;
@@ -79,6 +94,5 @@ router
       response.status(403).send();
     }
   });
-
 
 module.exports = router;

@@ -68,7 +68,7 @@ const Login = (props) => {
   }, []);
 
   const onChangeUserEmailHandler = (event) => {
-    setUserEmail(event.target.value);
+    setUserEmail(event.target.value.toLowerCase());
   };
 
   const onChangeUserPasswordHandler = (event) => {
@@ -115,61 +115,60 @@ const Login = (props) => {
   };
 
   return (
-    <> 
-    <Grid>
-      <Container maxWidth="sm" style={ContainerStyle}>
-        <Grid align="center">
-          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <AccountCircleIcon />
-          </Avatar>
-          <h2>Sign In</h2>
-        </Grid>
-        <TextField
-          type="email"
-          id="outlined-basic"
-          onChange={onChangeUserEmailHandler}
-          className="simple-input"
-          label="Email"
-          placeholder="Email"
-          variant="outlined"
-          fullWidth
-          required
-        />
-        <TextField
-          onChange={onChangeUserPasswordHandler}
-          className="simple-input"
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-        />
-        <Button
-          onClick={onSumbitHandler}
-          type="submit"
-          variant="contained"
-          style={btnstyle}
-          fullWidth
-        >
-          Sign in
-        </Button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <Typography>
-          <Link href="#">Forgot password?</Link>
-        </Typography>
-        <Typography>
-          Do you have an account?
-          <Link onClick={() => navigate("/register")}>Sign Up</Link>
-        </Typography>
-        {open && (<Modal
-      keepMounted
-      open={open}
-      onClose={handleClose}>
-          open modal!
-      </Modal>)}
-      </Container>
-    </Grid>
+    <>
+      <Grid>
+        <Container maxWidth="sm" style={ContainerStyle}>
+          <Grid align="center">
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <AccountCircleIcon />
+            </Avatar>
+            <h2>Sign In</h2>
+          </Grid>
+          <TextField
+            type="email"
+            id="outlined-basic"
+            onChange={onChangeUserEmailHandler}
+            className="simple-input"
+            label="Email"
+            placeholder="Email"
+            variant="outlined"
+            fullWidth
+            required
+          />
+          <TextField
+            onChange={onChangeUserPasswordHandler}
+            className="simple-input"
+            label="Password"
+            placeholder="Enter password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            required
+          />
+          <Button
+            onClick={onSumbitHandler}
+            type="submit"
+            variant="contained"
+            style={btnstyle}
+            fullWidth
+          >
+            Sign in
+          </Button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <Typography>
+            <Link href="#">Forgot password?</Link>
+          </Typography>
+          <Typography>
+            Do you have an account?
+            <Link onClick={() => navigate("/register")}>Sign Up</Link>
+          </Typography>
+          {open && (
+            <Modal keepMounted open={open} onClose={handleClose}>
+              open modal!
+            </Modal>
+          )}
+        </Container>
+      </Grid>
     </>
   );
 };

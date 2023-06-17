@@ -84,6 +84,26 @@ export const getRoomateRequestByAppartmentUserEmail = async (userEmail) => {
   return null;
 };
 
+export const getRoomateRequestByUserEmailAndApartmentId = async (
+  userEmail,
+  apartmentId
+) => {
+  let url =
+    APP_ROUTES.roomateRequest.getRoomateRequestByUserEmailAndApartmentId;
+  let data = { user_email: userEmail, appartment_id: apartmentId };
+  return axios
+    .get(url, {
+      params: data,
+      headers: GET_HEADERS(),
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 //
 export const deleteRoomateRequestByUser = async (requestId) => {
   let url = APP_ROUTES.roomateRequest.deleteRoomateRequestByUser;
@@ -97,5 +117,3 @@ export const deleteRoomateRequestByUser = async (requestId) => {
       return err;
     });
 };
-
-
