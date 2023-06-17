@@ -292,12 +292,6 @@ const CreateApartment = () => {
             onPositionSelect={handlePositionSelect}
             onSearchValueSelect={handleSearchValueSelect}
           />
-          <h1>{selectedLocation}</h1>
-          {selectedPosition && (
-            <h1>
-              {selectedPosition.lat()}, {selectedPosition.lng()}
-            </h1>
-          )}
         </Grid>
         <Grid item xs={4} sx={{ width: 400, textAlign: "center" }}>
           <FormControl sx={{ width: "400px", marginBottom: "20px" }}>
