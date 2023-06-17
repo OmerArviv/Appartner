@@ -83,8 +83,7 @@ const CreateApartment = () => {
 
   const handleChooseCollaborator = (email) => {
     setSelectedCollaborator(email);
-    console.log("test", email);
-    console.log("selected", selectedCollaborator);
+
   };
 
   const handleGenderChange = (event) => {
@@ -117,7 +116,6 @@ const CreateApartment = () => {
   }
 
   function apartmentImagesHandler(arr) {
-    console.log("set images array handler");
     const newArray = [];
     if (arr[0] !== "") {
       newArray.push(arr[0]);
@@ -134,7 +132,6 @@ const CreateApartment = () => {
     if (newArray != null) {
       setApartmentImages(newArray);
     }
-    console.log(apartmentImages);
   }
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -167,17 +164,36 @@ const CreateApartment = () => {
         roomates: roomates,
         images: apartmentImages,
       };
+
+      const appartmentToChat = {
+        email: user_email,
+        age_range: age,
+        location: {
+          position: selectedPosition,
+          name: selectedLocation,
+        },
+        price_range: price,
+        gender: gender,
+        elevator: elevator,
+        parking: parking,
+        smoking: smoking,
+        roomates: roomates,
+      }; 
+
       if (selectedCollaborator !== "" && selectedCollaborator) {
         appartment.roomates = [...roomates, selectedCollaborator];
       }
 
-      const respone_summary = await summaryWithChatGpt(appartment);
+      const respone_summary = await summaryWithChatGpt(appartmentToChat);
+
 
       if (respone_summary && respone_summary.status === 200) {
         appartment.summary = respone_summary.data;
       }
 
       const result = await createAppartment(appartment);
+
+      console.log("omer", appartment);
       if (result.status === 201) {
         setSnackbarMessage("Your request was send");
         setAlertSeverity("success");

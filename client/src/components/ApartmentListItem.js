@@ -17,7 +17,7 @@ function ApartmentListItem(props) {
   };
 
   return (
-    <Grid sm={3} xs={12} sx={{ width: 322, mx: 2 }}>
+    <Grid sm={3} xs={12} sx={{ width: 1200, mx: 2 }}>
       <CardActionArea onClick={showApartmentHandler}>
         <CardMedia
           component="img"
