@@ -5,7 +5,6 @@ import { getAllAppartments } from "../controller/appartmentController";
 import FilterSection from "./FilterSection";
 import SpeechtotextApart from "./Speechtotextapi/SpeechtotextApart";
 import ParseChatGptApart from "./ChatGptApi/ParseChatGptApart";
-import FilterByChatGpt from "./FilterByChatGpt";
 
 function ApartmentList() {
   const [appartments, setAppartments] = useState(null);
