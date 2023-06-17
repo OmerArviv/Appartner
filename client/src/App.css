@@ -38,3 +38,9 @@
     transform: rotate(360deg);
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=SpecialFont&display=swap');
+
+.special-font {
+  font-family: 'SpecialFont', sans-serif;
+}

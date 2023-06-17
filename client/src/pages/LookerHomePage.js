@@ -15,7 +15,7 @@ function LookerHomePage() {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    setPageTitle("Looker Home Page");
+    setPageTitle("Find Your Apartment");
     setNewAppartments();
   }, []);
 

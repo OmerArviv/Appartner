@@ -93,38 +93,50 @@ function LookerRequestItem(props) {
               width: "auto",
               marginLeft: "auto",
               marginRight: "auto",
+              alignItems: "center", // Add this line to center the items vertically
             }}
           >
             <ApartmentListItem data={apartment}></ApartmentListItem>
-          </Box>
-          <Box
-            item="true"
-            xs={4}
-            sx={{
-              display: "flex",
-              marginRight: "auto",
-              alignItems: "center",
-            }}
-          >
-            <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
-            <ContactPhoneOutlinedIcon
-              style={{ fontSize: 30, margin: 5, paddingLeft: "20px" }}
-            />
-            <Typography>{phone}</Typography>
-            <br />
-            {request.status === "pending" && (
-              <IconButton
-                sx={{
-                  height: 40,
-                  width: 40,
-                  color: "black",
-                  paddingLeft: "10px",
-                }}
-                onClick={onDeleteHandler}
-              >
-                <DeleteIcon />
-              </IconButton>
-            )}
+  
+            <Box
+              item="true"
+              xs={4}
+              sx={{
+                display: "flex",
+                flexDirection: "column", // Change the direction to column
+                marginLeft: "20px", // Add some margin for spacing
+              }}
+            >
+              <div style={getStatusBoxStyle()}>{getStatusLabel()}</div>
+              <Box
+  item="true"
+  xs={4}
+  sx={{
+    display: "flex",
+    flexDirection: "row", // Change the direction to row
+    // marginLeft: "20px", // Add some margin for spacing
+    alignItems: "center", // Align items vertically in the center
+  }}
+>
+  <ContactPhoneOutlinedIcon style={{ fontSize: 30, margin: 5 }} />
+  <Typography>{phone}</Typography>
+</Box>
+
+              <br />
+              {request.status === "pending" && (
+                <IconButton
+                  sx={{
+                    height: 40,
+                    width: 40,
+                    color: "black",
+                    paddingLeft: "10px",
+                  }}
+                  onClick={onDeleteHandler}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
+            </Box>
           </Box>
         </Box>
       ) : (
@@ -134,6 +146,7 @@ function LookerRequestItem(props) {
       )}
     </div>
   );
+  
 }
 
 LookerRequestItem.propTypes = {
