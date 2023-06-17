@@ -63,6 +63,8 @@ export default function NavBar(props) {
     const res = await getUserProfileByEmail(userEmail);
     if (res) {
       setUserProfile(res);
+    } else {
+      setUserProfile(null);
     }
   };
 
@@ -70,6 +72,8 @@ export default function NavBar(props) {
     const res = await getAppartmentByUserEmail(userEmail);
     if (res.status === 200 && res.data.length !== 0) {
       setUserApartments(res.data[0]);
+    } else {
+      setUserApartments(null);
     }
   };
 

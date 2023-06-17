@@ -30,9 +30,12 @@ module.exports = class AppartmentService {
     return res;
   }
 
-  static async findAppartmentByUserEmail(userId) {
-    const res = await Appartment.find(userId);
-    return res;
+  static async findAppartmentByUserEmail(userEmail) {
+    if (userEmail.email) {
+      const res = await Appartment.find(userEmail);
+      return res;
+    }
+    return null;
   }
 
   static async getAllAppartments() {

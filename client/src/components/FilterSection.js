@@ -72,7 +72,6 @@ export default function FilterSection(props) {
           border: "1px solid white",
           my: 2,
           alignItems: "right",
-          display: "flex",
         }}
       >
         <Grid container>
